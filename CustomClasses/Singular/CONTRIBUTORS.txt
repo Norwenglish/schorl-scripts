@@ -1,0 +1,15 @@
+﻿$Revision: 259 $
+$Date: 2011-04-05 16:39:01 -0700 (Tue, 05 Apr 2011) $
+$HeadURL: http://svn.apocdev.com/singular/trunk/Singular/CONTRIBUTORS.txt $
+
+Apoc - Lead
+raphus - Bunch o shit
+Nuok - Numerous patches & fixes
+strix - Rogue Combat spec rotation.
+markeloff - Death Knight rotations.
+Jon310 - Fury Warrior rotation improvements.
+CptJesus - Shadow Priest rotation.
+Mortal - Warrior improvements.
+moachi - PvP Ret Paladin
+Bobby53 - Shamans
+CodenameG - Mages

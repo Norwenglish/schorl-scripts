@@ -1,0 +1,38 @@
+<!-- Profile created by Moderator Tony for Hb community -->
+<HBProfile>
+<Name>Disgusting Oozeling Slithus</Name>
+<MinDurability>0.3</MinDurability>
+<MinFreeBagSlots>2</MinFreeBagSlots>
+<SellGrey>True</SellGrey>
+<SellWhite>True</SellWhite>
+<SellGreen>True</SellGreen>
+<MinLevel>1</MinLevel>
+<MaxLevel>86</MaxLevel>
+<ProtectedItems>
+<Item>20769</Item>
+</ProtectedItems>
+<GrindArea>
+<TargetMinLevel>1</TargetMinLevel>
+<TargetMaxLevel>86</TargetMaxLevel>
+<Factions>14 </Factions>
+<Hotspots>
+<Hotspot X="-7506.07" Y="342.2919" Z="-0.8379453" />
+<Hotspot X="-7387.793" Y="295.808" Z="7.5419" />
+<Hotspot X="-7335.635" Y="375.8628" Z="14.11257" />
+<Hotspot X="-7295.791" Y="499.1023" Z="7.040499" />
+<Hotspot X="-7408.1" Y="654.1886" Z="-12.29577" />
+<Hotspot X="-7205.908" Y="569.0049" Z="3.729349" />
+<Hotspot X="-7407.188" Y="905.9499" Z="0.2155176" />
+<Hotspot X="-7467.933" Y="974.0228" Z="3.693733" />
+<Hotspot X="-7430.691" Y="1221.745" Z="2.844872" />
+<Hotspot X="-7288.009" Y="1224.336" Z="4.279093" />
+<Hotspot X="-6922.756" Y="1051.977" Z="0.6656154" />
+</Hotspots>
+</GrindArea>
+<Vendors>
+<Vendor Name="Vargus" Entry="15176" Type="Repair" X="-6860.931" Y="753.0439" Z="42.47256" />
+</Vendors>
+<Mailboxes>
+<Mailbox X="-6838.822" Y="734.229" Z="42.18467" />
+</Mailboxes>
+</HBProfile>

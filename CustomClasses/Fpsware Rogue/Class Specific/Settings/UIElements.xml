@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UIElements>
+  <TabPages>
+    <Tab>
+      <Label>Common</Label>
+    </Tab>
+    <Tab>
+      <Label>Advanced</Label>
+    </Tab>
+  </TabPages>
+  <Groupboxes>
+    <!--Common Tab-->
+    <Group>
+      <Label>Rest and Health</Label>
+      <Name>RestGroup</Name>
+      <Column>Left</Column>
+      <Tab>Common</Tab>
+    </Group>
+    <Group>
+      <Label>Poisons</Label>
+      <Name>PoisonGroup</Name>
+      <Column>Left</Column>
+      <Tab>Common</Tab>
+    </Group>
+    <Group>
+      <Label>Misc</Label>
+      <Name>MiscGroup</Name>
+      <Column>Left</Column>
+      <Tab>Common</Tab>
+    </Group>
+    <Group>
+      <Label>Combat</Label>
+      <Name>CombatGroup</Name>
+      <Column>Right</Column>
+      <Tab>Common</Tab>
+    </Group>
+    <Group>
+      <Label>Finishing Move</Label>
+      <Name>FinisherGroup</Name>
+      <Column>Right</Column>
+      <Tab>Common</Tab>
+    </Group>
+    <!--Advanced Tab-->
+    <Group>
+      <Label>Misc</Label>
+      <Name>MiscGroup2</Name>
+      <Column>Left</Column>
+      <Tab>Advanced</Tab>
+    </Group>
+  </Groupboxes>
+  <ValueTemplates>
+    <!--Common use templates-->
+    <Template>
+      <Label>AllOptions</Label>
+      <Value>... always|... never|... only when in battlegrounds|... only when not in battlegrounds</Value>
+    </Template>
+    <Template>
+      <Label>AddsNever</Label>
+      <Value>... never|... only on adds</Value>
+    </Template>
+    <Template>
+      <Label>AddsAlways</Label>
+      <Value>... always|... never|... only on adds</Value>
+    </Template>
+    <Template>
+      <Label>5Step50</Label>
+      <Value>10|15|20|25|30|35|40|45|50</Value>
+    </Template>
+    <Template>
+      <Label>5Step100</Label>
+      <Value>10|15|20|25|30|35|40|45|50|55|60|65|70|75|80|85|90|95</Value>
+    </Template>
+    <Template>
+      <Label>10Step50</Label>
+      <Value>10|20|30|40|50</Value>
+    </Template>
+    <Template>
+      <Label>10Step100</Label>
+      <Value>10|20|30|40|50|60|70|80|90</Value>
+    </Template>
+    <!--Class specific templates-->
+    <Template>
+      <Label>ComboPoints</Label>
+      <Value>... 1+ Combo Points|... 2+ Combo Points|... 3+ Combo Points|... 4+ Combo Points|... 5+ Combo Points</Value>
+    </Template>
+    <Template>
+      <Label>Poisons</Label>
+      <Value>[none]|Crippling Poison|Deadly Poison|Instant Poison|Wounding Poison</Value>
+    </Template>
+  </ValueTemplates>
+  <Items>
+    <!--Rest and Health - Common Tab-->
+    <Item>
+      <Label>Rest</Label>
+      <Name>RestHealth</Name>
+      <GroupName>RestGroup</GroupName>
+      <Type>Bar</Type>
+      <Value></Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Health Potion</Label>
+      <Name>HealthPotion</Name>
+      <GroupName>RestGroup</GroupName>
+      <Type>Bar</Type>
+      <Value></Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Lifeblood</Label>
+      <Name>LifebloodHealth</Name>
+      <GroupName>RestGroup</GroupName>
+      <Type>Bar</Type>
+      <Value></Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Evasion</Label>
+      <Name>EvasionHealth</Name>
+      <GroupName>RestGroup</GroupName>
+      <Type>Bar</Type>
+      <Value></Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Vanish</Label>
+      <Name>VanishHealth</Name>
+      <GroupName>RestGroup</GroupName>
+      <Type>Bar</Type>
+      <Value></Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Recuperate</Label>
+      <Name>RecuperateHealth</Name>
+      <GroupName>RestGroup</GroupName>
+      <Type>Bar</Type>
+      <Value></Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Recuperate Combo</Label>
+      <Name>RecuperateCombo</Name>
+      <GroupName>RestGroup</GroupName>
+      <Type></Type>
+      <Value>VT:ComboPoints</Value>
+      <Tooltip>Only use Recuperate when you have enough combo points</Tooltip>
+      <Tag></Tag>
+    </Item>
+    <!--Poisons - Common Tab-->
+    <Item>
+      <Label>Main Hand</Label>
+      <Name>MainHandPoison</Name>
+      <GroupName>PoisonGroup</GroupName>
+      <Type></Type>
+      <Value>VT:Poisons</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Off Hand</Label>
+      <Name>OffHandPoison</Name>
+      <GroupName>PoisonGroup</GroupName>
+      <Type></Type>
+      <Value>VT:Poisons</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <!--Misc - Common Tab-->
+    <Item>
+      <Label>Pull</Label>
+      <Name>PullSpell</Name>
+      <GroupName>MiscGroup</GroupName>
+      <Type></Type>
+      <Value>Melee|Shoot|Throw|Stealth</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Pick Pocket</Label>
+      <Name></Name>
+      <GroupName>MiscGroup</GroupName>
+      <Type></Type>
+      <Value></Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Stealth Behind</Label>
+      <Name></Name>
+      <GroupName>MiscGroup</GroupName>
+      <Type></Type>
+      <Value>Ambush|Garrote</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <!--Combat - Common Tab-->
+    <Item>
+      <Label>Attack Energy</Label>
+      <Name>SinisterStrikeEnergy</Name>
+      <GroupName>CombatGroup</GroupName>
+      <Type>Bar</Type>
+      <Value></Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Slice and Dice</Label>
+      <Name>SliceAndDice</Name>
+      <GroupName>CombatGroup</GroupName>
+      <Type>Combo</Type>
+      <Value>vt:AllOptions</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Backstab + Gouge</Label>
+      <Name>Backstab</Name>
+      <GroupName>CombatGroup</GroupName>
+      <Type></Type>
+      <Value>VT:AllOptions</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Blind</Label>
+      <Name>BlindAdd</Name>
+      <GroupName>CombatGroup</GroupName>
+      <Type>Combo</Type>
+      <Value>VT:AddsNever</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Sap</Label>
+      <Name></Name>
+      <GroupName>CombatGroup</GroupName>
+      <Type>Combo</Type>
+      <Value>VT:AllOptions</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Blade Flurry</Label>
+      <Name></Name>
+      <GroupName>CombatGroup</GroupName>
+      <Type></Type>
+      <Value>VT:AddsNever</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Adrenaline Rush</Label>
+      <Name></Name>
+      <GroupName>CombatGroup</GroupName>
+      <Type></Type>
+      <Value>VT:AddsAlways</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Rupture (1 point)</Label>
+      <Name>Rupture</Name>
+      <GroupName>CombatGroup</GroupName>
+      <Type></Type>
+      <Value>VT:AddsAlways</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Killing Spree</Label>
+      <Name></Name>
+      <GroupName>CombatGroup</GroupName>
+      <Type></Type>
+      <Value>VT:AddsAlways</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Vendetta</Label>
+      <Name></Name>
+      <GroupName>CombatGroup</GroupName>
+      <Type></Type>
+      <Value>VT:AddsAlways</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Shadow Dance</Label>
+      <Name></Name>
+      <GroupName>CombatGroup</GroupName>
+      <Type></Type>
+      <Value>VT:AddsAlways</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Revealing Strike</Label>
+      <Name></Name>
+      <GroupName>CombatGroup</GroupName>
+      <Type></Type>
+      <Value>VT:AllOptions</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <!--Finishing Move - Common Tab-->
+    <Item>
+      <Label>Spell</Label>
+      <Name>FinishingMove</Name>
+      <GroupName>FinisherGroup</GroupName>
+      <Type></Type>
+      <Value>Envenom|Eviscerate|Kidney Shot|Kidney Shot + Envenom|Kidney Shot + Eviscerate|Kidney Shot + Expose Armor|Kidney Shot + Rupture|Rupture</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Combo Points</Label>
+      <Name>FinisherComboPoints</Name>
+      <GroupName>FinisherGroup</GroupName>
+      <Type></Type>
+      <Value>VT:ComboPoints</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <!--Misc - Advanced Tab-->
+    <Item>
+      <Label>Lazy Raider</Label>
+      <Name></Name>
+      <GroupName>MiscGroup2</GroupName>
+      <Type></Type>
+      <Value></Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Always Stelath</Label>
+      <Name>StealthAlways</Name>
+      <GroupName>MiscGroup2</GroupName>
+      <Type></Type>
+      <Value></Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Stealth Distance</Label>
+      <Name></Name>
+      <GroupName>MiscGroup2</GroupName>
+      <Type></Type>
+      <Value>VT:5Step50</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Low Level Stealth</Label>
+      <Name>StealthOverride</Name>
+      <GroupName>MiscGroup2</GroupName>
+      <Type></Type>
+      <Value>... don't override|... override</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Sprint Distance</Label>
+      <Name></Name>
+      <GroupName>MiscGroup2</GroupName>
+      <Type></Type>
+      <Value>VT:5Step50</Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Ignore Runners</Label>
+      <Name></Name>
+      <GroupName>MiscGroup2</GroupName>
+      <Type></Type>
+      <Value></Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+    <Item>
+      <Label>Pick Pocket Only</Label>
+      <Name></Name>
+      <GroupName>MiscGroup2</GroupName>
+      <Type></Type>
+      <Value></Value>
+      <Tooltip></Tooltip>
+      <Tag></Tag>
+    </Item>
+  </Items>
+</UIElements>
