@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Rogue>
+  <!--Common class settings template-->
+  <ShowUI>... always</ShowUI>
+  <SmartEatDrink>... always</SmartEatDrink>
+  <RAFTarget>... always</RAFTarget>
+  <Debug>... do not show debug</Debug>
+  <LowLevelCheck>... always</LowLevelCheck>
+  <RestHealth>55</RestHealth>
+  <RestMana>0</RestMana>
+  <CombatTimeout>30</CombatTimeout>
+  <HealthPotion>52</HealthPotion>
+  <LifebloodHealth>40</LifebloodHealth>
+  <ManaPotion>0</ManaPotion>
+  <RacialSpell>... never</RacialSpell>
+  <RacialUseWhen>... never</RacialUseWhen>
+
+  <!--Class specific settings everything below here-->
+  <SinisterStrikeEnergy>55</SinisterStrikeEnergy>
+  <EvasionHealth>50</EvasionHealth>
+  <MainHandPoison>Instant Poison</MainHandPoison>
+  <OffHandPoison>Instant Poison</OffHandPoison>
+  <RecuperateHealth>45</RecuperateHealth>
+  <RecuperateCombo>... 3+ Combo Points</RecuperateCombo>
+  <VanishHealth>35</VanishHealth>
+  <PickPocket>... never</PickPocket>
+  <PullSpell>Stealth</PullSpell>
+  <SliceAndDice>... never</SliceAndDice>
+  <Backstab>... always</Backstab>
+  <BlindAdd>... only on adds</BlindAdd>
+  <Sap>... always</Sap>
+  <BladeFlurry>... only on adds</BladeFlurry>
+  <StealthBehind>Ambush</StealthBehind>
+  <AdrenalineRush>... only on adds</AdrenalineRush>
+  <KillingSpree>... only on adds</KillingSpree>
+  <Vendetta>... always</Vendetta>
+  <ShadowDance>... only on adds</ShadowDance>
+  <FinishingMove>Eviscerate</FinishingMove>
+  <FinisherComboPoints>... 4+ Combo Points</FinisherComboPoints>
+  <Rupture>... never</Rupture>
+  <MaximumPullDistance>5</MaximumPullDistance>
+  <MinimumPullDistance>3</MinimumPullDistance>
+  <LazyRaider>... never</LazyRaider>
+  <StealthDistance>30</StealthDistance>
+  <StealthAlways>... never</StealthAlways>
+  <SprintDistance>35</SprintDistance>
+  <GougeHealthPercent>40</GougeHealthPercent>
+  <VendettaHealthPercent>50</VendettaHealthPercent>
+  <RuptureHealthPercent>50</RuptureHealthPercent>
+  <FinishingMoveHealthPercent>32</FinishingMoveHealthPercent>
+  <StealthOverride>... override</StealthOverride>
+  <IgnoreRunners>... always</IgnoreRunners>
+  <RevealingStrike>... always</RevealingStrike>
+  <RevealingStrikeHealth>60</RevealingStrikeHealth>
+  <PickPocketOnly>... never</PickPocketOnly>
+</Rogue>

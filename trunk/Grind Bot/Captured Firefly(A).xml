@@ -1,0 +1,41 @@
+<!-- Profile created by Moderator Tony for Hb community -->
+<HBProfile>
+<Name>Firefly</Name>
+<MinDurability>0.3</MinDurability>
+<MinFreeBagSlots>2</MinFreeBagSlots>
+<SellGrey>True</SellGrey>
+<SellWhite>True</SellWhite>
+<SellGreen>True</SellGreen>
+<MinLevel>1</MinLevel>
+<MaxLevel>86</MaxLevel>
+<ProtectedItems>
+<Item>29960</Item>
+<Item>24401</Item>
+<Item>1645</Item>
+<Item>4234</Item>
+<Item>4304</Item>
+<Item>33454</Item>
+</ProtectedItems>
+<GrindArea>
+<TargetMinLevel>1</TargetMinLevel>
+<TargetMaxLevel>86</TargetMaxLevel>
+<Factions>14</Factions>
+<Hotspots>
+<Hotspot X="869.2" Y="7063.4" Z="22.0" />
+<Hotspot X="863.4" Y="7063.4" Z="22.8" />
+<Hotspot X="849.4" Y="6942.1" Z="22.2" />
+<Hotspot X="804.9" Y="6819.9" Z="21.1" />
+<Hotspot X="785.6" Y="6610.3" Z="20.3" />
+<Hotspot X="762.6" Y="6545.2" Z="20.7" />
+<Hotspot X="734.1" Y="7313.4" Z="20.5" />
+<Hotspot X="797.3" Y="7313.4" Z="23.1" />
+</Hotspots>
+</GrindArea>
+<Vendors>
+<Vendor Name="Maktu" Entry="18010" Type="Repair" X="1020.835" Y="7383.452" Z="36.24232" />
+<Vendor Name="Innkeeper Kerp" Entry="18908" Type="Food" X="1056.379" Y="7370.99" Z="39.58475" />
+</Vendors>
+<Mailboxes>
+<Mailbox X="1029.076" Y="7361.613" Z="36.42106" />
+</Mailboxes>
+</HBProfile>

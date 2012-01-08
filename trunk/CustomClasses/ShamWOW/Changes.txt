@@ -1,0 +1,1655 @@
+Change History:
+
+01/07/2012  Revision 4.5.12
+
+o Change: Added some debug log messages to assist for fixing EVADE detection.  Users experiencing problems with Evade bugged mobs should post as described in the ShamWOW FAQ.
+
+o Fix:  Resto - Attempted fix for pending spell issue when target dies goes out of range at critical moment.  Often appears as a period of Riptide spam.  Added additional log message to help diagnose future occurrences.
+
+o Fix:  Elemental/Enhancement - RAF Combat Style = 'Auto' offhealing bug fixed.  Was erroneously offhealing when it wasn't needed which forced many people to switch to 'Combat Only'.  Unfortunately that disables off-healing.
+
+o Change:  Enhancement - Maelstrom Weapon support changed to favor Healing over Damage unless in Raid/Dungeon.  If Maelstrom Proc has less than 2.5 seconds left and current hostile target will cast Lightning rather than letting it fall off unused.  This is the same as the PVP support for Maelstrom already in place.
+
+o Fix:  All Specs - corrected several failed spell cast situations due to a buff/debuff spellcast inadvertently creating a GCD not checked for
+
+o Fix:  Enhancement - AoE: implemented better support for use of Improved Lava Lash. Added dedicated AoE behavior so should have slightly improved numbers on trash packs.
+
+o Change:  Elemental - when not in RAF Group, will open with Fulmination if stacks have built up.  Priority fulmination remains the same except for the opening spell in non-group situations.
+
+o Fix:  Resto - totems now set when Tank is aggroing a mob with extremely large hitbox. 
+
+o Added:  /Use: Trinkets - all Season 11 and most end game trinkets now supported.  I need a log file if you encounter a situation where you have one equipped that isn't recognized
+
+
+
+01/04/2012  Revision 4.5.11
+
+o FIX: All Specs - ranged spells now account for targets hitbox size.  Should now work correctly for ranged DPS spells Elemental, Resto (Telluric Current builds), and Enhancement (Unleashed Elements, Shocks, Maelstrom Procs)
+
+o FIX: All Specs - Spirit Walker's Grace - Lava Burst, Chain Lightning, and Lightning bolt should now recognize and allow cast
+
+o FIX: All Specs - Lightning Bolt will no longer cast below the Emergency Mana % configured.  Previously was ignoring the config value.
+
+o FIX: Enhancement ALL - melee range check now accounts for own hitbox size, slightly increasing your range for melee spells
+
+o CHANGE: Enhancement PVE - should now correctly cast Chain Lightning / Lightning Bolt when chasing an enemy if Spriritwalker's Grace or Glyph of Unleashed Lightning.
+
+o FIX: Elemental PVE - should now cast Lava Burst and Chain Lightning at appropriate times.  Previously was missing some opportunities lowering DPS
+
+o CHANGE: Elemental PVE - will now skip Lava Burst if Chain Lightning will hit 3 or more.  This should result in higher trash mob DPS numbers
+
+
+12/19/2011  Revision 4.5.10
+
+o FIX:  Exception causing Shaman to not cast attack spells at times in Battlegrounds
+
+o FIX:  Fire Nova - fixed to recognize larger radius when Glyph of Fire Nova is equipped
+
+o FIX:  Evade Detection - now ignores Combat Log EVADE spell misses when in a Battleground or Instance.  When Battleground Noobs would run into Alterac Valley boss and then back out, attacks on them when they were returning to position caused EVADEs which resulted in blacklisting them
+
+o FIX:  Resto - test for setting totems now uses Tank targets hitbox size rather than a fixed 8 yds.  This will improve setting totems for LazyRaider users in boss fights with extremely large hitboxes
+
+o FIX:  Resto - fixed use of Unleash Elements causing subsequent Greater Healing Wave to periodically fail
+
+o FIX:  Spell Casting - now caches latency value, refreshing no more than 1 per second
+
+o FIX:  Spell Casting - now prevents a spell cast occurring prior to 2 * Latency after a successful spell cast, to increase odds WoW Client updated correctly
+
+o FIX:  Spell Casting - now prevents recasting same spell for a GCD to ensure client updates buffs, etc. when accounting for network latency
+
+
+12/09/2011  Revision 4.5.09
+
+o CHANGE: Combat - Lifeblood now cast solely for Haste buff
+
+o NEW:  Healing - option to specify minimum # of targets for Chain Heal
+
+o NEW:  Healing - option to specify minimum # of targets for Healing Rain
+
+o NEW:  Healing - Gift of the Naaru now available as general purpose heal spell and prioritized on Group Healing with other spells; no longer reserved solely for self heal
+
+o FIX:  Healing - Fixed exception occurring when Raid Heal Style set to Party Only.  If not in a raid this setting will default to entire Party
+
+o CHANGE:  Healing - fixed Group Healing RAF Preset for RAF Healing Rain Spec
+
+o NEW:  Resting - if out of drinks, will cast Mana Spring while waiting for mana to regen
+
+o NEW:  Resting - will cancel Food/Drink buff when health/mana reaches 100%
+
+o FIX:  Elemental PVP - cooldowns such as racials and Bloodlust now used
+
+o CHANGE:  Elemental - removed Fire Nova from spell priority
+
+o CHANGE:  Elemental/Enhance - added quicker recast of Searing Totem when it expires
+
+o FIX:  Enhancement - Maelstrom Heal now properly checks for graceful degradation of available healing spells GHW > HS > HW
+
+o NEW:  Enhancement - support for Improved Lava Lash in 4.3 now spreading Flame Shock to 4 nearby enemies
+
+o NEW:  log message when LazyRaiding and user movement interrupts spell casting
+
+o FIX:  RAF - Added improved "near a boss" detection 
+
+o NEW:  RAF - Option added to control use of Cooldowns
+
+o NEW:  PVP - Option added to control minimum number of players nearby before casting Bloodlust. Default=4
+
+o FIX:  PVP - will not target enemies in PVP more than 80 yards away
+
+o NEW:  PVP - will attempt to pickup soulstone from soulwell during battleground/arena preparation phases
+
+O FIX:  PVP - Added Earth Elemental to PVP Cooldowns controlled by option
+
+o FIX:  Spell Casting - now correctly detects when Instants spells are available.  No longer depends upon HonorBuddy SpellManager.CanCast() API
+
+o FIX:  Totems - now correctly ignores Poison Extraction Totem #8137 from quest 
+
+
+10/06/2011  Revision 4.5.08
+
+o change- Enhancement: enemy hit box size determination - ShamWOW now uses the new API in HonorBuddy to retrieve the size of the enemy hitbox.  You can now stand at the edge of the hitbox for extremely large targets/hitboxes rather than being forced to move to the middle.  Note: the Mob entry in ShamWOW.config takes precedence, so if a Mob has an HitBox definition that value is used instead. 
+
+o change- ShamWOW.config: the default Mob entries have all been commented out since they should no longer be needed.
+
+o fixed - Ancestral Spirit: will now work for LazyRaider users that stop right at 30 yds away from corpse
+
+o change- eating and drinking state change log messages revised to better track how it began and how it ended
+
+o fixed - Gift of the Naaru and Lifeblood: now correctly cast at configured health % for self-heals
+
+
+09/26/2011  Revision 4.5.07
+
+o fixed - detection of same faction enemies in arena and rated bg's
+
+o fixed - RAF Combat Style: Auto - changes to better model user expectations.  Resto will behave as Healing Only unless soloing.  DPS specs will behave as Combat Only unless group role set to healer.  This should feel more natural and will no longer require Raiders to select Healing Only
+
+o fixed - exception sometimes occurring when running LazyRaider
+
+o fixed - prevent double casts on some instants including Ghost Wolf, Maelstrom procs, Fulmination procs, Shields, 
+
+o change- re-enabled fast PVP targeting to counteract BG Bot having casters (Elemental/Resto) run up to melee range of enemy without attacking
+
+o change- added more explicit error message when global shamwow.config file is missing 
+
+o change- will now stop the Bot if an error occurs with shamwow.config
+
+o change- low-level play now defaults to rotation specific for lowbies
+
+o change- messaging while eating/drinking to specifically indicate why it stops (to better indicate breaks due to combat, user, or bot)
+
+o change- will remain seated eating or drinking in RAF group until topped off or tank enters combat and drops below 70%
+
+o change- increased time between recasting of Water Shield/Water Walking in battleground or arena preparation to 55 seconds
+
+
+09/19/2011  Revision 4.5.06
+
+o change- changed Boss detection logic.  Treats as Boss if it has more than (8 * Tank Health). It's imperfect, but its whats available presently.  Also ignores any bosses in Raids, leaving all Cooldown abilities for user to cast.
+
+o fixed - will now only attempt to target Pet's target if within 80 yards.  This should fix issue in battlegrounds where totems and pets are targeting enemies at long distances
+
+o fixed - Resto - error preventing healing and combat for Resto's in an RAF group with no tank
+
+o fixed - Enhancement - Maelstrom Proc spam - due to pre-casting was recognizing same Maelstrom Proc twice resulting in attempt to cast two Greater Healing Waves or two Lightning Bolts. Corrected 
+
+o fixed - Restoration - will no longer switch to Magma Totem if Healer Only selected
+
+o change- Fire Totem swap:  restored delay after changing a totem and prior to restoring previous totem in Call of the Elements bar. This restores behavior to that matching before the pre-casting work was added.
+
+
+09/14/2011  Revision 4.5.05
+
+o fixed - Weapon Imbue (Earthliving, Windfury, etc.) will now correctly detect existing imbue, preventing casting spam seen by some users
+
+o *new* - config file conversion for 4.5.05 to set Detect Spell Immunities to false
+
+o *new* - Resto - added support for T12 2pc.  If friendly needs healing and T12 detected, will favor casting Riptide on a group member that does not currently have the buff.  Note:  to maximize Riptide use for T12 and/or Tidal Waves buff, set its Health % to 0 in Group Healing tab.
+
+o *new* - two new leveling trinkets added - Essence of Eranikus' Shade (Sunken Temple) and Ramstein's Lightning Bolts (Stratholme)
+
+o change- Detect Spell Immunities option now defaults to 'false'
+
+o change- player equipment change detection - will now check for trinkets / tinkers any time gear changes rather than only upon START or entry to new instance
+
+o change- spell immunity detection - if determined that immunity is temporary due to a buff on target, now includes name of buff and expiration in message
+
+o change- spell immunity detection - will now show attack spell cast that triggered immune response
+
+o change- will temporarily replace Fire Totem in Call of the Elements bar if detected 3+ enemies within 8 yds.  This will provide a quick response when fighting trash where previously it would cast Call of the Elements then Magma Totem would be cast sometime later at a lower priority.
+
+
+
+09/08/2011  Revision 4.5.04
+
+o fixed - use of configurable counts for Healing Rain and Chain Heal counts
+
+o fixed - debug message spam occurring while on taxi (flight path)
+
+
+09/07/2011  Revision 4.5.03
+
+o *new* - added option to enable/disable automatic use of cooldowns in PVP.  default is enabled. cooldowns controlled include Fire Elemental, Earth Elemental, and Bloodlust/Heroism
+
+o fixed - saving/loading of PVP trinket option
+
+o fixed - glyph recognition of water breathing and water walking glyphs for arena buffs now correctly displays only if the the associated PVP options are enabled
+
+o fixed - correctly check options for raid water walking and water breathing buffs.  previously would apply both if either was enabled. now correctly applies only buffs selected
+
+o change- increased minimum time interval a raid member waits for preparation rebuff
+
+o fixed - error sometimes occurring at startup when totems have already been set.
+
+o change- now suppresses Water Walking cast if already in Ghost Wolf form or mounted
+
+o change- revised messaging for weapon imbues to assist in troubleshooting
+
+o fixed - will now correctly clear weapon imbues if an existing one needs to be changed.  fixes spamming error of applying a new imbue without first clearing existing
+
+o change- Enhancement PVP: slight movement and auto attack usage to improve readiness at point it reaches enemy position
+
+o *new* - Enhancement PVP: will cast Healing Rain instead of Greater Healing Wave as the Maelstrom heal if Shaman health > 70 and at least two teammates in range
+
+o fixed - Ghost Wolf: would previously prevent casting Ghost Wolf if a critter had same faction as grinding/questing profile mobs. now ignores critters
+
+o fixed - modified add detection logic which encountered issues in Tol Barad that prevented from casting cooldowns. adds are now correctly counted which enables casting of cooldowns according to options set.
+
+o *new* - support for Dog Whistle trinket from Scarelet Monestary and Barov Servent Caller trinket from Scholomance
+
+o fixed - exception occurring when trinkets are changed while HonorBuddy is running and after they have been recognized by ShamWOW
+
+o *new* - casting engine accounts for network lag. all users should notice slight improvement in DPS/HPS, but those with the higher levels of lag will notice the most improvement
+
+o *new* - support for healing pets
+
+o *new* - configurable target counts for Chain Heal and Healing Rain.
+
+o change- Focused Insight: now will only cast shock to buff Healing Rain
+
+o change- Unleash Elements: will attempt to cast prior to Greater Healing Wave
+
+o fixed - Resto RAF: will now cast Earth Elemental if tank dies; was broken for Resto
+
+o fixed - Resto RAF: added minimum time interval after Earth Shield cast before checking for buff
+
+
+08/18/2011  Revision 4.5.00
+
+o fixed - Arena Targeting: now correctly targets enemy team members from the same faction
+
+o *new* - will use Healthstone if in inventory
+
+o *new* - Restoration: option to disable Shields leaving user full control.  Intended for use only in Arena or Rated BG's but available in all operational states to avoid being asked for it in future.
+
+o change- Enhancement: PVP movement greatly revamped to react more quickly to enemy movement.  
+
+o change- Restoration: fixed issue with Focus Only raid healing style
+
+o change- Weapon Imbues: no longer clears weapon imbues when started or entering/leaving an instance.  will recast only if the appropriate weapon imbue is different than the current one or none is present.
+
+o change- Elemental: detects Glyph of Thunderstorm so will not try to use Thunderstorm for knockback when its been disabled
+
+o *new* - Enhancement: PVP recognizes Earthen Power talent and will use Earth Bind to dispel snares for group
+
+o fixed - Mounting: now checks if Water Walking buff active before casting just prior to mounting
+
+o *new* - Mounting: will check if Bot in use has setup a POI (Point Of Interest) and uses that info if present to decide between Ghost Wolf or Mount based on the distance it will travel.
+
+o *new* - spell cast failure log messages added to log.
+
+o *new* - Enhancement PVP: now directly controls spells casts of Spirit Wolves.  Pet spell cast log messages in a different color to visually distinguish. 
+
+o fixed - added a slight pause after PVP trinket use to reduce times that Tremor or Spirit Walk cast immediately after 
+
+o change- PVP: will not recall totems if Earth Elemental or Fire Elemental active
+
+o fixed - PVP: correctly detects Preparation and Arena Preparation (change in HonorBuddy Aura processing had broken it)
+
+o change- PVP: now does self-buffs during Preparation when using BG Bot
+
+o fixed - Dwarf: correctly checks cleanse target is self before using Stoneform on poison or disease
+
+o fixed - Enhancement: log message indicating whether target is melee or caster
+
+o fixed - Elemental: Thunderstorm now cast when stunned and enemy within 10 yds
+
+o *new* - Enhancement: PVP now correctly responds to prioritization of Purge
+
+o *new* - Enhancement: PVP will now infrequently loot a player corpse if already in melee distance
+
+o change- Enhancement: PVP will now cast Ghost Wolf more often when closing in on a player
+
+o *new* - PVP: will cast Bind Elemental on Water Elementals if standing still and one in range
+
+o fixed - Enhancement: now casts Shamanistic Rage if stunned
+
+o change- PVP: higher priority on Unleash Elements in PVP when chasing an enemy
+
+o change- Enhancement: PVP will now cast heal if Maelstrom at 4 stacks and health is below 30%.  
+
+o fixed - Enhancement: PVP will check if Maelstrom heal target is in line of sight
+
+o fixed - Interrupt: now cast more frequently and even if spell cast underway
+
+o change- Purge: now shows in log what buff triggered the Purge cast
+
+o fixed - Elemental: no longer tries to cast Earth Shield on tank when healing dungeons (typically done before Dual Specification trained)
+
+o fixed - Config: PVP options to buff raid with Water Walking and Water Breathing now correctly saved
+
+
+08/03/2011  Revision 4.4.01
+
+- fixed - support for Tremor Totem
+
+- fixed - exception in rare cases where it tries to hex and loses valid target
+
+- fixed - revised reference tank validation.  should result in fewer exceptions
+
+- fixed - no longer adds Immunity entry when a mob resists Thunderstorm knockback
+
+- fixed - added facing checks to non-target mobs for Wind Shear and Purge 
+
+- fixed - PVP: no longer targets a dead priest that cast Spirit of Redemption
+
+- fixed - infrequent exception occurring when running as resto and no tank exists
+
+- fixed - totem spam (uggh...)  added support logic to delay checks for totems existance after casting a totem to work around the lag in update of WOW/HB lists of existing objects
+
+- fixed - when refreshing totems, Fire totem now refreshed at higher priority than Earth totem
+
+- change- Enhancement Auto Pull: will now only range pull melee if -2 levels or higher
+
+- chagne- Enhancement PVE Spell Prioritization: changed to match Elitist Jerks post
+
+- change- Elemental: added Frost Shock and Unleash Elements to lowest priority in rotation.  Will only be cast if mob immune to nature damage.
+
+- change- Elemental PVP: previously require 2+ enemies or other conditions to set totems.  Now sets for every enemy as long as current target not mounted and not low health
+
+- change- now will recast Flame Shock if in last tick
+
+- change- added support for several of the Season 9 and Season 10 trinkets that were missing
+
+- change- added additional debug messages when checking for chain heal hops and less than 3
+
+- *new* - supports Glyph of Unleashed Lightning in specific circumstances
+
+- *new* - added support for Focus Only raid healing style
+
+
+07/21/11 Revision  4.4.00
+
+- *new* - Raid Healing Style setting allowing you to select a subset of the raid members to raid. 
+
+- fixed - tremor totem functionallity restored; cast was being blocked by silence detection
+
+- fixed - improved handling of invalid tank reference in some instances; should result in fewer errors when starting before entering an instance or after tank leaves
+
+- fixed - rare situation where enemy is treated as out of ranged attack distance but is less than 40yds
+
+- change - revised boss detection for controlling special boss only behaviors
+
+- fixed - error where party member change messages were spammed
+
+- fixed - added support for High Priority Purge 
+
+- fixed - Purge was broken due improper range check; works now
+ 
+- fixed - checks to prevent a Resto from casting for Telluric Currents or Focused Insight before the target is in combat with group
+
+- change - will suppress casting Hex if target is a Druid and not in caster form
+
+- fixed - some MoveToUnit message spam eliminated
+
+- fixed - Thunderstorm now cast when stunned and one or more enemies within 10 yds range
+
+- fixed - suppress Fire Elemental totem when Resto as Healer Only
+
+- change - added Unstable Affliction to Cleanse Blacklist
+
+- change - added additional PVP buffs to Purge Whitelist
+
+
+07/12/11 Revision  4.3.19
+
+- change:  added code to allow CC activity on transports when inside an instance.  they need to remain disabled to work with the Questing bot outside of there, but enabling inside instances may resolve the Nef and Ony issues being reported.  Please try and post your results.
+
+
+07/12/11 Revision  4.3.18
+
+- fixed: error where would spam Riptide on dead tank and neglect healing rest of group.  This was a bad one when it happened.
+
+- change: Restoration with Telluric Currents will now monitor group health during a lightning bolt cast and cancel if determines someone needs heals.  This more closely mirrors Telluric Current style of play specified in Elitist Jerks.  This solves the problem where players took spike damage near the start of a Lightning Bolt cast and died by the end of it.
+
+- change: default for RAF Cleanse Priority changed to High.  Previously was Low.
+
+- change: now prevents recognizing self as Tank, even if Bot has selected.  This is because the term Tank here means character that I follow.  Since you cannot follow yourself, the errant setting only causes problems.
+
+- fixed: column headings on Advanced tab Mob Hitbox display
+
+- change:  will now output totem manager messages regarding the number of totems found.  this change is to help provide additional logfile info for me to assist those still encountering totem issues.
+
+
+07/09/11 Revision  4.3.17
+
+- change: removed workaround for HB .StackCount bug
+
+- fixed:  corrected issue occurring with retrieving Shamans role in dungeon groups
+
+
+07/08/11 Revision  4.3.16
+
+- NOTE: You must use the English client
+
+- fixed: HonorBuddy 2.0.0.4991 breaks checking buff stackcount.  this was breaking Fulmination, Water/Earth/Lightning Shields, Maelstrom Weapon, etc.  Changed to using WoW API instead temporarily
+
+- fixed: check for Fire Nova use now correctly scans for enemies within range of enemies with Flame Shock. Still a lower priority spell
+
+- fixed: problem with group role checking.  should now correctly identify if healer present when they are Party Leader
+
+- fixed: evade and immunity checking.  these were broken by WOW 4.2 changes to combat log event.
+
+- fixed: aggro mob check.  now correctly ignores a mob which has been blacklisted even if it still has aggor (like an evade mob.)
+
+- fixed: facing error which occurred intermittently during a Ranged Pull while grinding/questing
+
+- change: changed some initialization in totems which should eliminate the lone issue remaining with setting/recalling that can be addressed
+
+
+06/29/11 Revision  4.3.15
+
+- water walking and water breathing buff no longer done for PVP groups > 15 members 
+
+- added option to enable/disable buffing water walking and water breathing during Preparation buff in Battlegrounds or Arena Preparation buff in Arenas. 
+
+- added initial support Glyph of Unleashed Lightning.  On Fast Pull Shaman will use Lightning Bolt while moving in.
+
+- fixed problem for Restos that caused them to think they were Healing Over Combat when they were not.  HonorBuddy API WoWPartyMember.GroupRole property was returning an invalid value.  Value is now checked for and worked around to ShamWOW functions as intended.
+
+- PVP and RAF 'Need Drink at Mana %' settings removed to eliminate confusion since they were placeholders for future work.  PVP and RAF specific values will be added back in future release.
+
+
+06/29/11 Revision  4.3.14
+
+- updated installation instructions - ** be sure to read **
+
+- fixed TotemManager to work with HB 2.0.0.4928 which no longer includes Totems in the ObjectManager list
+
+- added new Config\ShamWOW.config file which holds *new* installation settings that apply to all Shaman regarding cleansing, purging, and customization of enemy hitbox for now
+
+- added Cleanse priority config setting for PVP and RAF
+
+- added support for Cleanse Blacklist which identifies debuff that will prevent you from Cleansing target
+
+- added Purge priority config setting for PVP and RAF
+
+- added support for Purge Whitelist which identifies which buffs you will purge 
+
+- added config support for specifying melee range for specific NPC's.  This allows identifying mobs/bosses with hitboxes larger than 5 yds to work with Enhancement Shaman and LazyRaider.
+
+- added support for casting Water Walking and Water Breathing on team mates at start of battleground if glyph of water walking and/or glyph of water breathing installed.
+
+- change made in trinket detection to find trinkets with multiple spells (like Tyrande's Favorite Doll)
+
+- fixed exception occurring at times in groups when determining members roles
+
+- changed order of instant attacks used for Enhancement when running towards or chasing an enemy.  added support for Maelstrom proc and Unleash Elements as well
+
+- Enhancement PVP will now use Maelstrom procs only for healing.  Will heal self if less than 75%, otherwise will heal nearby teammate < 50%, and if nobody needs heal and less than 2.5 seconds left on maelstrom buff will cast Chain Lightning or Lightning Bolt
+
+- added/corrected detection of trinkets Figurine - King of Boars, Tyrande's Favorite Doll, Talisman of the Alliance, Talisman of the Horde
+
+
+
+05/02/11 Revision  4.3.13
+
+CHANGE - Fire Nova revised to work with new mechanics of WOW 4.1
+
+CHANGE - Elites only treated as elite only if they are within -10 levels and health is greater than Shamans
+
+FIX - Offheal problem where Elemental or Enhancement would switch to Offheal but not fully switch back to DPS
+
+CHANGE - DONE added support for a Mana Tide % config value.  no longer tied to Emergency Mana %
+
+FIX - fixed configuration dialog not correctly loading/saving Tidal Waves and Cleanse settings
+
+CHANGE - revised trinket support to allow multiple trinkets of same type ( combat, mana, health, pvp )
+
+CHANGE - all combat, healing, and mana Engineering tinkers now supported
+
+ADDED - many additional trinkets supported; if your Use: trinket isn't recognized please post wowhead link
+
+CHANGE - random determination of strafe direction for Enhancement Shaman
+
+FIX - interrupt cast scanning has additional check to avoid scanning friendly units in specific combat situations
+
+
+
+04/10/11 Revision  4.3.12
+
+FIX - correct exception occurring in some healing scenarios when no tank can be found
+
+FIX - correct problem where would Face a target while Resto and specced for Focused Insight or Telluric Currents disregarding Disable Movement and Disable Targeting
+
+CHANGE - Disabled auto-tank selection - this is a function of the Bot and should remain that way
+
+
+04/03/11 Revision  4.3.11
+
+CHANGE - Disable Target - controls targeting when Disable Movement is active.  Now defaults to true.
+
+NEW - added detection of LazyRaider Bot (disables movement)
+
+CHANGE - changed point at which disable targeting is checked to avoid log spam
+
+CHANGE - in Groups without tanks, DPS targeting must now be handled by Bot or User
+
+CHANGE - Groups no longer require an identified tank for healing / dps, but all tank heal and assist features are disabled.  No Earth Shield for example.
+
+FIX - restored support for cancelling heal in progress to save Tank or Healer
+
+FIX - added check for Earthliving Weapon before casting Unleash Elements as a heal
+
+
+04/01/11 Revision  4.3.10
+
+CONFIGURATION/SETUP CHANGES
+NEW - Health Trinket % and Mana Trinket % config settings.  Specify the values that will cause health and mana trinkets to be used while in combat.  Does not affect other trinket types.
+
+NEW - Detect Immunities config setting.  Default is true.  You can now disable Immunity detection in all environments
+
+NEW - RAF Follow Closely config setting (default = true).  ShamWOW has always had additional logic for Resto Shaman to maintain closer following distance to tank than IB or other Party bots provide out of combat.  You can now disable this option which interfered with some implementations such as Multi-Bot
+
+NEW - Water Walking config setting (default = true).  You can now disable self-buff of Water Walking prior to mounting, which was interfering with some quest profiles.
+
+NEW - Cleanse Spirit group heal setting (default = true).  You can now disable Cleansing in RAF and PVP if you choose.  See the Group Heal tab.
+
+CHANGE - Grinding/Questing - Type of Pull default is now Auto.  
+
+MISCELLANEOUS
+FIX - Corrected some exceptions occurring when exiting and re-entering instances.
+
+FIX - Fix for shield errors in certain situations (such as Arena)
+
+CHANGE - Auto Type of Pull - no longer checks the type of target.  Now reacts only to your Shaman Spec, using Fast for Enhancement and Ranged for all others.
+
+CHANGE - Time Expiration logic - new method for checking when X seconds have past.  Will no longer encounter the issue requiring reboot to reset the system value containing # of ticks since system start.  This was preventing Weapon Imbues in some situations.
+
+CHANGE - Ranged Pull - will now use Unleash Elements if available and a DPS imbue is on weapons.  Also forces first attack cast by Enhancement to be Lightning Bolt so it can follow immediately with an instance for more damage at distance (was previously going straight to instant.)
+
+CHANGE - Line of Sight checks now use a different method to test providing better overall results in caves and interior spaces.
+
+FIX - problem with reinitializing when leaving an instance.  should now correctly recognize in all instances the tank or healer leaving group.
+
+CHANGE - Ressurection support has additional message to help troubleshoot for users experiencing problems.
+
+CHANGE - will now also cast Stoneform if in stressful fight to reduce incoming damage.
+
+FIX - problem with using Stoneform for cleanses.  If a debuff detected while Stoneform on cooldown it would spam message in log until debuff expired or it came off cooldown.  
+
+FIX - corrected issue for Elemental using Fast Pull Type.  In some instances it would stand outside of Shock Range trying to cast a shock until the pull timed out. Fixed to correctly move into range.  Will also now default to Lightning Bolt as a last resort if all available instants appear to be on cooldown.
+
+NEW - Support for the following trinkets:  Figurine Jewel Owl and Figurine Jewel Serpent
+
+FIX - Heal Target List Regeneration - the regen interval has been shortened for instances from 20 seconds to 5 seconds.  In situations where party members were just out of range then moved back in, it may not have detected their need for healing quickly enough.  This change should address that.
+
+
+03/09/11 Revision  4.3.09
+
+NEW - Trinket Support:  automatically detects presence and type of trinkets.  recognizes PVP, +Max Health, +Mana, and DPS trinkets.  DPS trinkets are kept on cooldown.  Mana and Health trinkets used when those values go below the configured Emergency %.  PVP trinket used when loss of control of character is detected.
+
+NEW - Engineering Support:  automatically recognizes and uses 'Hyperspeed Accelerators' and 'Hand-Mounted Pyro Rocket'
+
+NEW - Disable Targeting:  option allows you to disable CC targeting when CC movement is disabled.  Also disables Immunity Checking
+
+NEW - Fast Pull Support for Elemental/Resto:  will cast an Instant attack as Pull spell to quickly tag mob in areas with high competition for mobs.  Unlike Enhancement's Fast Pull, the caster specs will remain at ranged distance.
+
+CHANGE - Pull and Combat behaviors are disabled while flying
+
+
+02/15/11 Revision  4.3.08
+NEW - Off Healing:  Support for Off Healing.  New config value in RAF tab allows you to specify the health % that any group member reaches which causes you to switch to temporarily off-healing.  The default is 35%.  This setting is useful only for the Auto and Combat Only combat styles.
+
+FIX - All Specs - Grinding/Questing:  when Ranged pulling mobs at a distance, the Shaman would sometimes casst Totemic Recall and *Ghost Wolf while the Lightning Bolt was enroute.  This has been fixed.
+
+
+02/14/11 Revision  4.3.07
+CHANGE - All Specs - Interrupt: added Interrupt Style setting on General tab to allow selection of what mobs are monitored for spell cast interruption.  Valid settings are:  [None], [Current Target], [All Targets].  The default is All Targets.  This is a change in the default behavior from prior versions where only the current target was watched for spell casts, it will now monitor any target within range that is in combat with you or someone in your group. In battlegrounds, it will interrupt any nearby target in range trying to cast.  It does not include pets in the search.  This is a General setting and applies to Grinding, Questing, Battlegrounds, and RAF Groups.
+
+CHANGE - All Specs - Non-Combat Self-Healing: previously only cast Greater Healing Wave if health was below emergency level.  will now prefer this spell if available whenever non-combat self-heal is needed.
+
+CHANGE - All Specs - Combat Self-Healing:  added checks for Maelstrom Weapon buff or Tidal Waves buff. If either present will, will favor Greater Healing Wave or Healing Wave over Healing Surge.
+
+CHANGE - All Specs - Ghost Wolf Distance:  will adjust if current value is less than Pull Distance + 5.  This corrects issue for Elemental Shaman users than increased Pull Distance to value greater than 35 but did not change Ghost Wolf Distance
+
+FIX - All Specs - Config File: settings for Shamanistic Rage Mana % and Thunderstorm Mana % were not being saved to or loaded from the config file.  
+
+FIX - Enhancement: removed message stating if Improved Lava Lash configured that it would wait for +5 stacks of searing flame.  It didn't wait for stacks so message was misleading and obsolele
+
+CHANGE - Elemental - Thunderstorm:  conditions modified slightly when it is cast.  Biggest change you will notice is for Ranged Pulls when grinding/questing, where previously it would cast Thunderstorm for mana regen immediately when Mana fell below Thunderstorm Mana %, it will now delay that cast until mob is within range so some damage is realized also.  Thunderstorm is now cast if any one of the following conditions are met:
+1. Stressful Fight and at least 1 attacker within 10 yds
+2. Mana % < Thunderstorm Mana % and at least 1 attacking within 10 yds
+3. Mana % < Thunderstorm Mana % and RAF Group
+
+FIX - All Specs - War Stomp:  corrected to check for mobs within 8 yds range, was previously checking 10 yds
+
+CHANGE - All Specs - War Stomp:  was previously casting anytime a self-heal was needed if in combat.  Now casts only if current health is less than Emergency Health % or for Stressful Fights
+
+FIX - All Specs - Lifeblood / Gift of the Naaru:  have their own Health % setting, but couldn't effectively be greater than Need Heal %.  Fixed so the HoTs can be applied at higher health %
+
+CHANGE - Resto - RAF: Default Chain Heal Health % in Group Healing changed from 80 to 88
+
+CHANGE - All Specs: Tremor totem no longer cast when target with a Fear ability is detected. Instead it will wait until Fear has been cast on the Shaman.  This is due to change in mechanics of Tremor Totem
+
+CHANGE - Elemental: Earthquake AoE mob count still 5, unless if Glyph of Chain Lightning detected then it will be 7 (down from 8).  This is due to increase in Earthquake damage with last patch.
+
+FIX - Resto - RAF: corrected range of AoE area for Healing Rain to 10 yds, was previously 8
+
+FIX - Resto - RAF: added check to only cast Oh Shoot heal when in combat
+
+CHANGE - All Specs - Fire Nova: if 4+ mobs detected in Fire Nova range and have not trained Magma Totem yet, will cast Flametongue to enable use of Fire Nova.  
+
+CHANGE - All Specs - Bloodlust/Heroism: added check for Temporal Displacement debuff
+
+CHANGE - Resto:  Added check for Line of Sight to current target before casting Shock or Lightning Bolt when either Focused Insight or Telluric Currents is specced.
+
+CHANGE - Group Healing Configuration:  a new RAF Raid Healing preset button has been added which adjusts the values slightly to support raiding as resto with ShamWOW
+
+
+02/02/11 Revision  4.3.06-BETA
+
+FIXED - PVP - All Builds:  fixed bug when picking up a new target which was introduced with Pet fix in last release
+
+FIXED - Vehicles:  should now correctly detect when in a vehicle and not try to cast spells
+
+FIXED - Healing: fixed error thrown when heal target selected dies between the time they are selected and heal is cast
+
+CHANGE - Elemental: Earthquake - normally cast only if 5+ mobs are in AoE.  if Glyph of Chain Lightning is slotted, will only cast Earthquake if 8+ mobs in area.  
+
+CHANGE - Elemental: Earthquake - will only cast if Mana > 60%
+
+CHANGE - PVP - All Builds:  removed logic which would blacklist targets that ran out of LoS
+
+CHANGE - Grind/Questing - Combat Style:  changed the "Disable Totems / CDs" to "Low-level Farming" combat style so it will also prevent applying a shield.  This is intended to be used for farming low-level content.  Lightning Shield can cause mobs being farmed for +rep to die and not give rep.  
+
+
+01/30/11 Revision  4.3.05-BETA
+
+FIX - All Specs:  fix for HonorBuddy pet/elemental totem targeting issue
+
+FIX - All Specs:  fix for Unleash Elements.  bug was causing it to believe weapons did not have imbue so attack casts were prevented
+
+FIX - All Specs:  when taking a flying mount or taxi/vehicle will cause dismount in air.  fixes startup with Archaeology Buddy when already in air as well as error messages that sometimes occurred when started while taking taxis between cities, etc.
+
+FIX - Elemental ALL:  Corrected message when Fulmination to indicate it waits for 7+ stacks rather than 8+
+
+FIX - Elemental PVP:  added Fulmination Check when determining what Shock to cast.  Previously was only being done in PVE
+
+CHANGE - Elemental PVP:  will not cast totems before attacking a mounted player; totem cast was allowing mounted player to be out of range by time attack cast
+
+CHANGE - Elemental PVP:  will Hex target to silence prior to initial nuke attack
+
+FIX - Resto PVP:  Shield Twisting values used for Water Shield / Earth Shield when healing in Battlegrounds.  This corrects alternating shield spam caused when mana was at Emergency % in battlegrounds.  Also allows forcing water shield or earth shield 100% of the time in Battleground.  Outside of Battleground numbers apply to Water Shield/Lightning Shield, except when in RAF Group which still forces Water Shield
+
+CHANGE - some messages that were in Log window now moved to Debug window
+
+
+01/15/11 Revision  4.3.04-BETA
+
+FIX - Removed code causing character to pause in Battlegrounds until health regen'd to 100%
+
+CHANGE - Elemental PVP: changed so totems are thrown at start of fight.  This delays burst by 1 GCD but will help slightly with survivability
+
+CHANGE - Elemental PVP: changed critieria for Thunderstorm so cast for mana or when multiple enemies within 10 yds.  Previously checked if multiple within melee range
+
+CHANGE - Resto:  now checks that Chain Heal will hit minimum of 3 targets (up from 2) and Healing Rain will hit minimum of 4 targets (up from 3)
+
+CHANGE - Resto:  prior to Chain Heal cast, will attempt to cast Riptide on primary target 
+
+
+01/14/11 Revision  4.3.03-BETA
+
+FIX - Spell Casting: was not cleanly waiting for completion of spell before begin next pass on spell priorities which sometimes resulted in wrong sepll being selected.  
+
+FIX - Enhancement: primarily on Fast Pull, Shaman will spin at high speed around target never attacking.  Will now detect situation, stop facing, strafe one step away, then re-face.  Also some changes to timing of calls to Face the current target
+
+FIX - Resto PVP: chain heal was including all players in hop count (including opposing faction) resulting in too frequent use of Chain Heal
+
+FIX - Mount Up:  HB would sometimes attempt to mount during a spell cast.  Now prevent until spell cast has completed.
+
+CHANGE - Mount Up:  if Indoors and HB attempts to mount, will switch to Ghost Wolf form
+
+FIX - Corpse Release:  seen mostly in PVP, was attempting to wait out a situation that never occurred.  Now correctly detect death and stop waiting.
+
+FIX - Unleash Elements:  now check that weapons have an imbue before allowing cast.  previously would in specific circumstances begin log spam during pull until in combat
+
+FIX - Rest:  added Stop Movement before eating and drinking.  Should already have been stopped at this point, but this call will enforce in case Bot or Plugin had started movement
+
+CHANGE - Resto:  if mana below emergency level and mana tide is on cooldown, will cast mana spring
+
+CHANGE - Resto:  RAF Only - changed to set totems within range of tank only after tank is in combat and within 10 yds of target.  
+
+CHANGE - Resto:  made setting totems and casting shields a higher priority
+
+CHANGE - Elemental:  Fulmination now checks for 7+ stacks from 8+ stacks.  Previously would sometimes hit a shock cooldown that would leave Shaman at 9 stacks for 1 or more GCDs. Now checks for 7 or more and should fire within 1 GCD of 9th stack.
+
+CHANGE - Resto:  PVP Only - changed so if mana below emergency level, will cast Water Shield 
+
+CHANGE - Resto:  RAF Only - when casting Riptide for Tidal Waves buff, will cast on TANK if Riptide buff has fallen off and needs a heal
+
+FIX - Totems:  All specs, but noticed most with Enhancement - Was at times experiencing a delay in first attempt to set totems each fight.  This should no longer occur.
+
+FIX - Totems:  Totemic Recall Was encountering a timing issue where a call would fail for no reason, giving the visual impression that no attempt to recall totems had occurred.  
+
+
+01/12/11 Revision  4.3.02-BETA
+
+FIX - Unleash Elements:  Added checks for weapon imbues to be present before casting Unleash Elements.  
+
+FIX - Arena: Now uses options on PVP tab even in hybrid environments such as Multibox
+
+
+FIX - Arena: Resto Shaman in Arena no longer have Earth Shield spam loop
+
+FIX - Weapon Imbues:  Should no longer get in a weapon imbue cast loop while out of combat.  WOW client lag in updating Buff after weapon imbue cast was causing an issue.  Since the lag varies user to user, the problem only affected some.  
+
+FIX - Heroism:  Now checks for Exhaustion debuff instead of Sated for Alliance characters.
+
+CHANGE - MountUp event:  behavior that was broken by removal of SequenceOverride_MountUp from HonorBuddy now restored.  Will now properly recall totems before mounting if any exist.  Will also detect if nearby battleground member needs heal before mounting to avoid mount/dismount caused by spell cast.
+
+
+01/08/11 Revision  4.3.01-BETA
+
+FIX:  correct typo in use of Unleash Weapons for Enhancement
+
+CHANGE:  changed order of rest processing to apply buffs before entering ghost wolf form rather than after exiting ghost wolf (which usually means in combat)
+
+FIX:  now call .Face to face mob without checking .IsFacing, which in rare situations returned a false positive causing shaman to never face mob in some fights (mobs that charge or run past us)
+
+CHANGE:  slightly revised order of some spell casting and gcd checking to adhere more closely to spell priority 
+
+CHANGE:  casting method used for Lightning Bolt after 5 stacks of maelstrom.  previous API was returning that spell was on cooldown some times and missing cast opportunities
+
+CHANGE:  5 stacks of Maelstrom Weapon are now also checked for during Pull.  This helps in cases where mobs are dying too fast and Maelstrom stacks would fall off before moving to and pulling next mob was completed.
+
+
+01/07/11 Revision  4.3.00-BETA
+
+== GROUP HEALING ==
+ADDED: Support for user control of heal spell selection for PVP and RAF Group Healing
+
+CHANGE: changed applying Earth Shield test to only move within range of tank.  Previously would sometimes move within melee range of tank.
+
+CHANGE: now cancels a heal in progress if target is above NeedHeal amount.  this fixes what was referred to by users as double heal problem.  provides same level of responsiveness in heal intensive fights without the mana loss.  note: healing too quickly (before WoW client has updated targets health %) can still occur with instant heals, but should not be a significant issue due to their longer cooldowns
+
+CHANGE: now cancels a heal in progress on a DPS character if detected that Tank or Healer are dangerously low.
+
+== CONFIG == 
+ADDED: new Group Healing window tab and config file values for controlling group healing in PVP and RAF.  Users now have control over selecting at what Health % spells are cast and prioritizing.
+
+ADDED: removed PVP_GroupNeedHeal and RAF_GroupNeedHeal from config since these are calculated values based upon the healing spell setup.  In the Config windows these values are still displayed for reference but cannot be modified directly.
+
+== RAF == 
+ADDED: support to switch to Healing over Combat automatically if Combat Style is set to Auto and the player with group role Healer dies
+
+ADDED: will force use of Water Shield if your Group Role is healer, regardless of your spec.  This will provide better mana regen when healing as Elemental prior to purchasing Dual Spec or when forced into a off healer role when healer dies.
+
+ADDED: Beauty, Blackrock Caverns added to Fear mob list
+
+== GENERAL == 
+CHANGE: check to see if we enter combat or die while eating/drinking.  Shouldn't be required since it checks for Food and Drink aura which WOW removes when combat or death occurs, but user reported caused problems at times in PVP so easy additional test added.
+
+ADDED: support for Drawf racial Stoneform to cleanse poison and disease
+
+ADDED: support for Unleash Elements in Enhancement and Resto.  Addition to Elemental rotation will appear in subsequent release.
+
+CHANGE:  Fulmination support now casts Earth Shock when it recognizes 8 stacks rather than 9.  Change due to recommendations in EJ and TotemSpot.
+
+FIX: problem with Magma Totem spam fixed when multiple mobs in melee range
+
+FIX: added workaround for errant returns from HB GlobalCooldown API
+
+FIX: sometimes ignored totem selection of None and cast what would be Auto selected totem
+
+FIX: when fear mob detected, no longer assumes tremor totem has been trained before casting.  mainly eliminates some message spam in log file
+
+CHANGE: weapon imbues will now be checked for during combat rather than only during rest since they are required for Unleash Elements.
+
+
+
+
+11/17/10 Revision  4.2.09
+
+FIX -:  fixed problem for Grinding/Questing where Bloodlust/Heroism logic was incorrectly checking the Save Totems for Stress config setting rather than the Save Bloodlust/Heroism for Stress.  Now correctly reacts to this setting.
+
+
+11/17/10 Revision  4.2.08
+
+FIX -:  fixed problem with Bloodlust/Heroism being cast for trash in Dungeons/Raids when option saying to use on Bosses was set.  Now correctly casts only for Bosses.
+
+
+11/12/10 Revision  4.2.07
+
+FIX -:  fixed problem for low-level characters with totems
+
+
+11/12/10 Revision  4.2.06
+
+- Resto:  support for Focused Insight and Telluric Currents when combat style is Healing Only.  If these talents are specced, a Resto Shaman will cast Earth Shock and Lightning Bolt respectively for healing bonus and mana regen.  No other damage spells are cast, unless the combat styles is set to Healing Over Combat.  Healing and Cleanse takes priority over damage spells.
+
+- Resto: if no heals/dispels needed, will move forward sooner with aggressive tanks
+
+- Change: automatically disabled CC movement when Mr. AutoFight is enabled.
+
+- Change: talent manager revised to use roughly half as many LUA calls.
+
+FIX -: if InstanceBuddy is detected running, will allow IB to handle all targeting. This fixes the instances where DPS specs were pulling mobs before the tank.
+
+FIX -: events such as talent spec changes, entering a battleground or instance, etc. will now only cause the CC to reinitialize if the spec/build has changed.
+
+FIX -: no longer exits with error when accessing CC Configuration in some instances
+
+FIX -: switched methods of enemy cast detection so now correctly casts Wind Shear again.
+
+FIX -: added King Dred in DTK to fear mob list
+
+FIX -: corrected situation where totems were cast just prior to moving towards tank
+
+FIX -: infrequent double totem casts corrected.
+
+
+11/04/10 Revision  4.2.05
+
+- Totems:  fixed error where Resto Shaman would drop totems while moving in Instances
+
+- Totems:  changes to way totems are managed.  Should provide slight speed increase with better out of range checking for Fire Nova and Searing Totem.
+
+- Enhancement:  fixed omission of Lava Lash for Enhancement Shaman that have not specced Improved Lava Lash.  
+
+- RAF: RAF Combat Style now supports 'Auto' setting.  Automatically chooses Healing Only if Resto spec or Combat Only for other specs.  This is will be more obvious to users utilizing the Dual Spec change support when grinding and doing battlegrounds.
+
+- Config File:  ability to automatically upgraded when new values added or appopriate range changes.  Upgrade messages are output to log window when they occur.
+
+- Config Upgrade:  Shield Twist Mana % set to default of 25 and Shield Twist Damage % set to default of 50  for users upgrading to this version. This more accurately reflects current mana regen and use of Lightning Shield for Elemental also. Values can be changed in CC Configuration.
+
+- Config Upgrade:  Shamanistic Rage % set to default of 100.  This better reflects use of it with new mechanic.  Value can be changed in CC Configuration.
+
+- Config Upgrade:  RAF Combat Style is set to 'Auto'.  This supports dual spec switching with any spec.  Value can be changed in CC Configuration.
+
+- Added improved mode switch detection.  Now accurately identify when a change is made to talent spec, talent group, or join/left a battleground or RaF group.
+
+- Now checks the group role that character has been assigned within a LFD Party or Raid that uses role assignment.  This allows healing a low level instance as an Elemental spec so you can queue as DPS and Healer before learning Dual Spec Talent.
+
+FIX -:  Now correctly detects Glyph of Stoneclaw Totem and Glyph of Shamanistic Rage
+
+- Displays a message box the first time a new version of ShamWOW is used with a character.  This will provide information on changes if needed and remind everyone to attach Log files with any forums posts.
+
+- Mounting now suppressed if in RaF group and leader is not mounted
+
+- Wind Shear:  changed so this works using WOW Events rather than polling if character is casting.  This will prevent attempts to interrupt a non-interruptible spell and greatly reduce the number of Wind Shear casts.
+
+- Debug Log File: corrected a couple situations where file was being spammed with messages
+
+
+
+
+10/26/10 Revision  4.2.04b
+
+FIX -: corrected excpetion occurring for low-level chars when healing
+
+
+10/26/10 Revision  4.2.04
+
+FIX -: corrected a couple situations where player would move interrupting spell cast
+
+FIX -: added check to not shift to Ghost Wolf if in RaF group and leader is in combat
+
+FIX -: corrected error occurring when HB gave an Enemy Pet as the target for a Pull
+
+- RAF: pickup new target when current target dies more quickly
+
+ENHANCEMENT:
+
+- PVP: Auto selected weapon enchant for Enhancement Shaman in PVP changed from Windfury / Windfury to Windfury / Frostbrand
+
+- Feral Spirit: sends Spirit Wolves after target sooner
+
+- PVP: Lowered priority of Fire Nova
+
+RESTO:
+
+- RAF: refresh Earth Shield if less than 5 stacks and out of combat; must be 0 stacks for refresh while in combat
+
+- PVP/RAF: will dispel raid members if no raid members are below Health % in configuration
+
+- RAF: healing priority changed to use Healing Surge in Combat, and Healing Wave out of combat
+
+- PVP/RAF: added improved movement to out of range heal target
+
+- PVP/RAF: while moving to out of range target, will cast RipTide if not on cooldown on a different raid member while moving
+
+
+10/24/10 Revision  4.2.03
+
+GENERAL:
+- Support for all 4.0.1 Shaman changes are marked with the prefix 401.
+
+- Added support for checking specific talents (not just overall spec being Elemental/Enhance/Resto) as well as glyphs present at initialization and tailoring behavior to these automatically.  For example, now check for Glyph of Stoneclaw Totem and use it as a Shaman Bubble when in combat at low health.
+
+- New configuration option Melee Combat Before Level 10: allows user with BOA Melee gear to use Enhancement attack rotation prior to spending talent points.  Default is Elemental for levels 1-9.
+
+- Resurrection (Ancestral Spirit) support in RaF groups.  
+
+- Tremor totem support: will cast tremor totem if it detects a mob targeting a group member that uses fear.
+
+- All character specifications (talents and glyphs) that affect CC logic are now checked for at initialization and output a message.  These currently include Improved Talent: Cleanse Spirit, Talent: Ancestral Swiftness, Talent: Improved Lava Lash, Talent: Maelstrom Weapon, Glyph of Stoneclaw Totem, Glyph of Shamanistic Rage
+
+- Messages are output at startup if either the CC Movement Disabled setting or the Mr. AutoFight plug-in is enabled
+
+- Better recognition of certain events such as hitting a new level, entering an instance, changing specs, etc. whether initiated leveling or an a plug-ins
+
+- RaF follower logic now prevents use of Ghost Wolf in RAF Groups.
+
+- RaF follower logic now prevents mounting if the RaF Leader is not mounted and forces mounting if leader mounts.
+
+- RaF now saves Earth Elemental Totem and only casts if RAF Leaders health goes below the Emergency Health %
+
+- Simplification of eating and drinking logic at rest.  
+
+FIX -:  rare spell casting issue where incorrect target was range checked when healing
+
+FIX -:  line of sight issue where in certain circumstances would stand in range but out of sight of both dps and heal targets
+
+- 401:  Casts Stoneclaw Totem when at low-health and Glyph of Stoneclaw Totem is active
+
+- 401:  Dispel Logic changed to dispel only curses for all specs
+
+
+ELEMENTAL CHANGES:
+- New configuration option Thunderstorm Mana %:  value that Thunderstorm is cast for mana generation.
+
+- Searing Totem is now Auto selected Fire Totem
+
+- Added Earth Shock back to basic rotation as mana does not appear to be a problem in general.  Only cast if Fulmination not specced and Flame Shock DoT has at least 6 seconds remaining.
+
+- PVP:  Totems are more selectively cast to decrease number of GCD's before attacking.  
+
+- PVP:  Chain Lightning cast when available regardless of proximity of additional enemies
+
+- 401:  Earthquake used if 3 or more targets
+
+- 401:  Totem of Tranquil Mind is automatically selected Water Totem for Battlegrounds for Elemental
+
+- 401:  Flame Shock now renewed if Lava Burst is up and DoT would fall off before completion of cast.
+
+- 401:  Fulmination support.  Waits until 9 stacks of Lightning Shield are present before casting Earth Shock.  If talent not selected, will cast Earth Shock just above Lightning Bolt in priority but only if there is at least 6 seconds left on Flame Shock DoT on target.
+
+
+ENHANCEMENT CHANGES:
+- Searing Totem is now Auto selected Fire Totem
+
+- 401:  Support to use Shamanistic Rage to self-cleanse Magic if Glyph of Shamanistic Rage active
+
+- 401:  When Improved Lava Lash talent specified, holds Lava Lash until 5 stacks of Searing Flames on target.  Otherwise used at previous point in rotation.
+
+- 401:  Primal Strike used until Stormstrike is trained
+
+
+RESTORATION CHANGES:
+- Chain Heal restored to heal rotation for RaF.  Used only if primary heal target is above 65% health and another heal target below the Group Heal % is nearby.
+
+- RaF and PVP:  Targeted enemy casts will be interrupted via Wind Shear even if Healing Only selected
+
+FIX -:  correction to raid dispel logic for Restoration
+
+FIX -:  Use of Fire Elemental totem during RaF suppressed if Healer Only
+
+- 401:  Totem of Tranquil Mind is automatically selected Water Totem for Battlegrounds for Restoration
+
+
+
+
+10/04/10 Revision  4.2.00
+
+ADDED FUNCTIONALITY:
+a- added config setting on General tab to control what Mana % Shamanistic Rage is eligible to cast.
+
+b- added config setting on RAF tab to restrict use of Elemental Totems on Bosses only
+
+c- added recognition of spec changes invoked by user or plug-in after starting
+
+d- added support for dispel of harmful debuffs from group when healing
+
+e- added cast of Mana Tide Totem if trained and mana goes below Emergency Mana %
+
+f- added use of Mana Potion for healers if mana goes below Emergency Mana % and Mana Tide does not exist or is on cooldown.
+
+g- added cast of Riptide if need heal while running to heal target
+
+BUG FIXES:
+gFIX -ed Earth Shield spam when tank out of range.  Will now move to tank and only apply Earth Shield when in range
+
+hFIX -ed problem where in some circumstances within instances would target group members pet
+
+iFIX -ed a case where Healer Only would target and attack in Battlegrounds
+
+j- wait after self-heal to avoid double heals due to lag
+
+kFIX -ed inccorrect use of Cleansing Totem to remove curses
+
+l- corrected Fire Nova enemy count test to look for more than 1 enemy within 10 yards rather than melee range
+
+mFIX -ed use of Searing Totem as default Fire if set as Healer Only and others are not trained and user configured Fire Totem = Auto.  You can still force the use of an offensive totem (Searing, Magma, Fire Elemental) as the fire totem when Healing Only, they will just not be auto-selected by ShamWOW for Healer Only setups.
+
+
+n- will correctly move towards heal target if out of range but still nearby
+
+oFIX -ed bug where would sometimes dismount or leave ghostwolf form to cast out of combat buffs, recall totems, etc. which should all be completed before travelling
+
+CHANGES TO BEHAVIOR:
+p- added check to surrender more time to AutoAngler when fishing to improve bobber movement recognition
+
+q- added Guid to safe target names to distringuish between group members of same class in log file
+
+r- changed so that for RAF Healer Only will not use elemental totems.  PVP Healer Only continues to cast these.
+
+s- improved checking for adds in instances
+
+t- changed healing logic in instances to favor Lesser Healing Wave (was already the case in Battlegrounds.) Now uses Healing Wave in instances only as part of a Big Heal in conjunction with Nature's Swiftness or when out of combat.  Strongly recommend you use Glpyh of Lesser Healing Wave if you are healing instances.
+
+u- user interface:  disable the Group Need Heal % on PVP and RAF tabs when Combat Only is selected combat style.
+
+
+
+09/28/10 Revision  4.1.9
+
+a- chg: Changed use of .CreatedBy with .CreatedByGuid to account for HB API Name Change
+
+bFIX -: corrected error in Enhancement pull logic.
+
+c- chg: eating/drinking monitoring improvements
+
+d- chg: now outputs every spell cast to log window; was suppressing duplicate lines previously
+
+eFIX -: additional check to targeting outside of battlegrounds to avoid targeting players 
+
+f- chg: refined Warstomp logic to check players within 10 yds rather than melee range
+
+gFIX -: fixed Air Totem error; would errantly re-cast Water Totem to renew if destroyed; usual symptom was repeated unnecessary casting of Mana Spring Totem when Grounding Totem expired
+
+hFIX -: added combat movement for healing to move to heal target when out of range
+
+i- chg: heal priority comparison made more robust in dealing with null units in list
+
+jFIX -: error totems were recalled after Pull attack started due to delay between cast of Lightning Bolt and time target is actually tagged
+
+09/21/10 Revision  4.1.8
+
+aFIX -: RaF to correctly detect when in a raid
+
+bFIX -: validates RaF Leader target attackable before attacking which can happen during in combat buff refreshes, battle rez, innervate, etc.
+
+cFIX -: Resto Shaman now correctly cast totems in HealingOnly modes
+
+dFIX -: issue where Shaman doesn't close to melee distance when an attacker charges and stops just barely out of melee range.  Occurred infrequently on Sholazar Rhino's, Ashenvale Stag's, and at times in PVP
+
+e- chg: added [Healing Only] as additional Combat Style in PVP
+
+f- chg: ranged pull distance in PVE is range of Lightning Bolt, in PVP is range of Earth Shock
+
+g- chg: reflected HonorBuddy function name Lua.LuaGetReturnValue to Lua.GetReturnValues
+
+h- chg: reflected HonorBuddy function name WoWUnit.Buffs to WoWUnit.Auras
+
+i- chg: reflected HonorBuddy function name SpellManager.CanCastSpell to SpellManagerEx.CanCast
+
+j- chg: stun messages are now orange for better visibility
+
+k- chg: standard message output to Log when an exception occurs
+
+l- chg: healing is now quicker; heals are cast directly to group/battleground members without having to set a new target
+
+m- chg: improved log message when a cast fails
+
+n- chg: when waiting for a cast to complete in a battleground, will stop cast and then cast Wind Shear if target is casting
+
+o- chg: moved CC initialization to new function in support of internal HonorBuddy changes in 1.9.6.0
+
+
+07/15/10 Revision  4.1.5
+
+a- Updated to work with API Change made in HB 1.9.5.1
+
+b- Enabled use of RAF settings "Save Feral Spirit for Bosses" and "Use Bloodlust/Heroism at Bosses"
+
+c- Changed Earth Shield buff logic for Resto Shaman in RAF group.  Will always Earth Shield the RAF Leader identified by HonorBuddy.
+
+d- Changed TaggedByOther logic in Pull checking for another players mob to work better with RAF
+
+
+07/15/10 Revision  4.1.4
+
+aFIX -ed two RAF targeting bugs preventing use as a follower.
+
+b- Cast Magma Totem if 3 or more melee attackers and Fire Elemental Totem is not active
+
+
+07/09/10 Revision  4.1.3
+
+a- Removed Config user interface for version bundled with HB.  CC Configuration button will display current characters XML file.
+
+b- Recall Totems if HB wants to mount even if hostile mob is nearby
+
+c- Changed test for Shamanistic Rage so it is cast more frequently but still has to be early in fights
+
+dFIX -ed test for Chain Lightning so it correctly determines if another enemy is within hop range of target otherwise casts Lightning Bolt.
+
+e- Changed location of some files to simplify installation.
+
+fFIX -ed bug for low-level Shaman with totems.
+
+
+07/03/10 Revision  4.1.1
+
+aFIX -ed bug preventing use with Level 1 Shaman.
+
+
+07/02/10 Revision  4.1.0
+
+KEY ENHANCEMENTS
+a- Windows Help file for ShamWOW included.  may be launched directly or by the Help button on CC Configuration
+
+b- reorganization of User Interface plus new options.  for prior users, note the changes to PVE Grinding Combat Styles and totem selection
+
+c- changed combat movement paradigm for all specs in PVE and PVP - for example, enhancement will now pursue and attack quicly in pvp
+
+d- support for RaF.  separate config tab available for RaF options including control over Bloodlust. still needs refinement. 
+
+e- extensive changes to Spell Casting.  Should be much faster.  Most noticeable for Elemental Shaman during grinding / questing.  This needs refinement in PVP, but overall should see less delay between casts (when spells are off cooldown)
+
+f- extensive support for mob Immunities.  combat against mobs with immunities to Nature, Fire, and Frost damage now selects appropriate spells.
+
+
+GENERAL
+g- option added to disable movement by CC, allowing lazy raider / questing mode (you move the toon, CC does the fighting).  requires a profile with no Hotspots defined to also disable non-combat movement
+
+h- character specific config file now created at startup if it doesn't exist.
+
+i- config file moved to CustomClasses\Config 
+
+j- configuration changes now saved only when clicking the Save button
+
+k- improved output regarding food / drinks.  shows rate of consumption
+
+
+COMBAT
+l- report of kills and deaths improved and includes XP per Hour
+
+m- support for Cleansing Poisons both in combat and during rest
+
+n- added tests for being Immobilized and Silenced for better clarity in log files when spell cant be cast
+
+o- added separate numeric option to specify level that Lifeblood and Gift of the Naaru are cast.  Default is 70
+
+p- when rooted or immobilized and frost wolves are available for use, will cast Spirit Walk
+
+q- added support for Purge() in PVP 
+
+r- support for Earth Elemental and Fire Elemental totems
+
+sFIX -ed error in Shield Twisting logic
+
+t- forces Water Shield for Elemental and Resto during RAF, and Earth Shield for Resto during Battlegrounds.  Otherwise, normal Shield Twisting rules apply
+
+u- improved pickup of new target when in combat and current target killed or can't be attacked 
+
+
+TOTEMS
+v - extensive changes to totem management.  user configures totems to be used, and these settings are written to [Call of the Elements] if known.  
+
+w- improved checks in PVP for enemy players ice blocking or bubbling
+
+x- added Elemental Mastery to combat specials for Elemental Shaman
+
+
+FIXES
+yFIX -ed bug with Lava Lash incorrectly checking range to mob
+
+z- no longer stands still during PVP if attacked then attacker flees
+
+aa-added range check for Fire Nova from location of totems to mobs 
+
+bb-suppressing Resurrection (Ankh) done by HB which was causing immediate rez in quick death.
+
+cc- kills totems in PVE left by mobs that previously caused toon to pause until they expired
+
+dd- suppresses Mount request from HB when in healing mode and nearby team mate needs heal
+
+ee- when pet or elemental is out, correctly switches to that target 
+
+
+
+06/30/10 Revision  4.0.6f
+
+aFIX -:  changed the names of the HB API's that were renamed this version
+
+
+06/07/10 Revision  4.0.6e
+
+aFIX -:  corrected issue occurring where combat healing was failing.
+
+
+06/06/10 Revision  4.0.6d
+
+aFIX -:  Fixed compile error introduced by change in HonorBuddy 1.9.2.4. System.Data appears to be removed as a reference from the HB build, to CC's which had a using System.Data directive would have compile errors.  Commented out directive so people can continue.
+
+06/04/10 Revision  4.0.6c
+
+a- WORKAROUND ADDED:  now checks with HonorBuddy regarding the GCD for a maximum of 1.5 seconds.  If that timeout is reached, will disable checking the GCD for the rest of the session and output the message "workaround enabled - disabling HonorBuddy use of SpellManager.GlobalCooldown"
+
+bFIX -:  resolved error for non-English clients when checking for Improved Stormstrike or Improved Ghost Wolf talents.
+
+cFIX -:  moved installation into ShamWOW folder to resolve name resolution due to change in 1.9.3.1 build on Win 7 systems.
+
+
+06/03/10 Revision  4.0.5
+
+FIXES
+
+a- .GlobalCooldown error:  value exposed by HonorBuddy in some situations is always returning 'true' indicating the GCD is active; this prevented spellcasting.  Implemented a slightly more tolerant approach that will wait at most 1.5 seconds for GCD to clear then attempt to cast anyway.  This appears to reset the internal GCD setting in HonorBuddy and restore things to normal operation.  If you receive the following message "ATTENTION:  HonorBuddy GCD error occurred - continuing after 1.5 sec delay" please submit your Debug enabled log (see FAQ for steps.)
+
+b- Level 1 characters FIX -ed problems associated with not having any a weapon enhancement trained
+
+c- No longer requires a weapon to be equipped.  This is useful only for testing against weaker mobs and for leveling Unarmed weapons skill.
+
+d- Simplified the Totem Recall Distance check.  Closest mob must be within recall distance.  If Ranged pull is specified, mob can be .5 * Lightning Bolt range further away.  Also fixed error where it used current Shaman position for check rather than point totems were first dropped
+
+
+OPTIONS IMPROVEMENTS
+
+e- changed default for Distance for Ghost Wolf default to 40
+
+f- stressful PVE fight values are now configurable PVE combat options (how many levels above and number of mobs in fight)
+
+g- now displays message when config options are saved to settings.settings
+
+
+MESSAGING IMPROVEMENTS
+
+h- now suppress the System.Threading.ThreadAbortException message which occurs when user presses Stop button
+
+i- color added to error messages and to spell casts for easier identification in realtime
+
+j- added support for per session warning/error messages.  For example, if you choose to bandage but don't have first aid, it will warn once rather than everytime it tries to bandage
+
+
+ABILITIES IMPROVEMENTS
+
+k- Enhancement: if Improved Stormstrike talent has 2 points will now use Stormstrike when available, otherwise will only use to refresh target debuff
+
+l- Enhancement: if Improved Ghost Wolf talent has 2 points, will cast Ghost Wolf on the move without stopping
+
+m- Elemental:  altered priority on portion of spell rotation so Lightning Bolt is only used if Clear Casting.
+
+n- Elemental:  now will also use Thunderstorm if mana is < Emergency Mana regardless of mob count in melee range. Will also use if number of mobs is stressful (see new setting) or a melee mob is attacking and Shaman needs a heal
+
+o- Dispels:  now support cleanses for Shaman in and out of combat.  Uses Cure Toxins, Cleansing Totem, and Cleanse Spirit if available.  Cleanse for Raid not available yet but coming soon.
+
+p- Mana potions: now consumed if mana is < Emergency Mana and  health is > Emergency Health.  Includes Rejuvenation potions in list.
+
+q- Chain Lightning: check target to see if another target is within distance to hop, otherwise casts Lightning Bolt
+
+r- Chain Heal: check target to see if another heal target is within distance to hop, otherwise casts Healing Wave
+
+s- Targeting:  added logic if in combat and HonorBuddy hasn't targeted the mob yet (either attacking a pet or totem for example)
+
+t- Combat Specials: Bloodlust, Heroism, Blood Fury, and Berserking are now only cast if fighting a single mob with health > 75% after pull or is in stressful fight
+
+u- Totems: Now only casts Magma Totem if >= stressful mob count
+
+v- Totems: Cleansing Totem now supported for in combat dispels
+
+w- Totems: if PVP Totem bar spell selected has not been trained, will attempt to use PVE bar specified
+
+
+
+
+05/29/10 Revision  4.0.4
+
+a. Consolidated and using same heal logic for self-heals as well as raid healing.
+
+b. Fixed bug where range check of Stormstrike was failing
+
+c. In Fast Kill mode, will now use Warstomp racial as an interrupt if Wind Shear is on cooldown and target is in melee range.
+
+d. Added support for casting Earth Shield on self when doing battlegrounds as Resto.
+
+e. Fixed issue in healing logic so that it now correctly prioritizes 
+
+f. Added support for recasting Grounding Totem for Resto Shaman when it has expired..
+
+g. Prior to casting Chain Heal will confirm target has another heal target within hop range, otherwise Healing Wave is cast.
+
+h. Added Steam Rager #24601 to the Frost Immune list
+
+
+05/28/10 Revision  4.0.3
+
+a. Installation has changed and contains multiple files.  See the forum post or INSTALL.TXT in the .zip file for information on installation.
+
+b. A User Interface has been added to allow easier configuration of ShamWOW.  Please see the documentation in the thread if you have questions about the options.
+
+c. The Shaman.config file is obsolete and has been replaced by Settings.settings.  
+
+d. Ghost Wolf cast now corrnow functions properly and has been additionally enhanced with a configurable safe distance.  
+
+e. Added numerous options in user interface, including ability to disable totems.
+
+f. Added the concept of Combat Style.  User can now choose whether to save mana and cd's for stressful situations or use them when available for an overall faster grind.
+
+g. Improved support of longer pull ranges, especially important for Elemental Shaman.
+
+h. Greatly reduced log file output and changed the default for the Debug option to false. Note: if you have an issue it is extremely helpful to submit a log that was created while Debug = True
+
+i. Added message when character is Stunned and unable to cast.  Previously appeared in log as though CC was just spamming spell repeatedly.
+
+j. added support for using either automatic selection of best weapon enchants or user selected.
+
+k. added support for specifying settings for PVE used while grinding/questing, and another set for PVP while in Battlegrounds.
+
+l. added support for using Bandages out of combat
+
+m. change totem casting.  if Fast Kill (PVE Realm) mode is selected, certain totems will be cast while grinding.  if Mana/Survival (PVP Realm) mode is selected, it will use previously designed behavior.
+
+n. recall/destroy totems now only done if out of user specified range for next mob, allowing shaman to leave same set of totems for multiple kills in densley populated target rich environments.
+
+o. added check to not break ghost wolf form if weapon enhance or shield needs renewing.
+
+p. revised skip heal logic to allow for elemental shaman low on health against a ranged target
+
+q. corrected messaging when low level character needs heal and is low on mana and attempted a Lesser Healing Wave.
+
+r. changed elemental behavior to cast totems before Pull attack
+
+s. changed elemental to do Thunderstorm if multiple melee attackers or a single melee attack and shaman needs a heal
+
+t. changed order special buffs are used.  will now cast racials ( Blood Fury, Berserker) before using Bloodlust/Heroism
+
+u. revised support for elementals to specifically identify fire, frost, or nature immune mobs.
+
+v. added check for Sated debuff in Bloodlust/Heroism support.
+
+w. Earthliving Weapon is again available on the mainhand weapon for Resto Shaman.
+
+
+12/28/09 Revision  2.01
+
+a.  Fixed issue with multiple mob detection.
+
+b.  Changed to dropping totems at end of Pull so they are closer in proximity to fight.
+
+
+12/27/09 Revision  2.00
+
+a.  Introduce support for Elemental and Resto shaman.  This represents extensive additions and some conditional changes.
+
+b.  Introduce support for RaF Healbot.  This represents some conditional changes to Battleground healing.
+
+c.  Reduced the amount of log output being created.  Will continue to address this while retaining key information needed for debugging.
+
+d.  Changed to use Shock spells regardless of whether Water Shield has been trained.  This change made due to change in mana regen of WOW patch 3.3+.  This may require purchasing sufficient water beginning at level 14/15.
+
+e.  Changed to open with Frost Shock against players
+
+f.  Increased delay after issuing a Stop Moving call from 50ms to 100ms as this seems to work better on some systems per user reports.
+
+g.  Adjusted so that when config setting FlametongueOnOffhand is true, it uses Flametongue only if Lava Lash has been trained.  Prior to then it uses Dual Windfury.  This can occur if dual wielding prior to training at level 45.
+
+h.  Corrected issue where in some circumstances only a Lesser Healing Wave was attempted when a Healing Wave should have been tried first.
+
+i.  Now uses an internal pull distance based upon the range of Lightning Bolt.
+
+j.  Fixed weapon enhancement issue when using Mixed Mode.  Will now correctly apply Earthliving if healing (Battleground or Party) and replaces with appropriate DPS enhancement when grinding. 
+
+k.  Now only flag weapon enhance buffs or shield needed if not mounted.
+
+l.  Force shaman to stop moving prior to casting Ghost Wolf.
+
+m.  Healing is now skipped if target is less than 10% health and Shaman's health is above Combat Health % in config file.
+
+n.  Use Mesh movement functions during Pull and Combat movement.
+
+o.  Added Evade mob detection added.
+
+
+
+11/25/09 Revision  1.0
+
+a.  Fixed a *done *resting loop due to weapon enhancements on lowbie characters.
+
+b.  Refined some error messages occurring.
+
+c.  Changed default pull method in config file to "Fast"
+
+
+
+11/19/09 Revision  0.18
+
+a.  Removed use of .CanCastSpell() as a test for spell casting.  Some of its tests prevent casting a spell which can successfully be cast.
+
+b.  Fixed double Healing Wave cast.  Now have a fault tolerant lag loop after the heal cast to wait for the health percentage to rise for up to 2 seconds 
+
+
+
+11/19/09 Revision  0.17
+
+a.  Thanks to help from Itzgizz and xxAhzz in providing logs and testing different scenarios, was able to run down an issue due to handling of Mainhand and Offhand weapon in HB.  Now bypass HB for weapon enhancement info and get straight from WOW LUA.
+
+b.  Will now clear any existing Weapon Enhancements at startup.  This allows switching between healing in battlegrounds and grinding easily anytime you restart HonorBuddy.
+
+c.  Now use the path to HonorBuddy.exe to build the path to load CustomClasses\Config\Shaman.config.  Previously assumed current folder was set to that already, but HB changes the current folder when opening profiles and meshes.
+
+d.  Fixed bug where would not target the mob attacking Spirit Wolves if current target is killed.
+
+e.  Now attempt to Shock a mob while pursuing in Combat if in range and not on cooldown.  This is important in Battlegrounds
+
+f.  Refined selection of best shock to use based upon type of mob targeted.
+
+g.  Refinement of Battleground Healing spells.  To see current criteria and spell selection, please read Abilities.txt
+
+h.  Fixed bug where character was included in the friendlies list for battleground healing.  This fixes problem where when attacked would stand still only trying to heal self.  
+
+i.  Fixed bug where friendlies list would include players that are dead and awaiting spirit rez.  Their .Dead flag was coming back as false, so now omit players with less than 0.01 % health.
+
+j.  Weapon enhancement changed to use dual Windfury by default.  If you would prefer to use Flametongue on the offhand, modify the setting FlametongueOnOffhand in the shaman.config file.
+
+
+
+11/19/09 Revision  0.16
+
+a.  Introduction of PVP Healing.  If enabled (default) it will prioritize healing over combat.  Work remains to be done on this to better balance fighting with healing when being directly attacked.  Note:  you can disable the battleground healing mode by changing the value in the shaman.config for the BattleGroundHealer setting to false.
+
+b.  Added more trouble shooting output regarding weapon enhancements not being cast.
+
+c.  Changed weapon enhancements used so that if dual wielding, the offhand will get Flametongue if you have trained the spell Lava Lash.  Previously was using Windfury until level 75 on both, but several Shaman owners disagreed with the guide on this one.
+
+d.  Changed pull type selected in Battlegrounds.  If healing will always do Ranged.  If not healing will always do Fast.
+
+
+
+11/12/09 Revision  0.15
+
+a.  Fix for last form of Resting issue which occurred while mobs are moving away and trying to cast Ghost Wolf.
+
+b.  Added debug message to show weapons equipped to assist in debugging buff problem.  Also added a delay after  weapon enhancement cast.
+
+c.  Made distance for Ghost Wolf a shaman.config value. 
+
+d.  Added shaman.config setting to disable Ghost Wolf even when not using a mount.
+
+e.  Added shaman.config setting to specify the health % that in combat heals should be cast.  Default is 50.
+
+f.  Reorganized healing so it attempts to use Healing Wave unless very low mana or so much stress have to use shorter cast.
+
+g.  Added support to open with Frost Shock if target is a player.  Also changed to always use Frost Shock on a player.
+
+h.  Cast Shamanistic Rage if in stress or mana % is less than 60%
+
+
+
+11/12/09 Revision  0.14
+
+a.  New Pull Type - FAST Pull.  Similar to a Body pull in that shaman never stops running towards target.  However, will cast Flame Shock as soon as within 25 yards of mob while on the run. This should cause Mob to run also with them meeting about halfway. If Flame Shock not trained yet, uses Earth Shock.  If Earth Shock not trained then simply runs to melee range of mob and auto attacks. This is probably the Pull and mob kill supported.
+
+b.  Body Pull revised.  Now casts Flame Shock when within 8 yards. If Flame Shock not trained yet, uses Earth Shock.  If Earth Shock not trained then simply runs to melee range of mob and auto attacks. 
+
+c.  Support for Call of the Ancestors.  This totem set will be cast if you are being ganked or in a battleground.
+
+d.  Support for Maelstrom Weapon added.  At 4 or more stacks, it checks and if health < 50%, will attempt to cast a Healing Wave, then a Lesser Healing Wave if that failed. Otherwise, casts Chain Lightning if fighting more than 1 mob, Lightning Bolt if only 1.
+
+e.  Ghost Wolf form revision - now will only cast Ghost Wolf if you do not have a type of mount checked and the closest mob is > 45 yards away, or you setup for body pulls and closest mob is > 25 yards away.  Note:  mob in this case refers to an NPC matching your faction list specified in the profile.
+
+
+
+11/11/09 Revision  0.13
+
+a.  HonorBuddy is returning a large number for the # of stacks of Maelstrom Weapon it sees, resulting in the character spamming Lightning Bolt (since it thinks its an instant attack.)  This check has been commented out until the issue is resolved in HB.
+
+b.  Added support for Feral Spirit.  Will cast and summon two Spirit Wolves when attacking more than 1 mob.  Spirit Wolves are put into Defensive Mode and Twin Howls is cast taunting all mobs to attack them for 6 seconds.  Also summoned if fighting mob 3+ levels higher or being ganked
+
+c.  Added additional check to logic which tries to evaluate whether a mob is a caster or melee before attacking.  WoW cast several caster npc's that have a class of Paladin for some reason, so these are not correctly identified as casters.
+
+d.  Improved Ghost Wolf logic.  Will now detect if a mob in the profile faction is close before casting to avoid going quickly in and out of form.  Factors include profile faction, mob distance, and pull type.
+
+
+
+11/10/09 Revision  0.12b
+
+a.  Fixed bug with swapping between mount and ghost wolf form due to unexpected results from the Logic.Mount.UseMount flag.  Was supposed to contain the config setting as to whether should use a mount or not, but instead is true if mount should be used and not mounted, but set to false if mounted is true.  
+
+
+
+11/10/09 Revision  0.12
+
+a.  Added support for Ghost Wolf form with no user config required. Shaman will use Ghost Wolf form if trained and neither Mount option in HonorBuddy is selected.  Note, the mount option checkboxes in HonorBuddy are realtime controls so you can enable/disable mounts without stopping and starting HonorBuddy.  Nicely done HB Devs!
+
+b.  Check for Maelstrom Weapon will not work.  HonorBuddy currently has an issue when a Talent and a Buff (like Maelstrom Weapon) share the same name.  This affects multiple classes.  When fixed, your Shaman will check for atleast 4 stacks and cast either a heal or attack based on the fight circumstances.
+
+c.  Added config settings for Nearby Player Warnings and a Beep when a nearby player is targeting you (and possibly inspecting.)
+
+d.  Debug setting now controls whether messages are written to log window.  All debug output will be written to log file for the next several versions.  This will create larger log files than normal, but capture state information needed for issue resolution should you have a problem.
+
+
+
+11/06/09 Revision  0.11b.
+
+a.  Revised method for doing shield twisting so logic is a simpler read
+
+
+
+11/06/09 Revision  0.11.
+
+a.  Anytime that character is resting will refresh Shield to full # stacks Previously would not cast buff if active regardless of stack count.
+
+b.  Added formating to all floating point numbers output to log/msg.
+
+c.  Now choose best Shock type to use based upon situation.  If fleeing or target health is less than 20% or mob is an elemental will use Frost Shock 
+
+d.  Added config setting UseFrostMobs which is a list of Mobs that Frost Shock should be used on.  This is useful for runners or are resistant to nature damage.  Elementals don't are already handled so only need to list non-elementals that need this treatment.
+
+e.  Fixed bug where sometimes would target my own Magma totem as an add.
+
+f.  Added config setting for controlling Shield Twisting.  If mana is below TwistManaPercent will force the use of Water Shield.  If mana is above TwistDamagePercent will force use of Lightning Shield.  To force Water Shield to be up at all times, set TwistManaPercent to 100
+
+
+
+11/05/09 Revision  0.10b.
+
+a.  Fixed bug on dealing with Offhand weapon enhancement.  Now checks to make sure a weapon is slotted
+
+
+
+11/05/09 Revision  0.10.
+
+a.  Added handling to guard against Null exception occurring in the .IsTargetingMe method
+
+
+
+11/02/09 Revision  0.09.
+
+a.  Fixed bug in War Stomp, Berserker, Gift of the Naaru, and Lifeblood that prevented them from being used in low health situations.
+
+b.  Fixed bug with Stormstrike where it always returned that a cast had occurred, blocking subsequent spell casts that are lower in priority.
+
+c.  Added support for Dual Wielding.  Will correctly apply weapon enhancements to each weapon.  Uses dual Windfury until Level 75, then switches to Windfury main and Flametongue offhand.
+
+
+
+11/01/09 Revision  0.08.
+
+a.  support for HonorBuddy 0.951
+
+b.  Support for a configurable settings XML file for the Shaman CC.  It is named  CustomClasses\Config\Shaman.config See that files comments for details on what values you can modify. 
+
+c.  Added a set of combat health and mana values used to trigger operations separate from rest health and mana values which are used for determining when to sit and eat/drink. the combat values determine when special abilities are triggered
+
+d.  Adjusted combat healing logic.  If mana and health are below configured combat minimums, will attempt to use draenei healing spell, herbalism healing spell, and if possible, any healing or restoration potion which may be in bags.  this is  done before casting self-heal
+
+e. If sufficient mana, try to heal above rest minimum health rather than sitting to eat so as to reduce downtime.
+
+f.  Support for 3 different pull models:
+
+   i.  Ranged - spam ranged attack do as much ranged  damage as possible without moving.  If facing a caster then 
+ 
+  ii.  Body - do only body pulls.  simply close distance to  melee range as quick as possible and do not attack  until then
+ 
+ iii.  Auto - Choose Ranged or Body based upon the type of  of the mob targeted
+
+g. Added player check on Pull.  Will display a message showing a player is in the area, details about them, and sound an alarm if they are targeting you
+
+h. Fixed problem where totems were not recalled in certain situations.
+
+i. On initialization of class (when Start clicked the first time or you click Recompile) will check the build of current toon and issue warnings if it does not match enhancement build this CC designed for.
+
+j. On initialization of class (when Start clicked the first time or you click Recompile) will warn if you have unspent talent points.
+
+k. fixed bug where if same spell is cast several times in a row with no intervening log msg, only the first one is shown in the log.
+
+l. accounted for change in behavior of HB .IsValid method which caused some errors.
+
+m. added error handling to catch and display errors in the HonorBuddy spellbook.  if one of those errors occurs now, will notify user with info to provide to CC developer.
+
+n. Fixed error in ranged/melee pulls which could cause character to take very small steps in pursuit of a mob moving directly away and never catch it.
+
+o. suppressed use of Earth Shock until level 20.  At level 20 you can train Water Shield which generates mana, and spec the talen Shamanistic Focus which reduces the cost of your shock spells making them mana efficient.  this is counter to the leveling guide referenced, but conserves mana.  An extra Lightning Bolt is used instead which costs about 50% less mana at low levels. 
+
+p. ranged pulls will now use up to 2 lightning bolts until level 20.  at that point the second lightning bolt will be replaced with an Earth Shock.  the maximum number of ranged attacks on a pull is configurable.
+
+q. added support for combat rotation up to Level 80 per the enchancement shaman leveling guide referenced.  this includes a call to Shamanistic Rage if the mana level has fallen below the Rest Mana level.  This is the only combat time spell which uses this value rather than the Combat value since the rest value should always be set higher and we want this spell fired sooner.
+
+r. changed combat logic.  if targeted mob is fleeing or its health is 10% or lower and the spell is available, it will cast Frost Shock which slows their movement speed by 50% while causing damage.  lightning bolt is then spammed until they are dropped.
+
+s. added support for Draenei racial Gift of the Naaru HoT. Spell is cast before Healing Wave or Lesser Healing Wave if low on mana.
+
+t. added support for Lifeblood HoT for Herbalists Spell is cast before Healing Wave or Lesser Healing Wave if low on mana.
+
+u. added support for Maelstrom Weapon.  Waits until min 4 stacks, then fires a Heal if health is low.  otherwise will fire chain lightning if trained and fighting multiple targets, otherwise fires lightning bolt
+
+
+
+10/26/09 Revision  0.07.  
+
+a.  Will blacklist all elite mobs as detected in CheckForAdds() and those given as target of Pull() or Combat() events by HB. This may be undesirable in some circumstances when used by  a higher level character to farm certain areas.  
+
+b.  Changed Berserking to only be used when facing multiple mobs or one 3+ levels higher.  Same thing for War Stomp plus will  also use if we are very low on health and facing a melee so we can heal without push back
+
+c.  Revised to Pull logic.  On pulls of 24.5 yards or less, will now use Earth Shock.  Damage is slightly less, but for basically same amount of mana its an instant cast.  The benefit  here of instant is we save the 1.5 second cast time and  eliminate the possibility of it being interrupted. This will speed up pulls in that range.  Those over that distance will use Lightning Bolt.  Pulls near range of spell may result in a second cast.  This is acceptable as it does damage while waiting for mob to enter melee range.
+
+d.  Revised format of some messages.
+
+
+
+10/25/09 Revision  0.06.  Support for Alpha 0.93.  Important changes made in this release.
+
+a. Exception handling in SpellManager functions.  This will make the CC a little more resilient on these HonorBuddy API calls 
+
+b. Safe_CastSpell() bug fixed.  Was not properly waiting for spell to finish casting.  This caused spells to not be  cast and sometimes double Healing Wave spells to be cast. Now correctly waits till cast is completed.
+
+c. TOTEMS!!!  This is the initial release with totem support. Approach is to only use totems when 2 or more mobs fighting or the current target is 3+ levels higher.  This is to  help conserve mana which is the biggest source of downtime.
+
+
+
+
+10/23/09 Revision 0.05.  Support for Alpha 0.92.  Changed following references:
+
+   .TaggedByYou to .TaggedByMe
+
+Also added additional check for facing the mob.  In certain circumstances during the Pull() shaman could run 1 step through mob leaving their back facing it rendering auto-attack useless. Added a lot of exception handling around calls to SpellManager.
+
+
+
+10/18/09 Revision 0.04.  Support for NavMesh version.  Changed following references:  
+
+   .Alive to !.Dead
+   .Moving to .IsMoving
+   .TargetingMe to .IsTargetingMe
+
+
+
+10/08/09 Revision 0.03.  
+
+Changed pull logic so that after lightning bolt will move 1/2 the distance to the mob.  This speeds up grind time but increases chance of adds.  Changed pull messaging to clearly indicate source of mob (pull or add.)  added support for potions. added support for spells / rotation up to level 39, including shield twisting but have only tested through 14
+
+
+
+10/06/09 Revision 0.02.  
+
+Corrected Warstomp bug, added improved testing for weapon enchants being active, extended support to level 19, and changed to no longer spam Lightning Bolt (was mana starved)
+
+
+
+10/05/09 Initial 0.01 release.  
+
+Basic stuff primarily geared towards getting something working to be able to explore obj model as no doc exists
+

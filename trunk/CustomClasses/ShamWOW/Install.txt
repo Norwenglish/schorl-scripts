@@ -1,0 +1,26 @@
+ShamWOW Installation Instructions
+
+1.  DELETE ALL Shaman CC files in HB\CustomClasses AND any folder below that. This includes prior ShamWOW or multi-class CCs.
+
+2.  Unzip the .zip file to your CustomClasses folder.  This should create the following directory structure:
+        
+	HB\CustomClasses\Config\ShamWOW.config          <--- different folder
+
+	HB\CustomClasses\ShamWOW\Shaman.cs
+	HB\CustomClasses\ShamWOW\ShamWOW.config
+	HB\CustomClasses\ShamWOW\ShamWOW.ConfigForm.cs
+	HB\CustomClasses\ShamWOW\ShamWOW.ConfigForm.Designer.cs
+	HB\CustomClasses\ShamWOW\ShamWOW.dll.config
+	HB\CustomClasses\ShamWOW\ShamWOW.HealManager.cs
+	HB\CustomClasses\ShamWOW\ShamWOW.IssueForm.cs
+	HB\CustomClasses\ShamWOW\ShamWOW.IssueForm.Designer.cs
+	HB\CustomClasses\ShamWOW\ShamWOW.Spell.cs
+	HB\CustomClasses\ShamWOW\ShamWOW.TalentManager.cs
+	HB\CustomClasses\ShamWOW\ShamWOW.TotemManager.cs
+
+    where HB is whatever you name your root HonorBuddy folder (the one containing HonorBuddy.exe)
+
+3.  YOU ARE DONE!!!   ShamWOW is now fully installed and configured for use.
+
+
+
