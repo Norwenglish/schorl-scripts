@@ -25,6 +25,11 @@
 		<Vendor Name="Jalin Lakedeep" Entry="43380" Type="Repair" X="5180.91" Y="-1716.01" Z="1339.965" />
 		<Vendor Name="Toron Rockhoof" Entry="43410" Type="Repair" X="5573.142" Y="-3603.472" Z="1570.72" />
 		<Vendor Name="Inoho Stronghide" Entry="43550" Type="Repair" X="4421.68" Y="-2095.55" Z="1205.802" />
+		
+		<Vendor Name="Lenedil Moonwing" Entry="43411" Type="Food" X="5523.79" Y="-3597.42" Z="1570.051" /> <!-- Nordrassil -->
+		<Vendor Name="Tomo" Entry="43381" Type="Repair" X="5184" Y="-1717.68" Z="1339.956" /> <!-- Grove of Aessina -->
+		<Vendor Name="Tomo" Entry="43381" Type="Repair" X="5184" Y="-1717.68" Z="1339.956" /> <!-- Shrine of Avian -->
+		<Vendor Name="Nenduil Meadowshade" Entry="43551" Type="Food" X="4422.02" Y="-2098.77" Z="1205.738" /> <!-- Malorne -->
 	</Vendors>
 	
 	<Mailboxes>
@@ -35,6 +40,8 @@
 	</Mailboxes>
 	
 	<Blackspots>
+		<Blackspot X="4690.373" Y="-3325.476" Z="1035.672" Radius="13.44701" />
+		<Blackspot X="4581.615" Y="-2547.878" Z="1122.884" Radius="30" />
 		<Blackspot X="1598.488" Y="-4370.302" Z="21.23272" Radius="10" />
 		<Blackspot X="4949.953" Y="-1588.249" Z="1326.682" Radius="10" />
 		<Blackspot X="5721.819" Y="-3341.086" Z="1597.324" Radius="10" />
@@ -433,7 +440,7 @@
 
 	<QuestOrder IgnoreCheckpoints="True" >
 	
-	<CustomBehavior File="UserSettings" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" LootMobs="True" PullDistance="20" />
+	<CustomBehavior File="UserSettings" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" LootMobs="True" PullDistance="25" />
 	
 			<!-- Horde -->
 			<If Condition="Me.IsHorde &amp;&amp; !IsQuestCompleted(25316)" >
@@ -592,7 +599,7 @@
 				<CustomBehavior File="UserSettings" PullDistance="1" />
 				<Objective QuestName="The Flameseer's Staff" QuestId="25472" Type="Collect" CollectCount="8" ItemId="54461" />
 				<CustomBehavior File="FlyTo" DestName="kill Twilights" X="5336.675" Y="-2901.655" Z="1536.313" />
-				<CustomBehavior File="UserSettings" PullDistance="20" />
+				<CustomBehavior File="UserSettings" PullDistance="25" />
 			</If>
 			<If Condition="((HasQuest(25319)) &amp;&amp; (!IsQuestCompleted(25319)))" >
 				<CustomBehavior File="FlyTo" DestName="kill Twilights" X="5336.675" Y="-2901.655" Z="1536.313" />
@@ -634,7 +641,7 @@
 				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for agro to clear {TimeRemaining}" />
 			 </While>
 				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="5190.782" Y="-2954.331" Z="1560.822" />
-				<CustomBehavior File="UserSettings" PullDistance="20" />
+				<CustomBehavior File="UserSettings" PullDistance="25" />
 				<!-- <Objective QuestName="Flamebreaker" QuestId="25323" Type="KillMob" MobId="40065" KillCount="30" /> -->
 			</If>
 			<If Condition="((HasQuest(25323)) &amp;&amp; (IsQuestCompleted(25323)))" >
@@ -647,7 +654,7 @@
 		<PickUp QuestName="The Return of Baron Geddon" QuestId="25464" GiverName="Malfurion Stormrage" GiverId="39857" />
 			</If>
 			<If Condition="((HasQuest(25464)) &amp;&amp; (!IsQuestCompleted(25464)))" >
-				<CustomBehavior File="FlyTo" X="5416.062" Y="-2805.125" Z="1516.155" />
+				<CustomBehavior File="FlyTo" X="5449.664" Y="-2853.457" Z="1520.727" />
 				<CustomBehavior File="ForcedDismount" />
 			  <While Condition="((HasQuest(25464)) &amp;&amp; (!IsQuestCompleted(25464)))" >
 				<CustomBehavior File="MountHyjal\BaronGeddon" QuestId="25464" MobId="40147" ItemId="54463" AuraId="74813" X="5421.708" Y="-2777.452" Z="1515.463" />
@@ -714,15 +721,19 @@
 				<CustomBehavior File="ForcedDismount" />
 		<PickUp QuestName="Through the Dream" QuestId="25325" GiverName="Captain Saynna Stormrunner" GiverId="40139" />
 			</If>
-			<If Condition="((HasQuest(25325)) &amp;&amp; (!IsQuestCompleted(25325)))" >
+			<While Condition="((HasQuest(25325)) &amp;&amp; (!IsQuestCompleted(25325)))" >
 				<RunTo X="5704.213" Y="-3139.344" Z="1588.215" />
+				<CustomBehavior File="WaitTimer" WaitTime="10000" GoalText="Waiting for quest to complete {TimeRemaining}" />
+				<CustomBehavior File="AbandonQuest" QuestId="25325" Type="Incomplete" />
 				<CustomBehavior File="WaitTimer" WaitTime="5000" GoalText="Waiting for quest to complete {TimeRemaining}" />
-			</If>
+		<PickUp QuestName="Through the Dream" QuestId="25325" GiverName="Captain Saynna Stormrunner" GiverId="40139" />
+				<CustomBehavior File="WaitTimer" WaitTime="10000" GoalText="Waiting for quest to complete {TimeRemaining}" />
+			</While>
 			<If Condition="((HasQuest(25325)) &amp;&amp; (!IsQuestCompleted(25325)))" >
 				<CustomBehavior File="Message" Text="If you see this message, then you probably died and need to drop Through the Dream and press start again" LogColor="Red" />
 			</If>
 			<If Condition="((HasQuest(25325)) &amp;&amp; (IsQuestCompleted(25325)))" >
-				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="5705.028" Y="-3150.027" Z="1593.088" />
+				<RunTo X="5705.028" Y="-3150.027" Z="1593.088" />
 		<TurnIn QuestName="Through the Dream" QuestId="25325" TurnInName="Alysra" TurnInId="40178" X="5705.028" Y="-3150.027" Z="1593.088" />
 		<PickUp QuestName="Return to Nordrassil" QuestId="25578" GiverName="Alysra" GiverId="40178" X="5705.028" Y="-3150.027" Z="1593.088" />
 			</If>
@@ -1207,7 +1218,7 @@
 				<CustomBehavior File="ForcedDismount" />
 				<RunTo X="5041.604" Y="-2045.529" Z="1367.594" />
 				<RunTo X="5030.838" Y="-2034.758" Z="1370.652" /> 
-				<CustomBehavior File="UserSettings" PullDistance="20" />
+				<CustomBehavior File="UserSettings" PullDistance="25" />
 		<TurnIn QuestName="Into the Maw!" QuestId="25617" TurnInName="Jordan Olafson" TurnInId="40834" />
 			</If>
 	  </If>
@@ -1451,9 +1462,13 @@
 				<CustomBehavior File="ForceSetVendor" DoSell="True" DoMail="True" DoRepair="True" />
 			</If>
 			<If Condition="((HasQuest(25462)) &amp;&amp; (!IsQuestCompleted(25462)))" >
+				<RunTo X="5254.562" Y="-1536.917" Z="1361.341" />
 				<CustomBehavior File="ForcedDismount" />
 				<!-- <CustomBehavior File="MountVehOnly" VehicleMountId="40190" X="5264.356" Y="-1510.762" Z="1365.41" /> -->
-				<CustomBehavior File="InteractWith" QuestId="25462" MobId="40190" NumOfTimes="1" CollectionDistance="2" X="5254.562" Y="-1536.917" Z="1361.341" />
+				<If Condition="Me.Class == WoWClass.Druid">
+					<CustomBehavior File="RunMacro" Macro="/cancelaura cat form\n/cancelaura moonkin form" NumOfTimes="1" WaitTime="1000" />
+				</If>
+				<CustomBehavior File="InteractWith" QuestId="25462" MobId="40190" Range="8" CollectionDistance="2" X="5254.562" Y="-1536.917" Z="1361.341" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000"/>
 				<CustomBehavior File="MountHyjal\BearsUpThere" QuestName="The Bears Up There" QuestId="25462" />
 				<CustomBehavior File="WaitTimer" WaitTime="5000" GoalText="Waiting for quest to complete {TimeRemaining}" />
@@ -1532,33 +1547,35 @@
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="4411.69" Y="-2077.85" Z="1210.7" />
 		<PickUp QuestName="Prepping the Soil" QuestId="25502" GiverName="Rayne Feathersong" GiverId="40331" X="4411.69" Y="-2077.85" Z="1210.7" />
 			</If>
-			<If Condition="((HasQuest(25507)) &amp;&amp; (!IsQuestCompleted(25507)))" >
-				<CustomBehavior File="FlyTo" DestName="get Nemises' Shell" X="4607.118" Y="-2437.628" Z="1147.097" />
-				<CustomBehavior File="ForcedDismount" />
-			 <While Condition="((HasQuest(25507)) &amp;&amp; (!IsQuestCompleted(25507)))" >
-				<CustomBehavior File="CombatUseItemOn" MobId="40340" ItemId="54744" MobHpPercentLeft="100" MaxRange="15" X="4607.118" Y="-2437.628" Z="1147.097" />
-				  <!-- 
-				<CustomBehavior File="UseItemOn" QuestId="25507" MobId="40340" ItemId="54744" WaitTime="1000" MinRange="15" Range="25" CollectionDistance="500" />
-				-->
-				<CustomBehavior File="WaitTimer" WaitTime="7000" GoalText="Waiting for agro to clear {TimeRemaining}" />
-				<CustomBehavior File="InteractWith" QuestId="25507" MobId="40340" WaitForNpcs="False" NumOfTimes="5" Range="10" WaitTime="8000" IgnoreCombat="True" CollectionDistance="600" />
-			 </While>
-			</If>
 			<While Condition="((HasQuest(25502)) &amp;&amp; (!IsQuestCompleted(25502)))" >
 				<CustomBehavior File="FlyTo" DestName="defend a Flameward" X="4635.615" Y="-2706.636" Z="1145.701" />
 				<CustomBehavior File="ForcedDismount" />
 				<RunTo X="4582.165" Y="-2701.421" Z="1140.713" />
 				<RunTo X="4608.294" Y="-2707.581" Z="1146.11" />
-				<CustomBehavior File="UserSettings" PullDistance="15" />
+				<CustomBehavior File="UserSettings" PullDistance="25" />
 				<CustomBehavior File="WaitTimer" WaitTime="5000" GoalText="Waiting for agro to clear {TimeRemaining}" />
 				<CustomBehavior File="InteractWith" MobId="202928" Range="10" ObjectType="GameObject" />
 				<CustomBehavior File="WaitTimer" WaitTime="8000" GoalText="Waiting for event {TimeRemaining}" />
 				
 				<CustomBehavior File="InteractWith" MobId="46925" Range="15" MobState="Alive" NumOfTimes="5" WaitForNpcs="False" />
 
-				<CustomBehavior File="UserSettings" PullDistance="20" />
+				<CustomBehavior File="UserSettings" PullDistance="25" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for lewts {TimeRemaining}" />
 			</While>
+			<If Condition="((HasQuest(25507)) &amp;&amp; (!IsQuestCompleted(25507)))" >
+				<!--
+				<CustomBehavior File="FlyTo" DestName="get Nemises' Shell" X="4607.118" Y="-2437.628" Z="1147.097" />
+				<CustomBehavior File="ForcedDismount" />
+				-->
+			 <While Condition="((HasQuest(25507)) &amp;&amp; (!IsQuestCompleted(25507)))" >
+				<CustomBehavior File="CombatUseItemOn" MobId="40340" ItemId="54744" MobHpPercentLeft="99" MaxRange="15" X="4607.118" Y="-2437.628" Z="1147.097" />
+				  <!-- 
+				<CustomBehavior File="UseItemOn" QuestId="25507" MobId="40340" ItemId="54744" WaitTime="1000" MinRange="15" Range="25" CollectionDistance="500" />
+				-->
+				<CustomBehavior File="WaitTimer" WaitTime="8000" GoalText="Waiting for agro to clear {TimeRemaining}" />
+				<CustomBehavior File="InteractWith" QuestId="25507" MobId="40340" WaitForNpcs="False" NumOfTimes="1" Range="10" WaitTime="8000" IgnoreCombat="False" CollectionDistance="25" />
+			 </While>
+			</If>
 			<If Condition="((HasQuest(25502)) &amp;&amp; (IsQuestCompleted(25502)))" >
 				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="4421.44" Y="-2081.387" Z="1211.043" />
 				<CustomBehavior File="ForcedDismount" />
@@ -1988,7 +2005,8 @@
 		<PickUp QuestName="Tortolla's Revenge" QuestId="25843" GiverName="Arch Druid Hamuul Runetotem" GiverId="41480" X="5125.255" Y="-1758.526" Z="1334.464" />
 			</If>
 			<If Condition="((!HasQuest(25843)) &amp;&amp; (!IsQuestCompleted(25843)))" >
-				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="5120.946" Y="-1754.386" Z="1334.546" />
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="5125.255" Y="-1758.526" Z="1334.464" />
+				<CustomBehavior File="ForcedDismount" />
 		<PickUp QuestName="Tortolla's Revenge" QuestId="25843" GiverName="Arch Druid Hamuul Runetotem" GiverId="41480" X="5125.255" Y="-1758.526" Z="1334.464" />
 			</If>
 			<!-- End of The Flamewake Quests -->
@@ -2485,6 +2503,7 @@
 				<CustomBehavior File="Misc\RunLua" Lua="VehicleMenuBarActionButton2:Click()" WaitTime="9000" />
 			 </While>
 				
+				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for  {TimeRemaining}" />
 				<CustomBehavior File="Misc\RunLua" Lua="VehicleMenuBarActionButton5:Click()" WaitTime="1000" />
 			
 			<!--
@@ -2531,9 +2550,11 @@
 			
 			</If>
 			<If Condition="((HasQuest(25315)) &amp;&amp; (IsQuestCompleted(25315)))" >
+				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for  {TimeRemaining}" />
 				<CustomBehavior File="Misc\RunLua" Lua="VehicleMenuBarActionButton5:Click()" WaitTime="1000" />
-				<!-- why doesn't me is on transport work? :(  			 <If Condition="(Me.IsOnTransport)" >  
-				<CustomBehavior File="RunMacro" Macro="/click BonusActionButton5" /> -->
+				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for  {TimeRemaining}" />
+				<!-- why doesn't me is on transport work? :(  			 <If Condition="(Me.IsOnTransport)" >   -->
+				<CustomBehavior File="RunMacro" Macro="/click BonusActionButton5" />
 		<TurnIn QuestName="Graduation Speech" QuestId="25315" TurnInName="Commander Jarod Shadowsong" TurnInId="40619" />
 		<PickUp QuestName="Twilight Riot" QuestId="25531" GiverName="Commander Jarod Shadowsong" GiverId="40619" />
 			</If>
@@ -2560,8 +2581,8 @@
 			 <If Condition="(!Me.IsOnTransport)" >
 			 </If>
 			 -->
-				<CustomBehavior File="ForcedDismount" />
 				<RunTo X="4073.321" Y="-4009.627" Z="971.1174" />
+				<CustomBehavior File="ForcedDismount" />
 				<CustomBehavior File="MountVehOnly" VehicleMountId="40934" X="4074.596" Y="-4009.47" Z="971.1025" />
 				<!-- <CustomBehavior File="FlyTo" X="4355.917" Y="-4242.729" Z="1012.348" /> -->
 				

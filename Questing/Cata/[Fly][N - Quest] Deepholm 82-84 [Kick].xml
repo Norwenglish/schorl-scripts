@@ -172,7 +172,7 @@
 				<CustomBehavior File="InteractWith" MobId="45226" X="-8214.752" Y="428.5352" Z="118.0506" />
 				<CustomBehavior File="RunMacro" Macro="/click GossipTitleButton1" NumOfTimes="1" WaitTime="1000" />
 				<CustomBehavior File="RunMacro" Macro="/click QuestFrameAcceptButton" NumOfTimes="1" WaitTime="1000" />
-				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for  {TimeRemaining}" />
+				<CustomBehavior File="WaitTimer" WaitTime="5000" GoalText="Waiting for  {TimeRemaining}" />
 			 </While>
 			</If>
 			<If Condition="((HasQuest(27203)) &amp;&amp; (Me.ZoneId == 1519))" >
@@ -482,13 +482,13 @@
 				<CustomBehavior File="WaitTimer" WaitTime="60000"/>
 				<CustomBehavior File="MyCTM" X="609.1009" Y="-737.8065" Z="145.8933" />
 			  </While>
-			</If>
-			<If Condition="((HasQuest(27010)) &amp;&amp; (IsQuestCompleted(27010)))" >
- 				<CustomBehavior File="WaitTimer" WaitTime="2000" />
-				<CustomBehavior File="CompleteLogQuest" QuestId="27010" />
-				<CustomBehavior File="MyCTM" X="609.1009" Y="-737.8065" Z="145.8933" />
 				<CustomBehavior File="UserSettings" PullDistance="25" />
 			</If>
+			<While Condition="((HasQuest(27010)) &amp;&amp; (IsQuestCompleted(27010)))" >
+ 				<CustomBehavior File="WaitTimer" WaitTime="2000" />
+				<CustomBehavior File="CompleteLogQuest" QuestId="27010" />
+ 				<CustomBehavior File="WaitTimer" WaitTime="5000" />
+			</While>
 			<If Condition="(!IsQuestCompleted(27100))" >
 				<CustomBehavior File="FlyTo" DestName="get dropquest item" X="601.2639" Y="-606.6798" Z="149.963" />
 				<CustomBehavior File="ForcedDismount" />
@@ -531,12 +531,12 @@
 			<If Condition="((HasQuest(27102)) &amp;&amp; (!IsQuestCompleted(27102)))" >
 			<Objective QuestName="Maziel's Ascendancy" QuestId="27102" Type="KillMob" MobId="44967" KillCount="1" />
 			</If>
-			<If Condition="((HasQuest(27102)) &amp;&amp; (IsQuestCompleted(27102)))" >
+			<While Condition="((HasQuest(27102)) &amp;&amp; (IsQuestCompleted(27102)))" >
 				<CustomBehavior File="WaitTimer" WaitTime="2000" />
 				<CustomBehavior File="CompleteLogQuest" QuestId="27102" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" />
 				<RunTo X="457.8258" Y="-449.9126" Z="45.94074" />
-			</If>
+			</While>
 			<If Condition="(HasQuest(27061))" >
 				<CustomBehavior File="FlyTo" X="-1.062901" Y="-236.3737" Z="202.5102" />
 		<TurnIn QuestName="The Twilight Overlook" QuestId="27061" TurnInName="Stormcaller Mylra" TurnInId="44010" X="3.289931" Y="-236.1146" Z="202.0685" />
@@ -628,7 +628,7 @@
 		<PickUp QuestName="The Axe of Earthly Sundering" GiverName="Slate Quicksand" QuestId="27932" GiverId="47195" />
 		<PickUp QuestName="Elemental Ore" GiverName="Slate Quicksand" QuestId="27933" GiverId="47195" />
 			<If Condition="((HasQuest(27932)) &amp;&amp; (!IsQuestCompleted(27932)))" >
-				<CustomBehavior File="UserSettings" PullDistance="20" />
+				<CustomBehavior File="UserSettings" PullDistance="25" />
 				<CustomBehavior File="UseItemOn" QuestId="27932" MobId="44218" ItemId="60490" NumOfTimes="20" WaitTime="4000" Range="37" CollectionDistance="500" X="-4.042602" Y="1228.246" Z="218.1624" />
 				<Objective QuestName="The Axe of Earthly Sundering" QuestId="27932" Type="KillMob" KillCount="5" MobId="44229" />
 			</If>
@@ -667,7 +667,7 @@
 			 </If>
 				<CustomBehavior File="FlyTo" X="458.9504" Y="1634.358" Z="351.065" />
 				<CustomBehavior File="ForcedDismount" />
-				<CustomBehavior File="UserSettings" PullDistance="20" />
+				<CustomBehavior File="UserSettings" PullDistance="25" />
 		<TurnIn QuestName="Bring Down the Avalanche" QuestId="27935" TurnInName="Crag Rockcrusher" TurnInId="43071" X="459.53" Y="1628.21" Z="352.1236" />
 		<PickUp QuestName="Stonefather's Boon" GiverName="Crag Rockcrusher" QuestId="26499" GiverId="43071" X="459.53" Y="1628.21" Z="352.1236" />
 			</If>
@@ -777,7 +777,7 @@
 		<PickUp QuestName="Close Escort" GiverName="Peak Grindstone" QuestId="26632" GiverId="45043" />
 				<CustomBehavior File="WaitTimer" WaitTime="3000" GoalText="Waiting for bot {TimeRemaining}" />
 			 </If>
-				<CustomBehavior File="UserSettings" PullDistance="20" />
+				<CustomBehavior File="UserSettings" PullDistance="25" />
 			</While>
 		<TurnIn QuestName="Close Escort" TurnInName="Pyrium Lodestone" QuestId="26632" TurnInId="43897" />
 		<PickUp QuestName="Keep Them off the Front" GiverName="Pyrium Lodestone" QuestId="26755" GiverId="43897" />
@@ -922,7 +922,7 @@
 				<CustomBehavior File="ForcedDismount" />
 				<CustomBehavior File="UseItemOn" QuestId="26315" MobId="42471" ItemId="58177" NumOfTimes="1" WaitTime="1000" CollectionDistance="500" X="1424.147" Y="553.3665" Z="-68.16922" />
 				<CustomBehavior File="WaitTimer" WaitTime="35000"/>
-				<CustomBehavior File="UserSettings" PullDistance="20" />
+				<CustomBehavior File="UserSettings" PullDistance="25" />
 			</If>
 			<If Condition="((HasQuest(26315)) &amp;&amp; (IsQuestCompleted(26315)))" >
 				<CustomBehavior File="FlyTo" X="1239.681" Y="699.6059" Z="-60.39671" />
@@ -945,12 +945,18 @@
 				<While Condition="(!HasItem(58783))" >
 					<Objective QuestName="Unsolid Ground" QuestId="26377" Type="CollectItem" ItemId="58500" CollectCount="6" />
 					<RunTo X="1438.803" Y="77.85936" Z="-83.91199" />
+					<If Condition="Me.Class == WoWClass.Druid">
+						<CustomBehavior File="RunMacro" Macro="/cancelaura cat form\n/cancelaura moonkin form" NumOfTimes="1" WaitTime="1000" />
+					</If>
 					<CustomBehavior File="WaitTimer" WaitTime="2000" />
 					<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(58500)" WaitTime="1000" />
 					<CustomBehavior File="WaitTimer" WaitTime="5000" />
 				</While>
 				<While Condition="(HasItem(58783))" >
 					<RunTo X="1438.803" Y="77.85936" Z="-83.91199" />
+					<If Condition="Me.Class == WoWClass.Druid">
+						<CustomBehavior File="RunMacro" Macro="/cancelaura cat form\n/cancelaura moonkin form" NumOfTimes="1" WaitTime="1000" />
+					</If>
 					<CustomBehavior File="WaitTimer" WaitTime="2000" />
 					<UseItem QuestName="Unsolid Ground" QuestId="26377" ItemId="58783" X="1438.803" Y="77.85936" Z="-83.91199" />
 					<CustomBehavior File="WaitTimer" WaitTime="10000"/>
@@ -1004,8 +1010,8 @@
 		<PickUp QuestName="Making Things Crystal Clear" GiverName="Kor the Immovable" QuestId="26437" GiverId="42469" />
 		<PickUp QuestName="Putting the Pieces Together" GiverName="Berracite" QuestId="26439" GiverId="43344" />
 			<While Condition="((HasQuest(26439)) &amp;&amp; (!IsQuestCompleted(26439)))" >
-				<CustomBehavior File="InteractWith" QuestId="26439" MobId="43115" NumOfTimes="3" CollectionDistance="500" X="1494.055" Y="1169.495" Z="40.86979" />
-				<CustomBehavior File="InteractWith" QuestId="26439" MobId="43115" NumOfTimes="3" CollectionDistance="500" X="1376.363" Y="1436.227" Z="25.51002" />
+				<CustomBehavior File="InteractWith" QuestId="26439" MobId="43115" NumOfTimes="3" WaitForNpcs="False" CollectionDistance="500" X="1494.055" Y="1169.495" Z="40.86979" />
+				<CustomBehavior File="InteractWith" QuestId="26439" MobId="43115" NumOfTimes="3" WaitForNpcs="False" CollectionDistance="500" X="1376.363" Y="1436.227" Z="25.51002" />
 			</While>
 			<Objective QuestName="Making Things Crystal Clear" QuestId="26437" Type="Collect" CollectCount="8" ItemId="58845" />
 			<Objective Type="KillMob" QuestName="Intervention" QuestId="26438" MobId="42524" KillCount="12" />
@@ -1149,9 +1155,10 @@
 				<CustomBehavior File="UserSettings" PullDistance="1" />
 				<CustomBehavior File="FlyTo" X="1902.587" Y="-442.2365" Z="174.2479" />
 			</If>
-				<Objective QuestName="Corruption Destruction" QuestId="26585" Type="Collect" CollectCount="8" ItemId="59123" />
+			<Objective QuestName="Corruption Destruction" QuestId="26585" Type="Collect" CollectCount="8" ItemId="59123" />
 			<If Condition="((HasQuest(26584)) &amp;&amp; (!IsQuestCompleted(26584)))" >
-				<CustomBehavior File="KillUntilComplete" QuestId="26584" MobId1="43513" X="1949.133" Y="-464.5629" Z="173.3717" />
+				<RunTo X="1993.02" Y="-403.0141" Z="170.3856" />
+				<CustomBehavior File="KillUntilComplete" QuestId="26584" MobId1="43513" X="1993.02" Y="-403.0141" Z="170.3856" />
 			</If>
 				<!--
 				<Objective QuestName="Shaken and Stirred" QuestId="26584" Type="KillMob" KillCount="8" MobId="43513" />
@@ -1322,10 +1329,13 @@
 			 </While>
 
 			 <While Condition="((HasQuest(27042)) &amp;&amp; (!IsObjectiveComplete(1, 27042)))">
-				<CustomBehavior File="FlyTo" X="498.8905" Y="1203.825" Z="54.74298" />
+				<CustomBehavior File="FlyTo" X="493.5044" Y="1189.919" Z="55.70804" />
 				<CustomBehavior File="ForcedDismount" />
-				<RunTo X="501.3299" Y="1208.534" Z="54.79808" />
-				<CustomBehavior File="InteractWith" QuestId="27042" MobId="44887" Range="10" X="501.3299" Y="1208.534" Z="54.79808" /> <!-- Fire -->
+				
+				<CustomBehavior File="UserSettings" PullDistance="1" />
+				<RunTo X="493.5044" Y="1189.919" Z="55.70804" />
+				<CustomBehavior File="InteractWith" QuestId="27042" MobId="44887" Range="4" Nav="CTM" X="501.3299" Y="1208.534" Z="54.79808" /> <!-- Fire -->
+				<CustomBehavior File="UserSettings" PullDistance="25" />
 			 </While>
 
 			 <While Condition="((HasQuest(27042)) &amp;&amp; (!IsObjectiveComplete(4, 27042)))">
@@ -1349,7 +1359,7 @@
 		<Pickup QuestName="That's No Pyramid" QuestId="28292" GiverName="Explorer Mowi" GiverId="44799" />
 			<If Condition="((HasQuest(28292)) &amp;&amp; (IsQuestCompleted(28292))) &amp;&amp; (Me.ZoneId == 5042)" >
 				<RunTo X="973.6232" Y="570.9096" Z="-46.0024" />
-				<CustomBehavior File="InteractWith" MobId="205272" ObjectType="Gameobject" Range="8" X="973.6232" Y="570.9096" Z="-46.0024" />
+				<CustomBehavior File="InteractWith" MobId="205272" ObjectType="Gameobject" Range="4" X="973.6232" Y="570.9096" Z="-46.0024" />
 				<CustomBehavior File="WaitTimer" WaitTime="8000" GoalText="Waiting for port {TimeRemaining}" />
 			</If>
 			<If Condition="((HasQuest(28292)) &amp;&amp; (IsQuestCompleted(28292))) &amp;&amp; (Me.ZoneId == 1519)" >
@@ -1450,7 +1460,7 @@
 		<Pickup QuestName="That's No Pyramid" QuestId="28293" GiverName="Examiner Rowe" GiverId="44823" />
 			<If Condition="((HasQuest(28293)) &amp;&amp; (IsQuestCompleted(28293))) &amp;&amp; (Me.ZoneId == 5042)" >
 				<RunTo X="990.1199" Y="457.7099" Z="-44.2598" />
-				<CustomBehavior File="InteractWith" MobId="205273" ObjectType="Gameobject" Range="8" X="990.1199" Y="457.7099" Z="-44.2598" />
+				<CustomBehavior File="InteractWith" MobId="205273" ObjectType="Gameobject" Range="4" X="990.1199" Y="457.7099" Z="-44.2598" />
 				<CustomBehavior File="WaitTimer" WaitTime="8000" GoalText="Waiting for port {TimeRemaining}" />
 			</If>
 			<If Condition="((HasQuest(28293)) &amp;&amp; (IsQuestCompleted(28293))) &amp;&amp; (Me.ZoneId == 1637)" >

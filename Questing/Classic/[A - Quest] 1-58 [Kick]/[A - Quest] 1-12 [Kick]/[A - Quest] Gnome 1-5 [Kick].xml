@@ -22,8 +22,8 @@
 	<!-- <ContinentID>0</ContinentID> -->
 
 	<AvoidMobs>
-		<Mob Name="Crazed Leper Gnome" Entry="46391" />
 		<Mob Name="Crazed Leper Gnome" Entry="46363" />
+		<Mob Name="Crazed Leper Gnome" Entry="46391" />
 		<Mob Name="Living Contamination" Entry="43089" />
 		<Mob Name="Crushcog Sentry-Bot" Entry="42291" />
 	</AvoidMobs>
@@ -88,6 +88,14 @@
 
 	<!-- Quest Overrides -->
 	<!-- End of Quest Overrides -->
+	<Quest Id="27670" Name="Pinned Down">
+		<Objective Type="KillMob" MobId="46363" KillCount="6">
+			<Hotspots>
+				<Hotspot X="-5113.927" Y="762.5234" Z="287.3782" />
+				<Hotspot X="-4993.984" Y="768.8013" Z="288.4859" />
+			</Hotspots>
+		</Objective>
+	</Quest>
 
 	<QuestOrder>
 		<If Condition="Me.IsHorde" >
@@ -104,11 +112,14 @@
 		<CustomBehavior File="Message" Text="Compiling The Old Dormitory Quests" LogColor="Cornflowerblue" />
 
 			<If Condition="(!IsQuestCompleted(27674))" >
-	<CustomBehavior File="UserSettings" LootMobs="True" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" PullDistance="15" />
+	<CustomBehavior File="UserSettings" LootMobs="True" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" PullDistance="25" />
 			</If>
 	
 		<PickUp QuestName="Pinned Down" QuestId="27670" GiverName="Nevin Twistwrench" GiverId="45966" />
+			<!--
 			<Objective QuestName="Pinned Down" QuestId="27670" Type="KillMob" MobId="46363" KillCount="6" />
+			-->
+				<CustomBehavior File="InteractWith" QuestId="27670" MobId="46363" NumOfTimes="100" CollectionDistance="1000" Range="8" X="-4993.984" Y="768.8013" Z="288.4859" />
 		<TurnIn QuestName="Pinned Down" QuestId="27670" TurnInName="Nevin Twistwrench" TurnInId="45966" />
 		<PickUp QuestName="Report to Carvo Blastbolt" QuestId="28167" GiverName="Nevin Twistwrench" GiverId="45966" />
 		<TurnIn QuestName="Report to Carvo Blastbolt" QuestId="28167" TurnInName="Carvo Blastbolt" TurnInId="47250" />
@@ -237,7 +248,7 @@
 		
 			<If Condition="Me.ZoneId == 2257" > <!-- Deeprun Tram -->
 			 <If Condition="Me.Y &lt; 30" > <!-- IF side -->
-				<CustomBehavior File="Message" Text="Riding Tram from SW to IF" LogColor="Cornflowerblue" />
+				<CustomBehavior File="Message" Text="Riding Tram to SW from IF" LogColor="Cornflowerblue" />
 
 				<RunTo X="15.43877" Y="7.605853" Z="-4.295578" />
 
