@@ -1,0 +1,55 @@
+<HBProfile>
+	<Name>Deepholm - Albino Cavefish by Unknown</Name>
+	<MinDurability>0.4</MinDurability>
+	<MinFreeBagSlots>1</MinFreeBagSlots>
+	<SellGrey>True</SellGrey>
+	<SellWhite>True</SellWhite>
+	<SellGreen>True</SellGreen>
+	<MailWhite>False</MailWhite>
+	<MailGreen>False</MailGreen>
+	<MailBlue>True</MailBlue>
+	<MailPurple>True</MailPurple>
+	<ProtectedItems>
+		<Item name="Fishing Pole" entry="6256" />
+	</ProtectedItems>
+	<SubProfile>
+		<Name>Deepholm - Albino Cavefish</Name>
+		<MinLevel>1</MinLevel>
+		<MaxLevel>87</MaxLevel>
+		<TargetMinLevel>87</TargetMinLevel>
+		<Factions> 16 </Factions>
+
+		<Hotspots>
+
+<Hotspot X="1731.953" Y="-737.2855" Z="323.973" />
+<Hotspot X="1422.359" Y="-868.6015" Z="316.3518" />
+<Hotspot X="1333.839" Y="-518.831" Z="302.0233" />
+<Hotspot X="1147.962" Y="-536.8661" Z="313.1061" />
+<Hotspot X="1426.242" Y="1607.044" Z="223.8613" />
+<Hotspot X="1536.406" Y="1681.147" Z="203.0049" />
+<Hotspot X="1602.654" Y="1809.601" Z="198.6453" />
+<Hotspot X="1713.357" Y="1713.722" Z="205.6874" />
+<Hotspot X="1686.216" Y="1517.865" Z="195.2159" />
+<Hotspot X="1769.609" Y="1482.563" Z="184.9006" />
+<Hotspot X="1866.178" Y="1639.001" Z="198.9966" />
+
+
+		</Hotspots>
+
+		<Vendors>
+
+		</Vendors>
+
+		<Blackspots>
+
+		</Blackspots>
+
+		<AvoidMobs>
+
+		</AvoidMobs>
+
+		<Mailboxes>
+
+		</Mailboxes>
+	</SubProfile>
+</HBProfile>
