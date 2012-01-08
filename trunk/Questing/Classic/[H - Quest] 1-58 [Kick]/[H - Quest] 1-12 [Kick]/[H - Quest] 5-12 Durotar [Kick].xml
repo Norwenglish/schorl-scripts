@@ -235,7 +235,7 @@
 	
 			<CustomBehavior File="RunMacro" Macro="/script SetCVar('AutoLootDefault', 1)" NumOfTimes="1" WaitTime="1000" />
 	<CustomBehavior File="UserDialog" AllowBotStop="False" SoundCue="Exclamation" SoundCueInterval="5" ExpiryTime="30" ExpiryAction="InputEnabled_Continue" Text="Make sure Auto Equip, Talented, and ItemForAura Plugins are enabled!!!\n\nIf you have money - set food and drinks as well\n\nYou may also want to set a mail recipient!" />
-	<CustomBehavior File="UserSettings" LootMobs="True" TrainNewSkills="True" LearnFlightPaths="True" UseFlightPaths="True" PullDistance="20" />
+	<CustomBehavior File="UserSettings" LootMobs="True" TrainNewSkills="True" LearnFlightPaths="True" UseFlightPaths="True" PullDistance="25" />
 
 		<PickUp QuestName="Breaking the Chain" QuestId="25167" GiverName="Master Gadrin" GiverId="3188" />
 		<PickUp QuestName="Cleaning Up the Coastline" QuestId="25170" GiverName="Bom'bay" GiverId="10578" />
@@ -330,7 +330,13 @@
 			<Objective QuestName="Raggaran's Fury" QuestId="25192" Type="KillMob" MobId="3114" KillCount="5" />
 		<TurnIn QuestName="Raggaran's Fury" QuestId="25192" TurnInName="Raggaran" TurnInId="39326" />
 		<PickUp QuestName="Unbidden Visitors" QuestId="25194" GiverName="Zen'Taji" GiverId="39324" />
-			<CustomBehavior File="InteractWith" QuestId="25194" MobId="39337" NumOfTimes="100" CollectionDistance="1000" WaitTime="1000" X="287.1787" Y="-3812.052" Z="18.4396" />
+			<While Condition="((HasQuest(25194)) &amp;&amp; (!IsQuestCompleted(25194)))" >
+				<!-- interactwith isn't right clicking this mob for some reason
+				<CustomBehavior File="InteractWith" QuestId="25194" MobId="39337" NumOfTimes="100" WaitForNpcs="False" CollectionDistance="1000" Range="3" MobState="Alive" WaitTime="10000" X="287.1787" Y="-3812.052" Z="18.4396" />
+				<CustomBehavior File="InteractWith" QuestId="25194" MobId="39337" NumOfTimes="100" WaitForNpcs="False" CollectionDistance="1000" Range="3" MobState="Alive" WaitTime="10000" X="441.242" Y="-3881.277" Z="17.20918" />
+				-->
+				<CustomBehavior File="KillUntilComplete" QuestId="25194" MobId1="39337" X="287.1787" Y="-3812.052" Z="18.4396" />
+			</While>
 		<TurnIn QuestName="Unbidden Visitors" QuestId="25194" TurnInName="Zen'Taji" TurnInId="39324" />
 		<PickUp QuestName="That's the End of That Raptor" QuestId="25195" GiverName="Zen'Taji" GiverId="39324" />
 			<Objective QuestName="That's the End of That Raptor" QuestId="25195" Type="KillMob" MobId="39385" KillCount="1" />
@@ -379,6 +385,7 @@
 					<Hotspot X="762.011" Y="-4031.479" Z="3.404415" />
 					<Hotspot X="707.2346" Y="-4035.578" Z="7.421495" />
 				</CustomBehavior>
+				<CustomBehavior File="AscendInWater" />
 
 				<!-- I may need to add a few conditions for where my x / y is for the corners of this pool area is - if people bug report it -->
 				<CustomBehavior File="MyCTM" X="956.3652" Y="-4077.486" Z="15.67288" />

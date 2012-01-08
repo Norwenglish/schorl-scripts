@@ -238,7 +238,7 @@
 				<CustomBehavior File="UserDialog"  AllowBotStop="True" SoundCue="Asterisk" SoundCueInterval="1" Text="You must be in Eastern Kingdoms to run this profile!" />
 			</If>
 
-			<If Condition="((!HasQuest(28716)) &amp;&amp; (!IsQuestCompleted(28716)))" >
+			<If Condition="((!HasQuest(28716)) &amp;&amp; (!IsQuestCompleted(28716))) &amp;&amp; ((!HasQuest(26960)) &amp;&amp; (!IsQuestCompleted(26960)))" >
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="-8345.04" Y="639.2629" Z="95.79852" />
 				<CustomBehavior File="ForcedDismount" />
 		<PickUp QuestName="Hero's Call: Twilight Highlands!" QuestId="28716" GiverName="Hero's Call Board" GiverId="206294" GiverType="Object" X="-8344.381" Y="639.3972" Z="95.80094" />
@@ -246,8 +246,8 @@
 			<If Condition="((HasQuest(28716)) &amp;&amp; (IsQuestCompleted(28716)))" >
 				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-8442.632" Y="332.6037" Z="142.268" />
 				<CustomBehavior File="ForcedDismount" />
-			</If>
-		<TurnIn QuestName="Hero's Call: Twilight Highlands!" QuestId="28716" TurnInName="King Varian Wrynn" TurnInId="29611" />
+			<TurnIn QuestName="Hero's Call: Twilight Highlands!" QuestId="28716" TurnInName="King Varian Wrynn" TurnInId="29611" />
+		</If>
 		<PickUp QuestName="My Son, the Prince" QuestId="26960" GiverName="King Varian Wrynn" GiverId="29611" />
 			<If Condition="((HasQuest(26960)) &amp;&amp; (!IsQuestCompleted(26960)))" >
 				<CustomBehavior File="InteractWith" QuestId="26960" MobId="1747" NumOfTimes="1" GossipOptions="1" WaitTime="1000" CollectionDistance="50" X="-8361.36" Y="233.563" Z="156.9925" />
@@ -368,7 +368,7 @@
 			<If Condition="(HasQuest(28832))" >
 				<RunTo X="-8546.878" Y="1271.582" Z="-2.06458" />
 				<CustomBehavior File="ForcedDismount" />
-				<CustomBehavior File="MountVehOnly" NpcMountId="50262" X="-8547.236" Y="1273.755" Z="-1.629577" />
+				<CustomBehavior File="MountVehOnly" VehicleMountId="50262" X="-8547.236" Y="1273.755" Z="-1.629577" />
 				<CustomBehavior File="WaitTimer" WaitTime="110000"/>
 			</If>
 		<TurnIn QuestName="Twilight Shores" TurnInName="Lieutenant Fawkes" QuestId="28832" TurnInId="49022" />
@@ -426,14 +426,14 @@
 		<TurnIn QuestName="Our Boys on the Shore" TurnInName="Lieutenant Emry" QuestId="27338" TurnInId="45169" />
 		<PickUp QuestName="Scouting the Shore" GiverName="Lieutenant Emry" QuestId="27341" GiverId="45169" />
 		<PickUp QuestName="Landgrab" GiverName="Lieutenant Emry" QuestId="27366" GiverId="45169" />
-		<PickUp QuestName="Shredderectomy" GiverName="Fargo Flintlocke" QuestId="27433" GiverId="45168" />
+		<PickUp QuestName="Shredderectomy" GiverName="Fargo Flintlocke" QuestId="27433" GiverId="45168" X="-4611.62" Y="-6496.58" Z="5.498352" />
 			<If Condition="(HasQuest(27341))" >
 				<CustomBehavior File="FlyTo" X="-4444.142" Y="-6522.118" Z="4.52096" />
 				<CustomBehavior File="ForcedDismount" />
 			</If>
 			<Objective QuestName="Shredderectomy" QuestId="27433" Type="CollectItem" CollectCount="5" ItemId="61048" />
 			<Objective QuestName="Landgrab" QuestId="27366" Type="KillMob" KillCount="12" MobId="45175" />
-		<TurnIn QuestName="Shredderectomy" TurnInName="Fargo Flintlocke" QuestId="27433" TurnInId="45168" />
+		<TurnIn QuestName="Shredderectomy" TurnInName="Fargo Flintlocke" QuestId="27433" TurnInId="45168" X="-4611.62" Y="-6496.58" Z="5.498352" />
 		<!--
 		<PickUp QuestName="Siege Tank Rescue" GiverName="Fargo Flintlocke" QuestId="27468" GiverId="45168" />
 		-->
@@ -600,11 +600,11 @@
 			<If Condition="((HasQuest(27646)) &amp;&amp; (!IsQuestCompleted(27646)))" >
 				<CustomBehavior File="FlyTo" X="-4080.144" Y="-4860.708" Z="98.64057" />
 				<CustomBehavior File="ForcedDismount" />
-				<CustomBehavior File="InteractWith" QuestId="27642" MobId="46609" NumOfTimes="4" WaitTime="1000" CollectionDistance="50" X="-4099.22" Y="-4855.291" Z="101.628" />
+				<CustomBehavior File="InteractWith" QuestId="27642" MobId="46609" NumOfTimes="20" WaitForNpcs="False" WaitTime="1000" CollectionDistance="50" X="-4099.22" Y="-4855.291" Z="101.628" />
 				<RunTo X="-4080.144" Y="-4860.708" Z="98.64057" />
 				<RunTo X="-4080.144" Y="-4860.708" Z="98.64057" />
 				<CustomBehavior File="MyCTM" X="-4045.85" Y="-4881.597" Z="86.74425" />
-				<CustomBehavior File="InteractWith" QuestId="27642" MobId="46609" NumOfTimes="4" WaitTime="1000" CollectionDistance="50" X="-4046.158" Y="-4881.409" Z="86.74339" />
+				<CustomBehavior File="InteractWith" QuestId="27642" MobId="46609" NumOfTimes="20" WaitForNpcs="False" WaitTime="1000" CollectionDistance="50" X="-4046.158" Y="-4881.409" Z="86.74339" />
 				<CustomBehavior File="MyCTM" X="-4045.85" Y="-4881.597" Z="86.74425" />
 				<CustomBehavior File="MyCTM" X="-4079.217" Y="-4860.898" Z="98.48361" />
 
@@ -643,7 +643,7 @@
 		<!-- Accompany Cayden through Dunwald Market Row-->
 		<PickUp QuestName="Once More Into The Fire" GiverName="Cayden Dunwald" QuestId="27648" GiverId="46174" />
 			<If Condition="((HasQuest(27648)) &amp;&amp; (!IsQuestCompleted(27648)))" >
-				<!-- gossip x 4 Insert Escort CB here -->
+				<!-- gossip x 4 Insert Escort CB here - escort fails  -->
 				<CustomBehavior File="UserDialog" QuestId="27648" Title="Escort" AllowBotStop="True" SoundCue="Asterisk" SoundCueInterval="1" Text="Escort teh dorf\n\nPress continue when done" />
 			</If>
 		<TurnIn QuestName="Once More Into The Fire" TurnInName="Cayden Dunwald" QuestId="27648" TurnInId="46174" X="-4677.28" Y="-4850.72" Z="162.4915" />
@@ -682,16 +682,16 @@
 		<TurnIn QuestName="My Sister, Fanny" TurnInName="Fanny Thundermar" QuestId="28369" TurnInId="48013" />
 		<PickUp QuestName="Never Leave a Dinner Behind" GiverName="Fanny Thundermar" QuestId="27753" GiverId="48013" />
 		<PickUp QuestName="Fight Like a Wildhammer" GiverName="Low Shaman Blundy" QuestId="27752" GiverId="48010" />
-			<If Condition="((HasQuest(27752)) &amp;&amp; (!IsQuestCompleted(27752)))" >
-				<CustomBehavior File="InteractWith" QuestId="27752" ObjectType="Gameobject" MobId="206195" NumOfTimes="2" CollectionDistance="50" X="-3661.885" Y="-4816.119" Z="80.95448" />
-				<CustomBehavior File="InteractWith" QuestId="27752" ObjectType="Gameobject" MobId="206195" NumOfTimes="2" CollectionDistance="50" X="-3576.861" Y="-4850.49" Z="86.63108" />
-				<CustomBehavior File="InteractWith" QuestId="27752" ObjectType="Gameobject" MobId="206195" NumOfTimes="2" CollectionDistance="30" X="-3466.461" Y="-4880.776" Z="87.55698" />
-				<CustomBehavior File="InteractWith" QuestId="27752" ObjectType="Gameobject" MobId="206195" NumOfTimes="4" CollectionDistance="500" X="-3324.356" Y="-4861.195" Z="110.6211" />
-				<CustomBehavior File="InteractWith" QuestId="27752" ObjectType="Gameobject" MobId="206195" NumOfTimes="2" CollectionDistance="50" X="-3661.885" Y="-4816.119" Z="80.95448" />
-				<CustomBehavior File="InteractWith" QuestId="27752" ObjectType="Gameobject" MobId="206195" NumOfTimes="2" CollectionDistance="50" X="-3576.861" Y="-4850.49" Z="86.63108" />
-				<CustomBehavior File="InteractWith" QuestId="27752" ObjectType="Gameobject" MobId="206195" NumOfTimes="2" CollectionDistance="30" X="-3466.461" Y="-4880.776" Z="87.55698" />
-				<CustomBehavior File="InteractWith" QuestId="27752" ObjectType="Gameobject" MobId="206195" NumOfTimes="4" CollectionDistance="500" X="-3324.356" Y="-4861.195" Z="110.6211" />
-			</If>
+			<While Condition="((HasQuest(27752)) &amp;&amp; (!IsQuestCompleted(27752)))" >
+				<CustomBehavior File="InteractWith" QuestId="27752" ObjectType="Gameobject" MobId="206195" NumOfTimes="20" WaitForNpcs="False" CollectionDistance="500" X="-3661.885" Y="-4816.119" Z="80.95448" />
+				<CustomBehavior File="InteractWith" QuestId="27752" ObjectType="Gameobject" MobId="206195" NumOfTimes="20" WaitForNpcs="False" CollectionDistance="500" X="-3576.861" Y="-4850.49" Z="86.63108" />
+				<CustomBehavior File="InteractWith" QuestId="27752" ObjectType="Gameobject" MobId="206195" NumOfTimes="20" WaitForNpcs="False" CollectionDistance="500" X="-3466.461" Y="-4880.776" Z="87.55698" />
+				<CustomBehavior File="InteractWith" QuestId="27752" ObjectType="Gameobject" MobId="206195" NumOfTimes="20" WaitForNpcs="False" CollectionDistance="500" X="-3324.356" Y="-4861.195" Z="110.6211" />
+				<CustomBehavior File="InteractWith" QuestId="27752" ObjectType="Gameobject" MobId="206195" NumOfTimes="20" WaitForNpcs="False" CollectionDistance="500" X="-3661.885" Y="-4816.119" Z="80.95448" />
+				<CustomBehavior File="InteractWith" QuestId="27752" ObjectType="Gameobject" MobId="206195" NumOfTimes="20" WaitForNpcs="False" CollectionDistance="500" X="-3576.861" Y="-4850.49" Z="86.63108" />
+				<CustomBehavior File="InteractWith" QuestId="27752" ObjectType="Gameobject" MobId="206195" NumOfTimes="20" WaitForNpcs="False" CollectionDistance="500" X="-3466.461" Y="-4880.776" Z="87.55698" />
+				<CustomBehavior File="InteractWith" QuestId="27752" ObjectType="Gameobject" MobId="206195" NumOfTimes="20" WaitForNpcs="False" CollectionDistance="500" X="-3324.356" Y="-4861.195" Z="110.6211" />
+			</While>
 			<Objective QuestName="Never Leave a Dinner Behind" QuestId="27753" Type="Collect" CollectCount="10" ItemId="62324" />
 			<Objective QuestName="Dragonmaw Takedown" QuestId="27754" Type="Collect" CollectCount="8" ItemId="62332" />
 		<TurnIn QuestName="Fight Like a Wildhammer" TurnInName="Low Shaman Blundy" QuestId="27752" TurnInId="48010" />
@@ -716,7 +716,7 @@
 		<Pickup QuestName="We All Must Sacrifice" QuestId="28242" GiverName="Eye of Twilight" GiverId="206569" GiverType="Object" X="-3336.709" Y="-5491.562" Z="46.50623" />
 			<Objective QuestName="We All Must Sacrifice" QuestId="28242" Type="KillMob" MobId="46322" KillCount="10" />
 			<Objective QuestName="Potential Energy" QuestId="28215" Type="Collect" CollectCount="10" ItemId="63285" />
-		<TurnIn QuestName="A Vision of Twilight" QuestId="28241" TurnInName="Eye of Twilight" TurnInId="206569" X="-3336.709" Y="-5491.562" Z="46.50623" />
+		<TurnIn QuestName="We All Must Sacrifice" QuestId="28242" TurnInName="Eye of Twilight" TurnInId="206569" X="-3336.709" Y="-5491.562" Z="46.50623" />
 		<Pickup QuestName="The Eyes Have It" QuestId="28243" GiverName="Eye of Twilight" GiverId="206569" GiverType="Object" X="-3336.709" Y="-5491.562" Z="46.50623" />
 			<If Condition="(HasQuest(28243))" >
 				<CustomBehavior File="FlyTo" X="-3195.065" Y="-5050.772" Z="120.0086" />
@@ -728,21 +728,20 @@
 		<PickUp QuestName="Tear Them From the Sky!" QuestId="28280" GiverName="Nivvet Channelock" GiverId="48174" />
 			<If Condition="((HasQuest(28244)) &amp;&amp; (!IsQuestCompleted(28244)))" >
 				<CustomBehavior File="InteractWith" QuestId="28244" MobId="48116" NumOfTimes="1" CollectionDistance="20" X="-3181.248" Y="-5059.636" Z="120.9923" />
-				<!-- the waittimer doesn't come on
-				<CustomBehavior File="WaitTimer" WaitTime="150000"/> -->
+				<CustomBehavior File="WaitTimer" WaitTime="150000"/>
 				<CustomBehavior File="UserSettings" PullDistance="1" />
 			</If>
 		<TurnIn QuestName="Eye Spy" TurnInName="Low Shaman Blundy" QuestId="28244" TurnInId="48175" X="-3182.27" Y="-5060.85" Z="120.9945" />
 			<While Condition="((HasQuest(28280)) &amp;&amp; (!IsQuestCompleted(28280)))" >
 				<RunTo X="-3203.425" Y="-5018.945" Z="119.8454" />
-				<CustomBehavior File="UseItemOn" QuestId="28280" MobId="48197" ItemId="63393" NumOfTimes="1" WaitTime="6000" Range="110" CollectionDistance="400" X="-3201.259" Y="-5021.19" Z="119.8584" />
+				<CustomBehavior File="UseItemOn" QuestId="28280" MobId="48197" ItemId="63393" NumOfTimes="1" WaitTime="7000" Range="110" CollectionDistance="400" X="-3201.259" Y="-5021.19" Z="119.8584" />
 			</While>
-			<If Condition="((HasQuest(28280)) &amp;&amp; (IsQuestCompleted(28280)))" >
-				<CustomBehavior File="UserSettings" PullDistance="1" />
-			</If>
 		<TurnIn QuestName="Tear Them From the Sky!" TurnInName="Nivvet Channelock" QuestId="28280" TurnInId="48174" />
 		<PickUp QuestName="Last Stand at Thundermar" GiverName="Colin Thundermar" QuestId="28281" GiverId="48173" />
-			<Objective QuestName="Last Stand at Thundermar" QuestId="28281" Type="KillMob" KillCount="8" MobId="48194" />
+			<If Condition="((HasQuest(28281)) &amp;&amp; (!IsQuestCompleted(28281)))" >
+				<CustomBehavior File="UserSettings" PullDistance="25" />
+				<Objective QuestName="Last Stand at Thundermar" QuestId="28281" Type="KillMob" KillCount="8" MobId="48194" />
+			</If>
 		<TurnIn QuestName="Last Stand at Thundermar" TurnInName="Colin Thundermar" QuestId="28281" TurnInId="48173" />
 		<PickUp QuestName="Narkrall, The Drake-Tamer" GiverName="Colin Thundermar" QuestId="28282" GiverId="48173" />
 			<If Condition="((HasQuest(28282)) &amp;&amp; (!IsQuestCompleted(28282)))" >
@@ -852,7 +851,7 @@
 		<TurnIn QuestName="Mercy for the Bound" TurnInName="Earthcaller Yevaa" QuestId="27303" TurnInId="45386" />
 		<PickUp QuestName="The Maw of Iso'rath" GiverName="Earthcaller Torunscar" QuestId="27376" GiverId="45332" />
 			<If Condition="((HasQuest(27376)) &amp;&amp; (!IsQuestCompleted(27376)))" >
-				<CustomBehavior File="MountVehOnly" NpcMountId="45435" X="-2530.04" Y="-4784.1" Z="179.9242" />
+				<CustomBehavior File="MountVehOnly" VehicleMountId="45435" X="-2530.04" Y="-4784.1" Z="179.9242" />
 			</If>
 		<TurnIn QuestName="The Maw of Iso'rath" TurnInName="Earthcaller Yevaa" QuestId="27376" TurnInId="47991" />
 		<PickUp QuestName="Devoured" GiverName="Earthcaller Yevaa" QuestId="27377" GiverId="47991" />
@@ -1011,7 +1010,7 @@
 		<!-- Fun cutscene -->
 		<PickUp QuestName="Battle of Life and Death" GiverName="Calen" QuestId="28758" GiverId="49810" X="-2699.601" Y="-3183.016" Z="179.0589" />
 			<If Condition="((HasQuest(28758)) &amp;&amp; (!IsQuestCompleted(28758)))" >
-				<CustomBehavior File="MountVehOnly" NpcMountId="49910" X="-2685.983" Y="-3178.316" Z="179.9467" />
+				<CustomBehavior File="MountVehOnly" VehicleMountId="49910" X="-2685.983" Y="-3178.316" Z="179.9467" />
 				<CustomBehavior File="UserDialog" QuestId="28758" AllowBotStop="True" SoundCue="Asterisk" SoundCueInterval="1" Text="Kill 8 drakes\nTarget, press 1, it comes to you, press 3\n\nDon't go far, you have another quest to do" />
 				<!-- You control veh, veh has a fireball, heal, and one for when you're near the drake to kill it, similar to the hyjal quest
 					Basically, cast fireball on target, it comes to you, press finishing strike and it's dead.  very easy quest -->
@@ -1177,7 +1176,7 @@
 				<CustomBehavior File="ForcedDismount" />
 				<CustomBehavior File="InteractWith" QuestId="27502" MobId="46076" NumOfTimes="1" GossipOptions="1" WaitTime="1000" CollectionDistance="50" X="-4417.91" Y="-4483.365" Z="212.756" />
 				<RunTo X="-4478.864" Y="-4421.829" Z="256.5703" />
-				<CustomBehavior File="WaitTimer" WaitTime="55000"/>
+				<CustomBehavior File="WaitTimer" WaitTime="65000"/>
 			</If>
 			<If Condition="((HasQuest(27502)) &amp;&amp; (IsQuestCompleted(27502)))" >
 				<CustomBehavior File="CompleteLogQuest" QuestId="27502" />
@@ -1232,7 +1231,7 @@
 				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for  {TimeRemaining}" />
 				<CustomBehavior File="InteractWith" QuestId="27659" ObjectType="Gameobject" MobId="206017" NumOfTimes="1" Range="6" CollectionDistance="50" X="-4347.776" Y="-4194.816" Z="324.228" />
 				<CustomBehavior File="InteractWith" QuestId="27659" MobId="46272" WaitForNpcs="False" />
-				<CustomBehavior File="UserSettings" PullDistance="20" />
+				<CustomBehavior File="UserSettings" PullDistance="25" />
 			 </While>
 			</If>
 			<If Condition="(HasQuest(27660))" >
