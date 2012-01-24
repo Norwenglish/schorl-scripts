@@ -1,44 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Action = TreeSharp.Action;
-using Styx.Helpers;
-using Styx.Logic.Pathing;
+using System.Xml.Linq;
 using Styx;
-using Styx.WoWInternals;
-using Styx.Logic.Profiles;
-using TreeSharp;
-using Styx.Logic.POI;
+using Styx.Combat.CombatRoutine;
+using Styx.Helpers;
 using Styx.Logic;
-using Styx.Logic.Inventory.Frames.LootFrame;
+using Styx.Logic.Pathing;
+using Styx.Logic.Profiles;
+using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
+using TreeSharp;
+using Action = TreeSharp.Action;
 
 namespace HighVoltz.Composites
 {
     public class FollowPathAction : Action
     {
-        LocalPlayer _me = ObjectManager.Me;
-        AutoAnglerSettings _settings = AutoAngler.Instance.MySettings;
         public static List<WoWPoint> WayPoints = new List<WoWPoint>();
-        static int _currentIndex = 0;
-        public static WoWPoint CurrentPoint
-        {
-            get
-            {
-                return WayPoints != null && WayPoints.Count > 0 ?
-                    WayPoints[_currentIndex] : WoWPoint.Zero;
-            }
-        }
+        private static int _currentIndex;
+        private readonly LocalPlayer _me = ObjectManager.Me;
+        private readonly AutoAnglerSettings _settings = AutoAngler.Instance.MySettings;
+        private int _lastUkTagCallTime;
+
         public FollowPathAction()
         {
             BotEvents.Profile.OnNewOuterProfileLoaded += Profile_OnNewOuterProfileLoaded;
-            Styx.Logic.Profiles.Profile.OnUnknownProfileElement += Profile_OnUnknownProfileElement;
+            Profile.OnUnknownProfileElement += Profile_OnUnknownProfileElement;
             if (ProfileManager.CurrentProfile != null)
                 LoadWayPoints(ProfileManager.CurrentProfile);
         }
 
-        void WayPoints_OnStartOfQueue(object sender, EventArgs e)
+        public static WoWPoint CurrentPoint
+        {
+            get
+            {
+                return WayPoints != null && WayPoints.Count > 0
+                           ? WayPoints[_currentIndex]
+                           : WoWPoint.Zero;
+            }
+        }
+
+        private void WayPoints_OnStartOfQueue(object sender, EventArgs e)
         {
             if (AutoAngler.Instance.MySettings.PathingType == PathingType.Bounce)
             {
@@ -46,7 +49,7 @@ namespace HighVoltz.Composites
             }
         }
 
-        void WayPoints_OnEndOfQueue(object sender, EventArgs e)
+        private void WayPoints_OnEndOfQueue(object sender, EventArgs e)
         {
             if (AutoAngler.Instance.MySettings.PathingType == PathingType.Bounce)
             {
@@ -57,20 +60,22 @@ namespace HighVoltz.Composites
         ~FollowPathAction()
         {
             BotEvents.Profile.OnNewOuterProfileLoaded -= Profile_OnNewOuterProfileLoaded;
-            Styx.Logic.Profiles.Profile.OnUnknownProfileElement -= Profile_OnUnknownProfileElement;
+            Profile.OnUnknownProfileElement -= Profile_OnUnknownProfileElement;
         }
 
-        void Profile_OnNewOuterProfileLoaded(BotEvents.Profile.NewProfileLoadedEventArgs args)
+        private void Profile_OnNewOuterProfileLoaded(BotEvents.Profile.NewProfileLoadedEventArgs args)
         {
             try
             {
                 LoadWayPoints(ProfileManager.CurrentProfile);
             }
-            catch (Exception ex) { Logging.WriteException(ex); }
+            catch (Exception ex)
+            {
+                Logging.WriteException(ex);
+            }
         }
 
-        int _lastUkTagCallTime = 0;
-        void Profile_OnUnknownProfileElement(object sender, UnknownProfileElementEventArgs e)
+        private void Profile_OnUnknownProfileElement(object sender, UnknownProfileElementEventArgs e)
         {
             if (e.Element.Name == "FishingSchool")
             {
@@ -78,7 +83,7 @@ namespace HighVoltz.Composites
                 if (Environment.TickCount - _lastUkTagCallTime > 4000)
                     AutoAngler.PoolsToFish.Clear();
                 _lastUkTagCallTime = Environment.TickCount;
-                var entryAttrib = e.Element.Attribute("Entry");
+                XAttribute entryAttrib = e.Element.Attribute("Entry");
                 if (entryAttrib != null)
                 {
                     uint entry;
@@ -86,38 +91,41 @@ namespace HighVoltz.Composites
                     if (!AutoAngler.PoolsToFish.Contains(entry))
                     {
                         AutoAngler.PoolsToFish.Add(entry);
-                        var nameAttrib = e.Element.Attribute("Name");
+                        XAttribute nameAttrib = e.Element.Attribute("Name");
                         if (nameAttrib != null)
-                            AutoAngler.Instance.Log("Adding Pool Entry: {0} to the list of pools to fish from", nameAttrib.Value);
+                            AutoAngler.Instance.Log("Adding Pool Entry: {0} to the list of pools to fish from",
+                                                    nameAttrib.Value);
                         else
                             AutoAngler.Instance.Log("Adding Pool Entry: {0} to the list of pools to fish from", entry);
                     }
                 }
                 else
                 {
-                    AutoAngler.Instance.Err("<FishingSchool> tag must have the 'Entry' Attribute, e.g <FishingSchool Entry=\"202780\"/>\nAlso supports 'Name' attribute but only used for display purposes");
+                    AutoAngler.Instance.Err(
+                        "<FishingSchool> tag must have the 'Entry' Attribute, e.g <FishingSchool Entry=\"202780\"/>\nAlso supports 'Name' attribute but only used for display purposes");
                 }
                 e.Handled = true;
             }
             else if (e.Element.Name == "Pathing")
             {
-                var typeAttrib = e.Element.Attribute("Type");
+                XAttribute typeAttrib = e.Element.Attribute("Type");
                 if (typeAttrib != null)
                 {
                     AutoAngler.Instance.MySettings.PathingType = (PathingType)
-                        Enum.Parse(typeof(PathingType), typeAttrib.Value, true);
-                    AutoAngler.Instance.Log("Setting Pathing Type to {0} Mode", 
-                        AutoAngler.Instance.MySettings.PathingType);
+                                                                 Enum.Parse(typeof (PathingType), typeAttrib.Value, true);
+                    AutoAngler.Instance.Log("Setting Pathing Type to {0} Mode",
+                                            AutoAngler.Instance.MySettings.PathingType);
                 }
                 else
                 {
-                    AutoAngler.Instance.Err("<Pathing> tag must have the 'Type' Attribute, e.g <Pathing Type=\"Circle\"/>");
+                    AutoAngler.Instance.Err(
+                        "<Pathing> tag must have the 'Type' Attribute, e.g <Pathing Type=\"Circle\"/>");
                 }
                 e.Handled = true;
             }
         }
 
-        void LoadWayPoints(Profile profile)
+        private void LoadWayPoints(Profile profile)
         {
             WayPoints.Clear();
             if (profile != null && profile.GrindArea != null)
@@ -125,7 +133,8 @@ namespace HighVoltz.Composites
                 if (profile.GrindArea.Hotspots != null)
                 {
                     WayPoints = profile.GrindArea.Hotspots.ConvertAll(hs => hs.Position);
-                    WoWPoint closestPoint = WayPoints.OrderBy(u => u.Distance(ObjectManager.Me.Location)).FirstOrDefault();
+                    WoWPoint closestPoint =
+                        WayPoints.OrderBy(u => u.Distance(ObjectManager.Me.Location)).FirstOrDefault();
                     _currentIndex = WayPoints.FindIndex(w => w == closestPoint);
                 }
                 else
@@ -139,7 +148,7 @@ namespace HighVoltz.Composites
                 return RunStatus.Success;
             //  dks can refresh water walking while flying around.
             if (AutoAngler.Instance.MySettings.UseWaterWalking &&
-                ObjectManager.Me.Class == Styx.Combat.CombatRoutine.WoWClass.DeathKnight && !WaterWalking.IsActive)
+                ObjectManager.Me.Class == WoWClass.DeathKnight && !WaterWalking.IsActive)
             {
                 WaterWalking.Cast();
             }
@@ -147,7 +156,7 @@ namespace HighVoltz.Composites
                 return RunStatus.Failure;
             float speed = ObjectManager.Me.MovementInfo.CurrentSpeed;
             float modifier = _settings.Fly ? 4f : 2f;
-            float precision = speed > 7 ? (modifier * speed) / 7f : modifier;
+            float precision = speed > 7 ? (modifier*speed)/7f : modifier;
             if (ObjectManager.Me.Location.Distance(CurrentPoint) <= precision)
                 CycleToNextPoint();
             if (_settings.Fly)
@@ -171,6 +180,7 @@ namespace HighVoltz.Composites
             }
             return RunStatus.Success;
         }
+
         public static void CycleToNextPoint()
         {
             if (WayPoints != null)
@@ -190,7 +200,7 @@ namespace HighVoltz.Composites
             }
         }
 
-        static WoWPoint GetNextWayPoint()
+        private static WoWPoint GetNextWayPoint()
         {
             int i = _currentIndex + 1;
             if (i >= WayPoints.Count)
@@ -213,8 +223,8 @@ namespace HighVoltz.Composites
             WoWPoint point = GetNextWayPoint();
             point = new WoWPoint(point.X - cp.X, point.Y - cp.Y, 0);
             point.Normalize();
-            float angle = WoWMathHelper.NormalizeRadian((float)Math.Atan2(point.Y, point.X - 1));
-            if (WoWMathHelper.IsFacing(CurrentPoint, angle, pool.Location, (float)Math.PI) &&
+            float angle = WoWMathHelper.NormalizeRadian((float) Math.Atan2(point.Y, point.X - 1));
+            if (WoWMathHelper.IsFacing(CurrentPoint, angle, pool.Location, (float) Math.PI) &&
                 CurrentPoint != WayPoints[WayPoints.Count - 1])
             {
                 CycleToNextPoint();

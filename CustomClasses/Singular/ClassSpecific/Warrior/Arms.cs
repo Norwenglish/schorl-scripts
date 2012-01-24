@@ -79,7 +79,7 @@ namespace Singular.ClassSpecific.Warrior
                         // recklessness gets to be used in any stance soon
                         Spell.BuffSelf("Recklessness", ret => SingularSettings.Instance.Warrior.UseWarriorDpsCooldowns && SingularSettings.Instance.Warrior.UseWarriorBasicRotation == false),
                         Spell.BuffSelf("Sweeping Strikes"),
-                        Spell.Cast("Bladestorm", ret => SingularSettings.Instance.Warrior.UseWarriorBladestorm),
+                        Spell.Cast("Bladestorm", ret => SingularSettings.Instance.Warrior.UseWarriorBladestorm && StyxWoW.Me.CurrentTarget.DistanceSqr < 36),
                         Spell.Cast("Cleave"),
                         Spell.Cast("Mortal Strike"))),
 
@@ -109,7 +109,7 @@ namespace Singular.ClassSpecific.Warrior
                 Spell.Cast("Colossus Smash"),                
                 Spell.Cast("Mortal Strike"),
                 //Bladestorm after dots and MS if against player
-                Spell.Cast("Bladestorm", ret => StyxWoW.Me.CurrentTarget.IsPlayer && SingularSettings.Instance.Warrior.UseWarriorBladestorm),
+                Spell.Cast("Bladestorm", ret => StyxWoW.Me.CurrentTarget.IsPlayer && StyxWoW.Me.CurrentTarget.DistanceSqr < 36 && SingularSettings.Instance.Warrior.UseWarriorBladestorm),
                 Spell.Cast("Overpower"),
                 Spell.Cast("Slam", ret => StyxWoW.Me.RagePercent > 40 && SingularSettings.Instance.Warrior.UseWarriorSlamTalent),
 
@@ -176,7 +176,7 @@ namespace Singular.ClassSpecific.Warrior
                         )),
 
                 //Buff up
-                Spell.BuffSelf("Battle Shout", ret => StyxWoW.Me.RagePercent < 20 && SingularSettings.Instance.Warrior.UseWarriorShouts),
+                Spell.BuffSelf("Battle Shout", ret => (SingularSettings.Instance.Warrior.UseWarriorShouts || SingularSettings.Instance.Warrior.UseWarriorT12) && !StyxWoW.Me.HasAnyAura("Horn of Winter", "Roar of Courage", "Strength of Earth Totem", "Battle Shout")),
                 Spell.BuffSelf("Commanding Shout", ret => StyxWoW.Me.RagePercent < 20 && SingularSettings.Instance.Warrior.UseWarriorShouts == false),
 
                 //Charge
@@ -230,9 +230,13 @@ namespace Singular.ClassSpecific.Warrior
                 Spell.Buff("Enraged Regeneration", ret => StyxWoW.Me.HealthPercent < 60 && SingularSettings.Instance.Warrior.UseWarriorBasicRotation == false),
 
                 //Retaliation if fighting elite or targeting player that swings
-                Spell.Buff("Retaliation", ret => (StyxWoW.Me.CurrentTarget.IsPlayer || StyxWoW.Me.CurrentTarget.Elite) && StyxWoW.Me.CurrentTarget.PowerType != WoWPowerType.Mana && SingularSettings.Instance.Warrior.UseWarriorBasicRotation == false && SingularSettings.Instance.Warrior.UseWarriorDpsCooldowns),
+                Spell.Buff("Retaliation", ret => StyxWoW.Me.HealthPercent < 66 && StyxWoW.Me.CurrentTarget.DistanceSqr < 36 && 
+                    (StyxWoW.Me.CurrentTarget.IsPlayer || StyxWoW.Me.CurrentTarget.Elite) && 
+                    StyxWoW.Me.CurrentTarget.PowerType != WoWPowerType.Mana && 
+                    SingularSettings.Instance.Warrior.UseWarriorBasicRotation == false && 
+                    SingularSettings.Instance.Warrior.UseWarriorDpsCooldowns),
                 // Recklessness if caster or elite
-                Spell.Buff("Recklessness", ret => (StyxWoW.Me.CurrentTarget.IsPlayer || StyxWoW.Me.CurrentTarget.Elite) && StyxWoW.Me.CurrentTarget.PowerType == WoWPowerType.Mana && SingularSettings.Instance.Warrior.UseWarriorBasicRotation == false && SingularSettings.Instance.Warrior.UseWarriorDpsCooldowns),
+                Spell.Buff("Recklessness", ret => (StyxWoW.Me.CurrentTarget.IsPlayer || StyxWoW.Me.CurrentTarget.Elite) && SingularSettings.Instance.Warrior.UseWarriorBasicRotation == false && SingularSettings.Instance.Warrior.UseWarriorDpsCooldowns),
                 
                 //Deadly calm if low on rage or during execute phase on bosses
                 Spell.BuffSelf("Deadly Calm", ret => StyxWoW.Me.RagePercent < 10 || 
@@ -249,7 +253,7 @@ namespace Singular.ClassSpecific.Warrior
                 
                 // Buff up
                 Spell.BuffSelf("Commanding Shout", ret => SingularSettings.Instance.Warrior.UseWarriorShouts == false && SingularSettings.Instance.Warrior.UseWarriorT12),
-                Spell.BuffSelf("Battle Shout", ret => !StyxWoW.Me.HasAnyAura("Horn of Winter", "Roar of Courage", "Strength of Earth Totem", "Battle Shout") || SingularSettings.Instance.Warrior.UseWarriorT12)
+                Spell.BuffSelf("Battle Shout", ret => (SingularSettings.Instance.Warrior.UseWarriorShouts || SingularSettings.Instance.Warrior.UseWarriorT12) && !StyxWoW.Me.HasAnyAura("Horn of Winter", "Roar of Courage", "Strength of Earth Totem", "Battle Shout"))
                 );
         }
 
@@ -269,7 +273,7 @@ namespace Singular.ClassSpecific.Warrior
         {
             return new PrioritySelector(
                 //Buff up
-                Spell.BuffSelf("Battle Shout", ret => SingularSettings.Instance.Warrior.UseWarriorShouts),
+                Spell.BuffSelf("Battle Shout", ret => (SingularSettings.Instance.Warrior.UseWarriorShouts || SingularSettings.Instance.Warrior.UseWarriorT12) && !StyxWoW.Me.HasAnyAura("Horn of Winter", "Roar of Courage", "Strength of Earth Totem", "Battle Shout")),
                 Spell.BuffSelf("Commanding Shut", ret => SingularSettings.Instance.Warrior.UseWarriorShouts == false)
                 );
         }

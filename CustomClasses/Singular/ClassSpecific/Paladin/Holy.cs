@@ -56,6 +56,22 @@ namespace Singular.ClassSpecific.Paladin
                     );
         }
 
+        private static bool _holyPaladinCombatNeeded
+        {
+            get
+            {
+                if (Battlegrounds.IsInsideBattleground && StyxWoW.Me.HealthPercent < 50 && HealerManager.Instance.FirstUnit == null)
+                {
+                    return true;
+                }
+                if (!StyxWoW.Me.IsInParty && !StyxWoW.Me.IsInRaid)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
         [Class(WoWClass.Paladin)]
         [Spec(TalentSpec.HolyPaladin)]
         [Behavior(BehaviorType.Combat)]
@@ -68,10 +84,10 @@ namespace Singular.ClassSpecific.Paladin
                     Spell.Buff("Judgement", 
                                 ret => SpellManager.HasSpell("Judgement") && 
                                        StyxWoW.Me.CurrentTarget.Distance <= SpellManager.Spells["Judgement"].MaxRange - 2 &&
-                                       StyxWoW.Me.CurrentTarget.InLineOfSight &&
+                                       StyxWoW.Me.CurrentTarget.InLineOfSpellSight &&
                                        StyxWoW.Me.IsSafelyFacing(StyxWoW.Me.CurrentTarget)),
                     new Decorator(
-                        ret => !StyxWoW.Me.IsInParty && !StyxWoW.Me.IsInRaid,
+                        ret => Battlegrounds.IsInsideBattleground || (!StyxWoW.Me.IsInParty && !StyxWoW.Me.IsInRaid),
                         new PrioritySelector(
                             Movement.CreateMoveToLosBehavior(),
                             Movement.CreateFaceTargetBehavior(),
@@ -129,6 +145,9 @@ namespace Singular.ClassSpecific.Paladin
                     ret => ret != null,
                         new PrioritySelector(
                             Spell.WaitForCast(),
+                            new Decorator(
+                                ret => moveInRange,
+                                Movement.CreateMoveToLosBehavior(ret => (WoWUnit)ret)),
                             Spell.Cast(
                                 "Beacon of Light",
                                 ret => Group.Tank,
@@ -168,11 +187,9 @@ namespace Singular.ClassSpecific.Paladin
     
                             new Decorator(
                                 ret => moveInRange,
-                                new PrioritySelector(
-                                    // Get in range and los
-                                    Movement.CreateMoveToLosBehavior(ret => (WoWUnit)ret),
-                                    Movement.CreateMoveToTargetBehavior(true, 35f, ret => (WoWUnit)ret)))
-                            )));
+                                // Get in range
+                                Movement.CreateMoveToTargetBehavior(true, 35f, ret => (WoWUnit)ret)))
+                            ));
         }
     }
 }

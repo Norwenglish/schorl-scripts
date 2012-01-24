@@ -47,7 +47,7 @@ namespace Singular.ClassSpecific.Warrior
 
                 //Defensive Cooldowns
                 Spell.BuffSelf("Shield Block"),
-                Spell.Cast("Battle Shout", ret => StyxWoW.Me),
+                Spell.BuffSelf("Battle Shout", ret => (SingularSettings.Instance.Warrior.UseWarriorShouts || SingularSettings.Instance.Warrior.UseWarriorT12) && !StyxWoW.Me.HasAnyAura("Horn of Winter", "Roar of Courage", "Strength of Earth Totem", "Battle Shout")),
                 Spell.BuffSelf("Shield Wall", ret => StyxWoW.Me.HealthPercent <= SingularSettings.Instance.Warrior.WarriorProtShieldWallHealth),
                 Spell.Buff("Demoralizing Shout", ret => SpellManager.CanCast("Demoralizing Shout") && !StyxWoW.Me.CurrentTarget.HasDemoralizing()),
 
@@ -67,6 +67,9 @@ namespace Singular.ClassSpecific.Warrior
                     ret => StyxWoW.Me.GotTarget && StyxWoW.Me.CurrentTarget.IsPlayer,
                     new PrioritySelector(
                         Spell.Cast("Victory Rush", ret => StyxWoW.Me.HealthPercent < 80),
+                        Spell.Cast("Disarm", ctx => StyxWoW.Me.CurrentTarget.DistanceSqr < 36 &&
+                                                        (StyxWoW.Me.CurrentTarget.Class == WoWClass.Warrior || StyxWoW.Me.CurrentTarget.Class == WoWClass.Rogue ||
+                                                        StyxWoW.Me.CurrentTarget.Class == WoWClass.Paladin || StyxWoW.Me.CurrentTarget.Class == WoWClass.Hunter)),
                         Spell.Buff("Rend"),
                         Spell.Cast("Thunder Clap", ctx => StyxWoW.Me.CurrentTarget.DistanceSqr < 7 * 7 && StyxWoW.Me.CurrentTarget.Attackable),
                         Spell.Cast("Shockwave"),

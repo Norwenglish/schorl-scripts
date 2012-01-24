@@ -1,28 +1,14 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Action = TreeSharp.Action;
-using Styx.Logic.POI;
-using Styx.WoWInternals.WoWObjects;
+﻿using System.Linq;
+using Styx.Logic.Inventory.Frames.LootFrame;
 using Styx.Logic.Pathing;
 using Styx.WoWInternals;
-using Styx.WoWInternals.World;
-using Styx.Logic;
-using Styx.Logic.BehaviorTree;
+using Styx.WoWInternals.WoWObjects;
 using TreeSharp;
-using Styx;
-using Styx.Helpers;
-using System.Diagnostics;
-using Styx.Logic.Inventory.Frames.LootFrame;
-
 
 namespace HighVoltz.Composites
 {
     public class LootNPCsAction : Action
     {
-
         protected override RunStatus Run(object context)
         {
             WoWUnit lootableNpc = ObjectManager.GetObjectsOfType<WoWUnit>(true)
@@ -36,7 +22,7 @@ namespace HighVoltz.Composites
             return RunStatus.Failure;
         }
 
-        void LootNPC(WoWUnit lootableUnit)
+        private void LootNPC(WoWUnit lootableUnit)
         {
             if (lootableUnit.WithinInteractRange)
             {
@@ -45,11 +31,11 @@ namespace HighVoltz.Composites
                     // record all loot info..
                     for (int i = 0; i < LootFrame.Instance.LootItems; i++)
                     {
-                        var lootInfo = LootFrame.Instance.LootInfo(i);
+                        LootSlotInfo lootInfo = LootFrame.Instance.LootInfo(i);
                         if (AutoAngler.FishCaught.ContainsKey(lootInfo.LootName))
-                            AutoAngler.FishCaught[lootInfo.LootName] += (uint)lootInfo.LootQuantity;
+                            AutoAngler.FishCaught[lootInfo.LootName] += (uint) lootInfo.LootQuantity;
                         else
-                            AutoAngler.FishCaught.Add(lootInfo.LootName, (uint)lootInfo.LootQuantity);
+                            AutoAngler.FishCaught.Add(lootInfo.LootName, (uint) lootInfo.LootQuantity);
                     }
                     LootFrame.Instance.LootAll();
                 }

@@ -1,28 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Action = TreeSharp.Action;
-using Styx.Logic.POI;
-using Styx.WoWInternals.WoWObjects;
-using Styx.Logic.Pathing;
-using Styx.WoWInternals;
-using Styx.WoWInternals.World;
-using Styx.Logic;
-using Styx.Logic.BehaviorTree;
-using TreeSharp;
-using Styx;
-using Styx.Helpers;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Styx.Logic.Inventory.Frames.LootFrame;
-
+using TreeSharp;
 
 namespace HighVoltz.Composites
 {
     public class LootAction : Action
     {
-        static Stopwatch _lootSw = new Stopwatch();
-        public static Stopwatch WaitingForLootSW { get { return _lootSw; } }
+        private static readonly Stopwatch _lootSw = new Stopwatch();
+
+        public static Stopwatch WaitingForLootSW
+        {
+            get { return _lootSw; }
+        }
+
         protected override RunStatus Run(object context)
         {
             if (GetLoot())
@@ -30,6 +20,7 @@ namespace HighVoltz.Composites
             else
                 return RunStatus.Failure;
         }
+
         /// <summary>
         /// returns true if waiting for loot or if successfully looted.
         /// </summary>
@@ -43,11 +34,11 @@ namespace HighVoltz.Composites
                 {
                     for (int i = 0; i < LootFrame.Instance.LootItems; i++)
                     {
-                        var lootInfo = LootFrame.Instance.LootInfo(i);
+                        LootSlotInfo lootInfo = LootFrame.Instance.LootInfo(i);
                         if (AutoAngler.FishCaught.ContainsKey(lootInfo.LootName))
-                            AutoAngler.FishCaught[lootInfo.LootName] += (uint)lootInfo.LootQuantity;
+                            AutoAngler.FishCaught[lootInfo.LootName] += (uint) lootInfo.LootQuantity;
                         else
-                            AutoAngler.FishCaught.Add(lootInfo.LootName, (uint)lootInfo.LootQuantity);
+                            AutoAngler.FishCaught.Add(lootInfo.LootName, (uint) lootInfo.LootQuantity);
                     }
                     LootFrame.Instance.LootAll();
                     _lootSw.Reset();

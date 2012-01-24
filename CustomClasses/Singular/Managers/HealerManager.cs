@@ -2,12 +2,12 @@
 
 // This file is part of Singular - A community driven Honorbuddy CC
 // $Author: raphus $
-// $Date: 2011-12-31 05:53:00 -0800 (Sat, 31 Dec 2011) $
+// $Date: 2012-01-23 13:09:45 -0800 (Mon, 23 Jan 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/Managers/HealerManager.cs $
 // $LastChangedBy: raphus $
-// $LastChangedDate: 2011-12-31 05:53:00 -0800 (Sat, 31 Dec 2011) $
-// $LastChangedRevision: 525 $
-// $Revision: 525 $
+// $LastChangedDate: 2012-01-23 13:09:45 -0800 (Mon, 23 Jan 2012) $
+// $LastChangedRevision: 567 $
+// $Revision: 567 $
 
 #endregion
 
@@ -139,6 +139,7 @@ namespace Singular.Managers
         protected override void DefaultTargetWeight(List<TargetPriority> units)
         {
             var tanks = GetMainTankGuids();
+            var inBg = Battlegrounds.IsInsideBattleground;
             foreach (TargetPriority prio in units)
             {
                 prio.Score = 500f;
@@ -156,7 +157,7 @@ namespace Singular.Managers
                 }
 
                 // If they're out of LOS, again, lower score!
-                if (!p.InLineOfSight)
+                if (!p.InLineOfSpellSight)
                 {
                     prio.Score -= 100f;
                 }
@@ -165,6 +166,12 @@ namespace Singular.Managers
                 if (tanks.Contains(p.Guid) && p.HealthPercent != 100 && 
                     // Ignore giving more weight to the tank if we have Beacon of Light on it.
                     !p.Auras.Any(a => a.Key == "Beacon of Light" && a.Value.CreatorGuid == StyxWoW.Me.Guid))
+                {
+                    prio.Score += 100f;
+                }
+
+                // Give flag carriers more weight in battlegrounds. We need to keep them alive!
+                if (inBg && p.Auras.Keys.Any(a => a.ToLowerInvariant().Contains("flag")))
                 {
                     prio.Score += 100f;
                 }

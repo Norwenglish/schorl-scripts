@@ -2,12 +2,12 @@
 
 // This file is part of Singular - A community driven Honorbuddy CC
 // $Author: raphus $
-// $Date: 2011-12-19 06:46:24 -0800 (Mon, 19 Dec 2011) $
+// $Date: 2012-01-12 06:48:38 -0800 (Thu, 12 Jan 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/SingularRoutine.cs $
 // $LastChangedBy: raphus $
-// $LastChangedDate: 2011-12-19 06:46:24 -0800 (Mon, 19 Dec 2011) $
-// $LastChangedRevision: 494 $
-// $Revision: 494 $
+// $LastChangedDate: 2012-01-12 06:48:38 -0800 (Thu, 12 Jan 2012) $
+// $LastChangedRevision: 555 $
+// $Revision: 555 $
 
 #endregion
 
@@ -47,7 +47,7 @@ namespace Singular
 
         public static SingularRoutine Instance { get; private set; }
 
-        public override string Name { get { return "Singular v2 $Revision: 494 $"; } }
+        public override string Name { get { return "Singular v2 $Revision: 555 $"; } }
 
         public override WoWClass Class { get { return StyxWoW.Me.Class; } }
 
@@ -63,11 +63,12 @@ namespace Singular
         {
             get
             {
-                if (Battlegrounds.IsInsideBattleground)
+                var map = StyxWoW.Me.CurrentMap;
+                if (map.IsBattleground || map.IsArena)
                 {
                     return WoWContext.Battlegrounds;
                 }
-                if (StyxWoW.Me.IsInInstance)
+                if (map.IsDungeon)
                 {
                     return WoWContext.Instances;
                 }

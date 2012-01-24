@@ -53,6 +53,9 @@ namespace Singular.ClassSpecific.Druid
                         ctx => ctx != null,
                         new PrioritySelector(
                         Spell.WaitForCast(false),
+                        new Decorator(
+                            ret => moveInRange,
+                            Movement.CreateMoveToLosBehavior(ret => (WoWUnit)ret)),
                         // Ensure we're in range of the unit to heal, and it's in LOS.
                         //CreateMoveToAndFace(35f, ret => (WoWUnit)ret),
                         //Cast Lifebloom on tank if
@@ -124,9 +127,7 @@ namespace Singular.ClassSpecific.Druid
 
                         new Decorator(
                             ret => moveInRange,
-                            new PrioritySelector(
-                                Movement.CreateMoveToLosBehavior(ret => (WoWUnit)ret),
-                                Movement.CreateMoveToTargetBehavior(true, 35f, ret => (WoWUnit)ret)))
+                            Movement.CreateMoveToTargetBehavior(true, 35f, ret => (WoWUnit)ret))
                         )));
         }
 
@@ -150,7 +151,7 @@ namespace Singular.ClassSpecific.Druid
             return
                 new PrioritySelector(
                     new Decorator(
-                        ret => !StyxWoW.Me.IsInParty && !StyxWoW.Me.IsInRaid,
+                        ret => Battlegrounds.IsInsideBattleground || (!StyxWoW.Me.IsInParty && !StyxWoW.Me.IsInRaid),
                         new PrioritySelector(
                             Safers.EnsureTarget(),
                             Movement.CreateMoveToLosBehavior(),
@@ -179,7 +180,7 @@ namespace Singular.ClassSpecific.Druid
                                SingularSettings.Instance.Druid.TreeOfLifeCount),
                     Spell.BuffSelf(
                         "Innervate",
-                        ret => StyxWoW.Me.ManaPercent <= SingularSettings.Instance.Druid.InnervateMana),
+                        ret => StyxWoW.Me.ManaPercent < 15 || StyxWoW.Me.ManaPercent <= SingularSettings.Instance.Druid.InnervateMana),
                     Spell.BuffSelf(
                         "Barkskin",
                         ret => StyxWoW.Me.HealthPercent <= SingularSettings.Instance.Druid.Barkskin)

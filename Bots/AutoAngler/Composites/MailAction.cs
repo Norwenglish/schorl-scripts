@@ -1,32 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Action = TreeSharp.Action;
-using Styx.Helpers;
-using Styx.Logic.Pathing;
+﻿using System.Linq;
 using Styx;
-using Styx.WoWInternals;
-using Styx.Logic.Profiles;
-using TreeSharp;
-using Styx.Logic.POI;
+using Styx.Helpers;
 using Styx.Logic;
-using Styx.WoWInternals.WoWObjects;
-using Styx.Logic.BehaviorTree;
 using Styx.Logic.Inventory.Frames.MailBox;
+using Styx.Logic.POI;
+using Styx.Logic.Pathing;
+using Styx.Logic.Profiles;
+using Styx.WoWInternals;
+using Styx.WoWInternals.WoWObjects;
+using TreeSharp;
 
 namespace HighVoltz.Composites
 {
     public class MailAction : Action
     {
-        LocalPlayer _me = ObjectManager.Me;
+        private readonly LocalPlayer _me = ObjectManager.Me;
 
         protected override RunStatus Run(object context)
         {
             WoWPoint mboxLoc = BotPoi.Current.Location;
             WoWGameObject mailbox = ObjectManager.GetObjectsOfType<WoWGameObject>().
-                       FirstOrDefault(m => m.SubType == WoWGameObjectType.Mailbox &&
-                           m.Location.Distance(mboxLoc) < 10);
+                FirstOrDefault(m => m.SubType == WoWGameObjectType.Mailbox &&
+                                    m.Location.Distance(mboxLoc) < 10);
             WoWPoint loc = mailbox != null ? mailbox.Location : mboxLoc;
 
             if (_me.Location.Distance(loc) > 4)
@@ -60,19 +55,26 @@ namespace HighVoltz.Composites
                 {
                     Vendor ven = ProfileManager.CurrentOuterProfile.VendorManager.GetClosestVendor();
                     if (ven != null)
-                    {// mail all except grey items which we will vendor.
+                    {
+// mail all except grey items which we will vendor.
                         MailFrame.Instance.SendMailWithManyAttachments(CharacterSettings.Instance.MailRecipient, 0,
-                            _me.BagItems.Where(i => !i.IsSoulbound && !i.IsConjured &&
-                                i.Quality != WoWItemQuality.Poor && !ProtectedItemsManager.Contains(i.Entry)).
-                                ToArray());
+                                                                       _me.BagItems.Where(
+                                                                           i => !i.IsSoulbound && !i.IsConjured &&
+                                                                                i.Quality != WoWItemQuality.Poor &&
+                                                                                !ProtectedItemsManager.Contains(i.Entry))
+                                                                           .
+                                                                           ToArray());
                         BotPoi.Current = new BotPoi(ven, PoiType.Repair);
                     }
                     else
-                    { // mail all since no vender is in profile
+                    {
+                        // mail all since no vender is in profile
                         MailFrame.Instance.SendMailWithManyAttachments(CharacterSettings.Instance.MailRecipient, 0,
-                            _me.BagItems.Where(i => !i.IsSoulbound && !i.IsConjured &&
-                                !ProtectedItemsManager.Contains(i.Entry)).
-                            ToArray());
+                                                                       _me.BagItems.Where(
+                                                                           i => !i.IsSoulbound && !i.IsConjured &&
+                                                                                !ProtectedItemsManager.Contains(i.Entry))
+                                                                           .
+                                                                           ToArray());
                         BotPoi.Current = new BotPoi(PoiType.None);
                     }
                 }
