@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Action = TreeSharp.Action;
-using Styx.Logic.POI;
-using Styx.WoWInternals.WoWObjects;
-using Styx.Logic.Pathing;
-using Styx.WoWInternals;
-using Styx.WoWInternals.World;
-using Styx.Logic;
-using Styx.Logic.BehaviorTree;
-using TreeSharp;
+﻿using System.Linq;
 using Styx;
-using Styx.Helpers;
-using System.Diagnostics;
+using Styx.Logic.BehaviorTree;
+using Styx.WoWInternals;
+using Styx.WoWInternals.WoWObjects;
+using TreeSharp;
 
 namespace HighVoltz.Composites
 {
-    public class EquipPoleAction:Action
+    public class EquipPoleAction : Action
     {
-        LocalPlayer _me = ObjectManager.Me;
+        private readonly LocalPlayer _me = ObjectManager.Me;
+
         protected override RunStatus Run(object context)
         {
             // equip fishing pole if there's none equipped
@@ -32,9 +23,9 @@ namespace HighVoltz.Composites
             return RunStatus.Failure;
         }
 
-        bool EquipPole()
+        private bool EquipPole()
         {
-            var pole = _me.BagItems.FirstOrDefault(i => i.ItemInfo.WeaponClass == WoWItemWeaponClass.FishingPole);
+            WoWItem pole = _me.BagItems.FirstOrDefault(i => i.ItemInfo.WeaponClass == WoWItemWeaponClass.FishingPole);
             if (pole != null)
             {
                 AutoAngler.Instance.Log("Equipping " + pole.Name);
@@ -57,16 +48,13 @@ namespace HighVoltz.Composites
                 //        else
                 //            Lua.DoString("for i=1,4 do if GetContainerNumFreeSlots(i) > 1 then PutItemInBag(i) end end");
                 //    }
-                   Util.EquipItemByID(pole.Entry);
+                Util.EquipItemByID(pole.Entry);
                 //}
                 return true;
             }
-            else
-            {
-                AutoAngler.Instance.Err("No fishing pole found");
-                TreeRoot.Stop();
-                return false;
-            }
+            AutoAngler.Instance.Err("No fishing pole found");
+            TreeRoot.Stop();
+            return false;
         }
     }
 }

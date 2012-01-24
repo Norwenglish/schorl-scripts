@@ -1,82 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Action = TreeSharp.Action;
-using Styx.Logic.POI;
-using Styx.WoWInternals.WoWObjects;
-using Styx.Logic.Pathing;
-using Styx.WoWInternals;
-using Styx.WoWInternals.World;
+using System.Diagnostics;
+using Styx;
+using Styx.Combat.CombatRoutine;
+using Styx.Helpers;
 using Styx.Logic;
 using Styx.Logic.BehaviorTree;
-using TreeSharp;
-using Styx;
-using Styx.Helpers;
-using System.Diagnostics;
 using Styx.Logic.Combat;
+using Styx.Logic.POI;
+using Styx.Logic.Pathing;
+using Styx.WoWInternals;
+using Styx.WoWInternals.WoWObjects;
+using Styx.WoWInternals.World;
+using TreeSharp;
+using Action = TreeSharp.Action;
 
 namespace HighVoltz.Composites
 {
     public class MoveToPoolAction : Action
     {
-        LocalPlayer _me = ObjectManager.Me;
         public static readonly List<WoWPoint> PoolPoints = new List<WoWPoint>();
-        ulong lastPoolGuid = 0;
-        Stopwatch _movetoConcludingSW = new Stopwatch();
-        public readonly static Stopwatch MoveToPoolSW = new Stopwatch(); // used to auto blacklist a pool if it takes too long to get to a point.
-        protected override TreeSharp.RunStatus Run(object context)
+
+        public static readonly Stopwatch MoveToPoolSW = new Stopwatch();
+        // used to auto blacklist a pool if it takes too long to get to a point.
+
+        private readonly LocalPlayer _me = ObjectManager.Me;
+        private readonly Stopwatch _movetoConcludingSW = new Stopwatch();
+        private ulong _lastPoolGuid;
+
+        protected override RunStatus Run(object context)
         {
             if (BotPoi.Current != null && BotPoi.Current.Type == PoiType.Harvest)
             {
-                var pool = (WoWGameObject)BotPoi.Current.AsObject;
+                var pool = (WoWGameObject) BotPoi.Current.AsObject;
                 if (pool != null && pool.IsValid)
                 {
                     return GotoPool(pool);
                 }
-                else
-                    BotPoi.Current = null;
+                BotPoi.Current = null;
             }
 
-            return TreeSharp.RunStatus.Failure;
+            return RunStatus.Failure;
         }
 
-        bool FindPoolPoint(WoWGameObject pool)
+        private bool FindPoolPoint(WoWGameObject pool)
         {
             int traceStep = AutoAngler.Instance.MySettings.TraceStep;
-            float _PIx2 = 3.14159f * 2f;
-            WoWPoint playerLoc = _me.Location;
-            WoWPoint p = new WoWPoint();
-            WoWPoint hPoint = new WoWPoint();
-            WoWPoint lPoint = new WoWPoint();
-            WorldLine[] traceLine = new WorldLine[traceStep];
+            const float pIx2 = 3.14159f*2f;
+            var traceLine = new WorldLine[traceStep];
             PoolPoints.Clear();
 
             // scans starting at 15 yards from player for water at every 18 degress 
-            bool[] tracelineRetVals;
 
             float range = 15;
             int min = AutoAngler.Instance.MySettings.MinPoolRange;
             int max = AutoAngler.Instance.MySettings.MaxPoolRange;
             float step = AutoAngler.Instance.MySettings.PoolRangeStep;
             float delta = step;
-            float avg = (min + max) / 2;
+            float avg = (min + max)/2;
             while (true)
             {
                 for (int i = 0; i < traceStep; i++)
                 {
-                    p = pool.Location.RayCast((i * _PIx2) / traceStep, range);
-                    hPoint = p; hPoint.Z += 45; lPoint = p; lPoint.Z -= 1;
+                    WoWPoint p = pool.Location.RayCast((i*pIx2)/traceStep, range);
+                    WoWPoint hPoint = p;
+                    hPoint.Z += 45;
+                    WoWPoint lPoint = p;
+                    lPoint.Z -= 1;
                     traceLine[i].Start = hPoint;
                     traceLine[i].End = lPoint;
                 }
                 WoWPoint[] hitPoints;
+                bool[] tracelineRetVals;
                 GameWorld.MassTraceLine(traceLine, GameWorld.CGWorldFrameHitFlags.HitTestGroundAndStructures,
-                    out tracelineRetVals, out hitPoints);
+                                        out tracelineRetVals, out hitPoints);
                 // what I'm doing here is compare the elevation of 4 corners around a point with 
                 // that point's elevation to determine if that point is too steep to stand on.
-                List<WorldLine> slopetraces = new List<WorldLine>();
-                List<WoWPoint> testPoints = new List<WoWPoint>();
+                var slopetraces = new List<WorldLine>();
+                var testPoints = new List<WoWPoint>();
                 for (int i = 0; i < traceStep; i++)
                 {
                     if (tracelineRetVals[i])
@@ -91,16 +92,18 @@ namespace HighVoltz.Composites
                     }
                 }
                 // fire tracelines.. 
-                bool[] slopelinesRetVals, lavaRetVals = null;
+                bool[] lavaRetVals = null;
                 WoWPoint[] slopeHits;
                 using (new FrameLock())
                 {
-                    GameWorld.MassTraceLine(slopetraces.ToArray(), GameWorld.CGWorldFrameHitFlags.HitTestGroundAndStructures,
-                    out slopelinesRetVals, out slopeHits);
+                    bool[] slopelinesRetVals;
+                    GameWorld.MassTraceLine(slopetraces.ToArray(),
+                                            GameWorld.CGWorldFrameHitFlags.HitTestGroundAndStructures,
+                                            out slopelinesRetVals, out slopeHits);
                     if (AutoAngler.Instance.MySettings.AvoidLava)
                     {
                         GameWorld.MassTraceLine(slopetraces.ToArray(), GameWorld.CGWorldFrameHitFlags.HitTestLiquid2,
-                         out lavaRetVals);
+                                                out lavaRetVals);
                     }
                 }
 
@@ -109,7 +112,7 @@ namespace HighVoltz.Composites
                 // perform LOS checks
                 if (PoolPoints.Count > 0)
                 {
-                    WorldLine[] losLine = new WorldLine[PoolPoints.Count];
+                    var losLine = new WorldLine[PoolPoints.Count];
                     for (int i2 = 0; i2 < PoolPoints.Count; i2++)
                     {
                         WoWPoint point = PoolPoints[i2];
@@ -118,7 +121,7 @@ namespace HighVoltz.Composites
                         losLine[i2].End = pool.Location;
                     }
                     GameWorld.MassTraceLine(losLine, GameWorld.CGWorldFrameHitFlags.HitTestGroundAndStructures,
-                        out tracelineRetVals);
+                                            out tracelineRetVals);
                     for (int i2 = PoolPoints.Count - 1; i2 >= 0; i2--)
                     {
                         if (tracelineRetVals[i2])
@@ -130,18 +133,15 @@ namespace HighVoltz.Composites
                 if (!_me.IsFlying)
                 {
                     // if we are not flying check if we can genorate a path to points.
-                    for (int i = 0; i < PoolPoints.Count; )
+                    for (int i = 0; i < PoolPoints.Count;)
                     {
                         WoWPoint[] testP = Navigator.GeneratePath(_me.Location, PoolPoints[i]);
                         if (testP.Length > 0)
                         {
                             return true;
                         }
-                        else
-                        {
-                            PoolPoints.RemoveAt(i);
-                            PoolPoints.Sort((a, b) => a.Distance(_me.Location).CompareTo(b.Distance(_me.Location)));
-                        }
+                        PoolPoints.RemoveAt(i);
+                        PoolPoints.Sort((a, b) => a.Distance(_me.Location).CompareTo(b.Distance(_me.Location)));
                     }
                 }
                 if (PoolPoints.Count > 0)
@@ -164,13 +164,12 @@ namespace HighVoltz.Composites
                     range = 15 - delta;
                     if (avg >= 15 || maxCaped)
                         delta += step;
-                    continue;
                 }
             }
             return false;
         }
 
-        static public WorldLine GetSlopeTraceLine(WoWPoint point, float xDelta, float yDelta)
+        public static WorldLine GetSlopeTraceLine(WoWPoint point, float xDelta, float yDelta)
         {
             WoWPoint topP = point;
             topP.X += xDelta;
@@ -181,47 +180,49 @@ namespace HighVoltz.Composites
             return new WorldLine(topP, botP);
         }
 
-        static public List<WorldLine> GetQuadSloopTraceLines(WoWPoint point)
+        public static List<WorldLine> GetQuadSloopTraceLines(WoWPoint point)
         {
             //float delta = AutoAngler2.Instance.MySettings.LandingSpotWidth / 2;
-            float delta = 0.5f;
-            List<WorldLine> wl = new List<WorldLine>();
-            // north west
-            wl.Add(GetSlopeTraceLine(point, delta, -delta));
-            // north east
-            wl.Add(GetSlopeTraceLine(point, delta, delta));
-            // south east
-            wl.Add(GetSlopeTraceLine(point, -delta, delta));
-            // south west
-            wl.Add(GetSlopeTraceLine(point, -delta, -delta));
+            const float delta = 0.5f;
+            var wl = new List<WorldLine>
+                         {
+                             // north west
+                             GetSlopeTraceLine(point, delta, -delta),
+                             // north east
+                             GetSlopeTraceLine(point, delta, delta),
+                             // south east
+                             GetSlopeTraceLine(point, -delta, delta),
+                             // south west
+                             GetSlopeTraceLine(point, -delta, -delta)
+                         };
             return wl;
         }
 
-        static public List<WoWPoint> ProcessSlopeAndLavaResults(List<WoWPoint> testPoints, WoWPoint[] slopePoints,
-            bool[] lavaHits)
+        public static List<WoWPoint> ProcessSlopeAndLavaResults(List<WoWPoint> testPoints, WoWPoint[] slopePoints,
+                                                                bool[] lavaHits)
         {
             //float slopeRise = AutoAngler2.Instance.MySettings.LandingSpotSlope / 2;
-            float slopeRise = 0.60f;
-            List<WoWPoint> retList = new List<WoWPoint>();
+            const float slopeRise = 0.60f;
+            var retList = new List<WoWPoint>();
             for (int i = 0; i < testPoints.Count; i++)
             {
-                if (slopePoints[i * 4] != WoWPoint.Zero &&
-                    slopePoints[i * 4 + 1] != WoWPoint.Zero &&
-                    slopePoints[i * 4 + 2] != WoWPoint.Zero &&
-                    slopePoints[i * 4 + 3] != WoWPoint.Zero &&
+                if (slopePoints[i*4] != WoWPoint.Zero &&
+                    slopePoints[i*4 + 1] != WoWPoint.Zero &&
+                    slopePoints[i*4 + 2] != WoWPoint.Zero &&
+                    slopePoints[i*4 + 3] != WoWPoint.Zero &&
                     // check for lava hits
                     (lavaHits == null ||
-                    (lavaHits != null &&
-                    !lavaHits[i * 4] &&
-                    !lavaHits[i * 4 + 1] &&
-                    !lavaHits[i * 4 + 2] &&
-                    !lavaHits[i * 4 + 3]))
+                     (lavaHits != null &&
+                      !lavaHits[i*4] &&
+                      !lavaHits[i*4 + 1] &&
+                      !lavaHits[i*4 + 2] &&
+                      !lavaHits[i*4 + 3]))
                     )
                 {
-                    if (ElevationDifference(testPoints[i], slopePoints[(i * 4)]) <= slopeRise &&
-                        ElevationDifference(testPoints[i], slopePoints[(i * 4) + 1]) <= slopeRise &&
-                        ElevationDifference(testPoints[i], slopePoints[(i * 4) + 2]) <= slopeRise &&
-                        ElevationDifference(testPoints[i], slopePoints[(i * 4) + 3]) <= slopeRise)
+                    if (ElevationDifference(testPoints[i], slopePoints[(i*4)]) <= slopeRise &&
+                        ElevationDifference(testPoints[i], slopePoints[(i*4) + 1]) <= slopeRise &&
+                        ElevationDifference(testPoints[i], slopePoints[(i*4) + 2]) <= slopeRise &&
+                        ElevationDifference(testPoints[i], slopePoints[(i*4) + 3]) <= slopeRise)
                     {
                         retList.Add(testPoints[i]);
                     }
@@ -230,21 +231,20 @@ namespace HighVoltz.Composites
             return retList;
         }
 
-        static public float ElevationDifference(WoWPoint p1, WoWPoint p2)
+        public static float ElevationDifference(WoWPoint p1, WoWPoint p2)
         {
             if (p1.Z > p2.Z)
                 return p1.Z - p2.Z;
-            else
-                return p2.Z - p1.Z;
+            return p2.Z - p1.Z;
         }
 
-        RunStatus GotoPool(WoWGameObject pool)
+        private RunStatus GotoPool(WoWGameObject pool)
         {
-            if (lastPoolGuid != pool.Guid)
+            if (_lastPoolGuid != pool.Guid)
             {
                 MoveToPoolSW.Reset();
                 MoveToPoolSW.Start();
-                lastPoolGuid = pool.Guid;
+                _lastPoolGuid = pool.Guid;
                 if (!FindPoolPoint(pool) || PoolPoints.Count == 0)
                 {
                     Util.BlacklistPool(pool, TimeSpan.FromDays(1), "Found no landing spots");
@@ -275,7 +275,7 @@ namespace HighVoltz.Composites
                     // don't bother mounting up if we can use navigator to walk over if it's less than 25 units away
                     if (_me.Location.Distance(PoolPoints[0]) < 25 && !_me.Mounted)
                     {
-                        var moveResult = Navigator.MoveTo(PoolPoints[0]);
+                        MoveResult moveResult = Navigator.MoveTo(PoolPoints[0]);
                         if (moveResult == MoveResult.Failed || moveResult == MoveResult.PathGenerationFailed)
                         {
                             Flightor.MountHelper.MountUp();
@@ -291,7 +291,7 @@ namespace HighVoltz.Composites
                 {
                     if (!ObjectManager.Me.Mounted && Mount.ShouldMount(PoolPoints[0]) && Mount.CanMount())
                         Mount.MountUp();
-                    var moveResult = Navigator.MoveTo(PoolPoints[0]);
+                    MoveResult moveResult = Navigator.MoveTo(PoolPoints[0]);
                     if (moveResult == MoveResult.UnstuckAttempt ||
                         moveResult == MoveResult.PathGenerationFailed || moveResult == MoveResult.Failed)
                     {
@@ -311,39 +311,36 @@ namespace HighVoltz.Composites
                 }
                 return RunStatus.Success;
             }
-            else
+            // allow small delay so clickToMove can run its course before dismounting. better landing precision..
+            if (!_movetoConcludingSW.IsRunning)
+                _movetoConcludingSW.Start();
+            if (_movetoConcludingSW.ElapsedMilliseconds < 1500)
             {
-                // allow small delay so clickToMove can run its course before dismounting. better landing precision..
-                if (!_movetoConcludingSW.IsRunning)
-                    _movetoConcludingSW.Start();
-                if (_movetoConcludingSW.ElapsedMilliseconds < 1500)
-                {
-                    if (_me.Location.Distance2D(PoolPoints[0]) > 0.5)
-                        WoWMovement.ClickToMove(PoolPoints[0]);
-                    return RunStatus.Success;
-                }
-                if (_me.Mounted)
-                {
-                    if (_me.Class == Styx.Combat.CombatRoutine.WoWClass.Druid &&
-                        (_me.Shapeshift == ShapeshiftForm.FlightForm || _me.Shapeshift == ShapeshiftForm.EpicFlightForm))
-                    {
-                        Lua.DoString("CancelShapeshiftForm()");
-                    }
-                    else
-                        Lua.DoString("Dismount()");
-                }
-                // can't fish while swimming..
-                if (_me.IsSwimming && !WaterWalking.CanCast)
-                {
-                    AutoAngler.Instance.Debug("Moving to new PoolPoint since I'm swimming at current PoolPoint");
-                    RemovePointAtTop(pool);
-                    return RunStatus.Success;
-                }
-                return RunStatus.Failure;
+                if (_me.Location.Distance2D(PoolPoints[0]) > 0.5)
+                    WoWMovement.ClickToMove(PoolPoints[0]);
+                return RunStatus.Success;
             }
+            if (_me.Mounted)
+            {
+                if (_me.Class == WoWClass.Druid &&
+                    (_me.Shapeshift == ShapeshiftForm.FlightForm || _me.Shapeshift == ShapeshiftForm.EpicFlightForm))
+                {
+                    Lua.DoString("CancelShapeshiftForm()");
+                }
+                else
+                    Lua.DoString("Dismount()");
+            }
+            // can't fish while swimming..
+            if (_me.IsSwimming && !WaterWalking.CanCast)
+            {
+                AutoAngler.Instance.Debug("Moving to new PoolPoint since I'm swimming at current PoolPoint");
+                RemovePointAtTop(pool);
+                return RunStatus.Success;
+            }
+            return RunStatus.Failure;
         }
 
-        bool RemovePointAtTop(WoWGameObject pool)
+        private bool RemovePointAtTop(WoWGameObject pool)
         {
             PoolPoints.RemoveAt(0);
             _movetoConcludingSW.Reset();

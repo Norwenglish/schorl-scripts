@@ -1,22 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
-using System.Windows;
-using Styx.Logic.Profiles;
-using Styx.Logic.POI;
 using Styx.Helpers;
 using Styx.Logic.BehaviorTree;
-using HighVoltz.Composites;
-using Styx.WoWInternals;
-using Styx.WoWInternals.WoWObjects;
-using Styx.Logic.Pathing;
-using Styx.WoWInternals.World;
-using System.IO;
+using Styx.Logic.POI;
+using Styx.Logic.Profiles;
 
 namespace HighVoltz
 {
@@ -28,10 +17,10 @@ namespace HighVoltz
             propertyGrid.SelectedObject = AutoAngler.Instance.MySettings;
         }
 
-        private void DonateButton_Click(object sender, EventArgs e)
+        private void DonateButtonClick(object sender, EventArgs e)
         {
             // my debug button :)
-            if (System.Environment.UserName == "highvoltz")
+            if (Environment.UserName == "highvoltz")
             {
                 //LocalPlayer me = ObjectManager.Me;
                 //var list = MoveToPoolAction.GetQuadSloopTraceLines(me.Location);
@@ -54,19 +43,20 @@ namespace HighVoltz
                 //}
             }
             else
-                System.Diagnostics.Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=MMC4GPHR8GQFN&lc=US&item_name=Highvoltz%27s%20Development%20fund&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted");
+                Process.Start(
+                    "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=MMC4GPHR8GQFN&lc=US&item_name=Highvoltz%27s%20Development%20fund&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted");
         }
 
-        private void RepButton_Click(object sender, EventArgs e)
+        private void RepButtonClick(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://www.thebuddyforum.com/reputation.php?do=addreputation&p=343952");
+            Process.Start("http://www.thebuddyforum.com/reputation.php?do=addreputation&p=343952");
         }
 
-        private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        private void PropertyGridPropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             if (e.ChangedItem.Label == "Poolfishing")
             {
-                if (!(bool)e.ChangedItem.Value)
+                if (!(bool) e.ChangedItem.Value)
                 {
                     if (!string.IsNullOrEmpty(ProfileManager.XmlLocation))
                     {
@@ -76,8 +66,8 @@ namespace HighVoltz
                     ProfileManager.LoadEmpty();
                 }
                 else if ((ProfileManager.CurrentProfile == null || ProfileManager.CurrentProfile.Name == "Empty Profile") &&
-                    !string.IsNullOrEmpty(AutoAnglerSettings.Instance.LastLoadedProfile) &&
-                    File.Exists(AutoAnglerSettings.Instance.LastLoadedProfile))
+                         !string.IsNullOrEmpty(AutoAnglerSettings.Instance.LastLoadedProfile) &&
+                         File.Exists(AutoAnglerSettings.Instance.LastLoadedProfile))
                 {
                     ProfileManager.LoadNew(AutoAnglerSettings.Instance.LastLoadedProfile);
                 }
@@ -85,12 +75,12 @@ namespace HighVoltz
             AutoAngler.Instance.MySettings.Save();
         }
 
-        private void MailButton_Click(object sender, EventArgs e)
+        private void MailButtonClick(object sender, EventArgs e)
         {
-            var profile = ProfileManager.CurrentProfile;
+            Profile profile = ProfileManager.CurrentProfile;
             if (profile != null && profile.MailboxManager != null)
             {
-                var mailbox = profile.MailboxManager.GetClosestMailbox();
+                Mailbox mailbox = profile.MailboxManager.GetClosestMailbox();
                 if (mailbox != null)
                 {
                     if (!string.IsNullOrEmpty(CharacterSettings.Instance.MailRecipient))
@@ -106,9 +96,7 @@ namespace HighVoltz
                 {
                     AutoAngler.Instance.Log("Profile has no Mailbox");
                 }
-
             }
         }
-
     }
 }

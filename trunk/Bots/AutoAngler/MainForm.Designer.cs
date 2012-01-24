@@ -89,7 +89,7 @@
             this.DonateButton.TabIndex = 0;
             this.DonateButton.Text = "Buy Me A Beer";
             this.DonateButton.UseVisualStyleBackColor = true;
-            this.DonateButton.Click += new System.EventHandler(this.DonateButton_Click);
+            this.DonateButton.Click += new System.EventHandler(this.DonateButtonClick);
             // 
             // RepButton
             // 
@@ -100,7 +100,7 @@
             this.RepButton.TabIndex = 0;
             this.RepButton.Text = "Give Reputation";
             this.RepButton.UseVisualStyleBackColor = true;
-            this.RepButton.Click += new System.EventHandler(this.RepButton_Click);
+            this.RepButton.Click += new System.EventHandler(this.RepButtonClick);
             // 
             // MailButton
             // 
@@ -111,7 +111,7 @@
             this.MailButton.TabIndex = 1;
             this.MailButton.Text = "Force Mail";
             this.MailButton.UseVisualStyleBackColor = true;
-            this.MailButton.Click += new System.EventHandler(this.MailButton_Click);
+            this.MailButton.Click += new System.EventHandler(this.MailButtonClick);
             // 
             // propertyGrid
             // 
@@ -120,7 +120,7 @@
             this.propertyGrid.Name = "propertyGrid";
             this.propertyGrid.Size = new System.Drawing.Size(338, 340);
             this.propertyGrid.TabIndex = 2;
-            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
+            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropertyGridPropertyValueChanged);
             // 
             // MainForm
             // 
