@@ -62,8 +62,8 @@ namespace Bobby53
                 if (GetAuraStackCount(GroupTank, "Earth Shield") < (inCombat ? 1 : 3))
                 {
                     MoveToHealTarget(GroupTank, 35);
-                    if (IsUnitInRange(GroupTank, 39))
-                        wasSpellCast = wasSpellCast || Safe_CastSpell(GroupTank, "Earth Shield", SpellRange.Check, SpellWait.NoWait);
+                    if (_me.IsUnitInRange(GroupTank, 39))
+                        wasSpellCast = wasSpellCast || Safe_CastSpell(GroupTank, "Earth Shield");
                 }
             }
 
@@ -118,7 +118,10 @@ namespace Bobby53
             if (_me.HealthPercent >= threshhold)
                 return false;
 
-            Log("^Heal Target: {0}[{1}] at {2:F1}%", Safe_UnitName(_me), _me.Level, _me.HealthPercent);
+            if (IsHealer())
+            {
+                Log("^Heal Target: {0}[{1}] at {2:F1}%", Safe_UnitName(_me), _me.Level, _me.HealthPercent);
+            }
 
             // non-combat heal... do what we can to try and top-off
             if (_me.Combat)
@@ -162,7 +165,7 @@ namespace Bobby53
                 return WasHealCast;
             }
 
-            Safe_StopMoving();
+            Safe_StopMoving( "for self heal");
 
             // wait for any current spell cast... this is overly cautious...
             // if in danger of dying, fastest heal possible
@@ -174,16 +177,16 @@ namespace Bobby53
 */
                 if (SpellManager.HasSpell("Nature's Swiftness"))          
                 {
-                    if (!Safe_CastSpell("Nature's Swiftness", SpellRange.NoCheck, SpellWait.Complete))
+                    if (!Safe_CastSpell(_me, "Nature's Swiftness"))
                         Dlog("Nature's Swiftness on cooldown, cannot Oh S@#$ heal");
                     else
                     {
                         if (!WasHealCast && SpellManager.HasSpell("Greater Healing Wave"))
-                            WasHealCast = Safe_CastSpell(_me, "Greater Healing Wave", SpellRange.NoCheck, SpellWait.NoWait);
+                            WasHealCast = Safe_CastSpell(_me, "Greater Healing Wave");
                         if (!WasHealCast && SpellManager.HasSpell("Healing Surge"))
-                            WasHealCast = Safe_CastSpell(_me, "Healing Surge", SpellRange.NoCheck, SpellWait.NoWait);
+                            WasHealCast = Safe_CastSpell(_me, "Healing Surge");
                         if (!WasHealCast && SpellManager.HasSpell("Healing Wave"))
-                            WasHealCast = Safe_CastSpell(_me, "Healing Wave", SpellRange.NoCheck, SpellWait.NoWait);
+                            WasHealCast = Safe_CastSpell(_me, "Healing Wave");
 
                         if (WasHealCast)
                             Slog("Big Heals - clicked the Oh S@#$ button!");
@@ -196,43 +199,43 @@ namespace Bobby53
             if (!_me.Combat)
             {
                 if (!WasHealCast && SpellManager.HasSpell("Greater Healing Wave"))
-                    WasHealCast = Safe_CastSpell(_me, "Greater Healing Wave", SpellRange.NoCheck, SpellWait.NoWait);
+                    WasHealCast = Safe_CastSpell(_me, "Greater Healing Wave");
                 if (!WasHealCast && SpellManager.HasSpell("Healing Wave") && _hasTalentMaelstromWeapon && IsAuraPresent(_me, "Maelstrom Weapon"))
-                    WasHealCast = Safe_CastSpell(_me, "Healing Wave", SpellRange.NoCheck, SpellWait.NoWait);
+                    WasHealCast = Safe_CastSpell(_me, "Healing Wave");
                 if (!WasHealCast && SpellManager.HasSpell("Healing Surge"))
-                    WasHealCast = Safe_CastSpell(_me, "Healing Surge", SpellRange.NoCheck, SpellWait.NoWait);
+                    WasHealCast = Safe_CastSpell(_me, "Healing Surge");
             }
             else
             {
                 if (!WasHealCast && SpellManager.HasSpell("Riptide"))
-                    WasHealCast = Safe_CastSpell(_me, "Riptide", SpellRange.NoCheck, SpellWait.NoWait);
+                    WasHealCast = Safe_CastSpell(_me, "Riptide");
                 if (_hasTalentMaelstromWeapon && 3 <= GetAuraStackCount(_me, "Maelstrom Weapon"))
                 {
                     if (!WasHealCast && SpellManager.HasSpell("Greater Healing Wave"))
                     {
                         Dlog("HealMyself:  GHW selected because of Maelstrom Weapon");
-                        WasHealCast = Safe_CastSpell(_me, "Greater Healing Wave", SpellRange.NoCheck, SpellWait.NoWait);
+                        WasHealCast = Safe_CastSpell(_me, "Greater Healing Wave");
                     }
                     if (!WasHealCast && SpellManager.HasSpell("Healing Wave") )
                     {
                         Dlog("HealMyself:  HW selected because of Maelstrom Weapon");
-                        WasHealCast = Safe_CastSpell(_me, "Healing Wave", SpellRange.NoCheck, SpellWait.NoWait);
+                        WasHealCast = Safe_CastSpell(_me, "Healing Wave");
                     }
                 }
                 if (!WasHealCast && SpellManager.HasSpell("Greater Healing Wave") && IsAuraPresent(_me, "Tidal Waves"))
                 {
                     Dlog("HealMyself:  GHW selected because of Tidal Waves");
-                    WasHealCast = Safe_CastSpell(_me, "Greater Healing Wave", SpellRange.NoCheck, SpellWait.NoWait);
+                    WasHealCast = Safe_CastSpell(_me, "Greater Healing Wave");
                 }
                 if (!WasHealCast && SpellManager.HasSpell("Healing Surge") && (_me.CurrentHealth < 40 || !SpellManager.HasSpell("Greater Healing Wave")))
                 {
                     Dlog("HealMyself:  HS selected because of low-health or GHW not trained");
-                    WasHealCast = Safe_CastSpell(_me, "Healing Surge", SpellRange.NoCheck, SpellWait.NoWait);
+                    WasHealCast = Safe_CastSpell(_me, "Healing Surge");
                 }
                 if (!WasHealCast && SpellManager.HasSpell("Greater Healing Wave"))
                 {
                     Dlog("HealMyself:  GHW selected by default");
-                    WasHealCast = Safe_CastSpell(_me, "Greater Healing Wave", SpellRange.NoCheck, SpellWait.NoWait);
+                    WasHealCast = Safe_CastSpell(_me, "Greater Healing Wave");
                 }
             }
 
@@ -242,7 +245,7 @@ namespace Bobby53
                     Slog("No healing spells trained, you need potions or first-aid to heal", checkHealth, checkMana);
                 else
                 {
-                    WasHealCast = Safe_CastSpell(_me, "Healing Wave", SpellRange.NoCheck, SpellWait.NoWait);
+                    WasHealCast = Safe_CastSpell(_me, "Healing Wave");
 
                     // at this point no healing worked, so issue a heal failed message
                     if (!WasHealCast)
@@ -555,7 +558,7 @@ namespace Bobby53
                         ;
                     else if (_healTargets[a] == currHealTarget)     // skip if current healtarget
                         ;
-                    else if (IsUnitInRange(_healTargets[a], 37))   // choose one alread in range
+                    else if (_me.IsUnitInRange(_healTargets[a], 37))   // choose one alread in range
                     {
                         // Slog("Heal Target: {0}[{1}] at {2:F0}% dist: {3:F1} in-los: {4}", _healTargets[a].Name, _healTargets[a].Level, _healTargets[a].HealthPercent, _healTargets[a].Distance, _healTargets[a].InLineOfSight);
                         return _healTargets[a];
@@ -779,11 +782,11 @@ namespace Bobby53
                     return false;
                 }
 
-                if (!unit.IsMe && !IsUnitInRange(unit, 39))
+                if (!unit.IsMe && !_me.IsUnitInRange(unit, 39))
                 {
-                    Dlog("CastHeal:  moving to heal target who is {0} yds away", unit.Distance);
+                    Dlog("CastHeal:  moving to heal target who is {0:F1} yds away", unit.Distance);
                     MoveToHealTarget(unit, 35);
-                    if (!IsUnitInRange(unit, 39))
+                    if (!_me.IsUnitInRange(unit, 39))
                     {
                         Dlog("CastHeal:  not within healing range, Heal Target {0} is {1:F1} yds away", Safe_UnitName(unit), unit.Distance);
                         return false;
@@ -842,11 +845,13 @@ namespace Bobby53
                     Dlog("CastHeal:  {0} {1}% for unit with health {2:F1}%", healSpell.DisplayName, healSpell.Health, currHealth);
 
                     WoWSpell wowSpell = SpellManager.Spells[healSpell.TestSpell];
-                    if (wowSpell.Cooldown)
-                        Dlog("CastHeal: spell '{0}' is on cooldown", wowSpell.Name);
+                    if ( SpellHelper.OnCooldown(wowSpell)) // (wowSpell.Cooldown && wowSpell.CooldownTimeLeft.TotalMilliseconds > SpellHelper.LagAmount )
+                    {
+                        Dlog("CastHeal: spell '{0}' has {1} cooldown left with a lag of {2}", wowSpell.Name, wowSpell.CooldownTimeLeft.TotalMilliseconds, SpellHelper.LagAmount);
+                    }
                     else
                     {
-                        Safe_StopMoving();
+                        Safe_StopMoving( "to heal");
                         if (healSpell.Cast(unit))
                         {
                             if (!_me.Combat && !unit.Combat)
@@ -909,7 +914,7 @@ namespace Bobby53
             {
                 if (!SpellManager.HasSpell("Healing Wave"))
                     return false;
-                return Safe_CastSpell(healTarget, "Healing Wave", SpellRange.Check, SpellWait.NoWait);
+                return Safe_CastSpell(healTarget, "Healing Wave");
             }
             private static bool GreaterHealingWave(WoWUnit healTarget)
             {
@@ -918,7 +923,7 @@ namespace Bobby53
 
                 if (!SpellManager.HasSpell("Greater Healing Wave"))
                     return false;
-                return Safe_CastSpell(healTarget, "Greater Healing Wave", SpellRange.Check, SpellWait.NoWait);
+                return Safe_CastSpell(healTarget, "Greater Healing Wave");
             }
             private static bool ChainHeal(WoWUnit healTarget)
             {
@@ -933,7 +938,7 @@ namespace Bobby53
                     Dlog("ChainHeal:  prepping target with Riptide");
                     castRip = Riptide(healTarget);
                 }
-                return castRip || Safe_CastSpell(healTarget, "Chain Heal", SpellRange.Check, SpellWait.NoWait);
+                return castRip || Safe_CastSpell(healTarget, "Chain Heal");
             }
 
             private static bool HealingRain(WoWUnit healTarget)
@@ -954,14 +959,15 @@ namespace Bobby53
                         if (_me.CurrentTarget.InLineOfSightOCD && FaceToUnit(_me.CurrentTarget))
                         {
                             Slog("^Focused Insight:  buff Healing Rain");
-                            Safe_CastSpell("Earth Shock", SpellRange.Check, SpellWait.NoWait);
+                            Safe_CastSpell(_me.CurrentTarget, "Earth Shock");
                             WaitForCurrentCastOrGCD();
                         }
                     }
                 }
 
-                if (Safe_CastSpell("Healing Rain", SpellRange.Check, SpellWait.Complete))
+                if (Safe_CastSpell( healTarget, "Healing Rain"))
                 {
+                    WaitForCurrentCastOrGCD();
                     if (!LegacySpellManager.ClickRemoteLocation(healTarget.Location))
                     {
                         Dlog("^Ranged AoE Click FAILED:  cancelling Healing Rain");
@@ -982,7 +988,7 @@ namespace Bobby53
             {
                 if (!SpellManager.HasSpell("Riptide"))
                     return false;
-                return Safe_CastSpell(healTarget, "Riptide", SpellRange.Check, SpellWait.NoWait);
+                return Safe_CastSpell(healTarget, "Riptide");
             }
             private static bool UnleashElements(WoWUnit healTarget)
             {
@@ -990,13 +996,13 @@ namespace Bobby53
                     return false;
                 if (!_me.HasAura("Earthliving Weapon (Passive)"))
                     return false;
-                return Safe_CastSpell(healTarget, "Unleash Elements", SpellRange.Check, SpellWait.NoWait);
+                return Safe_CastSpell(healTarget, "Unleash Elements");
             }
             private static bool HealingSurge(WoWUnit healTarget)
             {
                 if (!SpellManager.HasSpell("Healing Surge"))
                     return false;
-                return Safe_CastSpell(healTarget, "Healing Surge", SpellRange.Check, SpellWait.NoWait);
+                return Safe_CastSpell(healTarget, "Healing Surge");
             }
             private static bool OhShoot(WoWUnit healTarget)
             {
@@ -1009,21 +1015,21 @@ namespace Bobby53
                 }
 /*
                 if (SpellManager.HasSpell("Tidal Force"))
-                    Safe_CastSpell("Tidal Force", SpellRange.NoCheck, SpellWait.NoWait);
+                    Safe_CastSpell("Tidal Force");
 */
                 if (!SpellManager.HasSpell("Nature's Swiftness"))
                     return false;
 
-                if (!Safe_CastSpell("Nature's Swiftness", SpellRange.NoCheck, SpellWait.NoWait))
+                if (!Safe_CastSpell( _me, "Nature's Swiftness"))
                     Dlog(" Attempted Oh S@#$ heal but Nature's Swiftness not available");
                 else
                 {
                     if (!WasHealCast && SpellManager.HasSpell("Greater Healing Wave"))
-                        WasHealCast = Safe_CastSpell(healTarget, "Greater Healing Wave", SpellRange.NoCheck, SpellWait.NoWait);
+                        WasHealCast = Safe_CastSpell(healTarget, "Greater Healing Wave");
                     if (!WasHealCast && SpellManager.HasSpell("Healing Surge"))
-                        WasHealCast = Safe_CastSpell(healTarget, "Healing Surge", SpellRange.NoCheck, SpellWait.NoWait);
+                        WasHealCast = Safe_CastSpell(healTarget, "Healing Surge");
                     if (!WasHealCast && SpellManager.HasSpell("Healing Wave"))
-                        WasHealCast = Safe_CastSpell(healTarget, "Healing Wave", SpellRange.NoCheck, SpellWait.NoWait);
+                        WasHealCast = Safe_CastSpell(healTarget, "Healing Wave");
 
                     if (WasHealCast)
                         Slog("Big Heals - clicked the Oh S@#$ button!");
@@ -1038,19 +1044,19 @@ namespace Bobby53
             {
                 if (!SpellManager.HasSpell("Gift of the Naaru"))
                     return false;
-                return Safe_CastSpell(healTarget, "Gift of the Naaru", SpellRange.Check, SpellWait.NoWait);
+                return Safe_CastSpell(healTarget, "Gift of the Naaru");
             }
 
             private void MoveToHealTarget(WoWUnit unit, double distRange)
             {
-                if (!IsUnitInRange(unit, distRange))
+                if (!_me.IsUnitInRange(unit, distRange))
                 {
                     Slog("MoveToHealTarget:  moving to Heal Target {0} who is {1:F1} yds away", Safe_UnitName(unit), unit.Distance);
                     if (IsCasting())
                         WaitForCurrentCastOrGCD();
 
-                    MoveToUnit(unit);
-                    while (!IsGameUnstable() && _me.IsAlive && _me.IsMoving && unit.IsAlive && !IsUnitInRange(unit, distRange) && unit.Distance < 100)
+                    MoveToObject(unit);
+                    while (!IsGameUnstable() && _me.IsAlive && _me.IsMoving && unit.IsAlive && !_me.IsUnitInRange(unit, distRange) && unit.Distance < 100)
                     {
                         // while running, if someone else needs a heal throw a riptide on them
                         if (SpellManager.HasSpell("Riptide") && SpellManager.CanCast("Riptide"))
@@ -1059,16 +1065,13 @@ namespace Bobby53
                             if (otherTarget != null)
                             {
                                 Slog("MoveToHealTarget:  healing {0} while moving to heal target {1}", Safe_UnitName(otherTarget), Safe_UnitName(unit));
-                                Safe_CastSpell(otherTarget, "Riptide", SpellRange.Check, SpellWait.NoWait);
+                                Safe_CastSpell(otherTarget, "Riptide");
                                 StyxWoW.SleepForLagDuration();
                             }
                         }
                     }
 
-                    if (_me.IsMoving)
-                        Safe_StopMoving();
-
-                    Dlog("MoveToHealTarget: stopping now that Heal Target is {0} yds away", unit.Distance);
+                    Safe_StopMoving(String.Format("MoveToHealTarget: stopping now that Heal Target is {0:F1} yds away", unit.Distance));
                 }
             }
         }

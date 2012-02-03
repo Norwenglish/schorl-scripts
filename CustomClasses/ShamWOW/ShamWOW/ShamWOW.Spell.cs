@@ -13,7 +13,7 @@
  *
  */
 
-#define DEBUG_LAG 
+//#define DEBUG_LAG 
 
 #pragma warning disable 642
 
@@ -32,39 +32,46 @@ using Styx.WoWInternals.WoWObjects;
 
 namespace Bobby53
 {
-    public sealed class GCDHelper
+    public sealed class SpellHelper
     {
-        private static readonly GCDHelper instance = new GCDHelper();
-        public static GCDHelper Instance    { get { return instance; } }
+        private static readonly SpellHelper instance = new SpellHelper();
+        public static SpellHelper Instance    { get { return instance; } }
 
         static uint latencyCache;
         static Countdown timerLatencyCache = new Countdown();
         static Countdown timerSpellDelay = new Countdown();
 
-        private GCDHelper() 
+        private SpellHelper() 
         {
         }
 
-        public static bool Active
+        public static bool IsGCD
         {
             get
             {
                 if (!timerSpellDelay.Done)
+                {
+#if DEBUG_LAG
+                    Shaman.Dlog("IsGCD:  timerSpellDelay is not Done");
+#endif
                     return true;
+                }
 
-                if (!Spell.Cooldown)
+                if (!GCDSpell.Cooldown)
+                {
                     return false;
+                }
 
                 uint leftGCD = 2;
                 uint leftLAG = 1;
                 if ( Shaman.cfg.AccountForLag )
                 {
-                    leftGCD = TimeLeft;
+                    leftGCD = GCDTimeLeft;
                     leftLAG = LagAmount;
 #if DEBUG_LAG
-                    bool canCast = SpellManager.CanCast(Spell, StyxWoW.Me, false, false, true);
+                    bool canCast = SpellManager.CanCast(GCDSpell, StyxWoW.Me, false, false, true);
                     Shaman.Dlog("GCD:  gcd={0}, gcdleft:{1}, lagamt:{2}, cancast: {3}, ongcd:{4}",
-                        Spell.Cooldown,
+                        GCDSpell.Cooldown,
                         leftGCD,
                         leftLAG, 
                         canCast,
@@ -72,6 +79,9 @@ namespace Bobby53
 #endif
                 }
 
+#if DEBUG_LAG
+                Shaman.Dlog("IsGCD:  GCDleft {0} > LAGleft {1} = {2}", leftGCD, leftLAG, leftGCD > leftLAG );
+#endif
                 return leftGCD > leftLAG;
             }
         }
@@ -79,7 +89,7 @@ namespace Bobby53
 
         public static WoWSpell _spellCheckGCD = null;
 
-        public static WoWSpell Spell
+        public static WoWSpell GCDSpell
         {
             get
             {
@@ -95,14 +105,19 @@ namespace Bobby53
             }
         }
 
-        private static uint TimeLeft
+        private static uint GCDTimeLeft
         {
             get
             {
 #if ASDF
                 return (uint) SpellManager.GlobalCooldownLeft.TotalMilliseconds;
 #else
-                return (uint) Math.Max( 0, Spell.CooldownTimeLeft.TotalMilliseconds);
+                int timeLeft = (int) GCDSpell.CooldownTimeLeft.TotalMilliseconds;
+                if (timeLeft < 0)
+                    timeLeft = 0;
+                else if (timeLeft > 1500)
+                    timeLeft = 1500;
+                return (uint) timeLeft;
 #endif
             }
         }
@@ -126,6 +141,25 @@ namespace Bobby53
         {
             timerSpellDelay.StartTimer((int) LagAmount * 2);
         }
+
+        public static bool OnCooldown(int id)
+        {
+            WoWSpell spell = SpellManager.Spells.First(s => s.Value.Id == id).Value;
+            return OnCooldown(spell);
+        }
+
+        public static bool OnCooldown(WoWSpell spell)
+        {
+            if (!Shaman.cfg.AccountForLag)
+                return spell.Cooldown || Shaman.IsSpellBlacklisted(spell);
+
+            if (spell.Cooldown)
+            {
+                return LagAmount < (uint) Math.Max( 0, spell.CooldownTimeLeft.TotalMilliseconds);
+            }
+
+            return Shaman.IsSpellBlacklisted(spell);
+        }
     }
 
     partial class Shaman
@@ -135,10 +169,14 @@ namespace Bobby53
         // replacement for SpellManager.GlobalCooldown -- bug in 1.9.2.3 and later on some systems causing it to always be true
         private static bool GCD()
         {
+#if OLD_VERSION
             if (cfg.AccountForLag)
-                return GCDHelper.Active;
+                return SpellHelper.IsGCD;
 
-            return GCDHelper.Spell.Cooldown;
+            return SpellHelper.GCDSpell.Cooldown;
+#else
+            return SpellHelper.IsGCD;
+#endif
         }
 
 
@@ -152,7 +190,7 @@ namespace Bobby53
             if (cfg.AccountForLag)
             {
                 leftCAST = (uint) Math.Max( 0, _me.CurrentCastTimeLeft.TotalMilliseconds);
-                leftLAG = GCDHelper.LagAmount;
+                leftLAG = SpellHelper.LagAmount;
 #if DEBUG_LAG
                 Dlog("CAST:  casting={0},  remaining: {1},  lag: {2}", 
                     _me.IsCasting, 
@@ -180,45 +218,12 @@ namespace Bobby53
         public enum SpellRange { NoCheck, Check };
         public enum SpellWait { NoWait, Complete };
 
-        public static bool Safe_CastSpell(string sSpellName)
-        {
-            return Safe_CastSpell(sSpellName, SpellRange.NoCheck, SpellWait.Complete);
-        }
-
-        public static bool Safe_CastSpellWithRangeCheck(string sSpellName)
-        {
-            return Safe_CastSpell(sSpellName, SpellRange.Check, SpellWait.Complete);
-        }
-
-        public static bool Safe_CastSpell(string sSpellName, SpellRange chkRng, SpellWait chkWait)
-        {
-            return Safe_CastSpell(null, sSpellName, chkRng, chkWait);
-        }
-
-        public static bool Safe_CastSpell(WoWUnit unit, int spellId, SpellRange chkRng, SpellWait chkWait)
-        {
-            try
-            {
-                WoWSpell spell = WoWSpell.FromId(spellId);
-                if (spell != null)
-                    return Safe_CastSpell(unit, spell, chkRng, chkWait);
-            }
-            catch
-            {
-                ;
-            }
-
-            Slog("Error:  attempt to cast unknown spell #{0}", spellId);
-            return false;
-        }
-
-        public static bool Safe_CastSpell(WoWUnit unit, string sSpellName, SpellRange chkRng, SpellWait chkWait)
+        public static bool Safe_CastSpell(WoWUnit unit, string sSpellName)
         {
             WoWSpell spell = null;
 
             try
             {
-                // spell = SpellManager.Spells[sSpellName];
                 spell = SpellManager.Spells[sSpellName];
                 System.Diagnostics.Debug.Assert(spell != null);
             }
@@ -233,69 +238,27 @@ namespace Bobby53
                 // return false;
             }
 
-            return Safe_CastSpell(unit, spell, chkRng, chkWait);
+            return Safe_CastSpell(unit, spell);
         }
 
-        public static bool Safe_CastSpellWithRangeCheck(WoWSpell spell)
+        public static bool Safe_CastSpell(WoWUnit unit, int spellId)
         {
-            return Safe_CastSpell(null, spell, SpellRange.Check, SpellWait.Complete);
-        }
-
-        public static bool Safe_CastSpell(WoWSpell spell)
-        {
-            return Safe_CastSpell(null, spell, SpellRange.NoCheck, SpellWait.Complete);
-        }
-
-        public static bool Safe_CastSpell(WoWUnit unit, WoWSpell spell, SpellRange chkRng, SpellWait chkWait)
-        {
-            bool bCastSuccessful = false;
-            WoWUnit unitChkDist;
-
-            if (unit != null)
-                unitChkDist = unit;
-            else if (_me.GotTarget)
-                unitChkDist = _me.CurrentTarget;
-            else
-                unitChkDist = null;
-
-            // enoughPower = (_me.GetCurrentPower(spell.PowerType) >= spell.PowerCost);
-            if (MeSilenced())
+            try
+            {
+                WoWSpell spell = WoWSpell.FromId(spellId);
+                if (spell != null)
+                    return Safe_CastSpell(unit, spell );
+            }
+            catch
+            {
                 ;
-            else if (chkRng == SpellRange.Check && spell.HasRange && unitChkDist != null && (unitChkDist.Distance - HitBoxRange(unitChkDist)) >= spell.MaxRange)
-            {
-                Dlog("Safe_CastSpell: Spell '{0}' not cast -- max range {1:F1}, but target {2:F1} away with {3:F1} hit box", 
-                    spell.Name, 
-                    spell.MaxRange, 
-                    (unitChkDist == null ?  -1 : unitChkDist.Distance),
-                    (unitChkDist == null ?  -1 : unitChkDist.CombatReach));
-            }
-            else
-            {
-                bCastSuccessful = Safe_CastSpellIgnoreSilence(unit, spell);
-                if (chkWait == SpellWait.Complete)
-                {
-                    WaitForCurrentCastOrGCD();
-                }
             }
 
-            return bCastSuccessful;
+            Slog("Error:  attempt to cast unknown spell #{0}", spellId);
+            return false;
         }
 
-        public static bool Safe_CastSpellIgnoreSilence(WoWUnit unit, string spellName)
-        {
-            if ( !SpellManager.HasSpell( spellName))
-                return false;
-
-            WoWSpell spell = SpellManager.Spells[spellName];
-            return Safe_CastSpellIgnoreSilence(unit, spell);
-        }
-
-        public static bool Safe_CastSpellIgnoreSilence(WoWUnit unit, int spellId)
-        {
-            return Safe_CastSpellIgnoreSilence(unit, WoWSpell.FromId(spellId));
-        }
-
-        public static bool Safe_CastSpellIgnoreSilence(WoWUnit unit, WoWSpell spell)
+        public static bool Safe_CastSpell(WoWUnit unit, WoWSpell spell)
         {
             bool bCastSuccessful = false;
             bool isCooldownActive = false;
@@ -303,26 +266,71 @@ namespace Bobby53
             if ( !_me.Combat )
                 WaitForCurrentCastOrGCD();
 
+            if (spell.IsMeleeSpell )
+            {
+                double distCheck = _me.MeleeRange(unit);
+                if (unit.Distance > distCheck )
+                {
+                    Dlog("SpellCast: cannot cast spell {0} @ {1:F1} yds (melee range is {2:F1} yds)", spell.Name, unit.Distance, distCheck );
+                    return false;
+                }
+            }
+            else if (spell.IsSelfOnlySpell)
+            {
+                ;
+            }
+            else if (spell.HasRange)
+            {
+                double distCheck = unit.IsMe ? 0 : _me.CombatDistance(unit);
+                if (0 < spell.MinRange && distCheck < spell.MinRange)
+                {
+                    Dlog("SpellCast: cannot cast spell {0} @ {1:F1} yds - minimum range is {2:F1}", spell.Name, unit.Distance, spell.MinRange);
+                    return false;
+                }
+
+                if (distCheck >= spell.MaxRange)
+                {
+                    Dlog("SpellCast: cannot cast spell {0} @ {1:F1} yds - maximum range is {2:F1}", spell.Name, distCheck, spell.MaxRange);
+                    return false;
+                }
+            }
+
+            if (IsSpellBlacklisted(spell))
+            {
+                Dlog("Safe_CastSpell: spell {0} #{1} temporarily blacklisted", spell.Name, spell.Id);
+                return false;
+            }
+
+            if (_me.IsMoving && spell.CastTime > 0)
+            {
+                Dlog("Safe_CastSpell: spell {0} is not instant ({1} ms cast time) and we are moving", spell.Name, spell.CastTime);
+                return false;
+            }
+
             uint timeLeft = (uint) Math.Max( 0, spell.CooldownTimeLeft.TotalMilliseconds);
-            uint timeLag = GCDHelper.LagAmount;
+            uint timeLag = SpellHelper.LagAmount;
             uint currMana = _me.CurrentMana;
 
+#if OLD_VERSION
             isCooldownActive = spell.Cooldown;
             if ( isCooldownActive && cfg.AccountForLag)
                 isCooldownActive = (timeLeft > timeLag);
-
+#else
+            isCooldownActive = SpellHelper.OnCooldown(spell);
+#endif
             if (!isCooldownActive)
                 isCooldownActive = !SpellManager.CanCast(spell, unit, false, false, cfg.AccountForLag);
 
             if (isCooldownActive)
             {
-                Dlog("Safe_CastSpell: cannot cast '{0}' - cd={1}, castleft={2}, lagamt={3}, cost={4}, mana={5}",
+                Dlog("Safe_CastSpell: cannot cast '{0}' - cd={1}, castleft={2}, lagamt={3}, cost={4}, mana={5}, blacklist={6}",
                     spell.Name,
                     spell.Cooldown,
                     timeLeft,
                     timeLag,
                     spell.PowerCost,
-                    currMana
+                    currMana,
+                    IsSpellBlacklisted(spell)
                     );
             }
             else
@@ -357,7 +365,8 @@ namespace Bobby53
                     Dlog("Safe_CastSpell: cast of {0} failed", spell.Name);
                 else
                 {
-                    GCDHelper.HandleSuccessfullSpellCast();
+                    SpellHelper.HandleSuccessfullSpellCast();
+                    AddSpellToBlacklist(spell);
 
                     string info = "";
                     System.Drawing.Color clr = spell.Mechanic == WoWSpellMechanic.Healing ?
@@ -604,8 +613,9 @@ namespace Bobby53
                 timeToBlacklist = s.CastTime;
             }
 
-            timeToBlacklist -= 150;
-            timeToBlacklist -= GCDHelper.LagAmount;
+            timeToBlacklist -= (SpellHelper.LagAmount + 150);
+            if (timeToBlacklist < SpellHelper.LagAmount)
+                timeToBlacklist = SpellHelper.LagAmount;
 
             Blacklist.Add((ulong)s.Id, new TimeSpan(0, 0, 0, 0, (int) timeToBlacklist));
             Dlog("AddSpellToBlacklist: {0} for {1} ms", s.Name, timeToBlacklist );

@@ -121,7 +121,7 @@ namespace Bobby53
                     return false;
                 }
 
-                return Safe_CastSpellIgnoreSilence(unit, Spell);
+                return Safe_CastSpell(unit, Spell);
             }
 
             public static int CompareByPriority(SpellAdapter x, SpellAdapter y)
