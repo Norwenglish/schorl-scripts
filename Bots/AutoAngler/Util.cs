@@ -8,7 +8,7 @@ using Styx.WoWInternals.WoWObjects;
 
 namespace HighVoltz
 {
-    public class Util
+    public class Utils
     {
         private static readonly LocalPlayer me = ObjectManager.Me;
         private static uint _ping = Lua.GetReturnVal<uint>("return GetNetStats()", 3);

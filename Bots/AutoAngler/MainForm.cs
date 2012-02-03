@@ -22,25 +22,7 @@ namespace HighVoltz
             // my debug button :)
             if (Environment.UserName == "highvoltz")
             {
-                //LocalPlayer me = ObjectManager.Me;
-                //var list = MoveToPoolAction.GetQuadSloopTraceLines(me.Location);
-                //WoWPoint top  = me.Location;
-                //top.Z +=6;
-                //WoWPoint bot = top;
-                //bot.Z -= 12;
-                //WoWPoint meResult;
-                //GameWorld.TraceLine(top, bot, GameWorld.CGWorldFrameHitFlags.HitTestGroundAndStructures, out meResult);
-                //bool[] slopelinesRetVals;
-                //WoWPoint[] slopeHits;
-                //GameWorld.MassTraceLine(list.ToArray(), GameWorld.CGWorldFrameHitFlags.HitTestGroundAndStructures,
-                //out slopelinesRetVals, out slopeHits);
 
-                //Logging.Write("Me {0}, meResult {1}", me.Location, meResult);
-                //var ret = MoveToPoolAction.ProcessSlopeResult(new List<WoWPoint> { meResult }, slopeHits);
-                //foreach (var line in slopeHits)
-                //{
-                //    Logging.Write("{0}", line);
-                //}
             }
             else
                 Process.Start(

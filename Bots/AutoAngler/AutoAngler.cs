@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using HighVoltz.Composites;
 using Levelbot.Actions.Death;
 using Levelbot.Decorators.Death;
 using Styx;
 using Styx.Helpers;
+using Styx.Logic;
+using Styx.Logic.BehaviorTree;
 using Styx.Logic.Combat;
 using Styx.Logic.POI;
+using Styx.Logic.Pathing;
 using Styx.Logic.Profiles;
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
@@ -29,14 +34,19 @@ namespace HighVoltz
     {
         public static readonly List<uint> PoolsToFish = new List<uint>();
         private static DateTime _botStartTime;
+        public static List<WoWPoint> WayPoints = new List<WoWPoint>();
+        private static int _lastUkTagCallTime;
+        private static int _currentIndex;
         public readonly Version Version = new Version(2, new Svn().Revision);
-        private readonly LocalPlayer me = ObjectManager.Me;
-
+        private readonly LocalPlayer _me = ObjectManager.Me;
+        public static readonly string BotPath = Logging.ApplicationPath + @"\Bots\" + "AutoAngler2";
         private AutoAnglerSettings _settings;
 
         public AutoAngler()
         {
             Instance = this;
+            BotEvents.Profile.OnNewOuterProfileLoaded += Profile_OnNewOuterProfileLoaded;
+            Profile.OnUnknownProfileElement += Profile_OnUnknownProfileElement;
         }
 
         public static Dictionary<string, uint> FishCaught { get; private set; }
@@ -47,8 +57,18 @@ namespace HighVoltz
             get
             {
                 return _settings ?? (_settings = new AutoAnglerSettings(
-                                                     string.Format("{0}\\Settings\\AutoAngler\\AutoAngler-{1}",
-                                                                   Logging.ApplicationPath, me.Name)));
+                                                     String.Format("{0}\\Settings\\AutoAngler\\AutoAngler-{1}",
+                                                                   Logging.ApplicationPath, _me.Name)));
+            }
+        }
+
+        public static WoWPoint CurrentPoint
+        {
+            get
+            {
+                return WayPoints != null && WayPoints.Count > 0
+                           ? WayPoints[_currentIndex]
+                           : WoWPoint.Zero;
             }
         }
 
@@ -71,24 +91,28 @@ namespace HighVoltz
             get
             {
                 return _root ?? (_root = new PrioritySelector(
-                                             // Is bot dead? if so, release and run back to corpse
-                                             new Decorator(c => !me.IsAlive,
+                    // Is bot dead? if so, release and run back to corpse
+                                             new Decorator(c => !_me.IsAlive,
                                                            new PrioritySelector(
                                                                new DecoratorNeedToRelease(new ActionReleaseFromCorpse()),
                                                                new DecoratorNeedToMoveToCorpse(new ActionMoveToCorpse()),
                                                                new DecoratorNeedToTakeCorpse(new ActionRetrieveCorpse()),
                                                                new ActionSuceedIfDeadOrGhost()
                                                                )),
-                                             // If bot is in combat call the CC routine
-                                             new Decorator(c => me.IsActuallyInCombat && !me.IsFlying,
-                                                           new CombatAction()),
-                                             // If bot needs to rest then call the CC rest behavior
+                    // If bot is in combat call the CC routine
+                                             new Decorator(c => _me.Combat && !_me.IsFlying,
+                                                 new PrioritySelector(
+                                                           new CombatAction(),
+                                                           Bots.Grind.LevelBot.CreateCombatBehavior()
+
+                                            )),
+                    // If bot needs to rest then call the CC rest behavior
                                              new Decorator(
                                                  c =>
                                                  RoutineManager.Current.NeedRest && !ObjectManager.Me.IsCasting &&
-                                                 !me.IsFlying,
+                                                 !_me.IsFlying,
                                                  new PrioritySelector(
-                                                     // if Rest Behavior exists use it..
+                    // if Rest Behavior exists use it..
                                                      new Decorator(c => RoutineManager.Current.RestBehavior != null,
                                                                    new PrioritySelector(
                                                                        new Action(c =>
@@ -98,16 +122,14 @@ namespace HighVoltz
                                                                                               BotPoi.Current.Type ==
                                                                                               PoiType.Harvest)
                                                                                           {
-                                                                                              MoveToPoolAction.
-                                                                                                  MoveToPoolSW.Reset();
-                                                                                              MoveToPoolAction.
-                                                                                                  MoveToPoolSW.Start();
+                                                                                              MoveToPoolAction.MoveToPoolSW.Reset();
+                                                                                              MoveToPoolAction.MoveToPoolSW.Start();
                                                                                           }
                                                                                           return RunStatus.Failure;
                                                                                       }),
                                                                        RoutineManager.Current.RestBehavior
                                                                        )),
-                                                     // else call legacy Rest() method
+                    // else call legacy Rest() method
                                                      new Action(c =>
                                                                     {
                                                                         // reset the autoBlacklist timer since we're stoping to rest.
@@ -120,8 +142,8 @@ namespace HighVoltz
                                                                         RoutineManager.Current.Rest();
                                                                     })
                                                      )),
-                                             // mail and repair if bags are full or items have low durability. logout if profile doesn't have mailbox and vendor.
-                                             new Decorator(c => me.BagsFull || me.DurabilityPercent <= 0.2 &&
+                    // mail and repair if bags are full or items have low durability. logout if profile doesn't have mailbox and vendor.
+                                             new Decorator(c => _me.BagsFull || _me.DurabilityPercent <= 0.2 &&
                                                                 (BotPoi.Current == null ||
                                                                  BotPoi.Current.Type != PoiType.Mail ||
                                                                  BotPoi.Current.Type != PoiType.Repair ||
@@ -138,15 +160,14 @@ namespace HighVoltz
                                                                                           .MailboxManager.
                                                                                           GetClosestMailbox();
                                                                                   if (mbox != null &&
-                                                                                      !string.IsNullOrEmpty(
+                                                                                      !String.IsNullOrEmpty(
                                                                                           CharacterSettings.Instance.
                                                                                               MailRecipient))
                                                                                       BotPoi.Current = new BotPoi(mbox);
                                                                                   else
                                                                                   {
                                                                                       Vendor ven =
-                                                                                          ProfileManager.
-                                                                                              CurrentOuterProfile.
+                                                                                          ProfileManager.CurrentOuterProfile.
                                                                                               VendorManager.
                                                                                               GetClosestVendor();
                                                                                       if (ven != null)
@@ -171,7 +192,7 @@ namespace HighVoltz
                                              new Decorator(
                                                  c => BotPoi.Current != null && BotPoi.Current.Type == PoiType.InnKeeper,
                                                  new LogoutAction()),
-                                             // loot Any dead lootable NPCs if setting is enabled.
+                    // loot Any dead lootable NPCs if setting is enabled.
                                              new Decorator(c => AutoAnglerSettings.Instance.LootNPCs,
                                                            new LootNPCsAction()),
                                              new AutoAnglerDecorator(
@@ -186,7 +207,7 @@ namespace HighVoltz
                                                              new FishAction()
                                                              ))
                                                      )),
-                                             // follow the path...
+                    // follow the path...
                                              new FollowPathAction()
                                              ));
             }
@@ -206,12 +227,10 @@ namespace HighVoltz
         {
             try
             {
-                BotEvents.OnBotStart += BotEvents_OnBotStart;
-                BotEvents.OnBotStop += BotEvents_OnBotStop;
-                WoWItem mainhand = MySettings.MainHand != 0 ? Util.GetIteminBag(MySettings.MainHand) : null;
+                WoWItem mainhand = MySettings.MainHand != 0 ? Utils.GetIteminBag(MySettings.MainHand) : null;
                 if (mainhand == null)
                     mainhand = FindMainHand();
-                WoWItem offhand = MySettings.OffHand != 0 ? Util.GetIteminBag(MySettings.OffHand) : null;
+                WoWItem offhand = MySettings.OffHand != 0 ? Utils.GetIteminBag(MySettings.OffHand) : null;
                 if (((mainhand != null && mainhand.ItemInfo.InventoryType != InventoryType.TwoHandWeapon) ||
                      mainhand == null) && offhand == null)
                 {
@@ -223,16 +242,20 @@ namespace HighVoltz
                     Log("Using {0} for offhand weapon", offhand.Name);
                 if (!MySettings.Poolfishing)
                 {
-                    if (!string.IsNullOrEmpty(ProfileManager.XmlLocation))
+                    if (!String.IsNullOrEmpty(ProfileManager.XmlLocation))
                     {
                         MySettings.LastLoadedProfile = ProfileManager.XmlLocation;
                         MySettings.Save();
                     }
                     ProfileManager.LoadEmpty();
                 }
-                else if (ProfileManager.CurrentProfile == null && !string.IsNullOrEmpty(MySettings.LastLoadedProfile) &&
+                else if (ProfileManager.CurrentProfile == null && !String.IsNullOrEmpty(MySettings.LastLoadedProfile) &&
                          File.Exists(MySettings.LastLoadedProfile))
+                {
                     ProfileManager.LoadNew(MySettings.LastLoadedProfile);
+                }
+                // check for Autoangler updates
+                new Thread(Updater.CheckForUpdate) { IsBackground = true }.Start();
             }
             catch (Exception ex)
             {
@@ -242,13 +265,13 @@ namespace HighVoltz
 
         #endregion
 
-        private void BotEvents_OnBotStart(EventArgs args)
+        public override void Start()
         {
             _botStartTime = DateTime.Now;
             FishCaught = new Dictionary<string, uint>();
         }
 
-        private void BotEvents_OnBotStop(EventArgs args)
+        public override void Stop()
         {
             Log("In {0} days, {1} hours and {2} minutes we have caught",
                 (DateTime.Now - _botStartTime).Days,
@@ -260,20 +283,149 @@ namespace HighVoltz
             }
         }
 
+        #region Profile
+
+        private void Profile_OnNewOuterProfileLoaded(BotEvents.Profile.NewProfileLoadedEventArgs args)
+        {
+            try
+            {
+                LoadWayPoints(ProfileManager.CurrentProfile);
+            }
+            catch (Exception ex)
+            {
+                Logging.WriteException(ex);
+            }
+        }
+
+        public static void Profile_OnUnknownProfileElement(object sender, UnknownProfileElementEventArgs e)
+        {
+            if (e.Element.Name == "FishingSchool")
+            {
+                // hackish way to clear my list of pool before loading new profile... wtb OnNewOuterProfileLoading event
+                if (Environment.TickCount - _lastUkTagCallTime > 4000)
+                    PoolsToFish.Clear();
+                _lastUkTagCallTime = Environment.TickCount;
+                XAttribute entryAttrib = e.Element.Attribute("Entry");
+                if (entryAttrib != null)
+                {
+                    uint entry;
+                    UInt32.TryParse(entryAttrib.Value, out entry);
+                    if (!PoolsToFish.Contains(entry))
+                    {
+                        PoolsToFish.Add(entry);
+                        XAttribute nameAttrib = e.Element.Attribute("Name");
+                        if (nameAttrib != null)
+                            Instance.Log("Adding Pool Entry: {0} to the list of pools to fish from",
+                                         nameAttrib.Value);
+                        else
+                            Instance.Log("Adding Pool Entry: {0} to the list of pools to fish from", entry);
+                    }
+                }
+                else
+                {
+                    Instance.Err(
+                        "<FishingSchool> tag must have the 'Entry' Attribute, e.g <FishingSchool Entry=\"202780\"/>\nAlso supports 'Name' attribute but only used for display purposes");
+                }
+                e.Handled = true;
+            }
+            else if (e.Element.Name == "Pathing")
+            {
+                XAttribute typeAttrib = e.Element.Attribute("Type");
+                if (typeAttrib != null)
+                {
+                    Instance.MySettings.PathingType = (PathingType)
+                                                      Enum.Parse(typeof(PathingType), typeAttrib.Value, true);
+                    Instance.Log("Setting Pathing Type to {0} Mode",
+                                 Instance.MySettings.PathingType);
+                }
+                else
+                {
+                    Instance.Err(
+                        "<Pathing> tag must have the 'Type' Attribute, e.g <Pathing Type=\"Circle\"/>");
+                }
+                e.Handled = true;
+            }
+        }
+
+        private void LoadWayPoints(Profile profile)
+        {
+            WayPoints.Clear();
+            if (profile != null && profile.GrindArea != null)
+            {
+                if (profile.GrindArea.Hotspots != null)
+                {
+                    WayPoints = profile.GrindArea.Hotspots.ConvertAll(hs => hs.Position);
+                    WoWPoint closestPoint =
+                        WayPoints.OrderBy(u => u.Distance(ObjectManager.Me.Location)).FirstOrDefault();
+                    _currentIndex = WayPoints.FindIndex(w => w == closestPoint);
+                }
+                else
+                    WayPoints = new List<WoWPoint>();
+            }
+        }
+
+        public static void CycleToNextPoint()
+        {
+            if (WayPoints != null)
+            {
+                if (_currentIndex >= WayPoints.Count - 1)
+                {
+                    if (Instance.MySettings.PathingType == PathingType.Bounce)
+                    {
+                        WayPoints.Reverse();
+                        _currentIndex = 1;
+                    }
+                    else
+                        _currentIndex = 0;
+                }
+                else
+                    _currentIndex++;
+            }
+        }
+
+        private static WoWPoint GetNextWayPoint()
+        {
+            int i = _currentIndex + 1;
+            if (i >= WayPoints.Count)
+            {
+                if (Instance.MySettings.PathingType == PathingType.Bounce)
+                    i = WayPoints.Count - 2;
+                else
+                    i = 0;
+            }
+            if (WayPoints != null && i < WayPoints.Count)
+                return WayPoints[i];
+            return WoWPoint.Zero;
+        }
+
+        //if pool is between CurrentPoint and NextPoint then cycle to nextPoint
+        public static void CycleToNextIfBehind(WoWGameObject pool)
+        {
+            WoWPoint cp = CurrentPoint;
+            WoWPoint point = GetNextWayPoint();
+            point = new WoWPoint(point.X - cp.X, point.Y - cp.Y, 0);
+            point.Normalize();
+            float angle = WoWMathHelper.NormalizeRadian((float)Math.Atan2(point.Y, point.X - 1));
+            if (WoWMathHelper.IsFacing(CurrentPoint, angle, pool.Location, 3.141593f) &&
+                CurrentPoint != WayPoints[WayPoints.Count - 1])
+            {
+                CycleToNextPoint();
+            }
+        }
+        #endregion
+
         private WoWItem FindMainHand()
         {
-            bool is2Hand = false;
-            WoWItem mainHand = me.Inventory.Equipped.MainHand;
+            WoWItem mainHand = _me.Inventory.Equipped.MainHand;
             if (mainHand == null || mainHand.ItemInfo.WeaponClass == WoWItemWeaponClass.FishingPole)
             {
-                mainHand = me.CarriedItems.OrderByDescending(u => u.ItemInfo.Level).
+                mainHand = _me.CarriedItems.OrderByDescending(u => u.ItemInfo.Level).
                     FirstOrDefault(i => i.IsSoulbound && (i.ItemInfo.InventoryType == InventoryType.WeaponMainHand ||
                                                           i.ItemInfo.InventoryType == InventoryType.TwoHandWeapon) &&
-                                        me.CanEquipItem(i));
+                                        _me.CanEquipItem(i));
                 if (mainHand != null)
                 {
                     MySettings.MainHand = mainHand.Entry;
-                    is2Hand = mainHand.ItemInfo.InventoryType == InventoryType.TwoHandWeapon;
                 }
                 else
                     Err("Unable to find a mainhand weapon to swap to when in combat");
@@ -287,15 +439,15 @@ namespace HighVoltz
         // scans bags for offhand weapon if mainhand isn't 2h and none are equipped and uses the highest ilvl one
         private WoWItem FindOffhand()
         {
-            WoWItem offHand = me.Inventory.Equipped.OffHand;
+            WoWItem offHand = _me.Inventory.Equipped.OffHand;
             if (offHand == null)
             {
-                offHand = me.CarriedItems.OrderByDescending(u => u.ItemInfo.Level).
+                offHand = _me.CarriedItems.OrderByDescending(u => u.ItemInfo.Level).
                     FirstOrDefault(i => i.IsSoulbound && (i.ItemInfo.InventoryType == InventoryType.WeaponOffHand ||
                                                           i.ItemInfo.InventoryType == InventoryType.Weapon ||
                                                           i.ItemInfo.InventoryType == InventoryType.Shield) &&
                                         MySettings.MainHand != i.Entry &&
-                                        me.CanEquipItem(i));
+                                        _me.CanEquipItem(i));
                 if (offHand != null)
                 {
                     MySettings.OffHand = offHand.Entry;
@@ -311,17 +463,17 @@ namespace HighVoltz
 
         public void Log(string format, params object[] args)
         {
-            Logging.Write(Color.DodgerBlue, string.Format("AutoAngler[{0}]: {1}", Version, format), args);
+            Logging.Write(Color.DodgerBlue, String.Format("AutoAngler[{0}]: {1}", Version, format), args);
         }
 
         public void Err(string format, params object[] args)
         {
-            Logging.Write(Color.Red, string.Format("AutoAngler[{0}]: {1}", Version, format), args);
+            Logging.Write(Color.Red, String.Format("AutoAngler[{0}]: {1}", Version, format), args);
         }
 
         public void Debug(string format, params object[] args)
         {
-            Logging.WriteDebug(Color.DodgerBlue, string.Format("AutoAngler[{0}]: {1}", Version, format), args);
+            Logging.WriteDebug(Color.DodgerBlue, String.Format("AutoAngler[{0}]: {1}", Version, format), args);
         }
     }
 }

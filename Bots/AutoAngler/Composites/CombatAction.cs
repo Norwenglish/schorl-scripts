@@ -1,9 +1,11 @@
-﻿using Styx;
+﻿using System.Collections.Generic;
+using Styx;
 using Styx.Logic.Combat;
 using Styx.Logic.POI;
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
 using TreeSharp;
+using System.Linq;
 
 namespace HighVoltz.Composites
 {
@@ -21,11 +23,11 @@ namespace HighVoltz.Composites
             uint mainHandID = AutoAngler.Instance.MySettings.MainHand;
             WoWItem mainHand = ObjectManager.Me.Inventory.Equipped.MainHand;
 
-            if (mainHand == null || (mainHand.Entry != mainHandID && Util.IsItemInBag(mainHandID)))
+            if (mainHand == null || (mainHand.Entry != mainHandID && Utils.IsItemInBag(mainHandID)))
             {
-                is2Hand = Util.GetIteminBag(AutoAngler.Instance.MySettings.MainHand).ItemInfo.InventoryType ==
+                is2Hand = Utils.GetIteminBag(AutoAngler.Instance.MySettings.MainHand).ItemInfo.InventoryType ==
                           InventoryType.TwoHandWeapon;
-                Util.EquipItemByID(AutoAngler.Instance.MySettings.MainHand);
+                Utils.EquipItemByID(AutoAngler.Instance.MySettings.MainHand);
             }
 
             // equip left hand weapon
@@ -33,27 +35,27 @@ namespace HighVoltz.Composites
             WoWItem offhand = ObjectManager.Me.Inventory.Equipped.OffHand;
 
             if ((!is2Hand && offhandID > 0 &&
-                 (offhand == null || (offhand.Entry != offhandID && Util.IsItemInBag(offhandID)))))
+                 (offhand == null || (offhand.Entry != offhandID && Utils.IsItemInBag(offhandID)))))
             {
-                Util.EquipItemByID(AutoAngler.Instance.MySettings.OffHand);
+                Utils.EquipItemByID(AutoAngler.Instance.MySettings.OffHand);
             }
 
-            if (RoutineManager.Current.CombatBehavior != null) // this check doesn't have any effect. anymore...
-            {
-                try
-                {
-                    if (!RoutineManager.Current.CombatBehavior.IsRunning)
-                        RoutineManager.Current.CombatBehavior.Start(null);
-                    return RoutineManager.Current.CombatBehavior.Tick(null);
-                }
-                catch
-                {
-                    RoutineManager.Current.Combat();
-                    return RunStatus.Success;
-                }
-            }
-            RoutineManager.Current.Combat();
-            return RunStatus.Success;
+            //if (RoutineManager.Current.CombatBehavior != null) // this check doesn't have any effect. anymore...
+            //{
+            //    try
+            //    {
+            //        if (!RoutineManager.Current.CombatBehavior.IsRunning)
+            //            RoutineManager.Current.CombatBehavior.Start(null);
+            //        return RoutineManager.Current.CombatBehavior.Tick(null);
+            //    }
+            //    catch
+            //    {
+            //        RoutineManager.Current.Combat();
+            //        return RunStatus.Success;
+            //    }
+            //}
+            //RoutineManager.Current.Combat();
+            return RunStatus.Failure;
         }
     }
 }
