@@ -17,7 +17,7 @@ namespace Disc
         {
         }
 
-        
+
         [Setting, DefaultValue(false)]
         public bool Stop_SET { get; set; }
 

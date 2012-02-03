@@ -30,9 +30,7 @@ namespace Disc
         public override WoWClass Class { get { return WoWClass.Priest; } }
         public static LocalPlayer Me { get { return ObjectManager.Me; } }
         private WoWUnit lastCast;
-        private WoWUnit tank;
-        settingsForm Set_Form = new settingsForm();
-        
+        private WoWUnit tank;        
 
         private void slog(string format, params object[] args) //use for slogging
         {
@@ -40,7 +38,10 @@ namespace Disc
         }
 
         public override void Pulse()
-        {            
+        {
+
+            InitializeLists();
+
             if (Me != null && Me.IsValid && Me.IsAlive)
             {
                 if (Me.FocusedUnit != null)
@@ -69,8 +70,20 @@ namespace Disc
 
         public override void OnButtonPress()
         {
-            Set_Form = new settingsForm();                  
+            settingsForm Set_Form = new settingsForm();                  
             Set_Form.Show();                
+        }
+
+        public void InitializeLists()
+        {
+            if (DiscSettings.Instance.HealBlackList == null)
+            {
+                DiscSettings.Instance.HealBlackList = new List<string>();
+            }
+            if (DiscSettings.Instance.UrgentDispelList == null)
+            {
+                DiscSettings.Instance.UrgentDispelList = new System.ComponentModel.BindingList<Dispels>();
+            }
         }
 
         public bool PlayerIsBlacklisted(WoWPlayer p)
@@ -128,8 +141,6 @@ namespace Disc
                 return;
             else if (Disc.DiscSettings.Instance.Stop_SET)
                 return;
-            else if (HaltingAuras())
-                return;
             else if (ImEatingOrDrinking())
                 return;
             else if (Mounted())
@@ -147,6 +158,8 @@ namespace Disc
             else if (Healing())
                 return;
             else if (Cleansing())
+                return;
+            else if (StackEvangelism())
                 return;
             else if (ClearWeakenedSoulTank())
                 return;
@@ -344,9 +357,7 @@ namespace Disc
             }
             if (Me.ManaPercent <= DiscSettings.Instance.HymnHope_SET && CC("Hymn of Hope"))
             {
-                Logging.Write("Hymn of Hope");
                 C("Hymn of Hope");
-                //Thread.Sleep(6000);
                 return true;
             }
             if (DiscSettings.Instance.Fade_SET && HaveAggro() && CC("Fade"))
@@ -358,6 +369,14 @@ namespace Disc
                 && CC("Fear Ward"))
             {
                 C("Fear Ward", Me);
+                return true;
+            }
+            if (MassDispelCount() >= 3
+                && CC("Mass Dispel"))
+            {
+                C("Mass Dispel");                
+                StyxWoW.SleepForLagDuration();
+                LegacySpellManager.ClickRemoteLocation(StyxWoW.Me.Location);
                 return true;
             }
             else
@@ -629,7 +648,7 @@ namespace Disc
 
         private bool Healing()
         {
-            if (SpellManager.Spells.Keys.Contains("Archangel"))
+            if (SpellManager.Spells.Keys.Contains("Archangel") && (Me.Combat || tank.Combat))
             {
                 //Logging.Write("Player has Attonement, so using Attonement healing rotation");
                 return AtonmentHealing();
@@ -783,7 +802,8 @@ namespace Disc
         {
             WoWPlayer tar = GetHealTarget();
             WoWPlayer PrayerTar = CheckPrayerOfHealing();
-            int AtonementDistance = 0;
+
+            //int AtonementDistance = 0;
             if (tar != null && (Me.Combat || tank.Combat))
             {                
                 if (tar.Distance > 40 || !tar.InLineOfSight)
@@ -794,6 +814,7 @@ namespace Disc
                 {
                     Logging.Write(tar.Name + "---" + Convert.ToInt16(tar.HealthPercent));
                     double hp = tar.HealthPercent;
+                    
                     //tank.CurrentTarget.Target();
                     //AtonementDistance += GetDistance(tar.Location, Me.CurrentTarget.Location);
 
@@ -885,12 +906,15 @@ namespace Disc
                         C("Flash Heal", tar);
                         return true;
                     }
-
+                    if (!Me.IsMoving)
+                    {
+                        Me.CurrentTarget.Face();
+                    }
                     //Atonement Healing
-                    //Holy Fire
-                    if (hp > DiscSettings.Instance.DPShealth_SET 
+                    //Holy Fire                    
+                    if (hp < DiscSettings.Instance.Heal_SET 
                         && !Me.CurrentTarget.HasAura("Holy Fire") 
-                        && AtonementDistance <= 15 
+                        //&& AtonementDistance <= 15 
                         && CC("Holy Fire", Me.CurrentTarget))
                     {
                         if (CC("Power Infusion") && DiscSettings.Instance.PowerInfusion_SET)
@@ -901,23 +925,7 @@ namespace Disc
                         C("Holy Fire", Me.CurrentTarget);
                         return true;
                     }
-                    //Smite
-                    if (hp > DiscSettings.Instance.DPShealth_SET 
-                        && Me.CurrentTarget.HasAura("Holy Fire") 
-                        && DiscSettings.Instance.Smite_SET 
-                        && CC("Smite", Me.CurrentTarget))
-                    {
-                        if (CC("Power Infusion") && DiscSettings.Instance.PowerInfusion_SET)
-                        {
-                            C("Power Infusion");
-                        }
-                        Logging.Write("Healing with Atonement");
-                        C("Smite", Me.CurrentTarget);
-                        return true;
-                    }
-
                     //Evangelism stack building
-                    TimeSpan ts = new TimeSpan(0, 0, 0, 4, 0);
                     if (NeedStackEvangelism()
                         && !Me.CurrentTarget.HasAura("Holy Fire")
                         && CC("Holy Fire", Me.CurrentTarget))
@@ -934,6 +942,19 @@ namespace Disc
                         C("Smite", Me.CurrentTarget);
                         return true;
                     }
+
+                    //Smite
+                    if (hp < DiscSettings.Instance.Heal_SET
+                        && CC("Smite", Me.CurrentTarget))
+                    {
+                        if (CC("Power Infusion") && DiscSettings.Instance.PowerInfusion_SET)
+                        {
+                            C("Power Infusion");
+                        }
+                        Logging.Write("Healing with Atonement");
+                        C("Smite", Me.CurrentTarget);
+                        return true;
+                    }
                     else
                     {
                         //Blacklist.Add(tar, new TimeSpan(0, 0, 2));
@@ -945,6 +966,36 @@ namespace Disc
             {
                 return false;
             }
+        }
+
+        private bool StackEvangelism()
+        {
+            if (Me.Combat
+                && Me.CurrentTarget != null
+                && SpellManager.Spells.Keys.Contains("Archangel")
+                && NeedStackEvangelism())
+            {
+                if (!Me.IsMoving)
+                {
+                    Me.CurrentTarget.Face();
+                }
+                //Evangelism stack building
+                if (!Me.CurrentTarget.HasAura("Holy Fire")
+                    && CC("Holy Fire", Me.CurrentTarget))
+                {
+                    Logging.Write("Stacking Evangelism");
+                    C("Holy Fire", Me.CurrentTarget);
+                    return true;
+                }
+                if (Me.CurrentTarget.HasAura("Holy Fire")
+                    && CC("Smite", Me.CurrentTarget))
+                {
+                    Logging.Write("Stacking Evangelism");
+                    C("Smite", Me.CurrentTarget);
+                    return true;
+                }
+            }
+            return false;
         }
 
         private bool CC(string spell, WoWUnit target)
@@ -984,6 +1035,7 @@ namespace Disc
         private bool C(string spell)
         {
             lastCast = null;
+            Logging.Write("Casting " + spell);
             return SpellManager.Cast(spell);
         }
 
@@ -1086,6 +1138,21 @@ namespace Disc
                 }
             }
             return 0;
+        }
+
+        private int MassDispelCount()
+        {
+            int count = 0;
+            foreach (WoWPlayer p in ObjectManager.GetObjectsOfType<WoWPlayer>(true, true))
+            {
+                if (p.IsInMyPartyOrRaid 
+                    && p.Distance <=15
+                    && NeedsCleanse(p)>0)
+                {
+                    count++;
+                }
+            }
+            return count;
         }
 
         private int NeedsCleanseUrgent(WoWPlayer p)
@@ -1340,11 +1407,11 @@ namespace Disc
 
         public override void Rest()
         {
-            if (Me.ManaPercent < 0)
+            if (Me.ManaPercent < DiscSettings.Instance.Mana_Percent)
             {
                 Styx.Logic.Common.Rest.Feed();
             }
-            if (Me.HealthPercent < 0)
+            if (Me.HealthPercent < DiscSettings.Instance.Health_Percent)
             {
                 Styx.Logic.Common.Rest.Feed();
             }
