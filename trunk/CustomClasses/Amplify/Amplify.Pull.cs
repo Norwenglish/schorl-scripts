@@ -87,7 +87,7 @@ namespace Amplify
                     ),
 
                 // Move closer to the target if we are too far away or in !Los
-                new Decorator(ret => !AmplifySettings.Instance.MoveDisable && Me.GotTarget && (Me.CurrentTarget.Distance > PullDistance - 1 || !Me.CurrentTarget.InLineOfSight),
+                new Decorator(ret => !AmplifySettings.Instance.MoveDisable && Me.GotTarget && (Me.CurrentTarget.Distance > PullDistance - 1 || (!Me.CurrentTarget.InLineOfSight || !Me.InLineOfSpellSight)),
                               new Action(delegate
                               {
                                   Log("Moving towards:{0}", Me.CurrentTarget);

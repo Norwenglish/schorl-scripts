@@ -14,6 +14,7 @@ using TreeSharp;
 using Action = System.Action;
 using Sequence = Styx.Logic;
 using Styx.WoWInternals.World;
+using Styx.Logic.POI;
 
 
 namespace Amplify
@@ -224,6 +225,7 @@ unit != Me.CurrentTarget &&
             {
                 Log("My CurrentTarget died or got removed, finding new.");
                 PlrNearList2[0].Target();
+                BotPoi.Current = new BotPoi(PlrNearList2[0], PoiType.Kill);
             }
         }
         public static List<WoWUnit> getAdds2()
@@ -572,7 +574,7 @@ unit.Auras.ContainsKey("Polymorph"));
             {
                 if (!Player.ActiveAuras.ContainsKey("Arcane Brilliance"))
                 {
-                    playerBuffs.Add(1); 
+                    playerBuffs.Add(1);
                 }
             }
             if (playerBuffs.Count > 2)
@@ -586,7 +588,8 @@ unit.Auras.ContainsKey("Polymorph"));
                 return false;
             }
         }
-
+       
+    
         public static bool PartyHaveCurse()
         {
            

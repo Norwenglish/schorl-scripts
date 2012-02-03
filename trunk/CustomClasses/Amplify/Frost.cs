@@ -45,6 +45,7 @@ namespace Amplify
         private bool _ArcaneMissiles_Proc;
         private bool _FrostFinisher;
         private bool _CurrentSpamSpell;
+        private bool _MageWard;
         
         #endregion
 
@@ -79,7 +80,9 @@ namespace Amplify
                     new Action(ret => FindClostestPlayer(200))),
 
                 new Decorator(ret => _ClearTarget,
-                    new Action(ret => Me.ClearTarget())),
+                    new Sequence(
+                        new Action(ret => Me.ClearTarget()),
+                        new Action(ret => Styx.Logic.POI.BotPoi.Clear()))),
 
                new Decorator(ret => _IceBlock,
                    new PrioritySelector(
