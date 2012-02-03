@@ -216,7 +216,7 @@ namespace Bobby53
 
         private bool TotemCast(TotemId idTotem)
         {
-            bool castTotem = Safe_CastSpellIgnoreSilence(null, (int)idTotem);
+            bool castTotem = Safe_CastSpell(_me, (int)idTotem);
             if (castTotem)
             {
                 TotemsWereSet = true;
@@ -236,7 +236,7 @@ namespace Bobby53
 
         private bool TotemBarCast()
         {
-            bool castTotem = Safe_CastSpellIgnoreSilence(null, "Call of the Elements" );
+            bool castTotem = Safe_CastSpell(_me, "Call of the Elements" );
             if (castTotem)
             {
                 TotemsWereSet = true;
@@ -693,13 +693,11 @@ namespace Bobby53
 
                 if (SpellManager.HasSpell("Totemic Recall"))
                 {
-                    WaitForCurrentCastOrGCD();
-                    while (!IsGameUnstable() && _me.IsAlive && !SpellManager.CanCast("Totemic Recall"))
+                    if (!IsSpellBlacklisted("Totemic Recall"))
                     {
-                        Dlog("RecallTotemsForMana:  unable to cast Totemic Recall, so waiting");
+                        WaitForCurrentCastOrGCD();
+                        Safe_CastSpell(_me, "Totemic Recall");
                     }
-
-                    Safe_CastSpell("Totemic Recall", SpellRange.NoCheck, SpellWait.Complete);
                 }
                 else
                 {

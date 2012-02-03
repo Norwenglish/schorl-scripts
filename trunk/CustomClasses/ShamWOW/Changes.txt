@@ -1,5 +1,40 @@
 Change History:
 
+01/24/2012  Revision 4.5.14
+
+o Fix:  All Specs - numerous changes to distance checking, effective combat range, and spell range checking.  Should address all issue currently encountered where spells not being cast due to range
+
+o Fix:  All Specs - Spiritwalker's Grace - correctly detects when that is cast by user; spells interrupted by movement are no longer avoided while moving if buff active
+
+o Fix:  All Specs - would sometime attempt to cast Stoneclaw Totem while on cooldown
+
+o Change:  All Specs - added reason message to all Stop Moving attempts.
+
+o Change:  All Specs - Suppressed Spell Miss logging for party members
+
+o Fix:  Enhancement - message: when Maelstrom Weapon talent detected, will now correctly indicate how it will be used
+
+o Fix:  Enhancement - Dwarf only - fixed Stoneform spam occurring at some points when attempting to cleanse poison while on cooldown
+
+o Change:  Enhancement PVP - extensive reworking of movement and attacks.  Further work required, but should achieve better results in fully botted play.
+
+o Fix:  Resto - would sometimes have a pending spell on cursor but not finish cast due to timing of target death, disconnect, etc.
+
+o Fix:  Resto - corrected an issue where Shaman moving to a heal target that is out of range would sometimes move too close.
+
+o New:  Config - Heal on Maelstrom option available for Grinding/Questing.  Defaults to True which will reserve Maelstrom for healing.  False will use LB and CL casts, unless in a Stressful Fight in which case reserved for healing.  This does not affect PVP, Raiding, or Dungeons
+
+
+
+01/07/2012  Revision 4.5.13
+
+o Fix:  Resto - Heal Spell selection was affected by fast casting logic, causing correct spells (based on Health %) to appear to be on Cooldown.  This is now correctly adjusted for lag time so appropriate spell is used.
+
+o Change:  Enhancement - combat trinket not used until within melee range of target
+
+o Change:  Enhancement - some changes to AoE support; will hold off on Lava Lash until target has Flame Shock
+
+
 01/07/2012  Revision 4.5.12
 
 o Change: Added some debug log messages to assist for fixing EVADE detection.  Users experiencing problems with Evade bugged mobs should post as described in the ShamWOW FAQ.
@@ -21,7 +56,6 @@ o Fix:  Resto - totems now set when Tank is aggroing a mob with extremely large 
 o Added:  /Use: Trinkets - all Season 11 and most end game trinkets now supported.  I need a log file if you encounter a situation where you have one equipped that isn't recognized
 
 
-
 01/04/2012  Revision 4.5.11
 
 o FIX: All Specs - ranged spells now account for targets hitbox size.  Should now work correctly for ranged DPS spells Elemental, Resto (Telluric Current builds), and Enhancement (Unleashed Elements, Shocks, Maelstrom Procs)
@@ -37,6 +71,7 @@ o CHANGE: Enhancement PVE - should now correctly cast Chain Lightning / Lightnin
 o FIX: Elemental PVE - should now cast Lava Burst and Chain Lightning at appropriate times.  Previously was missing some opportunities lowering DPS
 
 o CHANGE: Elemental PVE - will now skip Lava Burst if Chain Lightning will hit 3 or more.  This should result in higher trash mob DPS numbers
+
 
 
 12/19/2011  Revision 4.5.10

@@ -59,11 +59,12 @@ namespace Bobby53
 
             cboPVP_CleansePriority.Items.Add(new CboItem((int)ConfigValues.SpellPriority.None, "None" ));
             cboPVP_CleansePriority.Items.Add(new CboItem((int)ConfigValues.SpellPriority.High, "High" ));
-            cboPVP_CleansePriority.Items.Add(new CboItem((int)ConfigValues.SpellPriority.Low, "Low" ));
+            cboPVP_CleansePriority.Items.Add(new CboItem((int)ConfigValues.SpellPriority.Low, "Low"));
 
             cboPVP_PurgePriority.Items.Add(new CboItem((int)ConfigValues.SpellPriority.None, "None" ));
             cboPVP_PurgePriority.Items.Add(new CboItem((int)ConfigValues.SpellPriority.High, "High" ));
             cboPVP_PurgePriority.Items.Add(new CboItem((int)ConfigValues.SpellPriority.Low, "Low" ));
+            cboPVP_PurgePriority.Items.Add(new CboItem((int)ConfigValues.SpellPriority.LowCurrentTarget, "Target"));
 
             cboPVP_HexIcon.Items.Add(new CboItem((int)ConfigValues.RaidTarget.None,   "None"));
             cboPVP_HexIcon.Items.Add(new CboItem((int)ConfigValues.RaidTarget.Focus, "Focus"));
@@ -84,7 +85,8 @@ namespace Bobby53
 
             cboRAF_PurgePriority.Items.Add(new CboItem((int)ConfigValues.SpellPriority.None, "None" ));
             cboRAF_PurgePriority.Items.Add(new CboItem((int)ConfigValues.SpellPriority.High, "High" ));
-            cboRAF_PurgePriority.Items.Add(new CboItem((int)ConfigValues.SpellPriority.Low, "Low" ));
+            cboRAF_PurgePriority.Items.Add(new CboItem((int)ConfigValues.SpellPriority.Low, "Low"));
+            cboRAF_PurgePriority.Items.Add(new CboItem((int)ConfigValues.SpellPriority.LowCurrentTarget, "Target"));
 
             cboRAF_HexIcon.Items.Add(new CboItem((int)ConfigValues.RaidTarget.None,   "None"));
             cboRAF_HexIcon.Items.Add(new CboItem((int)ConfigValues.RaidTarget.Focus, "Focus"));
@@ -163,6 +165,8 @@ namespace Bobby53
             chkPVE_StressOnly_TotemBar.Checked = Shaman.cfg.PVE_SaveForStress_TotemsSelected;
             numPVE_LevelsAboveAsElite.Value = Shaman.cfg.PVE_LevelsAboveAsElite;
             numPVE_StressfulMobCount.Value = Shaman.cfg.PVE_StressfulMobCount;
+            chkPVE_HealOnMaelstrom.Checked = Shaman.cfg.PVE_HealOnMaelstrom;
+
             SetComboBoxString(cboPVE_TotemEarth,  Shaman.cfg.PVE_TotemEarth.ToString() );
             SetComboBoxString(cboPVE_TotemFire,   Shaman.cfg.PVE_TotemFire.ToString() );
             SetComboBoxString(cboPVE_TotemWater, Shaman.cfg.PVE_TotemWater.ToString());
@@ -402,6 +406,7 @@ namespace Bobby53
             Shaman.cfg.PVE_SaveForStress_TotemsSelected = chkPVE_StressOnly_TotemBar.Checked;
             Shaman.cfg.PVE_LevelsAboveAsElite = (int)numPVE_LevelsAboveAsElite.Value;
             Shaman.cfg.PVE_StressfulMobCount = (int)numPVE_StressfulMobCount.Value;
+            Shaman.cfg.PVE_HealOnMaelstrom = chkPVE_HealOnMaelstrom.Checked;
             GetComboBoxString(cboPVE_TotemEarth, out Shaman.cfg.PVE_TotemEarth);
             GetComboBoxString(cboPVE_TotemFire, out Shaman.cfg.PVE_TotemFire);
             GetComboBoxString(cboPVE_TotemWater, out Shaman.cfg.PVE_TotemWater);
@@ -805,9 +810,11 @@ namespace Bobby53
             if (!Shaman._hasTalentTelluricCurrents)
             {
                 string caption = "Telluric Currents Missing";
-                string msg = 
-                    "This requires a Healing Rain build similar to a 7/2/32 spec including" + Environment.NewLine +
-                    "Telluric Currents for mana regen.  You do not have that talent." + Environment.NewLine +
+                string msg =
+                    "Successfully using this option requires a 7/2/32 Healing Rain build" + Environment.NewLine +
+                    "that includes the Telluric Currents talent for mana regen." + Environment.NewLine +
+                    Environment.NewLine +
+                    "You do not have any points in the Telluric Currents talent..." + Environment.NewLine +
                     Environment.NewLine +
                     "Do you still want to use this?";
                 if (DialogResult.Cancel == MessageBox.Show(msg, caption, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning))

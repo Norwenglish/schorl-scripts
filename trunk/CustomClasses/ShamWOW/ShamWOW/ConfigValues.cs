@@ -42,7 +42,7 @@ namespace Bobby53
         public enum RafCombatStyle { Auto, CombatOnly, HealingOverCombat, HealingOnly }
         public enum RaidHealStyle { Auto, TanksOnly, RaidOnly, PartyOnly, FocusOnly };
         public enum SpellInterruptStyle { None, CurrentTarget, All };
-        public enum SpellPriority { None, High, Low };
+        public enum SpellPriority { None, High, Low, LowCurrentTarget };
         public enum RaidTarget    { None, Star, Circle, Diamond, Triangle, Moon, Square, Cross, Skull, Focus };
 
         public const int PullTimeout = 15000;
@@ -93,6 +93,9 @@ namespace Bobby53
         public bool PVE_SaveForStress_TotemsSelected = false;
         public int PVE_LevelsAboveAsElite = 3;
         public int PVE_StressfulMobCount = 2;
+
+        public bool PVE_HealOnMaelstrom = true;
+
         public string PVE_TotemEarth = "Auto";
         public string PVE_TotemFire = "Auto";
         public string PVE_TotemWater = "Auto";
@@ -109,7 +112,7 @@ namespace Bobby53
         public string PVP_OffhandImbue = "Auto";
 
         public SpellPriority  PVP_CleansePriority = SpellPriority.Low;
-        public SpellPriority  PVP_PurgePriority = SpellPriority.Low;
+        public SpellPriority  PVP_PurgePriority = SpellPriority.LowCurrentTarget;
         public RaidTarget PVP_HexIcon = RaidTarget.Triangle;
 
         public int PVP_BloodlustCount = 4;
@@ -134,8 +137,8 @@ namespace Bobby53
         public bool RAF_SaveElementalTotemsForBosses = true;
         public bool RAF_FollowClosely = true;
 
-        public SpellPriority RAF_CleansePriority = SpellPriority.High;
-        public SpellPriority RAF_PurgePriority = SpellPriority.Low;
+        public SpellPriority RAF_CleansePriority = SpellPriority.Low;
+        public SpellPriority RAF_PurgePriority = SpellPriority.None;
         public RaidTarget RAF_HexIcon = RaidTarget.Triangle;
         public RaidTarget RAF_BindIcon = RaidTarget.Triangle;
 
@@ -202,6 +205,7 @@ namespace Bobby53
             Logging.WriteDebug("  # PVE_LevelsAboveAsElite: '{0}'", this.PVE_LevelsAboveAsElite);
             Logging.WriteDebug("  # PVE_StressfulMobCount:  '{0}'", this.PVE_StressfulMobCount);
             Logging.WriteDebug("  # PVE_PullType:           '{0}'", this.PVE_PullType);
+            Logging.WriteDebug("  # PVE_HealOnMaelstrom     '{0}'", this.PVE_HealOnMaelstrom);
             Logging.WriteDebug("  # PVE_MainhandImbue:      '{0}'", this.PVE_MainhandImbue);
             Logging.WriteDebug("  # PVE_OffhandImbue:       '{0}'", this.PVE_OffhandImbue);
             Logging.WriteDebug("  # PVE_TotemEarth:         '{0}'", this.PVE_TotemEarth);
@@ -311,7 +315,7 @@ namespace Bobby53
             PVP_Heal.GiftoftheNaaru = 88;
             PVP_Heal.TidalWaves = true;
             PVP_Heal.Cleanse = true;
-            PVP_Heal.Pets = false;
+            PVP_Heal.Pets = true;
             PVP_Heal.SearchRange = 60;
 
             RAF_Heal = new ConfigHeal();
@@ -326,7 +330,7 @@ namespace Bobby53
             RAF_Heal.GiftoftheNaaru = 88;
             RAF_Heal.TidalWaves = true;
             RAF_Heal.Cleanse = true;
-            RAF_Heal.Pets = false;
+            RAF_Heal.Pets = true;
             RAF_Heal.SearchRange = 75;
         }
 
@@ -423,6 +427,8 @@ namespace Bobby53
                         LoadInt(elem, ref PVE_LevelsAboveAsElite);                 break;
                     case "pve_stressfulmobcount":
                         LoadInt(elem, ref PVE_StressfulMobCount);                  break;
+                    case "pve_healonmaelstrom":
+                        LoadBool(elem, ref PVE_HealOnMaelstrom);                   break;
                     case "pve_totemearth":
                         LoadStr(elem, ref PVE_TotemEarth);                         break;
                     case "pve_totemfire":
@@ -881,6 +887,7 @@ namespace Bobby53
                         new XElement("pve_stressonly_totembar", PVE_SaveForStress_TotemsSelected),
                         new XElement("pve_stresslevelsabove", PVE_LevelsAboveAsElite),
                         new XElement("pve_stressfulmobcount", PVE_StressfulMobCount),
+                        new XElement("pve_healonmaelstrom", PVE_HealOnMaelstrom ),
                         new XElement("pve_totemearth", PVE_TotemEarth),
                         new XElement("pve_totemfire", PVE_TotemFire),
                         new XElement("pve_totemwater", PVE_TotemWater),
