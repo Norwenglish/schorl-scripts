@@ -27,8 +27,8 @@
 		<Vendor Name="Inoho Stronghide" Entry="43550" Type="Repair" X="4421.68" Y="-2095.55" Z="1205.802" />
 		
 		<Vendor Name="Lenedil Moonwing" Entry="43411" Type="Food" X="5523.79" Y="-3597.42" Z="1570.051" /> <!-- Nordrassil -->
-		<Vendor Name="Tomo" Entry="43381" Type="Repair" X="5184" Y="-1717.68" Z="1339.956" /> <!-- Grove of Aessina -->
-		<Vendor Name="Tomo" Entry="43381" Type="Repair" X="5184" Y="-1717.68" Z="1339.956" /> <!-- Shrine of Avian -->
+		<Vendor Name="Tomo" Entry="43381" Type="Food" X="5184" Y="-1717.68" Z="1339.956" /> <!-- Grove of Aessina -->
+		<Vendor Name="Tomo" Entry="43381" Type="Food" X="5184" Y="-1717.68" Z="1339.956" /> <!-- Shrine of Aviana -->
 		<Vendor Name="Nenduil Meadowshade" Entry="43551" Type="Food" X="4422.02" Y="-2098.77" Z="1205.738" /> <!-- Malorne -->
 	</Vendors>
 	
@@ -104,6 +104,9 @@
 	</Blackspots>
 	
 	<AvoidMobs>
+		<!--
+		<Mob Name="Azralon the Gatekeeper" Entry="40814" />
+		-->
 		<Mob Name="Smolderos the Carbonizer" Entry="39348" />
 		<Mob Name="Blazing Trainer" Entry="40434" />
 		<Mob Name="Twilight Juggernaut" Entry="41031" />
@@ -439,6 +442,17 @@
 		</Objective>
 	</Quest>
 
+	<Quest Id="25234" Name="In the Rear With the Gear">
+		<Objective Type="CollectItem" ItemId="52568" CollectCount="36">
+			<Hotspots>
+				<Hotspot X="5465.107" Y="-2382.765" Z="1463.675" />
+				<Hotspot X="5522.694" Y="-2496.316" Z="1477.085" />
+				<Hotspot X="5556.008" Y="-2612.811" Z="1488.424" />
+			</Hotspots>
+		</Objective>
+	</Quest>
+
+	
 	<QuestOrder IgnoreCheckpoints="True" >
 	
 	<CustomBehavior File="UserSettings" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" LootMobs="True" PullDistance="25" />
@@ -657,11 +671,13 @@
 				<CustomBehavior File="ForceSetVendor" DoSell="True" DoRepair="True" DoMail="True" />
 			</If>
 			<If Condition="((HasQuest(25464)) &amp;&amp; (!IsQuestCompleted(25464)))" >
+				<CustomBehavior File="UserSettings" PullDistance="1" />
 				<CustomBehavior File="FlyTo" X="5449.664" Y="-2853.457" Z="1520.727" />
 				<CustomBehavior File="ForcedDismount" />
 			  <While Condition="((HasQuest(25464)) &amp;&amp; (!IsQuestCompleted(25464)))" >
 				<CustomBehavior File="MountHyjal\BaronGeddon" QuestId="25464" MobId="40147" ItemId="54463" AuraId="74813" X="5421.708" Y="-2777.452" Z="1515.463" />
 			  </While>
+				<CustomBehavior File="UserSettings" PullDistance="25" />
 			</If>
 			<If Condition="((HasQuest(25464)) &amp;&amp; (IsQuestCompleted(25464)))" >
 				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="5190.782" Y="-2954.331" Z="1560.822" />
@@ -1318,10 +1334,10 @@
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="5146.975" Y="-1738.578" Z="1336.599" />
 		<PickUp QuestName="If You're Not Against Us..." QuestId="25404" GiverName="Matoclaw" GiverId="39928" />
 			</If>
-			<If Condition="((HasQuest(25404)) &amp;&amp; (!IsQuestCompleted(25404)))" >
+			<While Condition="((HasQuest(25404)) &amp;&amp; (!IsQuestCompleted(25404)))" >
 				<CustomBehavior File="FlyTo" DestName="talk to Blackhorn" X="4922.503" Y="-1868.73" Z="1337.241" />
-				<CustomBehavior File="InteractWith" QuestId="25404" MobId="39933" GossipOptions="1, 1, 1, 1" NumOfTimes="1" WaitTime="100" CollectionDistance="20" X="4923.962" Y="-1874.592" Z="1334.207" />
-			</If>
+				<CustomBehavior File="InteractWith" QuestId="25404" MobId="39933" GossipOptions="1, 1, 1, 1" Range="6" WaitTime="100" CollectionDistance="20" X="4923.962" Y="-1874.592" Z="1334.207" />
+			</While>
 			<If Condition="((HasQuest(25404)) &amp;&amp; (IsQuestCompleted(25404)))" >
 				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="4922.503" Y="-1868.73" Z="1337.241" />
 		<TurnIn QuestName="If You're Not Against Us..." QuestId="25404" TurnInName="Tyrus Blackhorn" TurnInId="39933" />
@@ -1551,7 +1567,7 @@
 		<PickUp QuestName="Prepping the Soil" QuestId="25502" GiverName="Rayne Feathersong" GiverId="40331" X="4411.69" Y="-2077.85" Z="1210.7" />
 			</If>
 			<While Condition="((HasQuest(25502)) &amp;&amp; (!IsQuestCompleted(25502)))" >
-				<CustomBehavior File="FlyTo" DestName="defend a Flameward" X="4635.615" Y="-2706.636" Z="1145.701" />
+				<CustomBehavior File="FlyTo" DestName="defend a Flameward" X="4623.557" Y="-2720.262" Z="1149.039" />
 				<CustomBehavior File="ForcedDismount" />
 				<RunTo X="4582.165" Y="-2701.421" Z="1140.713" />
 				<RunTo X="4608.294" Y="-2707.581" Z="1146.11" />
@@ -1571,7 +1587,7 @@
 				<CustomBehavior File="ForcedDismount" />
 				-->
 			 <While Condition="((HasQuest(25507)) &amp;&amp; (!IsQuestCompleted(25507)))" >
-				<CustomBehavior File="CombatUseItemOn" MobId="40340" ItemId="54744" MobHpPercentLeft="99" MaxRange="15" X="4607.118" Y="-2437.628" Z="1147.097" />
+				<CustomBehavior File="CombatUseItemOn" MobId="40340" ItemId="54744" MobHpPercentLeft="99" MaxRange="15" X="4594.181" Y="-2611.125" Z="1127.171" />
 				  <!-- 
 				<CustomBehavior File="UseItemOn" QuestId="25507" MobId="40340" ItemId="54744" WaitTime="1000" MinRange="15" Range="25" CollectionDistance="500" />
 				-->
@@ -2141,7 +2157,7 @@
 		<TurnIn QuestName="The Strength of Tortolla" QuestId="25915" TurnInName="Garunda Mountainpeak" TurnInId="41498" />
 		<TurnIn QuestName="The Time for Mercy has Passed" QuestId="25910" TurnInName="Garunda Mountainpeak" TurnInId="41498" />
 		<PickUp QuestName="Finish Nemesis" QuestId="25923" GiverName="Garunda Mountainpeak" GiverId="41498" />
-			<If Condition="((HasQuest(25923)) &amp;&amp; (!IsQuestCompleted(25923)))" >
+			<While Condition="((HasQuest(25923)) &amp;&amp; (!IsQuestCompleted(25923)))" >
 		 	 <If Condition="(!Me.IsIndoors)" >
 				<!-- Added this incase we died and rezzed at spirit healer -->
 				<CustomBehavior File="FlyTo" DestName="The Third Flamegate" X="4637.39" Y="-3689.15" Z="954.4733" />
@@ -2150,11 +2166,13 @@
 			 </If>
 		 	 <If Condition="(Me.IsIndoors)" >
 				<!-- Aura = Turtle-Power!  -->
+			 <While Condition="(!Me.HasAura(&quot;Turtle-Power!&quot;))" >
 				<CustomBehavior File="InteractWith" QuestId="25923" MobId="41498" NumOfTimes="1" GossipOptions="1" WaitTime="1000" CollectionDistance="50" X="4678.012" Y="-3660.107" Z="696.8307" />
 				<RunTo X="4435.125" Y="-3627.413" Z="640.5995" />
-				<CustomBehavior File="CombatUseItemOn" QuestId="25923" MobId="41614" ItemId="56207" NumOfTimes="20" MaxRange="8" CastingSpellId="77777" X="4435.125" Y="-3627.413" Z="640.5995" />
+			 </While>
+				<CustomBehavior File="CombatUseItemOn" MobId="41614" ItemId="56207" MaxRange="8" UseOnce="False" CastingSpellId="77777" X="4435.125" Y="-3627.413" Z="640.5995" />
 			 </If>
-			</If>
+			</While>
 		<TurnIn QuestName="Finish Nemesis" QuestId="25923" TurnInName="Garunda Mountainpeak" TurnInId="41498" />
 		<PickUp QuestName="Tortolla's Triumph" QuestId="25928" GiverName="Garunda Mountainpeak" GiverId="41498" />
 			<!-- End of Crucible of Flame Quests -->
@@ -2518,7 +2536,7 @@
 				<CustomBehavior File="Misc\RunLua" Lua="VehicleMenuBarActionButton2:Click()" WaitTime="9000" />
 			 </While>
 				
-				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for  {TimeRemaining}" />
+				<CustomBehavior File="WaitTimer" WaitTime="15000" GoalText="Waiting for  {TimeRemaining}" />
 				<CustomBehavior File="Misc\RunLua" Lua="VehicleMenuBarActionButton5:Click()" WaitTime="1000" />
 			
 			<!--
@@ -2591,18 +2609,37 @@
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="4082.432" Y="-3995.996" Z="971.5511" />
 		<PickUp QuestName="Slash and Burn" QuestId="25608" GiverName="Commander Jarod Shadowsong" GiverId="40772" />
 			</If>
-			<If Condition="((HasQuest(25608)) &amp;&amp; (!IsQuestCompleted(25608)))" >
-				<!-- vehicle quest that you control 
+			<While Condition="((HasQuest(25608)) &amp;&amp; (!IsQuestCompleted(25608)))" >
 			 <If Condition="(!Me.IsOnTransport)" >
-			 </If>
-			 -->
-				<RunTo X="4073.321" Y="-4009.627" Z="971.1174" />
+				<CustomBehavior File="FlyTo" DestName="Vehicle" X="4073.321" Y="-4009.627" Z="971.1174" />
 				<CustomBehavior File="ForcedDismount" />
-				<CustomBehavior File="MountVehOnly" VehicleMountId="40934" X="4074.596" Y="-4009.47" Z="971.1025" />
-				<!-- <CustomBehavior File="FlyTo" X="4355.917" Y="-4242.729" Z="1012.348" /> -->
 				
-				<CustomBehavior File="UserDialog" QuestId="25608" Title="title" AllowBotStop="True" SoundCue="Asterisk" SoundCueInterval="1" Text="Complete the vehicle quest and go back to npc" />
-			</If>
+				<CustomBehavior File="MountVehOnly" VehicleMountId="40934" X="4074.596" Y="-4009.47" Z="971.1025" />
+			 </If>
+			 <If Condition="(Me.IsOnTransport)" >
+				<While Condition="((HasQuest(25608)) &amp;&amp; (!IsObjectiveComplete(1, 25608)))">
+					<CustomBehavior File="VehicleBehavior" AttackButton="2" VehicleId="40025" VehicleMountId="40934" MobId1="40573" 
+												StartObjectivePointX="4391.007" StartObjectivePointY="-4399.501" StartObjectivePointZ="939.4135" 
+												StartPointX="4084.388" StartPointY="-3996.015" StartPointZ="971.3682" VehicleType="1"/>
+				</While>
+
+				<While Condition="((HasQuest(25608)) &amp;&amp; (!IsObjectiveComplete(2, 25608)))">
+					<CustomBehavior File="VehicleBehavior" QuestId="25608" AttackButton="1" VehicleId="40025" MobId1="40564" MobId2="40562" VehicleMountId="40934" FireHeight="1" 
+												StartObjectivePointX="4391.007" StartObjectivePointY="-4399.501" StartObjectivePointZ="939.4135" 
+												StartPointX="4084.388" StartPointY="-3996.015" StartPointZ="971.3682" 
+												EndPointX="4084.388" EndPointY="-3996.015" EndPointZ="971.3682" VehicleType="2"  >
+						  <Start X="4362.628" Y="-4308.745" Z="938.3419"  />
+						  <Path X="4379.361" Y="-4416.606" Z="931.0206" />
+						  <Path X="4452.269" Y="-4502.572" Z="924.985" />
+						  <Path X="4561.679" Y="-4637.112" Z="928.1306" />
+						  <Path X="4594.852" Y="-4570.126" Z="915.2373" />
+						  <Path X="4487.234" Y="-4506.711" Z="911.7497" />
+						  <Path X="4438.627" Y="-4425.22" Z="919.3046" />
+						  <Path X="4514.863" Y="-4298.843" Z="921.6279" />
+					</CustomBehavior>
+				</While>
+			 </If>
+			</While>
 			<If Condition="((HasQuest(25608)) &amp;&amp; (IsQuestCompleted(25608)))" >
 				<CustomBehavior File="EjectVeh" Eject="True" />
 				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="4082.432" Y="-3995.996" Z="971.5511" />
@@ -2721,7 +2758,7 @@
 				<CustomBehavior File="WaitTimer" WaitTime="1000" />
 				<UseItem QuestId="25553" ItemId="55173" X="3774.15" Y="-3228.275" Z="971.3578" />
 				<CustomBehavior File="WaitTimer" WaitTime="20000" />
-				<CustomBehavior File="InteractWith" QuestId="25553" MobId="40974" Range="10" MobState="Alive" WaitForNpcs="False" X="3774.15" Y="-3228.275" Z="971.3578" />
+				<CustomBehavior File="InteractWith" QuestId="25553" MobId="40974" Range="8" MobState="Alive" WaitForNpcs="False" X="3774.586" Y="-3225.692" Z="972.7824" />
 				<CustomBehavior File="WaitTimer" WaitTime="10000" />
 				<!--
 				<Objective QuestName="Death to the Broodmother" QuestId="25553" Type="KillMob" KillCount="1" MobId="40974" />

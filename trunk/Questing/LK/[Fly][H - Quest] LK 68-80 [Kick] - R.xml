@@ -18,6 +18,7 @@
 
 	<Vendors> 
 		<!-- Borean Tundra -->
+		<!-- Borean Tundra -->
 	
 		<!-- Warsong Hold -->
 		<Vendor Name="Armorer Orkuruk" Entry="25274" Type="Repair" X="2764.425" Y="6180.714" Z="83.45659" />
@@ -176,6 +177,7 @@
 	</AvoidMobs>
 
 	<Blackspots>
+		<Blackspot X="2848.804" Y="36.11216" Z="-0.03785837" Radius="15" />
 		<Blackspot X="3214.934" Y="-697.3789" Z="166.9956" Radius="11.50544" />
 		<Blackspot X="2531.411" Y="6108.782" Z="65.03717" Radius="15" />
 		<Blackspot X="2556.156" Y="6090.388" Z="73.43741" Radius="15" />
@@ -1372,7 +1374,39 @@
 			</Hotspots>
 		</Objective>
 	</Quest>
-		
+	<Quest Id="12524" Name="Venture Co. Misadventure">
+		<Objective Type="KillMob" MobId="28123" KillCount="15">
+			<Hotspots>
+				<Hotspot X="5907.901" Y="5506.388" Z="-79.21458" />
+				<Hotspot X="5918.359" Y="5444.878" Z="-91.55524" />
+				<Hotspot X="5861.594" Y="5365.693" Z="-96.04573" />
+				<Hotspot X="5954.131" Y="5398.462" Z="-97.1601" />
+				<Hotspot X="5920.208" Y="5461.558" Z="-90.65696" />
+			</Hotspots>
+		</Objective>
+	</Quest>
+	<Quest Id="12523" Name="Have a Part, Give a Part">
+		<Objective Type="CollectItem" ItemId="38349" CollectCount="7">
+			<Hotspots>
+				<Hotspot X="5907.901" Y="5506.388" Z="-79.21458" />
+				<Hotspot X="5918.359" Y="5444.878" Z="-91.55524" />
+				<Hotspot X="5861.594" Y="5365.693" Z="-96.04573" />
+				<Hotspot X="5954.131" Y="5398.462" Z="-97.1601" />
+				<Hotspot X="5920.208" Y="5461.558" Z="-90.65696" />
+			</Hotspots>
+		</Objective>
+	</Quest>
+	<Quest Id="12558" Name="Dreadsaber Mastery: Ready to Pounce">
+		<Objective Type="CollectItem" ItemId="38523" CollectCount="1">
+			<Hotspots>
+				<Hotspot X="6363.583" Y="5468.278" Z="-32.8575" />
+				<Hotspot X="6223.573" Y="5553.12" Z="-37.62673" />
+			</Hotspots>
+		</Objective>
+	</Quest>
+
+
+
 	
 	<QuestOrder IgnoreCheckPoints="True" >
 	
@@ -1707,7 +1741,9 @@
 			</If>
         <PickUp QuestName="Tank Ain't Gonna Fix Itself" QuestId="11642" GiverName="Gorge the Corpsegrinder" GiverId="25329" />
         <TurnIn QuestName="Tank Ain't Gonna Fix Itself" QuestId="11642" TurnInName="Mobu" TurnInId="25475" />
+			<!--
         <PickUp QuestName="Mobu's Pneumatic Tank Transjigamarig" QuestId="11643" GiverName="Mobu" GiverId="25475" />
+			-->
         <PickUp QuestName="Super Strong Metal Plates!" QuestId="11644" GiverName="Mobu" GiverId="25475" />
         <PickUp QuestName="Into the Mist" QuestId="11655" GiverName="Waltor of Pal'ea" GiverId="25476" />
         <PickUp QuestName="Horn of the Ancient Mariner" QuestId="11660" GiverName="Waltor of Pal'ea" GiverId="25476" />
@@ -1741,6 +1777,7 @@
 				<CustomBehavior File="ForcedDismount" />
 				<Objective QuestName="Into the Mist" QuestId="11655" Type="CollectItem" ItemId="34814" CollectCount="8" />
 			</If>
+			<!--
 			<If Condition="HasQuest(11643) &amp;&amp; !IsQuestCompleted(11643)">
 				<CustomBehavior File="FlyTo" X="3027.093" Y="6723.546" Z="8.394833" />
 				<CustomBehavior File="ForcedDismount" />
@@ -1749,14 +1786,17 @@
 				<CustomBehavior File="WaitTimer" WaitTime="3000" GoalText="Waiting for quest to complete {TimeRemaining}" />
 			 </While>
 			</If>
-			<If Condition="((HasQuest(11643)) &amp;&amp; (IsQuestCompleted(11643)))" >
+			-->
+			<If Condition="((HasQuest(11643)) &amp;&amp; (IsQuestCompleted(11643))) || ((HasQuest(11644)) &amp;&amp; (IsQuestCompleted(11644)))" >
 				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="2815.201" Y="6713.301" Z="10.07366" />
 			</If>
+			<!--
         <TurnIn QuestName="Mobu's Pneumatic Tank Transjigamarig" QuestId="11643" TurnInName="Mobu" TurnInId="25475" />
+			-->
         <TurnIn QuestName="Super Strong Metal Plates!" QuestId="11644" TurnInName="Mobu" TurnInId="25475" />
+			<!-- Vehicle quest - drive a Siege Tank around and kill guys and 3 flying things
         <PickUp QuestName="Tanks a lot..." QuestId="11651" GiverName="Mobu" GiverId="25475" />
         <TurnIn QuestName="Tanks a lot..." QuestId="11651" TurnInName="Gorge the Corpsegrinder" TurnInId="25329" />
-			<!-- Vehicle quest - drive a Siege Tank around and kill guys and 3 flying things
 		<PickUp QuestName="The Plains of Nasam" QuestId="11652" GiverName="Gorge the Corpsegrinder" GiverId="25329" />
 			-->
         <TurnIn QuestName="Into the Mist" QuestId="11655" TurnInName="Waltor of Pal'ea" TurnInId="25476" />
@@ -1939,8 +1979,8 @@
 		<PickUp QuestName="Not Without a Fight!" QuestId="11949" GiverName="Ataika" GiverId="26169" />
 			</If>
 			
-			<!-- Daily = Preparing for the Worst -->
-			 <If Condition="Me.ZoneId == 3537" > <!-- Borean Tundra -->
+			<!-- Daily = Preparing for the Worst 
+			 <If Condition="Me.ZoneId == 3537" > 
 			<If Condition="((!HasQuest(11945)) &amp;&amp; (!IsQuestCompleted(11945)))" >
 				<CustomBehavior File="Message" Text="Flying to pickup and do Kaskala daily" LogColor="Orange" />
 				<CustomBehavior File="FlyTo" DestName="Get Daily (Kaskala)" X="3138.744" Y="4881.745" Z="2.591486" />
@@ -1948,6 +1988,7 @@
 		<PickUp QuestName="Preparing for the Worst" QuestId="11945" GiverId="26213" GiverName="Utaik" />
 			</If>
 			 </If>
+			 -->
 			<If Condition="((HasQuest(11945)) &amp;&amp; (!IsQuestCompleted(11945)))" >
 				<CustomBehavior File="FlyTo" DestName="Objective" X="2876.18" Y="4858.867" Z="0.3971166" />
 				<CustomBehavior File="ForcedDismount" />
@@ -3370,12 +3411,15 @@
 				<CustomBehavior File="ForcedDismount" />
 		<Pickup QuestName="Oh Noes, the Tadpoles!" QuestId="11560" GiverName="King Mrgl-Mrgl" GiverId="25197" />
 			</If>
-			<While Condition="((HasQuest(11560)) &amp;&amp; (!IsQuestCompleted(11560)))" >
+			<If Condition="((HasQuest(11560)) &amp;&amp; (!IsQuestCompleted(11560)))" >
 				<CustomBehavior File="FlyTo" DestName="Objective" X="4278.3" Y="6193.549" Z="0.6652095" />
 				<CustomBehavior File="ForcedDismount" />
 				<!-- While doesn't work properly with the cages since they don't disappear -->
-				<CustomBehavior File="InteractWith" QuestId="11560" MobId="187373" Range="6" NumOfTimes="500" ObjectType="Gameobject" CollectionDistance="500" X="4266.167" Y="6233.443" Z="-0.06203166" />
-			</While>
+			 <While Condition="((HasQuest(11560)) &amp;&amp; (!IsQuestCompleted(11560)))" >
+				<CustomBehavior File="InteractWith" QuestId="11560" MobId="187373" Range="8" NumOfTimes="20" ObjectType="Gameobject" WaitForNpcs="False" CollectionDistance="500" X="4266.167" Y="6233.443" Z="-0.06203166" />
+				<CustomBehavior File="InteractWith" QuestId="11560" MobId="187373" Range="8" NumOfTimes="20" ObjectType="Gameobject" WaitForNpcs="False" CollectionDistance="500" X="4004.588" Y="6284.879" Z="8.082083" />
+			 </While>
+			</If>
 			<If Condition="((HasQuest(11561)) &amp;&amp; (!IsQuestCompleted(11561)))" >
 				<CustomBehavior File="FlyTo" DestName="Objective" X="4278.3" Y="6193.549" Z="0.6652095" />
 				<CustomBehavior File="ForcedDismount" />
@@ -3467,6 +3511,7 @@
 				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="The Spare Suit" QuestId="11565" TurnInName="King Mrgl-Mrgl" TurnInId="25197" />
 		<Pickup QuestName="Surrender... Not!" QuestId="11566" GiverName="King Mrgl-Mrgl" GiverId="25197" />
+				<CustomBehavior File="ForceSetVendor" DoSell="True" DoRepair="True" />
 			</If>
 			<If Condition="((!HasQuest(11565)) &amp;&amp; (!IsQuestCompleted(11565)))" >
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="4406.787" Y="6146.939" Z="1.147705" />
@@ -3482,6 +3527,7 @@
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="4364.292" Y="6062.239" Z="0.2587225" />
 				<CustomBehavior File="ForcedDismount" />
 		<Pickup QuestName="Surrender... Not!" QuestId="11566" GiverName="King Mrgl-Mrgl" GiverId="25197" />
+				<CustomBehavior File="ForceSetVendor" DoSell="True" DoRepair="True" />
 			</If>
 			<If Condition="((HasQuest(12728)) &amp;&amp; (!IsQuestCompleted(12728)))" >
 				<CustomBehavior File="FlyTo" DestName="Objective" X="4153.776" Y="6245.318" Z="30.95657" />
@@ -3789,29 +3835,31 @@
 				<CustomBehavior File="WaitTimer" WaitTime="15000" GoalText="Waiting for Keristrsza's timer! {TimeRemaining}" />
 				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(35671)" WaitTime="1000" />
 				<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting for Keristrsza {TimeRemaining}" />
-		<Pickup QuestName="Keristrasza" QuestId="11946" GiverName="Keristrasza" GiverId="26206" />
-		<TurnIn QuestName="Keristrasza" QuestId="11946" TurnInName="Keristrasza" TurnInId="26206" />
-		<Pickup QuestName="Bait and Switch" QuestId="11951" GiverName="Keristrasza" GiverId="26206" />
+		<Pickup QuestName="Keristrasza" QuestId="11946" GiverName="Keristrasza" GiverId="26206" X="3578.918" Y="6655.438" Z="195.3858" />
+		<TurnIn QuestName="Keristrasza" QuestId="11946" TurnInName="Keristrasza" TurnInId="26206" X="3578.918" Y="6655.438" Z="195.3858" />
+		<Pickup QuestName="Bait and Switch" QuestId="11951" GiverName="Keristrasza" GiverId="26206" X="3578.918" Y="6655.438" Z="195.3858" />
 			</If>
 			<If Condition="((!HasQuest(11946)) &amp;&amp; (!IsQuestCompleted(11946)))" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="3578.918" Y="6655.438" Z="195.3858" />
 				<CustomBehavior File="ForcedDismount" />
+				
 				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(35671)" WaitTime="1000" />
 				<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting for Keristrsza {TimeRemaining}" />
-		<Pickup QuestName="Keristrasza" QuestId="11946" GiverName="Keristrasza" GiverId="26206" />
-		<TurnIn QuestName="Keristrasza" QuestId="11946" TurnInName="Keristrasza" TurnInId="26206" />
-		<Pickup QuestName="Bait and Switch" QuestId="11951" GiverName="Keristrasza" GiverId="26206" />
+		<Pickup QuestName="Keristrasza" QuestId="11946" GiverName="Keristrasza" GiverId="26206" X="3578.918" Y="6655.438" Z="195.3858" />
+		<TurnIn QuestName="Keristrasza" QuestId="11946" TurnInName="Keristrasza" TurnInId="26206" X="3578.918" Y="6655.438" Z="195.3858" />
+		<Pickup QuestName="Bait and Switch" QuestId="11951" GiverName="Keristrasza" GiverId="26206" X="3578.918" Y="6655.438" Z="195.3858" />
 			</If>
 			<If Condition="((HasQuest(11946)) &amp;&amp; (IsQuestCompleted(11946)))" >
 				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(35671)" WaitTime="1000" />
 				<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting for Keristrsza {TimeRemaining}" />
-		<TurnIn QuestName="Keristrasza" QuestId="11946" TurnInName="Keristrasza" TurnInId="26206" />
-		<Pickup QuestName="Bait and Switch" QuestId="11951" GiverName="Keristrasza" GiverId="26206" />
+		<TurnIn QuestName="Keristrasza" QuestId="11946" TurnInName="Keristrasza" TurnInId="26206" X="3578.918" Y="6655.438" Z="195.3858" />
+		<Pickup QuestName="Bait and Switch" QuestId="11951" GiverName="Keristrasza" GiverId="26206" X="3578.918" Y="6655.438" Z="195.3858" />
 			</If>
 			<If Condition="((!HasQuest(11951)) &amp;&amp; (!IsQuestCompleted(11951)))" >
 				<CustomBehavior File="ForcedDismount" />
 				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(35671)" WaitTime="1000" />
 				<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting for Keristrsza {TimeRemaining}" />
-		<Pickup QuestName="Bait and Switch" QuestId="11951" GiverName="Keristrasza" GiverId="26206" />
+		<Pickup QuestName="Bait and Switch" QuestId="11951" GiverName="Keristrasza" GiverId="26206" X="3578.918" Y="6655.438" Z="195.3858" />
 			</If>
 			<If Condition="((HasQuest(11951)) &amp;&amp;(!IsQuestCompleted(11951)))" >
 				<CustomBehavior File="FlyTo" DestName="Objective" X="3706.033" Y="6991.222" Z="159.7776" />
@@ -3823,15 +3871,14 @@
 				<CustomBehavior File="ForcedDismount" />
 				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(35671)" WaitTime="1000" />
 				<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting for Keristrsza {TimeRemaining}" />
-		<TurnIn QuestName="Bait and Switch" QuestId="11951" TurnInName="Keristrasza" TurnInId="26206" />
-		<Pickup QuestName="Saragosa's End" QuestId="11957" GiverName="Keristrasza" GiverId="26206" />
+		<TurnIn QuestName="Bait and Switch" QuestId="11951" TurnInName="Keristrasza" TurnInId="26206" X="3614.556" Y="6970.033" Z="170.109" />
+		<Pickup QuestName="Saragosa's End" QuestId="11957" GiverName="Keristrasza" GiverId="26206" X="3614.556" Y="6970.033" Z="170.109" />
 			</If>
 			<If Condition="((!HasQuest(11957)) &amp;&amp; (!IsQuestCompleted(11957)))" >
-				<CustomBehavior File="WaitTimer" WaitTime="100000" GoalText="Waiting for Keristraza's timer" />
 				<CustomBehavior File="ForcedDismount" />
 				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(35671)" WaitTime="1000" />
 				<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting for Keristrsza {TimeRemaining}" />
-		<Pickup QuestName="Saragosa's End" QuestId="11957" GiverName="Keristrasza" GiverId="26206" />
+		<Pickup QuestName="Saragosa's End" QuestId="11957" GiverName="Keristrasza" GiverId="26206" X="3614.556" Y="6970.033" Z="170.109" />
 			</If>
 			<While Condition="((HasQuest(11957)) &amp;&amp; (!IsQuestCompleted(11957)))" >
 				<CustomBehavior File="ForcedDismount" />
@@ -3847,30 +3894,28 @@
 				<CustomBehavior File="WaitTimer" WaitTime="120000" GoalText="Waiting for Keristraza's timer" />
 				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(35671)" WaitTime="1000" />
 				<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting for Keristrsza {TimeRemaining}"  />
-		<TurnIn QuestName="Saragosa's End" QuestId="11957" TurnInName="Keristrasza" TurnInId="26206" />
-		<Pickup QuestName="Mustering the Reds" QuestId="11967" GiverName="Keristrasza" GiverId="26206" />
+		<TurnIn QuestName="Saragosa's End" QuestId="11957" TurnInName="Keristrasza" TurnInId="26206" X="4022.919" Y="7296.054" Z="635.97" />
+		<Pickup QuestName="Mustering the Reds" QuestId="11967" GiverName="Keristrasza" GiverId="26206" X="4022.919" Y="7296.054" Z="635.97" />
 			</If>
 			<If Condition="((!HasQuest(11967)) &amp;&amp; (!IsQuestCompleted(11967)))" >
 				<CustomBehavior File="ForcedDismount" />
 				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(35671)" WaitTime="1000" />
 				<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting for Keristrsza {TimeRemaining}"  />
-		<Pickup QuestName="Mustering the Reds" QuestId="11967" GiverName="Keristrasza" GiverId="26206" />
+		<Pickup QuestName="Mustering the Reds" QuestId="11967" GiverName="Keristrasza" GiverId="26206" X="4022.919" Y="7296.054" Z="635.97" />
 			</If>
 			<If Condition="((HasQuest(11967)) &amp;&amp; (IsQuestCompleted(11967)))" >
 				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(35671)" WaitTime="1000" />
 				<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting for Keristrsza {TimeRemaining}"  />
-				<CustomBehavior File="BasicInteractWith" MobId="26206" />
-				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting... {TimeRemaining}"  />
-				<CustomBehavior File="RunMacro" Macro="/script SelectGossipOption(1)" NumOfTimes="2" WaitTime="1000" />
+				<CustomBehavior File="InteractWith" MobId="26206" GossipOptions="1, 1" />
 				<CustomBehavior File="WaitTimer" WaitTime="3000" GoalText="Waiting for port {TimeRemaining}"  />
-		<TurnIn QuestName="Mustering the Reds" QuestId="11967" TurnInName="Raelorasz" TurnInId="26117" />
-		<Pickup QuestName="Springing the Trap" QuestId="11969" GiverName="Raelorasz" GiverId="26117" />
+		<TurnIn QuestName="Mustering the Reds" QuestId="11967" TurnInName="Raelorasz" TurnInId="26117" X="3581.661" Y="6653.157" Z="195.6618" />
+		<Pickup QuestName="Springing the Trap" QuestId="11969" GiverName="Raelorasz" GiverId="26117" X="3581.661" Y="6653.157" Z="195.6618" />
 				<RunTo X="3581.661" Y="6653.157" Z="195.6618" />
 			</If>
 			<If Condition="((!HasQuest(11969)) &amp;&amp; (!IsQuestCompleted(11969)))" >
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="3578.918" Y="6655.438" Z="195.3858" />
 				<CustomBehavior File="ForcedDismount" />
-		<Pickup QuestName="Springing the Trap" QuestId="11969" GiverName="Raelorasz" GiverId="26117" />
+		<Pickup QuestName="Springing the Trap" QuestId="11969" GiverName="Raelorasz" GiverId="26117" X="3581.661" Y="6653.157" Z="195.6618" />
 				<RunTo X="3581.661" Y="6653.157" Z="195.6618" />
 			</If>
 			</If>
@@ -4394,11 +4439,13 @@
 				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="Street &quot;Cred&quot;" QuestId="11509" TurnInName="&quot;Silvermoon&quot; Harry" TurnInId="24539" />
 		<PickUp QuestName="&quot;Scoodles&quot;" QuestId="11510" GiverName="&quot;Silvermoon&quot; Harry" GiverId="24539" />
+				<RunTo X="-142.6597" Y="-3537.858" Z="3.020392" />
 			</If>
 			<If Condition="((!HasQuest(11510)) &amp;&amp; (!IsQuestCompleted(11510)))" >
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="-143.1077" Y="-3529.977" Z="3.295386" />
 				<CustomBehavior File="ForcedDismount" />
 		<PickUp QuestName="&quot;Scoodles&quot;" QuestId="11510" GiverName="&quot;Silvermoon&quot; Harry" GiverId="24539" />
+				<RunTo X="-142.6597" Y="-3537.858" Z="3.020392" />
 			</If>
 			<If Condition="((HasQuest(11510)) &amp;&amp; (!IsQuestCompleted(11510)))" >
 				<CustomBehavior File="FlyTo" DestName="Objective" X="-332.6303" Y="-3743.387" Z="30.11348" />
@@ -5549,6 +5596,7 @@
 				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(35838)" WaitTime="1000" />
 				<CustomBehavior File="WaitTimer" WaitTime="35000" GoalText="Waiting for Tuggie {TimeRemaining}" />
 				<Objective QuestName="Meat on the Hook" QuestId="12017" Type="KillMob" MobId="26510" KillCount="1" />
+				<CustomBehavior File="AscendInWater" />
 				<RunTo X="2711.815" Y="943.4164" Z="0.4194623" />
 			</If>
 			<If Condition="((HasQuest(12017)) &amp;&amp; (IsQuestCompleted(12017)))" >
@@ -5847,9 +5895,12 @@
 				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="4903.812" Y="294.4225" Z="136.2409" />
 				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="Slim Pickings" QuestId="12075" TurnInName="Zort" TurnInId="26659" />
+		<!--
 		<Pickup QuestName="Messy Business" QuestId="12076" GiverName="Zort" GiverId="26659" />
 		<Pickup QuestName="Stomping Grounds" QuestId="12079" GiverName="Ko'char the Unbreakable" GiverId="26473" />
+		-->
 			</If>
+			<!--
 			<If Condition="((!HasQuest(12076)) &amp;&amp; (!IsQuestCompleted(12076)))" >
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="4906.897" Y="310.8272" Z="145.8285" />
 				<CustomBehavior File="ForcedDismount" />
@@ -5897,8 +5948,8 @@
 				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="4906.897" Y="310.8272" Z="145.8285" />
 				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="Apply This Twice A Day" QuestId="12077" TurnInName="Ko'char the Unbreakable" TurnInId="26473" />
-			<!-- Ignoring Really Big Worm and Worm Wrangler -->
 			</If>
+			-->
 			
 			<!-- Start of The Crystal Vice Quests (N. of Wyrmrest) -->
 			<If Condition="((!HasQuest(12043)) &amp;&amp; (!IsQuestCompleted(12043)))" >
@@ -6852,6 +6903,10 @@
 				<CustomBehavior File="UseItemTargetLocation" QuestId="11982" ItemId="35734" UseType="PointToObject" WaitTime="1500" MinRange="30" Range="90" MobId1="26268" MobId2="26270" X="5007.596" Y="-4633.813" Z="292.1327" />
 				
 				<CustomBehavior File="WaitTimer" WaitTime="5000" GoalText="Waiting for quest to complete {TimeRemaining}" />
+				<RunTo X="5017.887" Y="-4629.757" Z="293.9718" />
+				<CustomBehavior File="RunMacro" Macro="/petpassive" />
+				<CustomBehavior File="WaitTimer" WaitTime="5000" GoalText="Waiting for quest to complete {TimeRemaining}" />
+				<CustomBehavior File="RunMacro" Macro="/petassist" />
 			</If>
 			<If Condition="((HasQuest(11982)) &amp;&amp; (IsQuestCompleted(11982)))" >
 				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="4894.704" Y="-4564.427" Z="350.8008" />
@@ -7317,8 +7372,11 @@
 				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="4594.474" Y="-1085.474" Z="165.4841" />
 				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="The Call of the Crusade" QuestId="12542" TurnInName="Crusader Valus" TurnInId="28228" />
+			<!--
 		<PickUp QuestName="The Cleansing of Jintha'kalar" QuestId="12545" GiverName="Crusader Valus" GiverId="28228" />
+			-->
 			</If>
+			<!--
 			<If Condition="((!HasQuest(12545)) &amp;&amp; (!IsQuestCompleted(12545)))" >
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="4594.474" Y="-1085.474" Z="165.4841" />
 				<CustomBehavior File="ForcedDismount" />
@@ -7335,6 +7393,7 @@
 				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="The Cleansing of Jintha'kalar" QuestId="12545" TurnInName="Crusader Valus" TurnInId="28228" />
 			</If>
+			-->
 			<!-- End of Random Quests -->
 			
 			<!-- Light's Breach Quests -->
@@ -7442,6 +7501,7 @@
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="5744.64" Y="-1473.114" Z="243.8246" />
 				<CustomBehavior File="ForcedDismount" />
 		<PickUp QuestName="Light Won't Grant Me Vengeance" QuestId="12904" GiverName="Gerk" GiverId="29455" />
+				<RunTo X="5739.807" Y="-1471.267" Z="234.3476" />
 			</If>
 			<If Condition="((HasQuest(12903)) &amp;&amp; (!IsQuestCompleted(12903)))" >
 				<CustomBehavior File="FlyTo" DestName="find Gerk" X="5744.525" Y="-1473.118" Z="258.9253" />
@@ -7486,11 +7546,13 @@
 				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="A Great Storm Approaches" QuestId="12912" TurnInName="Engineer Reed" TurnInId="29688" />
 			</If>
+			<!--
 			<If Condition="((!HasQuest(12914)) &amp;&amp; (!IsQuestCompleted(12914)))" >
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="5539.295" Y="-1865.61" Z="238.2688" />
 				<CustomBehavior File="ForcedDismount" />
 		<PickUp QuestName="Gymer's Salvation" QuestId="12914" GiverName="Engineer Reed" GiverId="29688" />
 			</If>
+			-->
 			<If Condition="((!HasQuest(12631)) &amp;&amp; (!IsQuestCompleted(12631)))" >
 				<CustomBehavior File="FlyTo" DestName="farm for DropQuest" X="5193.638" Y="-1464.313" Z="237.7085" />
 				<CustomBehavior File="ForcedDismount" />
@@ -7516,6 +7578,7 @@
 			 </If>
 		
 			</If>
+			<!--
 			<If Condition="((HasQuest(12914)) &amp;&amp; (!IsQuestCompleted(12914)))" >
 				<CustomBehavior File="FlyTo" DestName="get Diatomaceous Earth" X="5117.943" Y="-1191.564" Z="257.7778" />
 				<CustomBehavior File="ForcedDismount" />
@@ -7544,8 +7607,8 @@
 				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="5779.136" Y="-1603.13" Z="234.6452" />
 				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="Our Only Hope" QuestId="12916" TurnInName="Gymer" TurnInId="29647" />
-			<!-- The Storm King's Vengeance -->
 			</If>
+			-->
 			<!-- End of Crusader Forward Camp Quests -->
 			
 			<!-- Ebon Watch Quests -->
@@ -8096,7 +8159,7 @@
 			</If>
 			<!-- End of The Argent Stand and surrounding area's Quests -->
 		
-			<If Condition="(Me.Level &lt; 76)" >
+			<If Condition="(Me.Level &lt; 77)" >
 				<CustomBehavior File="FlyTo" DestName="Grind Area" X="6285.17" Y="-896.4157" Z="409.7999" />
 				<CustomBehavior File="ForcedDismount" />
 			</If>
@@ -8122,8 +8185,8 @@
 						<Hotspot X="6264.413" Y="-698.1252" Z="418.4413" />
 					</Hotspots>
 				</GrindArea></SetGrindArea>
-			<GrindTo Level="76" />
-			<Checkpoint Level="76" />
+			<GrindTo Level="77" />
+			<Checkpoint Level="77" />
 		
 			<!-- Sholazar Basin Quests -->
 				<CustomBehavior File="Message" Text="Compiling Sholazar Basin Quests (You will get stuck in trees)" LogColor="Green" />
@@ -8705,7 +8768,9 @@
 		<TurnIn QuestName="In Search of Bigger Game" QuestId="12595" TurnInName="Dorian Drakestalker" TurnInId="28376" />
 		<PickUp QuestName="Sharpening Your Talons" QuestId="12603" GiverName="Dorian Drakestalker" GiverId="28376" />
 		<PickUp QuestName="Securing the Bait" QuestId="12605" GiverName="Dorian Drakestalker" GiverId="28376" />
+		<!--
 		<Pickup QuestName="Burning to Help" QuestId="12683" GiverName="Colvin Norrington" GiverId="28771" />
+		-->
 				<RunTo X="6451.134" Y="5077.167" Z="-64.07055" />
 			</If>
 			<If Condition="((!HasQuest(12603)) &amp;&amp; (!IsQuestCompleted(12603)))" >
@@ -8720,12 +8785,14 @@
 		<PickUp QuestName="Securing the Bait" QuestId="12605" GiverName="Dorian Drakestalker" GiverId="28376" />
 				<RunTo X="6451.134" Y="5077.167" Z="-64.07055" />
 			</If>
+			<!--
 			<If Condition="((!HasQuest(12683)) &amp;&amp; (!IsQuestCompleted(12683)))" >
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="6459.892" Y="5087.081" Z="-63.98507" />
 				<CustomBehavior File="ForcedDismount" />
 		<Pickup QuestName="Burning to Help" QuestId="12683" GiverName="Colvin Norrington" GiverId="28771" />
 				<RunTo X="6451.134" Y="5077.167" Z="-64.07055" />
 			</If>
+			-->
 			<If Condition="((HasQuest(12605)) &amp;&amp; (!IsQuestCompleted(12605)))" >
 				<CustomBehavior File="FlyTo" DestName="collect Hatchlings" X="6403.826" Y="4943.531" Z="-70.18993" />
 				<CustomBehavior File="ForcedDismount" />
@@ -8738,6 +8805,7 @@
 				<CustomBehavior File="ForcedDismount" />
 				<Objective QuestName="Sharpening Your Talons" QuestId="12603" Type="KillMob" MobId="28378" KillCount="6" />
 			</If>
+			<!--
 			<If Condition="((HasQuest(12683)) &amp;&amp; (!IsQuestCompleted(12683)))" >
 				<CustomBehavior File="FlyTo" DestName="Bittertide Lake" X="6089.7" Y="5131.105" Z="-100.3147" />
 				<CustomBehavior File="ForcedDismount" />
@@ -8751,6 +8819,7 @@
 		<TurnIn QuestName="Burning to Help" QuestId="12683" TurnInName="Colvin Norrington" TurnInId="28771" />
 				<RunTo X="6451.134" Y="5077.167" Z="-64.07055" />
 			</If>
+			-->
 			<If Condition="((HasQuest(12603)) &amp;&amp; (IsQuestCompleted(12603)))" >
 				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="6459.892" Y="5087.081" Z="-63.98507" />
 				<CustomBehavior File="ForcedDismount" />
@@ -8844,9 +8913,9 @@
 						</Hotspots>
 						</GrindArea>
 					</SetGrindArea>
-				<GrindTo Level="77" />
+				<GrindTo Level="78" />
 			</If>
-			<!-- <CheckPoint Level="77" /> -->
+			<!-- <CheckPoint Level="78" /> -->
 
 
 			<!-- River's Heart Quests -->
