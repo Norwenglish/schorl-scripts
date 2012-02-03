@@ -121,6 +121,7 @@ namespace Disc
         private void loadSettings()
         {
             DiscSettings.Instance.Load();
+            DiscSettings.Instance.Stop_SET = false;
             FillSettings();
         }
 
