@@ -97,5 +97,8 @@ namespace HighVoltz
         [Setting, Styx.Helpers.DefaultValue(false),
          Description("If set to true bot will attempt to loot any dead lootable NPCs")]
         public bool LootNPCs { get; set; }
+
+        [Setting, Styx.Helpers.DefaultValue(0)]
+        public int CurrentRevision { get; set; }
     }
 }

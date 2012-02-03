@@ -47,7 +47,7 @@ namespace HighVoltz.Composites
                 // safety check. if spending more than 5 mins at pool than black list it.
                 if (_timeAtPoolSW.ElapsedMilliseconds >= AutoAngler.Instance.MySettings.MaxTimeAtPool*60000)
                 {
-                    Util.BlacklistPool(pool, TimeSpan.FromMinutes(10), "Spend too much time at pool");
+                    Utils.BlacklistPool(pool, TimeSpan.FromMinutes(10), "Spend too much time at pool");
                     return RunStatus.Failure;
                 }
                 // Blacklist pool if we have too many failed casts

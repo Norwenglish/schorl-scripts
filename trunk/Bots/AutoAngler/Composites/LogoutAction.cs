@@ -13,7 +13,7 @@ namespace HighVoltz.Composites
         {
             if (ObjectManager.Me.Mounted)
                 Mount.Dismount();
-            Util.UseItemByID(6948);
+            Utils.UseItemByID(6948);
             var hearthSW = new Stopwatch();
             hearthSW.Start();
             // since I'm logging out lets just abuse sleep anyways :D

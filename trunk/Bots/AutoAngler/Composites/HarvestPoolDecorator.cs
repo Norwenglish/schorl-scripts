@@ -41,7 +41,7 @@ namespace HighVoltz.Composites
                 if (poiObj == null || poiObj.Entry != pool.Entry)
                 {
                     BotPoi.Current = new BotPoi(pool, PoiType.Harvest);
-                    FollowPathAction.CycleToNextIfBehind(pool);
+                    AutoAngler.CycleToNextIfBehind(pool);
                 }
                 return true;
             }
@@ -57,7 +57,7 @@ namespace HighVoltz.Composites
                 Any(p => !p.IsFlying && p.Location.Distance2D(pool.Location) < 20);
             bool fishDaPool = !(!AutoAngler.Instance.MySettings.NinjaNodes && nearbyPlayers);
             if (!fishDaPool)
-                Util.BlacklistPool(pool, TimeSpan.FromMinutes(1), "Another player fishing that pool");
+                Utils.BlacklistPool(pool, TimeSpan.FromMinutes(1), "Another player fishing that pool");
             return fishDaPool;
         }
 
