@@ -92,7 +92,7 @@ namespace Amplify
 
 
                 // Move closer to the target if we are too far away or in !Los
-                new Decorator(ret => !AmplifySettings.Instance.MoveDisable && Me.GotTarget && (Me.CurrentTarget.Distance > PullDistance + 3 || !Me.CurrentTarget.InLineOfSight),
+                new Decorator(ret => !AmplifySettings.Instance.MoveDisable && Me.GotTarget && (Me.CurrentTarget.Distance > PullDistance + 3 || (!Me.CurrentTarget.InLineOfSight || !Me.InLineOfSpellSight)),
                     new NavigationAction(ret => Me.CurrentTarget.Location)),
 
 
@@ -143,7 +143,7 @@ namespace Amplify
                             _FindClosestPlayer = false;
                             if (IsBattleGround() && Me.CurrentTarget == null) { _FindClosestPlayer = true; }
                             _ClearTarget = false;
-                            if (IsBattleGround() && Me.CurrentTarget.Dead) { _ClearTarget = true; }
+                            if (IsBattleGround() && Me.CurrentTarget != null && Me.CurrentTarget.Dead) { _ClearTarget = true; }
                             _UseManaGem = false;
                             if (AmplifySettings.Instance.Use_ManaGems && HaveManaGem() && Me.ManaPercent <= AmplifySettings.Instance.ManaGems_MP_Percent) { _UseManaGem = true; }
                             _SheepLogic = false;
@@ -160,8 +160,28 @@ namespace Amplify
                             if (SpellManager.HasSpell("Evocation") && AmplifySettings.Instance.Use_Evocation && SpellManager.CanCast("Evocation") && (Me.ManaPercent < AmplifySettings.Instance.Evocation_MP_Percent || Me.HealthPercent < AmplifySettings.Instance.Evocation_HP_Percent) && (!SpellManager.HasSpell("Mana Shield") || Me.Auras.ContainsKey("Mana Shield") || Me.Auras.ContainsKey("Ice Barrier"))) { _Evocation = true; }
                             _Shoot = false;
                             if (SpellManager.CanCast("Shoot") && IsNotWanding && AmplifySettings.Instance.Use_Wand) { _Shoot = true; }
-                            //Log("Made it through Universal GetAllChecks");
-
+                            _MirrorImageAlways = false;
+                            if (SpellManager.CanCast("Mirror Image") && AmplifySettings.Instance.MirrorImage == "Always" && Me.CurrentTarget.HealthPercent > 40) { _MirrorImageAlways = true; }
+                            _MirrorImageAdds = false;
+                            if (SpellManager.CanCast("Mirror Image") && (getAdds().Count > AmplifySettings.Instance.MirrorImagewhenXAdds || Me.IsInInstance && IsInPartyOrRaid()) && AmplifySettings.Instance.MirrorImage == "OnlyOnAdds" && Me.CurrentTarget.Distance < 30)
+                            {
+                                _MirrorImageAdds = true;
+                            }
+                            _FlameOrbAlways = false;
+                            if(SpellManager.CanCast("Flame Orb") && AmplifySettings.Instance.FlameOrbSelection == "Always" && Me.CurrentTarget.HealthPercent > 50)
+                            {
+                                _FlameOrbAlways = true;
+                            }
+                            _FlameOrbAdds = false;
+                            if (SpellManager.CanCast("Flame Orb") && AmplifySettings.Instance.FlameOrbSelection == "OnlyOnAdds" && getAdds().Count > 2 && Me.CurrentTarget.HealthPercent > 20)
+                            {
+                                _FlameOrbAdds = true;
+                            }
+                            _TimeWarp = false;
+                            if(SpellManager.CanCast("Time Warp") && AmplifySettings.Instance.TimeWarp == "Always" && !Me.ActiveAuras.ContainsKey("Temporal Displacement") && !Me.ActiveAuras.ContainsKey("Bloodlust") && !Me.ActiveAuras.ContainsKey("Heroism") && Me.CurrentTarget.HealthPercent > 20)
+                            {
+                                _TimeWarp = true;
+                            }
                         }
                         switch (specTree)
                         {

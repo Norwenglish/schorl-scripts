@@ -52,8 +52,10 @@ namespace Amplify
                     new Action(ret => FindClostestPlayer(50))),
 
 
-             new Decorator(ret => _ClearTarget,
-                    new Action(ret => Me.ClearTarget())),
+               new Decorator(ret => _ClearTarget,
+                    new Sequence(
+                        new Action(ret => Me.ClearTarget()),
+                        new Action(ret => Styx.Logic.POI.BotPoi.Clear()))),
 
                 //ManaGem Logic
                new Decorator(ret => _UseManaGem,

@@ -19,12 +19,13 @@ using TreeSharp;
 using Action = TreeSharp.Action;
 using Color = System.Drawing.Color;
 using Sequence = TreeSharp.Sequence;
+using Styx.Logic.POI;
 
 namespace Amplify
 {
     public partial class Amplify : CombatRoutine
     {
-        private readonly Version _version = new Version(1, 8, 4);
+        private readonly Version _version = new Version(1, 8, 5);
         private readonly TalentManager _talentManager = new TalentManager();
         private static LocalPlayer Me { get { return StyxWoW.Me; } }
         public override string Name { get { return "Amplify Elite " + _version; } }
@@ -77,15 +78,15 @@ namespace Amplify
             }
             if (!AmplifySettings.Instance.MoveDisable && Me.CurrentTarget == null)
             {
-               
-                if (Me.GotAlivePet && Me.CurrentTarget == null && Me.Pet.CurrentTarget != null)
+
+                if (!IsBattleGround() && Me.GotAlivePet && Me.CurrentTarget == null && Me.Pet.CurrentTarget != null)
                 {
 
-                        Logging.Write("Pet Has Agro From {0}", Me.Pet.CurrentTarget.Name);
-                        Logging.Write("Trying to Initiate Combat with Pets Current Target");
-                        Me.Pet.CurrentTarget.Target();
-                        CreatePullBehavior();
-                    
+                    Logging.Write("Pet Has Agro From {0}", Me.Pet.CurrentTarget.Name);
+                    Logging.Write("Trying to Initiate Combat with Pets Current Target");
+                    Me.Pet.CurrentTarget.Target();
+                    CreatePullBehavior();
+
                 }
             }
 
@@ -137,12 +138,14 @@ namespace Amplify
                     Logging.Write("Target not in Line of Sight to {0} Blacklisting for 10 sec to allow Repositioning. ", Me.CurrentTarget.Name);
                     Blacklist.Add(StyxWoW.Me.CurrentTargetGuid, TimeSpan.FromSeconds(10));
                     StyxWoW.Me.ClearTarget();
+                    BotPoi.Clear();
                 }
                 if (!AmplifySettings.Instance.MoveDisable && Me.CurrentTarget != null && !Navigator.CanNavigateFully(Me.Location, Me.CurrentTarget.Location))
                 {
                     Logging.Write("Cant Navigate to {0} Blacklisting for 3min", Me.CurrentTarget.Name);
                     Blacklist.Add(StyxWoW.Me.CurrentTargetGuid, TimeSpan.FromMinutes(3));
                     StyxWoW.Me.ClearTarget();
+                    BotPoi.Clear();
 
                 }
             }
@@ -180,6 +183,7 @@ namespace Amplify
                                         Logging.Write("Blacklisting for 3 hours");
                                         Blacklist.Add(StyxWoW.Me.CurrentTargetGuid, TimeSpan.FromHours(3));
                                         StyxWoW.Me.ClearTarget();
+                                        BotPoi.Clear();
                                     }
                                 }
 
@@ -191,6 +195,7 @@ namespace Amplify
                                     Logging.Write("Blacklisting for 1 Minute");
                                     Blacklist.Add(StyxWoW.Me.CurrentTargetGuid, TimeSpan.FromMinutes(1));
                                     StyxWoW.Me.ClearTarget();
+                                    BotPoi.Clear();
                                 }
                         }
                     }
