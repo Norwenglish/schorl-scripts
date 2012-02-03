@@ -68,20 +68,21 @@ namespace Singular.Helpers
         /// <returns>.</returns>
         public static Composite CreateFaceTargetBehavior()
         {
+            return CreateFaceTargetBehavior(ret => StyxWoW.Me.CurrentTarget);
+        }
+
+        public static Composite CreateFaceTargetBehavior(UnitSelectionDelegate toUnit)
+        {
             return new Decorator(
                 ret =>
-                !SingularSettings.Instance.DisableAllMovement && StyxWoW.Me.CurrentTarget != null &&
-                !StyxWoW.Me.IsSafelyFacing(StyxWoW.Me.CurrentTarget, 70f),
-                new Sequence(
-                    new Action(ret => Navigator.PlayerMover.MoveStop()),
-                    new DecoratorContinue(
-                        ret => !StyxWoW.Me.CurrentMap.IsBattleground && !StyxWoW.Me.CurrentMap.IsArena,
-                        new WaitContinue(
-                            2,
-                            ret => !StyxWoW.Me.IsMoving,
-                            new ActionAlwaysSucceed())),
-                    new Action(ret => StyxWoW.Me.CurrentTarget.Face()),
-                    new ActionAlwaysFail()));
+                !SingularSettings.Instance.DisableAllMovement && toUnit != null && toUnit(ret) != null && 
+                !StyxWoW.Me.IsMoving && !toUnit(ret).IsMe && 
+                !StyxWoW.Me.IsSafelyFacing(toUnit(ret), 70f),
+                new Action(ret =>
+                               {
+                                   StyxWoW.Me.CurrentTarget.Face();
+                                   return RunStatus.Failure;
+                               }));
         }
 
         /// <summary>
@@ -95,7 +96,7 @@ namespace Singular.Helpers
         /// <returns>.</returns>
         public static Composite CreateMoveToTargetBehavior(bool stopInRange, float range)
         {
-            return CreateMoveToLocationBehavior(ret => StyxWoW.Me.CurrentTarget.Location, stopInRange, range);
+            return CreateMoveToTargetBehavior(stopInRange, range, ret => StyxWoW.Me.CurrentTarget);
         }
 
         /// <summary>
@@ -113,7 +114,7 @@ namespace Singular.Helpers
             return 
                 new Decorator(
                     ret => onUnit != null && onUnit(ret) != null && onUnit(ret) != StyxWoW.Me,
-                    CreateMoveToLocationBehavior(ret => onUnit(ret).Location, stopInRange, range));
+                    CreateMoveToLocationBehavior(ret => onUnit(ret).Location, stopInRange, ret => range));
         }
 
         /// <summary>
@@ -128,6 +129,11 @@ namespace Singular.Helpers
         public static Composite CreateMoveToMeleeBehavior(bool stopInRange)
         {
             return CreateMoveToMeleeBehavior(ret => StyxWoW.Me.CurrentTarget.Location, stopInRange);
+        }
+
+        public static Composite CreateMoveToMeleeBehavior(LocationRetriever location, bool stopInRange)
+        {
+            return CreateMoveToLocationBehavior(location, stopInRange, ret => Spell.MeleeRange);
         }
 
         #region Move Behind
@@ -156,25 +162,29 @@ namespace Singular.Helpers
         {
             return 
                 new Decorator(
-                    ret => SafeToNavigateBehind() && requirements(ret),
-                new Action(ret => Navigator.MoveTo(CalculatePointBehindTarget())));
+                    ret => requirements(ret) && SafeToNavigateBehind(),
+                    new Action(ret => Navigator.MoveTo(CalculatePointBehindTarget())));
         }
 
         private static WoWPoint CalculatePointBehindTarget()
         {
-            return WoWMathHelper.CalculatePointBehind(StyxWoW.Me.CurrentTarget.Location, StyxWoW.Me.CurrentTarget.Rotation, Spell.SafeMeleeRange - 2f);
+            return
+                StyxWoW.Me.CurrentTarget.Location.RayCast(
+                    StyxWoW.Me.CurrentTarget.Rotation + WoWMathHelper.DegreesToRadians(150), Spell.MeleeRange - 2f);
         }
 
         private static bool SafeToNavigateBehind()
         {
-            return (
+            var result =
                 !SingularSettings.Instance.DisableAllMovement &&
-                StyxWoW.Me.CurrentMap.IsDungeon && !Group.Tank.IsMe &&
-                !StyxWoW.Me.CurrentTarget.IsMoving &&
-                !StyxWoW.Me.CurrentTarget.MeIsSafelyBehind &&
-                (StyxWoW.Me.CurrentTarget.CurrentTarget == null || (StyxWoW.Me.CurrentTarget.CurrentTarget != StyxWoW.Me) &&
-                Navigator.CanNavigateFully(StyxWoW.Me.Location, CalculatePointBehindTarget())
-                ));
+                SingularRoutine.CurrentWoWContext != WoWContext.Battlegrounds &&
+                !Group.MeIsTank && !StyxWoW.Me.CurrentTarget.MeIsBehind &&
+                StyxWoW.Me.CurrentTarget.IsAlive &&
+                (StyxWoW.Me.CurrentTarget.CurrentTarget == null || 
+                 StyxWoW.Me.CurrentTarget.CurrentTarget != StyxWoW.Me || 
+                 StyxWoW.Me.CurrentTarget.Stunned);
+
+            return result;
         }
 
         #endregion
@@ -191,7 +201,7 @@ namespace Singular.Helpers
         /// <param name = "stopInRange">true to stop in range.</param>
         /// <param name = "range">The range.</param>
         /// <returns>.</returns>
-        public static Composite CreateMoveToLocationBehavior(LocationRetriever location, bool stopInRange, float range)
+        public static Composite CreateMoveToLocationBehavior(LocationRetriever location, bool stopInRange, DynamicRangeRetriever range)
         {
             // Do not fuck with this. It will ensure we stop in range if we're supposed to.
             // Otherwise it'll stick to the targets ass like flies on dog shit.
@@ -204,7 +214,7 @@ namespace Singular.Helpers
                     new PrioritySelector(
                         new Decorator(
                             // Give it a little more than 1/2 a yard buffer to get it right. CTM is never 'exact' on where we land. So don't expect it to be.
-                            ret => stopInRange && StyxWoW.Me.Location.Distance(location(ret)) + 0.6f < range,
+                            ret => stopInRange && StyxWoW.Me.Location.Distance(location(ret)) < range(ret),
                             new PrioritySelector(
                                 CreateEnsureMovementStoppedBehavior(),
                                 // In short; if we're not moving, just 'succeed' here, so we break the tree.
@@ -213,13 +223,6 @@ namespace Singular.Helpers
                             ),
                         new Action(ret => Navigator.MoveTo(location(ret)))
                         ));
-        }
-
-
-
-        public static Composite CreateMoveToMeleeBehavior(LocationRetriever location, bool stopInRange)
-        {
-            return CreateMoveToLocationBehavior(location, stopInRange, Spell.SafeMeleeRange);
         }
 
         #endregion

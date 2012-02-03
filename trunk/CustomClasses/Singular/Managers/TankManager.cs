@@ -1,13 +1,13 @@
 ﻿#region Revision Info
 
 // This file is part of Singular - A community driven Honorbuddy CC
-// $Author: apoc $
-// $Date: 2011-11-03 22:38:43 -0700 (Thu, 03 Nov 2011) $
+// $Author: raphus $
+// $Date: 2012-02-01 05:40:53 -0800 (Wed, 01 Feb 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/Managers/TankManager.cs $
-// $LastChangedBy: apoc $
-// $LastChangedDate: 2011-11-03 22:38:43 -0700 (Thu, 03 Nov 2011) $
-// $LastChangedRevision: 432 $
-// $Revision: 432 $
+// $LastChangedBy: raphus $
+// $LastChangedDate: 2012-02-01 05:40:53 -0800 (Wed, 01 Feb 2012) $
+// $LastChangedRevision: 576 $
+// $Revision: 576 $
 
 #endregion
 
@@ -44,7 +44,6 @@ namespace Singular.Managers
         public List<WoWUnit> NeedToTaunt { get; private set; }
 
         public static readonly WaitTimer TargetingTimer = new WaitTimer(TimeSpan.FromSeconds(1));
-        public static bool NeedTankTargeting { get; set; }
 
         protected override List<WoWObject> GetInitialObjectList()
         {
@@ -64,6 +63,12 @@ namespace Singular.Managers
                 WoWUnit u = units[i].ToUnit();
 
                 if (u.IsFriendly || u.Dead || u.IsPet || !u.Combat || u.IsCrowdControlled())
+                {
+                    units.RemoveAt(i);
+                    continue;
+                }
+
+                if (u.DistanceSqr > 40*40)
                 {
                     units.RemoveAt(i);
                     continue;

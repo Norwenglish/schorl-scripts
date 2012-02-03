@@ -2,16 +2,17 @@
 
 // This file is part of Singular - A community driven Honorbuddy CC
 // $Author: raphus $
-// $Date: 2012-01-12 06:48:38 -0800 (Thu, 12 Jan 2012) $
+// $Date: 2012-02-01 05:40:53 -0800 (Wed, 01 Feb 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/SingularRoutine.cs $
 // $LastChangedBy: raphus $
-// $LastChangedDate: 2012-01-12 06:48:38 -0800 (Thu, 12 Jan 2012) $
-// $LastChangedRevision: 555 $
-// $Revision: 555 $
+// $LastChangedDate: 2012-02-01 05:40:53 -0800 (Wed, 01 Feb 2012) $
+// $LastChangedRevision: 576 $
+// $Revision: 576 $
 
 #endregion
 
 using System;
+using System.Linq;
 using System.Reflection;
 
 using Singular.Dynamics;
@@ -22,6 +23,7 @@ using Singular.Settings;
 using Singular.Utilities;
 using Styx;
 using Styx.Combat.CombatRoutine;
+using Styx.Helpers;
 using Styx.Logic;
 using Styx.Logic.BehaviorTree;
 using Styx.WoWInternals.WoWObjects;
@@ -43,11 +45,14 @@ namespace Singular
         public SingularRoutine()
         {
             Instance = this;
+
+            // Yes, we are hooking in ctor. To be able to refresh behaviors before a botbase caches us, we need to do that
+            BotEvents.Player.OnMapChanged += EventHandlers.PlayerOnMapChanged;
         }
 
         public static SingularRoutine Instance { get; private set; }
 
-        public override string Name { get { return "Singular v2 $Revision: 555 $"; } }
+        public override string Name { get { return "Singular v2 $Revision: 576 $"; } }
 
         public override WoWClass Class { get { return StyxWoW.Me.Class; } }
 
@@ -64,14 +69,17 @@ namespace Singular
             get
             {
                 var map = StyxWoW.Me.CurrentMap;
+
                 if (map.IsBattleground || map.IsArena)
                 {
                     return WoWContext.Battlegrounds;
                 }
+
                 if (map.IsDungeon)
                 {
                     return WoWContext.Instances;
                 }
+
                 return WoWContext.Normal;
             }
         }
@@ -128,12 +136,15 @@ namespace Singular
                 }
             }
 
+            // Double cast shit
+            Spell.DoubleCastPreventionDict.RemoveAll(t => DateTime.UtcNow.Subtract(t).TotalMilliseconds >= 2500);
+
             PetManager.Pulse();
 
             if (HealerManager.NeedHealTargeting)
                 HealerManager.Instance.Pulse();
 
-            if (TankManager.NeedTankTargeting && CurrentWoWContext != WoWContext.Battlegrounds && (Me.IsInParty || Me.IsInRaid))
+            if (Group.MeIsTank && CurrentWoWContext != WoWContext.Battlegrounds && (Me.IsInParty || Me.IsInRaid))
                 TankManager.Instance.Pulse();
         }
 
