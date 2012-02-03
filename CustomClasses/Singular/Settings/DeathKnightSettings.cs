@@ -2,15 +2,16 @@
 
 // This file is part of Singular - A community driven Honorbuddy CC
 // $Author: raphus $
-// $Date: 2011-12-13 01:01:46 -0800 (Tue, 13 Dec 2011) $
+// $Date: 2012-01-27 12:48:22 -0800 (Fri, 27 Jan 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/Settings/DeathKnightSettings.cs $
 // $LastChangedBy: raphus $
-// $LastChangedDate: 2011-12-13 01:01:46 -0800 (Tue, 13 Dec 2011) $
-// $LastChangedRevision: 458 $
-// $Revision: 458 $
+// $LastChangedDate: 2012-01-27 12:48:22 -0800 (Fri, 27 Jan 2012) $
+// $LastChangedRevision: 574 $
+// $Revision: 574 $
 
 #endregion
 
+using System;
 using System.ComponentModel;
 
 using Styx.Helpers;
@@ -38,8 +39,33 @@ namespace Singular.Settings
         [Setting]
         [DefaultValue(2)]
         [Category("Common")]
-        [DisplayName("Will use Death and Decay when agro mob count is equal to or higher then this value")]
+        [DisplayName("Death and Decay Add Count")]
+        [Description("Will use Death and Decay when agro mob count is equal to or higher then this value. This basicly determines AoE rotation")]
         public int DeathAndDecayCount { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        [Category("Common")]
+        [DisplayName("Icebound Fortitude")]
+        public bool UseIceboundFortitude { get; set; }
+
+        [Setting]
+        [DefaultValue(30)]
+        [Category("Common")]
+        [DisplayName("Icebound Fortitude Percent")]
+        public int IceboundFortitudePercent { get; set; }
+
+        [Setting]
+        [DefaultValue(30)]
+        [Category("Common")]
+        [DisplayName("Death Strike Emergency Percent")]
+        public int DeathStrikeEmergencyPercent { get; set; }
+
+        [Setting]
+        [DefaultValue(true)]
+        [Category("Common")]
+        [DisplayName("Lichborne")]
+        public bool UseLichborne { get; set; }
 
         #endregion
 
@@ -93,12 +119,6 @@ namespace Singular.Settings
         public int DancingRuneWeaponPercent { get; set; }
 
         [Setting]
-        [DefaultValue(40)]
-        [Category("Blood")]
-        [DisplayName("Death Strike Emergency Percent")]
-        public int DeathStrikeEmergencyPercent { get; set; }
-
-        [Setting]
         [DefaultValue(30)]
         [Category("Blood")]
         [DisplayName("Empower Rune Weapon Percent")]
@@ -107,26 +127,8 @@ namespace Singular.Settings
         [Setting]
         [DefaultValue(true)]
         [Category("Blood")]
-        [DisplayName("Icebound Fortitude")]
-        public bool UseIceboundFortitude { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        [Category("Blood")]
         [DisplayName("Icebound Fortitude Exclusive")]
         public bool IceboundFortitudeExclusive { get; set; }
-
-        [Setting]
-        [DefaultValue(60)]
-        [Category("Blood")]
-        [DisplayName("Icebound Fortitude Percent")]
-        public int IceboundFortitudePercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        [Category("Blood")]
-        [DisplayName("Lichborne")]
-        public bool UseLichborne { get; set; }
 
         [Setting]
         [DefaultValue(true)]
@@ -190,6 +192,7 @@ namespace Singular.Settings
         #endregion
 
         #region Category: Frost
+
         [Setting]
         [DefaultValue(true)]
         [Category("Frost")]
@@ -207,6 +210,24 @@ namespace Singular.Settings
         [Category("Frost")]
         [DisplayName("Empower Rune Weapon")]
         public bool UseEmpowerRuneWeapon { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
+        [Category("Frost")]
+        [DisplayName("Use Necrotic Strike - Frost")]
+        public bool UseNecroticStrike { get; set; }
+
         #endregion
+
+        #region Category: Unholy
+
+        [Setting]
+        [DefaultValue(true)]
+        [Category("Unholy")]
+        [DisplayName("Summon Gargoyle")]
+        public bool UseSummonGargoyle { get; set; }
+
+        #endregion
+
     }
 }
