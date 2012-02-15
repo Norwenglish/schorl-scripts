@@ -30,7 +30,9 @@ namespace Disc
         public override WoWClass Class { get { return WoWClass.Priest; } }
         public static LocalPlayer Me { get { return ObjectManager.Me; } }
         private WoWUnit lastCast;
-        private WoWUnit tank;        
+        private WoWUnit tank;
+        private List<string>[] parties;
+        private Stopwatch sw;
 
         private void slog(string format, params object[] args) //use for slogging
         {
@@ -41,6 +43,7 @@ namespace Disc
         {
 
             InitializeLists();
+            UpdateParties();
 
             if (Me != null && Me.IsValid && Me.IsAlive)
             {
@@ -76,40 +79,66 @@ namespace Disc
 
         public void InitializeLists()
         {
-            if (DiscSettings.Instance.HealBlackList == null)
+            if (DiscSettings.Instance.SHBlackListNames == null)
             {
-                DiscSettings.Instance.HealBlackList = new List<string>();
+                DiscSettings.Instance.SHBlackListNames = new System.ComponentModel.BindingList<SelectiveHealName>();
+            }
+
+            if (DiscSettings.Instance.SHRaidMembers == null)
+            {
+                DiscSettings.Instance.SHRaidMembers = new System.ComponentModel.BindingList<SelectiveHealName>();
             }
             if (DiscSettings.Instance.UrgentDispelList == null)
             {
                 DiscSettings.Instance.UrgentDispelList = new System.ComponentModel.BindingList<Dispels>();
             }
+            if (parties == null)
+            {
+                parties = FillParties();
+            }
+            if (sw == null)
+            {
+                sw = new Stopwatch();
+                sw.Start();
+            }
+        }
+
+        private void UpdateParties()
+        {
+            if (!Me.Combat && InRaid() && EveryoneHere() && sw.Elapsed.TotalSeconds>15)
+            {
+                parties = FillParties();
+                sw.Reset();
+                sw.Start();
+                //LogParties();
+                Logging.Write("Parties updated");
+            }            
         }
 
         public bool PlayerIsBlacklisted(WoWPlayer p)
-        {
-            if(DiscSettings.Instance.HealBlackList.Contains(p.Name))
+        {            
+            foreach (SelectiveHealName n in DiscSettings.Instance.SHBlackListNames)
             {
-                Logging.Write(p.Name + " Blacklisted");
-                return true;
+                if (n.ListItem.ToString().Equals(p.Name))
+                {
+                    Logging.Write(p.Name + " Blacklisted");
+                    return true;
+                }
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public bool PlayerIsBlacklisted(WoWUnit p)
         {
-            if (DiscSettings.Instance.HealBlackList.Contains(p.Name))
+            foreach (SelectiveHealName n in DiscSettings.Instance.SHBlackListNames)
             {
-                Logging.Write(p.Name + " Blacklisted");
-                return true;
+                if (n.ListItem.ToString().Equals(p.Name))
+                {
+                    Logging.Write(p.Name + " Blacklisted");
+                    return true;
+                }
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public bool ImEatingOrDrinking()
@@ -171,7 +200,7 @@ namespace Disc
 
         private bool Mounted()
         {
-            if (Me.Mounted)
+            if (Me.Mounted && !DiscSettings.Instance.Dismount_SET)
             {
                 return true;
             }
@@ -620,6 +649,139 @@ namespace Disc
             return null;
         }
 
+        private List<string>[] FillParties()
+        {
+            int currentPlayer = 0;
+            int currentParty = 0;
+            List<string>[] tempParties = new List<string>[8];
+
+            for (int i = 0; i < tempParties.Length; i++)
+            {
+                tempParties[i] = new List<string>();
+                tempParties[i].Add(" ");
+            }
+
+            foreach (WoWPlayer p in Me.RaidMembers)
+            {
+                if (!p.IsMe && !p.IsInMyParty)
+                {
+                    if (currentPlayer > 4)
+                    {
+                        currentParty++;
+                        currentPlayer = 0;
+                    }
+                    if (currentPlayer <= 4)
+                    {
+                        tempParties[currentParty].Add(p.Name);
+                        currentPlayer++;
+                    }                    
+                }
+            }
+            return tempParties;
+        }
+
+        private int GetPlayerParty(WoWPlayer p)
+        {
+            int party = 0;
+            foreach (List<string> ls in parties)
+            {
+                foreach (string s in ls)
+                {
+                    if (p.Name.Equals(s))
+                    {
+                        return party;
+                    }
+                }
+                party++;
+            }
+            return -1;
+        }
+
+        private int GetPartyAOECount(WoWPlayer player)
+        {
+            int count = 0;
+            int playerParty;
+            if (player.IsInMyParty)
+            {
+                foreach (WoWPlayer p in Me.PartyMembers)
+                {
+                    if (GetDistance(player.Location, p.Location) < 30
+                        && p.IsAlive
+                        && p.HealthPercent < DiscSettings.Instance.PrayerHealingMax_SET)
+                    {
+                        count++;
+                    }
+                }
+            }                
+            else
+            {
+                playerParty = GetPlayerParty(player);
+                foreach (WoWPlayer p in Me.RaidMembers)
+                {
+                    if (GetPlayerParty(p) == playerParty
+                        && p.IsAlive
+                        && p.Distance < 30
+                        && p.HealthPercent < DiscSettings.Instance.PrayerHealingMax_SET)
+                    {
+                            count++;
+                    }
+                }
+            }
+            return count;
+        }
+
+        private WoWPlayer BestPoHTarget()
+        {
+            WoWPlayer tar = Me;
+
+            foreach (WoWPlayer p in ObjectManager.GetObjectsOfType<WoWPlayer>(true, true))
+            {
+                if (p.HealthPercent < tar.HealthPercent
+                    && p.IsAlive
+                    && GetPartyAOECount(p) > GetPartyAOECount(tar))
+                {
+                    tar = p;
+                }
+            }
+            if (GetPartyAOECount(tar) >= DiscSettings.Instance.PrayerHealingNum_SET)
+            {
+                return tar;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private void LogParties()
+        {
+            for (int i = 0; i < parties.Length; i++)
+            {
+                for (int j = 0; j < parties[i].Count; j++)
+                {
+                    //Logging.Write("Elements in party: " + parties[i].Count);
+                    if (!parties[i].ElementAt(j).Equals(" "))
+                    {
+                        Logging.Write(parties[i].ElementAt(j) + " in party: " + i);
+                    }
+                }
+            }
+        }
+
+        private bool EveryoneHere()
+        {
+            if (InRaid() && ((Me.RaidMembers.Count % 5) == 0))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool InRaid()
+        {
+            return Me.RaidMembers.Count > 0;
+        }
+
         private bool CheckDivineHymn()
         {
             int count = 0;
@@ -654,10 +816,10 @@ namespace Disc
                 return AtonmentHealing();
             }
             WoWPlayer tar = GetHealTarget();
-            WoWPlayer PrayerTar = CheckPrayerOfHealing();
+            WoWPlayer PrayerTar = BestPoHTarget();
             if (tar != null)
             {
-                Logging.Write(tar.Name + "---" + Convert.ToInt16(tar.HealthPercent));
+                //Logging.Write(tar.Name + "---" + Convert.ToInt16(tar.HealthPercent));
                 if (tar.Distance > 40 || !tar.InLineOfSight)
                 {                    
                     return true;
@@ -801,8 +963,7 @@ namespace Disc
         private bool AtonmentHealing()
         {
             WoWPlayer tar = GetHealTarget();
-            WoWPlayer PrayerTar = CheckPrayerOfHealing();
-
+            WoWPlayer PrayerTar = BestPoHTarget();
             //int AtonementDistance = 0;
             if (tar != null && (Me.Combat || tank.Combat))
             {                
@@ -1023,7 +1184,7 @@ namespace Disc
             if (SpellManager.Cast(spell, target))
             {
                 lastCast = target;
-                Logging.Write("Casting " + spell + " on " + target.Name);
+                Logging.Write("Casting " + spell);
                 return true;
             }
             else
@@ -1115,7 +1276,7 @@ namespace Disc
                     where !PlayerIsBlacklisted(unit)
                     where !unit.Dead
                     where !unit.IsGhost
-                    where unit.Distance < 80
+                    where unit.Distance < 40
                     where NeedsCleanse(unit)!=0
                     select unit).FirstOrDefault();
         }
@@ -1244,7 +1405,7 @@ namespace Disc
                         where !unit.Dead
                         where !unit.IsGhost
                         where unit.IsFriendly
-                        where unit.Distance < 80
+                        where unit.Distance < 40
                         where unit.HealthPercent < 99
                         select unit).FirstOrDefault();            
         }
@@ -1388,18 +1549,19 @@ namespace Disc
         {            
             get
             {
-                /*
-                if (Me.ManaPercent < DiscSettings.Instance.Mana_Percent &&
+                if (!Me.Combat && Me.ManaPercent < DiscSettings.Instance.Mana_Percent &&
                     !Me.Auras.ContainsKey("Drink"))
                 {
                     Logging.Write("Drinking");
+                    Styx.Logic.Common.Rest.DrinkImmediate();
                     return true;
                 }
-                if (Me.HealthPercent < DiscSettings.Instance.Health_Percent)
+                if (!Me.Combat && Me.HealthPercent < DiscSettings.Instance.Health_Percent)
                 {
                     Logging.Write("Eating");
+                    Styx.Logic.Common.Rest.FeedImmediate();
                     return true;
-                }*/
+                }
 
                 return false;
             }

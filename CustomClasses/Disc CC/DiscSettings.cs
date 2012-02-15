@@ -5,6 +5,8 @@ using System.Text;
 using System.IO;
 using Styx;
 using Styx.Helpers;
+using System.ComponentModel;
+using DefaultValue = Styx.Helpers.DefaultValueAttribute;
 
 namespace Disc
 {
@@ -17,924 +19,307 @@ namespace Disc
         {
         }
 
+        public System.ComponentModel.BindingList<SelectiveHealName> SHRaidMembers;
+        public System.ComponentModel.BindingList<SelectiveHealName> SHBlackListNames;
+        public System.ComponentModel.BindingList<Dispels> UrgentDispelList;
+        public bool Stop_SET = false;
 
-        [Setting, DefaultValue(false)]
-        public bool Stop_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
+        [Setting]
+        [DefaultValue(true)]
+        [Category("Common")]
+        [DisplayName("Shield tank")]
+        [Description("Keep PW: Shield on tank")]
         public bool TankHealing_SET { get; set; }
+        
+        [Setting]
+        [DefaultValue(true)]
+        [Category("Misc")]
+        [DisplayName("Dismount")]
+        [Description("Dismount to heal")]
+        public bool Dismount_SET { get; set; }
 
-        [Setting, DefaultValue(false)]
+        [Setting]
+        [DefaultValue(false)]
+        [Category("Discipline (Non-AA)")]
+        [DisplayName("Clear W. Soul")]
+        [Description("Clears Weakened Soul if doing nothing else")]
         public bool WeakenedSoul_SET { get; set; }
 
-        [Setting, DefaultValue(true)]
+        [Setting]
+        [DefaultValue(true)]
+        [Category("Misc")]
+        [DisplayName("Fear Ward")]
+        [Description("Use Fear Ward on self")]
         public bool FearWard_SET { get; set; }
 
-        [Setting, DefaultValue(true)]
+        [Setting]
+        [DefaultValue(true)]
+        [Category("Misc")]
+        [DisplayName("PW: Fortitude")]
+        [Description("Power Word: Fortitude")]
         public bool PWFort_SET { get; set; }
 
-        [Setting, DefaultValue(true)]
+        [Setting]
+        [DefaultValue(true)]
+        [Category("Misc")]
+        [DisplayName("Shadow Protection")]
+        [Description("Dismount to heal")]
         public bool ShadProt_SET { get; set; }
 
-        [Setting, DefaultValue("Inner Will")]
+        [Setting]
+        [DefaultValue("Inner Will or Fire")]
+        [Category("Misc")]
+        [DisplayName("Inner Will")]
+        [Description("Inner Will or Inner Fire")]
         public String FireOrWill_SET { get; set; }
 
-        [Setting, DefaultValue(true)]
+        [Setting]
+        [DefaultValue(true)]
+        [Category("Common")]
+        [DisplayName("Dispel")]
+        [Description("Dispel stuff")]
         public bool Dispel_SET { get; set; }
 
-        [Setting, DefaultValue(true)]
+        [Setting]
+        [DefaultValue(true)]
+        [Category("Common")]
+        [DisplayName("Dispel Urgent")]
+        [Description("Dispel Urgent stuff")]
         public bool DispelUrgent_SET { get; set; }
 
-        [Setting, DefaultValue(true)]
-        public bool LevitateFallers_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
+        [Setting]
+        [DefaultValue(50)]
+        [Category("Misc")]
+        [DisplayName("Rest Health")]
+        [Description("Rest Health")]
         public int Health_Percent { get; set; }
 
-        [Setting, DefaultValue(50)]
+        [Setting]
+        [DefaultValue(50)]
+        [Category("Misc")]
+        [DisplayName("Rest Mana")]
+        [Description("Rest Mana")]
         public int Mana_Percent { get; set; }
 
-        [Setting, DefaultValue(15)]
+        [Setting]
+        [DefaultValue(15)]
+        [Category("Common")]
+        [DisplayName("Hymn of Hope")]
+        [Description("Cast Hymn of Hope at this mana%")]
         public int HymnHope_SET { get; set; }
 
-        [Setting, DefaultValue(true)]
+        [Setting]
+        [DefaultValue(true)]
+        [Category("Common")]
+        [DisplayName("Power Infusion")]
+        [Description("Use Power Infusion")]
         public bool PowerInfusion_SET { get; set; }
 
-        [Setting, DefaultValue(true)]
+        [Setting]
+        [DefaultValue(true)]
+        [Category("Common")]
+        [DisplayName("Prayer of Mending")]
+        [Description("Use Prayer of Mending")]
         public bool PrayerMending_SET { get; set; }
 
-        [Setting, DefaultValue(75)]
+        [Setting]
+        [DefaultValue(75)]
+        [Category("Common")]
+        [DisplayName("Pain Suppression")]
+        [Description("Use Pain Suppression at this Health Percent")]
         public int PainSuppression_SET { get; set; }
 
-        [Setting, DefaultValue(true)]
+        [Setting]
+        [DefaultValue(true)]
+        [Category("Misc")]
+        [DisplayName("Fade")]
+        [Description("Fade when aggro")]
         public bool Fade_SET { get; set; }
 
-        [Setting, DefaultValue(true)]
+        [Setting]
+        [DefaultValue(true)]
+        [Category("Common")]
+        [DisplayName("Inner Focus")]
+        [Description("Use Inner Focus")]
         public bool InnerFocus_SET { get; set; }
 
-        [Setting, DefaultValue(50)]
+        [Setting]
+        [DefaultValue(50)]
+        [Category("Misc")]
+        [DisplayName("Shadow Fiend")]
+        [Description("Use Shadow Fiend at this Mana%")]
         public int ShadowFiend_SET { get; set; }
 
         //Heals
-        [Setting, DefaultValue(95)]
+        [Setting]
+        [DefaultValue(95)]
+        [Category("Discipline (Non-AA)")]
+        [DisplayName("Heal")]
+        [Description("Heal at this Health%")]
         public int Heal_SET { get; set; }
 
-        [Setting, DefaultValue(35)]
+        [Setting]
+        [DefaultValue(35)]
+        [Category("Common")]
+        [DisplayName("Flash Heal")]
+        [Description("Flash Heal at this Health%")]
         public int FlashHeal_SET { get; set; }
 
-        [Setting, DefaultValue(75)]
+        [Setting]
+        [DefaultValue(75)]
+        [Category("Discipline (Non-AA)")]
+        [DisplayName("Greater Heal")]
+        [Description("Greater Heal at this Health%")]
         public int GHeal_SET { get; set; }
 
-        [Setting, DefaultValue(80)]
+        [Setting]
+        [DefaultValue(80)]
+        [Category("Common")]
+        [DisplayName("Penance")]
+        [Description("Penance at this Health%")]
         public int Penance_SET { get; set; }
 
-        [Setting, DefaultValue(75)]
+        [Setting]
+        [DefaultValue(75)]
+        [Category("Common")]
+        [DisplayName("PW: Shield")]
+        [Description("Power Word: Shield at this Health%")]
         public int PWShield_SET { get; set; }
 
-        [Setting, DefaultValue(80)]
+        [Setting]
+        [DefaultValue(80)]
+        [Category("Discipline (Non-AA)")]
+        [DisplayName("Binding Heal")]
+        [Description("Binding Heal at this Health%")]
         public int BindHeal_SET { get; set; }
 
-        [Setting, DefaultValue(12)]
+        [Setting]
+        [DefaultValue(12)]
+        [Category("Common")]
+        [DisplayName("Divine Hymn")]
+        [Description("Divine Hymn at this Health%")]
         public int DivineHymnHealth_SET { get; set; }
 
-        [Setting, DefaultValue(3)]
+        [Setting]
+        [DefaultValue(3)]
+        [Category("Common")]
+        [DisplayName("Divine Hymn Count")]
+        [Description("Divine Hymn at this number of people")]
         public int DivHymnNum_SET { get; set; }
 
-        [Setting, DefaultValue(35)]
+        [Setting]
+        [DefaultValue(35)]
+        [Category("Common")]
+        [DisplayName("Prayer of Healing Min")]
+        [Description("Prayer of Healing min Health%")]
         public int PrayerHealingMin_SET { get; set; }
 
-        [Setting, DefaultValue(75)]
+        [Setting]
+        [DefaultValue(75)]
+        [Category("Common")]
+        [DisplayName("Prayer of Healing Max")]
+        [Description("Prayer of Healing max Health%")]
         public int PrayerHealingMax_SET { get; set; }
 
-        [Setting, DefaultValue(2)]
+        [Setting]
+        [DefaultValue(2)]
+        [Category("Common")]
+        [DisplayName("Prayer of Healing Count")]
+        [Description("Prayer of Healing Count")]
         public int PrayerHealingNum_SET { get; set; }
 
-        [Setting, DefaultValue(0)]
+        [Setting]
+        [DefaultValue(0)]
+        [Category("Discipline (Non-AA)")]
+        [DisplayName("Renew")]
+        [Description("Renew at this Health%")]
         public int Renew_SET { get; set; }
-
-        //Selective Healing
-        [Setting, DefaultValue(false)]
-        public bool SelectiveHealing_SET { get; set; }
-
-        public List<String> HealBlackList;
-
-        public System.ComponentModel.BindingList<Dispels> UrgentDispelList; 
-
+     
         //New Settings 3.0
-        [Setting, DefaultValue(false)]
+        [Setting]
+        [DefaultValue(true)]
+        [Category("Common")]
+        [DisplayName("Shield Aggroed")]
+        [Description("If people have aggro, shield them")]
         public bool ShieldAggro_Heal_SET { get; set; }
 
-        [Setting, DefaultValue("Heal Only")]
+        [Setting]
+        [DefaultValue("Heal Only")]
+        [Category("Misc")]
+        [DisplayName("DPS")]
+        [Description("Heal Only, Heal First, DPS First")]
         public String DPS_SET { get; set; }
 
-        [Setting, DefaultValue(false)]
+        [Setting]
+        [DefaultValue(false)]
+        [Category("DPS")]
+        [DisplayName("Face target")]
+        [Description("Face target")]
         public bool FaceTarget_SET { get; set; }
 
-        [Setting, DefaultValue(false)]
+        [Setting]
+        [DefaultValue(false)]
+        [Category("DPS")]
+        [DisplayName("Shield Aggroed")]
+        [Description("If people have aggro, shield them")]
         public bool ShieldAggroed_SET { get; set; }
 
-        [Setting, DefaultValue(true)]
+        [Setting]
+        [DefaultValue(true)]
+        [Category("DPS")]
+        [DisplayName("Use tank target")]
+        [Description("Use the tank's target")]
         public bool UseTankTarget_SET { get; set; }
 
-        [Setting, DefaultValue(false)]
+        [Setting]
+        [DefaultValue(false)]
+        [Category("DPS")]
+        [DisplayName("Smite")]
+        [Description("Smite")]
         public bool Smite_SET { get; set; }
 
-        [Setting, DefaultValue(false)]
+        [Setting]
+        [DefaultValue(false)]
+        [Category("DPS")]
+        [DisplayName("Holy Fire")]
+        [Description("Holy Fire")]
         public bool HolyFire_SET { get; set; }
 
-        [Setting, DefaultValue(false)]
+        [Setting]
+        [DefaultValue(false)]
+        [Category("DPS")]
+        [DisplayName("Dev Plague")]
+        [Description("Devouring Plague")]
         public bool DevPlague_SET { get; set; }
 
-        [Setting, DefaultValue(false)]
+        [Setting]
+        [DefaultValue(false)]
+        [Category("DPS")]
+        [DisplayName("SW: Pain")]
+        [Description("Shadow Word: Pain")]
         public bool SWPain_SET { get; set; }
 
-        [Setting, DefaultValue(false)]
+        [Setting]
+        [DefaultValue(false)]
+        [Category("DPS")]
+        [DisplayName("Penance")]
+        [Description("Penance in dps rotation")]
         public bool PenanceDPS_SET { get; set; }
 
-        [Setting, DefaultValue(65)]
+        [Setting]
+        [DefaultValue(65)]
+        [Category("DPS")]
+        [DisplayName("DPS Health")]
+        [Description("Min Health to DPS")]
         public int DPShealth_SET { get; set; }
 
-        [Setting, DefaultValue(50)]
+        [Setting]
+        [DefaultValue(50)]
+        [Category("DPS")]
+        [DisplayName("DPS Mana")]
+        [Description("Min Mana to DPS")]
         public int DPSmana_SET { get; set; }
 
-        [Setting, DefaultValue("Dungeon")]
-        public String CurrentProfile_SET { get; set; }
-
-
-
-        /*************************************************************************/
-        //Raid Settings
-        [Setting, DefaultValue(true)]
-        public bool RAID_TankHealing_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool RAID_WeakenedSoul_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool RAID_FearWard_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool RAID_PWFort_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool RAID_ShadProt_SET { get; set; }
-
-        [Setting, DefaultValue("Inner Will")]
-        public String RAID_FireOrWill_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool RAID_Dispel_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool RAID_DispelUrgent_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool RAID_LevitateFallers_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int RAID_Health_Percent { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int RAID_Mana_Percent { get; set; }
-
-        [Setting, DefaultValue(10)]
-        public int RAID_HymnHope_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool RAID_PowerInfusion_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool RAID_PrayerMending_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int RAID_PainSuppression_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool RAID_Fade_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool RAID_InnerFocus_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int RAID_ShadowFiend_SET { get; set; }
-
-        //Heals
-        [Setting, DefaultValue(95)]
-        public int RAID_Heal_SET { get; set; }
-
-        [Setting, DefaultValue(35)]
-        public int RAID_FlashHeal_SET { get; set; }
-
-        [Setting, DefaultValue(75)]
-        public int RAID_GHeal_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int RAID_Penance_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int RAID_PWShield_SET { get; set; }
-
-        [Setting, DefaultValue(75)]
-        public int RAID_BindHeal_SET { get; set; }
-
-        [Setting, DefaultValue(15)]
-        public int RAID_DivineHymnHealth_SET { get; set; }
-
-        [Setting, DefaultValue(3)]
-        public int RAID_DivHymnNum_SET { get; set; }
-
-        [Setting, DefaultValue(35)]
-        public int RAID_PrayerHealingMin_SET { get; set; }
-
-        [Setting, DefaultValue(75)]
-        public int RAID_PrayerHealingMax_SET { get; set; }
-
-        [Setting, DefaultValue(2)]
-        public int RAID_PrayerHealingNum_SET { get; set; }
-
-        [Setting, DefaultValue(0)]
-        public int RAID_Renew_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool RAID_ShieldAggro_Heal_SET { get; set; }
-
-        [Setting, DefaultValue("Heal Only")]
-        public String RAID_DPS_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool RAID_FaceTarget_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool RAID_ShieldAggroed_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool RAID_UseTankTarget_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool RAID_Smite_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool RAID_HolyFire_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool RAID_DevPlague_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool RAID_SWPain_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool RAID_PenanceDPS_SET { get; set; }
-
-        [Setting, DefaultValue(65)]
-        public int RAID_DPShealth_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int RAID_DPSmana_SET { get; set; }
-
-        /*************************************************************************/
-        //Dungeon Settings
-        [Setting, DefaultValue(true)]
-        public bool DUNG_TankHealing_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool DUNG_WeakenedSoul_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool DUNG_FearWard_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool DUNG_PWFort_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool DUNG_ShadProt_SET { get; set; }
-
-        [Setting, DefaultValue("Inner Will")]
-        public String DUNG_FireOrWill_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool DUNG_Dispel_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool DUNG_DispelUrgent_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool DUNG_LevitateFallers_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int DUNG_Health_Percent { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int DUNG_Mana_Percent { get; set; }
-
-        [Setting, DefaultValue(20)]
-        public int DUNG_HymnHope_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool DUNG_PowerInfusion_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool DUNG_PrayerMending_SET { get; set; }
-
-        [Setting, DefaultValue(75)]
-        public int DUNG_PainSuppression_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool DUNG_Fade_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool DUNG_InnerFocus_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int DUNG_ShadowFiend_SET { get; set; }
-
-        //Heals
-        [Setting, DefaultValue(95)]
-        public int DUNG_Heal_SET { get; set; }
-
-        [Setting, DefaultValue(35)]
-        public int DUNG_FlashHeal_SET { get; set; }
-
-        [Setting, DefaultValue(75)]
-        public int DUNG_GHeal_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int DUNG_Penance_SET { get; set; }
-
-        [Setting, DefaultValue(75)]
-        public int DUNG_PWShield_SET { get; set; }
-
-        [Setting, DefaultValue(75)]
-        public int DUNG_BindHeal_SET { get; set; }
-
-        [Setting, DefaultValue(12)]
-        public int DUNG_DivineHymnHealth_SET { get; set; }
-
-        [Setting, DefaultValue(3)]
-        public int DUNG_DivHymnNum_SET { get; set; }
-
-        [Setting, DefaultValue(35)]
-        public int DUNG_PrayerHealingMin_SET { get; set; }
-
-        [Setting, DefaultValue(75)]
-        public int DUNG_PrayerHealingMax_SET { get; set; }
-
-        [Setting, DefaultValue(2)]
-        public int DUNG_PrayerHealingNum_SET { get; set; }
-
-        [Setting, DefaultValue(85)]
-        public int DUNG_Renew_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool DUNG_ShieldAggro_Heal_SET { get; set; }
-
-        [Setting, DefaultValue("Heal Only")]
-        public String DUNG_DPS_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool DUNG_FaceTarget_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool DUNG_ShieldAggroed_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool DUNG_UseTankTarget_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool DUNG_Smite_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool DUNG_HolyFire_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool DUNG_DevPlague_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool DUNG_SWPain_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool DUNG_PenanceDPS_SET { get; set; }
-
-        [Setting, DefaultValue(65)]
-        public int DUNG_DPShealth_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int DUNG_DPSmana_SET { get; set; }
-
-        /*************************************************************************/
-        //BG Settings
-        [Setting, DefaultValue(true)]
-        public bool BG_TankHealing_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_WeakenedSoul_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_FearWard_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_PWFort_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_ShadProt_SET { get; set; }
-
-        [Setting, DefaultValue("Inner Will")]
-        public String BG_FireOrWill_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_Dispel_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_DispelUrgent_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_LevitateFallers_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int BG_Health_Percent { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int BG_Mana_Percent { get; set; }
-
-        [Setting, DefaultValue(10)]
-        public int BG_HymnHope_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_PowerInfusion_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_PrayerMending_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int BG_PainSuppression_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_Fade_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_InnerFocus_SET { get; set; }
-
-        [Setting, DefaultValue(20)]
-        public int BG_ShadowFiend_SET { get; set; }
-
-        //Heals
-        [Setting, DefaultValue(95)]
-        public int BG_Heal_SET { get; set; }
-
-        [Setting, DefaultValue(65)]
-        public int BG_FlashHeal_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int BG_GHeal_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int BG_Penance_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int BG_PWShield_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int BG_BindHeal_SET { get; set; }
-
-        [Setting, DefaultValue(12)]
-        public int BG_DivineHymnHealth_SET { get; set; }
-
-        [Setting, DefaultValue(3)]
-        public int BG_DivHymnNum_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int BG_PrayerHealingMin_SET { get; set; }
-
-        [Setting, DefaultValue(75)]
-        public int BG_PrayerHealingMax_SET { get; set; }
-
-        [Setting, DefaultValue(3)]
-        public int BG_PrayerHealingNum_SET { get; set; }
-
-        [Setting, DefaultValue(85)]
-        public int BG_Renew_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_ShieldAggro_Heal_SET { get; set; }
-
-        [Setting, DefaultValue("Heal First")]
-        public String BG_DPS_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_FaceTarget_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_ShieldAggroed_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_UseTankTarget_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_Smite_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_HolyFire_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_DevPlague_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_SWPain_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool BG_PenanceDPS_SET { get; set; }
-
-        [Setting, DefaultValue(65)]
-        public int BG_DPShealth_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int BG_DPSmana_SET { get; set; }
-
-        /*************************************************************************/
-        //Arena Settings
-        [Setting, DefaultValue(true)]
-        public bool ARENA_TankHealing_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_WeakenedSoul_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_FearWard_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_PWFort_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_ShadProt_SET { get; set; }
-
-        [Setting, DefaultValue("Inner Will")]
-        public String ARENA_FireOrWill_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_Dispel_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_DispelUrgent_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_LevitateFallers_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int ARENA_Health_Percent { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int ARENA_Mana_Percent { get; set; }
-
-        [Setting, DefaultValue(10)]
-        public int ARENA_HymnHope_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_PowerInfusion_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_PrayerMending_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int ARENA_PainSuppression_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_Fade_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_InnerFocus_SET { get; set; }
-
-        [Setting, DefaultValue(20)]
-        public int ARENA_ShadowFiend_SET { get; set; }
-
-        //Heals
-        [Setting, DefaultValue(95)]
-        public int ARENA_Heal_SET { get; set; }
-
-        [Setting, DefaultValue(75)]
-        public int ARENA_FlashHeal_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int ARENA_GHeal_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int ARENA_Penance_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int ARENA_PWShield_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int ARENA_BindHeal_SET { get; set; }
-
-        [Setting, DefaultValue(12)]
-        public int ARENA_DivineHymnHealth_SET { get; set; }
-
-        [Setting, DefaultValue(3)]
-        public int ARENA_DivHymnNum_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int ARENA_PrayerHealingMin_SET { get; set; }
-
-        [Setting, DefaultValue(75)]
-        public int ARENA_PrayerHealingMax_SET { get; set; }
-
-        [Setting, DefaultValue(3)]
-        public int ARENA_PrayerHealingNum_SET { get; set; }
-
-        [Setting, DefaultValue(85)]
-        public int ARENA_Renew_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_ShieldAggro_Heal_SET { get; set; }
-
-        [Setting, DefaultValue("Heal First")]
-        public String ARENA_DPS_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_FaceTarget_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_ShieldAggroed_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_UseTankTarget_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_Smite_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_HolyFire_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_DevPlague_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_SWPain_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool ARENA_PenanceDPS_SET { get; set; }
-
-        [Setting, DefaultValue(65)]
-        public int ARENA_DPShealth_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int ARENA_DPSmana_SET { get; set; }
-
-        /*************************************************************************/
-        //Solo Settings
-        [Setting, DefaultValue(true)]
-        public bool SOLO_TankHealing_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_WeakenedSoul_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_FearWard_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_PWFort_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_ShadProt_SET { get; set; }
-
-        [Setting, DefaultValue("Inner Will")]
-        public String SOLO_FireOrWill_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_Dispel_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_DispelUrgent_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_LevitateFallers_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int SOLO_Health_Percent { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int SOLO_Mana_Percent { get; set; }
-
-        [Setting, DefaultValue(10)]
-        public int SOLO_HymnHope_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_PowerInfusion_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_PrayerMending_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int SOLO_PainSuppression_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_Fade_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_InnerFocus_SET { get; set; }
-
-        [Setting, DefaultValue(20)]
-        public int SOLO_ShadowFiend_SET { get; set; }
-
-        //Heals
-        [Setting, DefaultValue(95)]
-        public int SOLO_Heal_SET { get; set; }
-
-        [Setting, DefaultValue(85)]
-        public int SOLO_FlashHeal_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int SOLO_GHeal_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int SOLO_Penance_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int SOLO_PWShield_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int SOLO_BindHeal_SET { get; set; }
-
-        [Setting, DefaultValue(12)]
-        public int SOLO_DivineHymnHealth_SET { get; set; }
-
-        [Setting, DefaultValue(3)]
-        public int SOLO_DivHymnNum_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int SOLO_PrayerHealingMin_SET { get; set; }
-
-        [Setting, DefaultValue(75)]
-        public int SOLO_PrayerHealingMax_SET { get; set; }
-
-        [Setting, DefaultValue(3)]
-        public int SOLO_PrayerHealingNum_SET { get; set; }
-
-        [Setting, DefaultValue(85)]
-        public int SOLO_Renew_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_ShieldAggro_Heal_SET { get; set; }
-
-        [Setting, DefaultValue("Heal First")]
-        public String SOLO_DPS_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_FaceTarget_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_ShieldAggroed_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_UseTankTarget_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_Smite_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_HolyFire_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_DevPlague_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_SWPain_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool SOLO_PenanceDPS_SET { get; set; }
-
-        [Setting, DefaultValue(65)]
-        public int SOLO_DPShealth_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int SOLO_DPSmana_SET { get; set; }
-
-        /*************************************************************************/
-        //Custom Settings
-        [Setting, DefaultValue(true)]
-        public bool CUSTOM_TankHealing_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool CUSTOM_WeakenedSoul_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool CUSTOM_FearWard_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool CUSTOM_PWFort_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool CUSTOM_ShadProt_SET { get; set; }
-
-        [Setting, DefaultValue("Inner Fire")]
-        public String CUSTOM_FireOrWill_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool CUSTOM_Dispel_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool CUSTOM_DispelUrgent_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool CUSTOM_LevitateFallers_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int CUSTOM_Health_Percent { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int CUSTOM_Mana_Percent { get; set; }
-
-        [Setting, DefaultValue(10)]
-        public int CUSTOM_HymnHope_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool CUSTOM_PowerInfusion_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool CUSTOM_PrayerMending_SET { get; set; }
-
-        [Setting, DefaultValue(75)]
-        public int CUSTOM_PainSuppression_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool CUSTOM_Fade_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool CUSTOM_InnerFocus_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int CUSTOM_ShadowFiend_SET { get; set; }
-
-        //Heals
-        [Setting, DefaultValue(95)]
-        public int CUSTOM_Heal_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int CUSTOM_FlashHeal_SET { get; set; }
-
-        [Setting, DefaultValue(75)]
-        public int CUSTOM_GHeal_SET { get; set; }
-
-        [Setting, DefaultValue(75)]
-        public int CUSTOM_Penance_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int CUSTOM_PWShield_SET { get; set; }
-
-        [Setting, DefaultValue(80)]
-        public int CUSTOM_BindHeal_SET { get; set; }
-
-        [Setting, DefaultValue(12)]
-        public int CUSTOM_DivineHymnHealth_SET { get; set; }
-
-        [Setting, DefaultValue(3)]
-        public int CUSTOM_DivHymnNum_SET { get; set; }
-
-        [Setting, DefaultValue(35)]
-        public int CUSTOM_PrayerHealingMin_SET { get; set; }
-
-        [Setting, DefaultValue(75)]
-        public int CUSTOM_PrayerHealingMax_SET { get; set; }
-
-        [Setting, DefaultValue(2)]
-        public int CUSTOM_PrayerHealingNum_SET { get; set; }
-
-        [Setting, DefaultValue(0)]
-        public int CUSTOM_Renew_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool CUSTOM_ShieldAggro_Heal_SET { get; set; }
-
-        [Setting, DefaultValue("Heal Only")]
-        public String CUSTOM_DPS_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool CUSTOM_FaceTarget_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool CUSTOM_ShieldAggroed_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool CUSTOM_UseTankTarget_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool CUSTOM_Smite_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool CUSTOM_HolyFire_SET { get; set; }
-
-        [Setting, DefaultValue(true)]
-        public bool CUSTOM_DevPlague_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool CUSTOM_SWPain_SET { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool CUSTOM_PenanceDPS_SET { get; set; }
-
-        [Setting, DefaultValue(50)]
-        public int CUSTOM_DPShealth_SET { get; set; }
-
-        [Setting, DefaultValue(0)]
-        public int CUSTOM_DPSmana_SET { get; set; }
         
     }
 }
