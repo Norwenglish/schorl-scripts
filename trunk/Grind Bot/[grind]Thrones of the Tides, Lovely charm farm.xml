@@ -1,0 +1,29 @@
+<!-- Profile created by Moderator Tony for Hb community -->
+<HBProfile>
+<Name>Dungeon Grinding</Name>
+<MinDurability>0.3</MinDurability>
+<MinFreeBagSlots>2</MinFreeBagSlots>
+<SellGrey>True</SellGrey>
+<SellWhite>True</SellWhite>
+<SellGreen>True</SellGreen>
+<MinLevel>1</MinLevel>
+<MaxLevel>86</MaxLevel>
+<AvoidMobs>
+<Mob Entry="40925" Name="Tainted Sentry"/> 
+</AvoidMobs>
+<GrindArea>
+<TargetMinLevel>1</TargetMinLevel>
+<TargetMaxLevel>86</TargetMaxLevel>
+<Factions>16</Factions>
+<Hotspots>
+<Hotspot Z="242.4947" Y="903.7626" X="-310.1656"/> 
+<Hotspot Z="236.2296" Y="936.9059" X="-307.0046"/> 
+<Hotspot Z="236.2144" Y="960.8818" X="-291.5462"/> 
+<Hotspot Z="236.8202" Y="972.5401" X="-275.9254"/>
+</Hotspots>
+</GrindArea>
+<Vendors>
+</Vendors>
+<Mailboxes>
+</Mailboxes>
+</HBProfile>
