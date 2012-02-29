@@ -44,13 +44,13 @@ namespace Bobby53
         public enum SpellInterruptStyle { None, CurrentTarget, All };
         public enum SpellPriority { None, High, Low, LowCurrentTarget };
         public enum RaidTarget    { None, Star, Circle, Diamond, Triangle, Moon, Square, Cross, Skull, Focus };
-
+        public enum DisableMovementType { Never, Always, Auto };
         public const int PullTimeout = 15000;
         public const int waitWaitAfterRangedPull = 250;
         public const bool NearbyPlayerWarnings = false;
         public const bool BeepIfPlayerTargetsMe = false;
 
-        public const double TargetTooCloseDistance = 1.75;
+        public const double TargetTooCloseDistance = 1.5;
         public const double TargetTooCloseAdjust = 0.0;
 
         public string CreatedByVersion = "";
@@ -74,13 +74,18 @@ namespace Bobby53
         public int TwistManaPercent = 25;    // was 65
         public int TwistDamagePercent = 50;  // was 85
         public bool ShieldsDisabled = false;
+        public bool UseFlasks = false;
 
-        public bool DisableMovement = false;
+        public DisableMovementType DisableMovement = DisableMovementType.Auto;
         public bool DisableTargeting = false;
         public bool MeleeCombatBeforeLevel10 = false;
         public SpellInterruptStyle InterruptStyle = SpellInterruptStyle.All;
         public bool DetectImmunities = false;
         public bool WaterWalking = true;
+
+        public int ReincarnateMaxEnemiesNear = 0;
+        public int ReincarnateMinClearDistance = 20;
+        public int ReincarnateMaxWait = 8;
 
         public bool AccountForLag = true;
         
@@ -111,7 +116,9 @@ namespace Bobby53
         public string PVP_MainhandImbue = "Auto";
         public string PVP_OffhandImbue = "Auto";
 
-        public SpellPriority  PVP_CleansePriority = SpellPriority.Low;
+        public bool PVP_HealOnMaelstrom = true;
+
+        public SpellPriority PVP_CleansePriority = SpellPriority.Low;
         public SpellPriority  PVP_PurgePriority = SpellPriority.LowCurrentTarget;
         public RaidTarget PVP_HexIcon = RaidTarget.Triangle;
 
@@ -179,7 +186,8 @@ namespace Bobby53
             Logging.WriteDebug("  # RestManaPercent:        '{0}'", this.RestManaPercent);
             Logging.WriteDebug("  # TwistDamagePercent:     '{0}'", this.TwistDamagePercent);
             Logging.WriteDebug("  # TwistManaPercent:       '{0}'", this.TwistManaPercent);
-            Logging.WriteDebug("  # ShieldsDisabled            '{0}'", this.ShieldsDisabled);
+            Logging.WriteDebug("  # ShieldsDisabled         '{0}'", this.ShieldsDisabled);
+            Logging.WriteDebug("  # UseFlasks               '{0}'", this.UseFlasks);
 
             Logging.WriteDebug("  # NeedHealHealthPercent:  '{0}'", this.NeedHealHealthPercent);
             Logging.WriteDebug("  # EmergencyHealthPercent: '{0}'", this.EmergencyHealthPercent);
@@ -191,13 +199,18 @@ namespace Bobby53
             Logging.WriteDebug("  # TrinkAtHealth:          '{0}'", this.TrinkAtHealth);
             Logging.WriteDebug("  # TrinkAtMana:            '{0}'", this.TrinkAtMana);
 
-            Logging.WriteDebug("  # DisableMovement:        '{0}'", this.DisableMovement);
+            Logging.WriteDebug("  # DisableMovementType:    '{0}'", this.DisableMovement);
             Logging.WriteDebug("  # DisableTargeting:       '{0}'", this.DisableTargeting);
             Logging.WriteDebug("  # MeleeCombatBeforeLvl10: '{0}'", this.MeleeCombatBeforeLevel10);
             Logging.WriteDebug("  # InterruptStyle:         '{0}'", this.InterruptStyle);
             Logging.WriteDebug("  # DetectImmunities:       '{0}'", this.DetectImmunities);
             Logging.WriteDebug("  # WaterWalking:           '{0}'", this.WaterWalking);
             Logging.WriteDebug("  # AccountForLag:          '{0}'", this.AccountForLag );
+
+            Logging.WriteDebug("  # ReincarnateMaxEnemiesNe:'{0}'", this.ReincarnateMaxEnemiesNear );
+            Logging.WriteDebug("  # ReincarnateMinClearDist:'{0}'", this.ReincarnateMinClearDistance );
+            Logging.WriteDebug("  # ReincarnateMaxWait:     '{0}' seconds", this.ReincarnateMaxWait );
+
 
             // PVE Grinding
             Logging.WriteDebug("  #-- PVE SETTINGS ---------#");
@@ -240,6 +253,7 @@ namespace Bobby53
 
             Logging.WriteDebug("  # PVP_UsePVPTrinket       '{0}'", this.PVP_UsePVPTrinket);
             Logging.WriteDebug("  # PVP_UseCooldowns        '{0}'", this.PVP_UseCooldowns);
+            Logging.WriteDebug("  # PVP_HealOnMaelstrom     '{0}'", this.PVP_HealOnMaelstrom);
 
             Logging.WriteDebug("  # PVP_Heal.HealingWave    '{0}'", this.PVP_Heal.HealingWave);
             Logging.WriteDebug("  # PVP_Heal.Riptide        '{0}'", this.PVP_Heal.Riptide);
@@ -393,9 +407,11 @@ namespace Bobby53
                         LoadInt(elem, ref TwistDamagePercent);                     break;
                     case "shieldsdisabled":
                         LoadBool(elem, ref ShieldsDisabled); break;
+                    case "useflasks":
+                        LoadBool(elem, ref UseFlasks); break;
 
-                    case "disablemovement":
-                        LoadBool(elem, ref DisableMovement); break;
+                    case "disablemovementtype":
+                        LoadDisableMovementType(elem, ref DisableMovement); break;
                     case "disabletargeting":
                         LoadBool(elem, ref DisableTargeting); break;
                     case "meleecombatbeforelevel10":
@@ -466,6 +482,8 @@ namespace Bobby53
 
                     case "pvp_bloodlustcount":
                         LoadInt(elem, ref PVP_BloodlustCount ); break;
+                    case "pvp_healonmaelstrom":
+                        LoadBool(elem, ref PVP_HealOnMaelstrom); break;
 
                     case "pvp_prepwaterbreathing":
                         LoadBool(elem, ref PVP_PrepWaterBreathing ); break;
@@ -624,11 +642,29 @@ namespace Bobby53
 
                 }
 
-                // UPGRADE TO 4.5.08
+                // UPGRADE TO 4.5.09
                 if (string.Compare(CreatedByVersion, "4.5.09") < 0)
                 {
                     Shaman.Slog("");
                     Shaman.Slog(Color.Orange, "ConfigUpgrade:  copying old needlifeblood setting {0} to needinstantheal", InstantHealPercent);
+                }
+
+                // UPGRADE TO 4.5.15
+                if (string.Compare(CreatedByVersion, "4.5.15") < 0)
+                {
+                    if (DisableMovement != DisableMovementType.Auto)
+                    {
+                        Shaman.Slog("");
+                        DisableMovement = DisableMovementType.Auto;
+                        Shaman.Slog(Color.Orange, "ConfigUpgrade:  setting DisableMovementType to '{0}'", DisableMovement);
+                    }
+
+                    if (DetectImmunities)
+                    {
+                        Shaman.Slog("");
+                        DetectImmunities = false;
+                        Shaman.Slog(Color.Orange, "ConfigUpgrade:  setting DetectImmunities to 'false'");
+                    }
                 }
 
                 Shaman.Slog("");
@@ -813,7 +849,18 @@ namespace Bobby53
         {
             try
             {
-                pri = (SpellPriority)Enum.Parse( typeof(SpellPriority), elem.Value);
+                pri = (SpellPriority)Enum.Parse(typeof(SpellPriority), elem.Value);
+            }
+            catch
+            {
+            }
+        }
+
+        private static void LoadDisableMovementType(XElement elem, ref DisableMovementType dmt)
+        {
+            try
+            {
+                dmt = (DisableMovementType)Enum.Parse(typeof(DisableMovementType), elem.Value);
             }
             catch
             {
@@ -869,8 +916,9 @@ namespace Bobby53
                         new XElement("twistwatershield", TwistManaPercent),
                         new XElement("twistlightningshield", TwistDamagePercent),
                         new XElement("shieldsdisabled", ShieldsDisabled),
+                        new XElement("useflasks", UseFlasks ),
 
-                        new XElement("disablemovement", DisableMovement),
+                        new XElement("disablemovementtype", DisableMovement),
                         new XElement("disabletargeting", DisableTargeting),
                         new XElement("meleecombatbeforelevel10", MeleeCombatBeforeLevel10),
                         new XElement("interruptstyle", InterruptStyle),
@@ -908,7 +956,8 @@ namespace Bobby53
                         new XElement("pvp_purgepriority", PVP_PurgePriority),
                         new XElement("pvp_hexicon", PVP_HexIcon),                      
 
-                        new XElement("pvp_bloodlustcount", PVP_BloodlustCount),                      
+                        new XElement("pvp_bloodlustcount", PVP_BloodlustCount),
+                        new XElement("pvp_healonmaelstrom", PVP_HealOnMaelstrom),
 
                         new XElement("pvp_prepwaterbreathing", PVP_PrepWaterBreathing),                      
                         new XElement("pvp_prepwaterwalking", PVP_PrepWaterWalking),

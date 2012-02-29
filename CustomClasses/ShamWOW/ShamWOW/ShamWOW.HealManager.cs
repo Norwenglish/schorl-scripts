@@ -366,7 +366,9 @@ namespace Bobby53
                 Logging.WriteException(e);
             }
 
-            Slog("^Healing Rain: found {0} targets", targets.Count );
+            if ( targets != null && targets.Count >= minCount )
+                Slog("^Healing Rain: found {0} targets", targets.Count );
+
             Dlog("WillHealingRainCover({0}): took {1} ms", minCount, timer.ElapsedMilliseconds);
             return targets != null && targets.Count >= minCount;
         }
@@ -458,9 +460,9 @@ namespace Bobby53
                     {
                         Dlog("ChooseHealTarget:  entry[{0}] is dead", a);
                     }
-                    else if (rchk == SpellRange.NoCheck || (_healTargets[a].Distance < 39 && _healTargets[a].InLineOfSightOCD))
+                    else if (rchk == SpellRange.NoCheck || (_healTargets[a].Distance < 39 && _healTargets[a].InLineOfSpellSight))
                     {
-                        Dlog("ChooseHealTarget: {0}[{1}] at {2:F0}% dist: {3:F1} in-los: {4}", Safe_UnitName(_healTargets[a]), _healTargets[a].Level, _healTargets[a].HealthPercent, _healTargets[a].Distance, _healTargets[a].InLineOfSightOCD);
+                        Dlog("ChooseHealTarget: {0}[{1}] at {2:F0}% dist: {3:F1} in-los: {4}", Safe_UnitName(_healTargets[a]), _healTargets[a].Level, _healTargets[a].HealthPercent, _healTargets[a].Distance, _healTargets[a].InLineOfSpellSight);
                         lowPlayer = _healTargets[a];
                         break;
                     }
@@ -478,9 +480,9 @@ namespace Bobby53
             // if Me or the Tank (value in unitToSaveHeal) is at risk 
             if (unitToSaveHeal != null && unitToSaveHeal.IsAlive)
             {
-                if (rchk == SpellRange.NoCheck || (unitToSaveHeal.Distance < 38 && unitToSaveHeal.InLineOfSightOCD))
+                if (rchk == SpellRange.NoCheck || (unitToSaveHeal.Distance < 38 && unitToSaveHeal.InLineOfSpellSight))
                 {
-                    Dlog("ChooseHealTarget: SAVING {0}[{1}] at {2:F0}% dist: {3:F1} in-los: {4}", Safe_UnitName(unitToSaveHeal), unitToSaveHeal.Level, unitToSaveHeal.HealthPercent, unitToSaveHeal.Distance, unitToSaveHeal.InLineOfSightOCD);
+                    Dlog("ChooseHealTarget: SAVING {0}[{1}] at {2:F0}% dist: {3:F1} in-los: {4}", Safe_UnitName(unitToSaveHeal), unitToSaveHeal.Level, unitToSaveHeal.HealthPercent, unitToSaveHeal.Distance, unitToSaveHeal.InLineOfSpellSight);
                     lowPlayer = unitToSaveHeal.ToPlayer();
                     unitToSaveHeal = null;
                 }
@@ -496,9 +498,9 @@ namespace Bobby53
             {
                 if (unitToSaveHeal != null && unitToSaveHeal.CurrentHealth > 1)
                 {
-                    if (rchk == SpellRange.NoCheck || (unitToSaveHeal.Distance < 39 && unitToSaveHeal.InLineOfSightOCD))
+                    if (rchk == SpellRange.NoCheck || (unitToSaveHeal.Distance < 39 && unitToSaveHeal.InLineOfSpellSight))
                     {
-                        Dlog("ChooseHealTarget: SAVING {0}[{1}] at {2:F0}% dist: {3:F1} in-los: {4}", Safe_UnitName(unitToSaveHeal), unitToSaveHeal.Level, unitToSaveHeal.HealthPercent, unitToSaveHeal.Distance, unitToSaveHeal.InLineOfSightOCD);
+                        Dlog("ChooseHealTarget: SAVING {0}[{1}] at {2:F0}% dist: {3:F1} in-los: {4}", Safe_UnitName(unitToSaveHeal), unitToSaveHeal.Level, unitToSaveHeal.HealthPercent, unitToSaveHeal.Distance, unitToSaveHeal.InLineOfSpellSight);
                         lowPlayer = unitToSaveHeal.ToPlayer();
                         unitToSaveHeal = null;
                     }
@@ -956,7 +958,7 @@ namespace Bobby53
                 {
                     if (_me.GotTarget && _me.CurrentTarget.IsAlive && _me.CurrentTarget.Combat && Safe_IsHostile(_me.CurrentTarget))
                     {
-                        if (_me.CurrentTarget.InLineOfSightOCD && FaceToUnit(_me.CurrentTarget))
+                        if (_me.CurrentTarget.InLineOfSpellSight && FaceToUnit(_me.CurrentTarget))
                         {
                             Slog("^Focused Insight:  buff Healing Rain");
                             Safe_CastSpell(_me.CurrentTarget, "Earth Shock");
@@ -1055,7 +1057,7 @@ namespace Bobby53
                     if (IsCasting())
                         WaitForCurrentCastOrGCD();
 
-                    MoveToObject(unit);
+                    MoveToUnit(unit);
                     while (!IsGameUnstable() && _me.IsAlive && _me.IsMoving && unit.IsAlive && !_me.IsUnitInRange(unit, distRange) && unit.Distance < 100)
                     {
                         // while running, if someone else needs a heal throw a riptide on them

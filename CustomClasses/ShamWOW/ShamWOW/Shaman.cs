@@ -5,7 +5,7 @@
  *          THE PRIOR PERMISSION OF AUTHOR.  PERMITTED USE MUST BE
  *          ACCOMPANIED BY CREDIT/ACKNOWLEDGEMENT TO ORIGINAL AUTHOR.
  * 
- * ShamWOW Shaman CC - Version: 4.5.14
+ * ShamWOW Shaman CC - Version: 4.5.15
  * 
  * Author:  Bobby53
  * 
@@ -47,6 +47,7 @@
 
 #pragma warning disable 642
 
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -83,7 +84,7 @@ namespace Bobby53
 
     partial class Shaman : CombatRoutine
     {
-        public static string Version { get { return "4.5.14"; } }
+        public static string Version { get { return "4.5.15"; } }
         public override WoWClass Class { get { return WoWClass.Shaman; } }
 #if    BUNDLED_WITH_HONORBUDDY
 		public override string Name { get { return "Default Shaman v" + Version + " by Bobby53"; } }
@@ -108,9 +109,9 @@ namespace Bobby53
 
         private static readonly Dictionary<WoWSpellSchool, HashSet<uint>> ImmunityMap = new Dictionary<WoWSpellSchool, HashSet<uint>>();
 
-        private static BotEvents.OnBotStartDelegate btStrt;
-        private static BotEvents.OnBotStopDelegate btStp;
-        // private static BotEvents.Player.PlayerDiedDelegate btDied;
+        private static BotEvents.OnBotStartDelegate botStart;
+        private static BotEvents.OnBotStopDelegate botStop;
+        // private static BotEvents.Player.PlayerDiedDelegate playerDied;
 
         private static List<WoWItem> trinkMana;      // regens mana
         private static List<WoWItem> trinkHealth;    // regens health
@@ -438,6 +439,9 @@ namespace Bobby53
         public static bool _hasGlyphOfWaterBreathing;
         private static bool _hasGlyphOfUnleashedLightning;
 
+#if MAKELOVE
+        private static bool _hasAchieveMakeLoveNotWarcraft;
+#endif
         private static int _tier12CountResto;
 
         public enum ShamanType
@@ -690,9 +694,9 @@ namespace Bobby53
                 sRunningWith = "Solo";
 
             if (IsPVP())
-                sRunningAs = "in PVP {0}" + sRunningWith;
+                sRunningAs = "in PVP " + sRunningWith;
             else if (IsRAF())
-                sRunningAs = "in RAF {0}" + sRunningWith;
+                sRunningAs = "in RAF " + sRunningWith;
             else
                 sRunningAs = "Solo";
 
@@ -721,10 +725,6 @@ namespace Bobby53
             if (_isBotInstanceBuddy)
                 Slog("InstanceBuddy detected... ShamWOW fast attack targeting disabled");
 
-            _isBotLazyRaider = IsBotInUse("LAZYRAIDER");
-            if (_isBotLazyRaider)
-                Wlog("CC movevement disabled to work with LazyRaider Bot");
-
             _isBotGatherBuddy = IsBotInUse("GATHERBUDDY");
             if (_isBotGatherBuddy)
                 Wlog("Ghost Wolf disabled to work with GatherBuddy Bot");
@@ -733,12 +733,20 @@ namespace Bobby53
             if (_isBotArchaeologyBuddy)
                 Wlog("Ghost Wolf disabled to work with ArchaeologyBuddy Bot");
 
+            _isBotLazyRaider = IsBotInUse("LAZYRAIDER");
             _isPluginMrAutoFight = CharacterSettings.Instance.EnabledPlugins != null && CharacterSettings.Instance.EnabledPlugins.Contains("Mr.AutoFight");
-            if (_isPluginMrAutoFight)
-                Wlog("CC movevement disabled to work with Mr.AutoFight");
 
-            if (cfg.DisableMovement)
+            if (cfg.DisableMovement == ConfigValues.DisableMovementType.Always)
+            {
                 Slog("CC movevement disabled due to Config Setting");
+            }
+            else if (cfg.DisableMovement == ConfigValues.DisableMovementType.Auto)
+            {
+                if (_isBotLazyRaider)
+                    Wlog("CC movevement auto-disabled to work with LazyRaider Bot");
+                else if (_isPluginMrAutoFight)
+                    Wlog("CC movevement disabled to work with Mr.AutoFight");
+            }
 
             if (IsTargetingDisabled())
                 Slog("CC targeting disabled due to Config Setting");
@@ -841,6 +849,13 @@ namespace Bobby53
 
             Slog("");
 
+#if MAKELOVE
+            _hasAchieveMakeLoveNotWarcraft = AchieveCompleted(247);
+            if (!_hasAchieveMakeLoveNotWarcraft)
+            {
+                Slog("[achieve] Make Love Not Warcraft:  will /hug players killed");
+            }
+#endif
             hsm = new HealSpellManager();
             if (InGroup())
             {
@@ -1016,12 +1031,14 @@ namespace Bobby53
 
         public static bool IsMovementDisabled()
         {
-            return _isPluginMrAutoFight || _isBotLazyRaider || cfg.DisableMovement;
+            if ( cfg.DisableMovement == ConfigValues.DisableMovementType.Always )
+                return true;
+            return cfg.DisableMovement == ConfigValues.DisableMovementType.Auto && (_isPluginMrAutoFight || _isBotLazyRaider);
         }
 
         public static bool IsTargetingDisabled()
         {
-            return IsMovementDisabled() && cfg.DisableTargeting;
+            return cfg.DisableTargeting && IsMovementDisabled();
         }
 
         public static bool IsImmunityCheckDisabled()
@@ -1140,10 +1157,12 @@ namespace Bobby53
             Slog("Navigator.PathPrecision is: {0}", Navigator.PathPrecision);
 #endif
 
-            btStrt = new BotEvents.OnBotStartDelegate(startBot);
-            BotEvents.OnBotStart += btStrt;
-            btStp = new BotEvents.OnBotStopDelegate(stopBot);
-            BotEvents.OnBotStop += btStp;
+            botStart = new BotEvents.OnBotStartDelegate(OnBotStart);
+            BotEvents.OnBotStart += botStart;
+            botStop = new BotEvents.OnBotStopDelegate(OnBotStop);
+            BotEvents.OnBotStop += botStop;
+            // BotEvents.Player.OnPlayerDied += playerDied;
+
 
             // Targeting.Instance.IncludeTargetsFilter += IncludeTargetsFilter;
 
@@ -1164,7 +1183,7 @@ namespace Bobby53
             Lua.Events.AttachEvent("COMBAT_LOG_EVENT_UNFILTERED", HandleCombatLogEvent);
             Lua.Events.AttachEvent("PLAYER_TARGET_CHANGED", HandlePlayerTargetChanged);
             Lua.Events.AttachEvent("UNIT_TARGET", HandlePlayerTargetChanged);
-
+            Lua.Events.AttachEvent("PLAYER_DEAD", HandlePlayerDead);
             Lua.Events.AttachEvent("PLAYER_EQUIPMENT_CHANGED", HandlePlayerEquipmentChanged);
 
 #if COMMENT
@@ -1229,8 +1248,11 @@ namespace Bobby53
                 _local.RecallTotemsForMana();
             }
 
-            if (!InGhostwolfForm() && cfg.WaterWalking && !IsAuraPresent(_me, "Water Walking") && SpellManager.HasSpell("Water Walking"))
-                Safe_CastSpell(_me, "Water Walking" );
+            if (!InGhostwolfForm() && cfg.WaterWalking && WaterWalking())
+            {
+                WaitForCurrentCastOrGCD();
+            }
+
 
             if (!IsMovementDisabled())
             {
@@ -1508,7 +1530,7 @@ namespace Bobby53
         }
 
         //private delegate void startBot();
-        private void startBot(EventArgs args)
+        private void OnBotStart(EventArgs args)
         {
             Slog("");
             Slog(Color.DarkGreen, ">>> STARTING {0}", Name);
@@ -1518,7 +1540,7 @@ namespace Bobby53
             Initialize();
         }
 
-        private void stopBot(EventArgs args)
+        private void OnBotStop(EventArgs args)
         {
             Slog("");
             Slog(Color.DarkGreen, ">>> STOPPING {0}", Name);
@@ -1763,6 +1785,82 @@ namespace Bobby53
             }
         }
 
+        private void HandlePlayerDead(object sender, LuaEventArgs args)
+        {
+            if (IsPVP())
+            {
+                Slog("! Died in PVP fighting at x={0},y={1},z={2}",
+                    _me.Location.X,
+                    _me.Location.Y,
+                    _me.Location.Z
+                    );
+            }
+
+            _countMeleeEnemy = 0;               // # of melee mobs in combat with me
+            _count10YardEnemy = 0;             // # of mobs withing 10 yards in combat with me
+            _countRangedEnemy = 0;              // # of ranged mobs in combat with me
+            TotemsWereSet = false;
+
+            List<string> hasSoulstone = Lua.GetReturnValues("return HasSoulstone()", "hawker.lua");
+            if (hasSoulstone != null && hasSoulstone.Count > 0 && !String.IsNullOrEmpty(hasSoulstone[0]) && hasSoulstone[0].ToLower() != "nil")
+            {
+                if (IsMovementDisabled())
+                {
+                    Log(Color.Aquamarine, "Suppressing {0} behavior since movement disabled; user must control...", hasSoulstone[0]);
+                    return;
+                }
+
+                Countdown waitClearArea = new Countdown(cfg.ReincarnateMaxWait * 1000);
+                Log( Color.Aquamarine, "Waiting {0} seconds for clear area to use {1}...", cfg.ReincarnateMaxWait, hasSoulstone[0]);
+                int countMobs;
+                do 
+                {
+                    StyxWoW.SleepForLagDuration();
+                    countMobs = (from u in AllEnemyMobs where u.Distance < cfg.ReincarnateMinClearDistance  select u).Count();
+                    Dlog("HandlePlayerDead:  {0} enemies within {1} yds and {2} seconds remaining", countMobs, cfg.ReincarnateMinClearDistance, waitClearArea.ElapsedMilliseconds / 1000 );
+                } while ( countMobs > cfg.ReincarnateMaxEnemiesNear && !waitClearArea.Done && !_me.IsAlive && !_me.IsGhost );
+
+                if (_me.IsGhost)
+                {
+                    Log(Color.Aquamarine, "Another component/addon released the corpse or insignia taken");
+                    return;
+                }
+
+                if (_me.IsAlive)
+                {
+                    Log(Color.Aquamarine, "Ressurected via something besides ShamWOW...");
+                    return;
+                }
+
+                if (countMobs > cfg.ReincarnateMaxEnemiesNear)
+                {
+                    Log(Color.Aquamarine, "Still {0} enemies within {1} yds, skipping {2}", countMobs, cfg.ReincarnateMinClearDistance, hasSoulstone[0]);
+                    return;
+                }
+
+                if (!IsGameUnstable())
+                {
+                    RunLUA("UseSoulstone()");
+                    WaitForCurrentCastOrGCD();
+                }
+
+                Countdown tickCount = new Countdown(1000);
+                while (!IsGameUnstable() && !_me.IsAlive && !tickCount.Done)
+                {
+                    Thread.Sleep(50);
+                }
+
+                if (_me.IsAlive)
+                {
+                    Log(Color.Aquamarine, "^{0} successful!'", hasSoulstone[0]);
+                }
+            }
+            else
+            {
+
+            }
+        }
+
         private void HandlePartyMembersChanged(object sender, LuaEventArgs args)
         {
             Dlog("HandlePartyMembersChanged:  event received");
@@ -1782,6 +1880,10 @@ namespace Bobby53
                 Dlog("HandlePlayerTargetChanged:  no current target, so finding one");
                 FindAggroTarget();
             }
+        }
+
+        private void HandlePlayerInventoryChanged(object sender, LuaEventArgs args)
+        {
         }
 
         private void HandlePlayerEquipmentChanged(object sender, LuaEventArgs args)
@@ -1940,7 +2042,17 @@ namespace Bobby53
             WoWPlayer p = unit.ToPlayer();
             return p.IsHorde == ObjectManager.Me.IsHorde;
 #else
-            return unit.IsFriendly;
+            if (unit == null)
+                return false;
+
+            if (!unit.IsPlayer)
+                return unit.IsFriendly;
+
+            WoWPlayer player = unit.ToPlayer();
+            if (player.IsHorde != _me.IsHorde)
+                return false;
+
+            return !IsPVP() || player.BattlefieldArenaFaction == _me.BattlefieldArenaFaction;
 #endif      
         }
 
@@ -1966,7 +2078,15 @@ namespace Bobby53
         {
             if (unit == null)
                 return false;
-            return unit.IsHostile || (unit.Attackable && HasAggro(unit)) || (unit.IsPlayer && unit.ToPlayer().IsHorde != _me.IsHorde);
+
+            if (!unit.IsPlayer)
+                return unit.Attackable && (unit.IsHostile || HasAggro(unit));
+            
+            WoWPlayer player = unit.ToPlayer();
+            if ( player.IsHorde != _me.IsHorde)
+                return true;
+
+            return IsPVP() && player.BattlefieldArenaFaction != _me.BattlefieldArenaFaction;
         }
 
         private static bool Safe_IsElite(WoWUnit unit)
@@ -2029,23 +2149,18 @@ namespace Bobby53
 
         private static bool MeImmobilized()
         {
-            if (ObjectManager.Me.Stunned)
-                Slog(Color.Orange, "You are stunned and unable to cast");
-            else if (ObjectManager.Me.Possessed)
-                Slog(Color.Orange, "You are possessed and unable to cast");
-            else if (ObjectManager.Me.CharmedByUnit != null)
-                Slog(Color.Orange, "You are charmed and unable to cast");
-            else if (IsFleeing(ObjectManager.Me))
-                Slog(Color.Orange, "You are feared and unable to cast");
-            else
-                return false;
+            WoWAura aura = GetCrowdControlledAura(_me);
+            bool isImmobile = IsImmobilizedAura(aura);
+            
+            if ( isImmobile )
+                Slog(Color.Orange, "Your are {0} due to {1} and unable to cast", aura.Spell.Mechanic.ToString(), aura.Name );
 
-            return true;
+            return isImmobile;
         }
 
         private static bool MeSilenced()
         {
-            if (MeImmobilized())
+            if (_me.IsImmobilized())
                 ;
             else if (ObjectManager.Me.Silenced)
                 Slog(Color.Orange, "You are silenced and unable to cast");
@@ -2126,7 +2241,7 @@ namespace Bobby53
                 return true;
             }
 
-            if (MeImmobilized() && cfg.PVP_UsePVPTrinket && UseItem(trinkPVP))
+            if (_me.IsImmobilized() && cfg.PVP_UsePVPTrinket && UseItem(trinkPVP))
             {
                 // StyxWoW.SleepForLagDuration();
                 return true;
@@ -2140,10 +2255,11 @@ namespace Bobby53
 
             if ( _me.Combat )
             {
-                if (typeShaman != ShamanType.Enhance)
+                if (typeShaman == ShamanType.Enhance && !_me.IsMoving && CurrentTargetInRangedDistance())
                     return UseItem(trinkCombat);
-
-                if (CurrentTargetInMeleeDistance())
+                else if (typeShaman == ShamanType.Enhance && CurrentTargetInMeleeDistance())
+                    return UseItem(trinkCombat);
+                else if (typeShaman == ShamanType.Resto && _me.Combat )
                     return UseItem(trinkCombat);
             }
 
@@ -2153,12 +2269,14 @@ namespace Bobby53
         public static void RunLUA(string sCmd)
         {
             WaitForCurrentCastOrGCD();
+            //Dlog("RunLUA: {0}", sCmd);
             Lua.DoString(sCmd, "shaman.lua");
         }
 
         public static List<string> CallLUA(string sCmd)
         {
             WaitForCurrentCastOrGCD();
+            //Dlog("CallLUA: {0}", sCmd);
             List<string> retList = Lua.GetReturnValues(sCmd, "shaman.lua");
             return retList;
         }
@@ -2189,15 +2307,14 @@ namespace Bobby53
             if (IsMovementDisabled())
                 return;
 
-            if (!ObjectManager.Me.IsMoving)
-                return;
+            Navigator.PlayerMover.MoveStop();
 
             int countTries = 0;
             Countdown stopTimer = new Countdown(1000);
 
             while (!IsGameUnstable() && _me.IsAlive && ObjectManager.Me.IsMoving && !stopTimer.Done )
             {
-                WoWMovement.MoveStop();
+                Navigator.PlayerMover.MoveStop();
                 countTries++;
 
                 if (countTries > 1 )
@@ -2219,7 +2336,7 @@ namespace Bobby53
             {
                 if ( IsFleeing(_me))
                     Slog("Feared --- uggghhh");
-                else if (MeImmobilized())
+                else if (_me.IsImmobilized())
                     Slog("Immobilized is true but still moving and can't stop; am I Feared?");
                 else
                     Slog("ERROR: " + countTries + " attempts to stop moving and failed; character Feared?");
@@ -2234,6 +2351,9 @@ namespace Bobby53
         public static void Safe_FaceUnit( WoWUnit unit)
         {
             if (unit == null || IsMovementDisabled())
+                return;
+
+            if (!unit.InLineOfSpellSight)
                 return;
 
             if (!Safe_IsFriendly(_me.CurrentTarget) && !_me.IsSafelyFacing(unit))
@@ -2333,6 +2453,9 @@ namespace Bobby53
                 if (IsMovementDisabled())
                     return false;
 
+                if (!unit.InLineOfSpellSight)
+                    return false;
+
                 if (IsPVP() || IsRAF())
                     Slog("FaceToUnit: facing to {0}:{1} thats {2:F1} yds away", unit.IsPlayer ? "player" : "npc", Safe_UnitName(unit), unit.Distance);
 
@@ -2362,77 +2485,95 @@ namespace Bobby53
          * will not move.  This function checks if we are moving a very small
          * distance and forces movement by changing the precision if needed
          */
-        private static void MoveTo(WoWPoint newPoint)
+        public static bool MoveTo(WoWPoint newPoint)
         {
-            if (IsMovementDisabled())
-                return;
+            MoveResult moveRes = MoveResult.PathGenerated;
 
-            float distToMove = _me.Location.Distance(newPoint);
-            float prevPrec = Navigator.PathPrecision;
-
-            if (distToMove <= prevPrec)
-                Navigator.PathPrecision = distToMove - (float)0.1;
-
-            Countdown stopCount = new Countdown(10000);
-            while (!IsGameUnstable() && _me.IsAlive && IsCasting())
+            if (!IsMovementDisabled())
             {
-                if (stopCount.Done)
+                float distToMove = _me.Location.Distance(newPoint);
+                float prevPrec = Navigator.PathPrecision;
+
+                if (distToMove <= prevPrec)
+                    Navigator.PathPrecision = distToMove - (float)0.1;
+
+                Countdown stopCount = new Countdown(10000);
+                while (!IsGameUnstable() && _me.IsAlive && IsCasting())
                 {
-                    Slog(Color.Red, "ERROR:  Waited 10+ secs for cast to finish-- moving anyway");
-                    break;
+                    if (stopCount.Done)
+                    {
+                        Slog(Color.Red, "ERROR:  Waited 10+ secs for cast to finish-- moving anyway");
+                        break;
+                    }
                 }
+
+                // if (Navigator.GeneratePath(_me.Location, newPoint).Length <= 0)
+                if (!Navigator.CanNavigateFully(StyxWoW.Me.Location, newPoint))
+                {
+                    moveRes = MoveResult.Failed;
+                    Slog(Color.Red, "Mesh error - Cannot generate navigation path to new position");
+                }
+                else
+                {
+                    lastLoc = new WoWPoint(newPoint.X, newPoint.Y, newPoint.Z);
+
+                    Stopwatch howLong = new Stopwatch();
+                    howLong.Start();
+                    moveRes = Navigator.MoveTo(newPoint);
+                    howLong.Stop();
+                    if ( moveRes == MoveResult.Failed || moveRes == MoveResult.PathGenerationFailed )
+                        Slog(Color.Red, "Mesh error - {0} - Cannot navigate to position", moveRes.ToString());
+                    else 
+                        Log("MoveTo: point {0:F1} yds away took {1} ms", _me.Location.Distance(newPoint), howLong.ElapsedMilliseconds);
+
+                    // if ( IsRAF())
+                    //     Slog(Color.LightGray, "shamwow-move to point {0:F1} yds away from tank", newPoint.Distance(GroupTank.Location));
+                }
+
+                Navigator.PathPrecision = prevPrec;
             }
 
-
-            if (Navigator.GeneratePath(_me.Location, newPoint).Length <= 0)
-                Slog(Color.Red, "Cannot generate navigation path to new position");
-            else
-            {
-                lastLoc = new WoWPoint(newPoint.X, newPoint.Y, newPoint.Z);
-                Navigator.MoveTo(newPoint);
-                // if ( IsRAF())
-                //     Slog(Color.LightGray, "shamwow-move to point {0:F1} yds away from tank", newPoint.Distance(GroupTank.Location));
-            }
-
-            Navigator.PathPrecision = prevPrec;
+            return moveRes != MoveResult.Failed;
         }
 
-        private void MoveToCurrentTarget()
+        private bool MoveToCurrentTarget()
         {
-            MoveToObject(_me.CurrentTarget);
+            return MoveToUnit(_me.CurrentTarget);
         }
 
-        public static void MoveToObject(WoWObject obj)
+        public static bool MoveToUnit(WoWUnit obj)
         {
-            MoveToObject(obj, _offsetForMeleePull);
+            return MoveToUnit(obj, _offsetForMeleePull);
         }
 
-        public static void MoveToObject(WoWObject obj, double dist )
+        public static bool MoveToUnit(WoWUnit unit, double dist)
         {
-            if (obj == null)
-                return;
+            if (unit == null)
+                return false;
 
             if (IsMovementDisabled())
-                return;
+                return false;
 
-            bool haveLOS = obj.InLineOfSightOCD;
-            if (!haveLOS || (dist * dist) < obj.DistanceSqr)
+            bool haveLOS = unit.InLineOfSpellSight;
+            if (!haveLOS || (dist * dist) < unit.DistanceSqr)
             {
                 if (IsPVP() || IsRAF())
                 {
-                    string typeObj = (obj is WoWPlayer ? "player" : (obj is WoWUnit ? "unit" : "object"));
-                    Slog("MoveToUnit: moving to {0}:{1} thats {2:F1} yds away and {3}in line of sight", typeObj, Safe_UnitName(obj), obj.Distance, haveLOS ? "" : "NOT ");
+                    string typeObj = (unit is WoWPlayer ? "player" : (unit is WoWUnit ? "unit" : "Unit"));
+                    Slog("MoveToUnit: moving to {0}:{1} thats {2:F1} yds away and {3}in line of sight", typeObj, Safe_UnitName(unit), unit.Distance, haveLOS ? "" : "NOT ");
                 }
 
-                WoWPoint newPoint = (dist < 0.01) ? obj.Location : WoWMovement.CalculatePointFrom(obj.Location, (float)dist);
-                MoveTo(newPoint);      // WoWMovement.ClickToMove(newPoint);
+                WoWPoint newPoint = (dist < 0.01) ? unit.Location : WoWMovement.CalculatePointFrom(unit.Location, (float)dist);
+                return MoveTo(newPoint);      // WoWMovement.ClickToMove(newPoint);
             }
+
+            return false;
         }
 
-        private void MoveToHealTarget(WoWUnit unit, double distRange)
+        private bool MoveToHealTarget(WoWUnit unit, double distRange)
         {
             if (IsMovementDisabled())
-                return;
+                return false;
 
             if (!_me.IsUnitInRange(unit, distRange))
             {
@@ -2447,7 +2588,7 @@ namespace Bobby53
                 {
                     if (!Safe_IsMoving() || !timerLastMove.IsRunning || timerLastMove.ElapsedMilliseconds > 333)
                     {
-                        MoveToObject(unit);
+                        MoveToUnit(unit);
                         timerLastMove.Reset();
                         timerLastMove.Start();
                     }
@@ -2501,6 +2642,32 @@ namespace Bobby53
                     Safe_StopMoving(String.Format("Heal Target is {0:F1} yds away", unit.Distance));
                 }
             }
+
+            return _me.IsUnitInRange(unit, distRange);
+        }
+
+        public static bool MoveToObject(WoWObject obj, double dist)
+        {
+            if (obj == null)
+                return false;
+
+            if (IsMovementDisabled())
+                return false;
+
+            bool haveLOS = obj.InLineOfSight;
+            if (!haveLOS || (dist * dist) < obj.DistanceSqr)
+            {
+                if (IsPVP() || IsRAF())
+                {
+                    string typeObj = (obj is WoWPlayer ? "player" : (obj is WoWObject ? "Object" : "object"));
+                    Slog("MoveToObject: moving to {0}:{1} thats {2:F1} yds away and {3}in line of sight", typeObj, Safe_UnitName(obj), obj.Distance, haveLOS ? "" : "NOT ");
+                }
+
+                WoWPoint newPoint = (dist < 0.01) ? obj.Location : WoWMovement.CalculatePointFrom(obj.Location, (float)dist);
+                return MoveTo(newPoint);      // WoWMovement.ClickToMove(newPoint);
+            }
+
+            return false;
         }
 
         private bool FindBestTarget() { return FindBestTarget(_maxDistForRangeAttack); }
@@ -2591,7 +2758,7 @@ namespace Bobby53
                             && unit.Attackable
                             && unit.IsAlive 
                             && Safe_IsEnemyPlayer(unit)
-                            && unit.InLineOfSightOCD 
+                            && unit.InLineOfSpellSight 
                             && !unit.IsPet
                             && !Blacklist.Contains(unit.Guid)
                         orderby unit.CurrentHealth ascending
@@ -2710,7 +2877,6 @@ namespace Bobby53
             Dlog("FindAggroTarget: no aggro mobs found");
             return false;
         }
-
 
         public static bool InGroup()
         {
@@ -3566,7 +3732,7 @@ namespace Bobby53
                 // set good defaults in case we hit an exception in mob check after
                 guidLastMob = _me.CurrentTargetGuid;
                 meleeRangeCheck = (int) _me.MeleeRange(_me.CurrentTarget);
-                Dlog("CurrentTargetInMeleeDistance:  {0} @ {1:F1} has melee range of {2:F1} yds", Safe_UnitName(_me.CurrentTarget), _me.CurrentTarget.Distance, meleeRangeCheck);
+                Dlog("CurrentTargetInMeleeDistance:  {0} @ {1:F3} has melee range of {2:F2} yds", Safe_UnitName(_me.CurrentTarget), _me.CurrentTarget.Distance, meleeRangeCheck);
 
                 // check if npc is setup with special handling / behavior
                 if (!_me.CurrentTarget.IsPlayer)
@@ -3581,7 +3747,7 @@ namespace Bobby53
 
             }
 
-            return _me.CurrentTarget.Distance < meleeRangeCheck && _me.CurrentTarget.InLineOfSightOCD;
+            return _me.CurrentTarget.Distance < meleeRangeCheck && _me.CurrentTarget.InLineOfSpellSight;
         }
 
         /*
@@ -3591,7 +3757,7 @@ namespace Bobby53
          * recognizing when a pulled mob is close enough to melee as well as 
          * as when a pulled mob moves out of melee
          */
-        private bool CurrentTargetInRangedDistance()
+        private static bool CurrentTargetInRangedDistance()
         {
             return _me.IsUnitInRange(_me.CurrentTarget, _maxDistForRangeAttack);
         }
@@ -3605,7 +3771,7 @@ namespace Bobby53
         private static bool _me.IsUnitInRange(WoWUnit unit, double range)
         {
             double combatDistance = _me.CombatDistance(_me);
-            return (unit != null && combatDistance < range && unit.InLineOfSightOCD);
+            return (unit != null && combatDistance < range && unit.InLineOfSpellSight);
         }
 
         private static double _me.CombatDistance(WoWUnit unit)
@@ -3992,7 +4158,7 @@ namespace Bobby53
                     }
                      */
                 }
-                else if (_me.HealthPercent <= cfg.RestHealthPercent)
+                else if (_me.HealthPercent <= cfg.RestHealthPercent || (IsPVP() && IsSelfHealNeeded()))
                 {
                     Dlog("Need rest: true, CurrentHealth {0:F1}% less than RestHealthPercent {1:F1}%", _me.HealthPercent, cfg.RestHealthPercent);
                     return true;
@@ -4015,6 +4181,8 @@ namespace Bobby53
                     Dlog("Need rest: true, Need to Setup Totem Bar flag is set");
                     return true;
                 }
+
+                UseFlaskIfAvailable();
             }
 
             // ONLY set the _rezTarget after heals and mana taken care 
@@ -4054,13 +4222,12 @@ namespace Bobby53
                         {
                             if (Styx.Logic.POI.BotPoi.Current == null
                                 || Styx.Logic.POI.BotPoi.Current.Type == Styx.Logic.POI.PoiType.None
-                                || Styx.Logic.POI.BotPoi.Current.Location.Distance(_me.Location) < GetGhostWolfDistance())
+                                || Styx.Logic.POI.BotPoi.Current.Location.Distance(_me.Location) >= GetGhostWolfDistance())
                             {
-                                Dlog("Need rest: maybe, Ghost Wolf: closest enemy at least {0:F1} yds away", GetGhostWolfDistance());
                                 _needTravelForm = SpellManager.CanCast("Ghost Wolf");  // make sure we can so not stuck in loop
+                                Dlog("Need rest: {0}, Ghost Wolf: {1} to cast Ghost Wolf or Mount now and enemies atleast {2} yds away", _needTravelForm, _needTravelForm ? "able" : "cannot ", GetGhostWolfDistance());
                                 if (_needTravelForm)
                                 {
-                                    Dlog("Need rest: true, Ghost Wolf: able to cast Ghost Wolf or Mount now", GetGhostWolfDistance());
                                     return true;
                                 }
                             }
@@ -4126,25 +4293,33 @@ namespace Bobby53
                 }
 
                 // try to heal several times (quicker than eating).  also heal to higher OOC level in PVP
-                if (_me.HealthPercent < GetSelfHealThreshhold() && _me.ManaPercent >= cfg.RestManaPercent)
+                if (_me.HealthPercent < GetSelfHealThreshhold() && (_me.ManaPercent >= cfg.RestManaPercent || IsPVP()))
                 {
                     while (!IsGameUnstable() && _me.IsAlive && _me.HealthPercent < GetSelfHealThreshhold())
                     {
-                        if (_me.Combat || MeImmobilized())
+                        if (_me.Combat || _me.IsImmobilized())
                             return;
 
+                        WaitForCurrentCastOrGCD();
                         if (!HealMyself(GetSelfHealThreshhold()))
+                        {
+                            Dlog("RestLogic: could not cast a heal on myself in first loop");
                             break;  // exit loop if we can't cast a heal for some reason
+                        }
                     }
 
                     // already need to drink now, so may as well top-off health first
                     while (!IsGameUnstable() && _me.IsAlive && _me.ManaPercent < cfg.RestManaPercent && _me.HealthPercent < 85)
                     {
-                        if (_me.Combat || MeImmobilized())
+                        if (_me.Combat || _me.IsImmobilized())
                             return;
 
+                        WaitForCurrentCastOrGCD();
                         if (!HealMyself(GetSelfHealThreshhold()))
+                        {
+                            Dlog("RestLogic: could not cast a heal on myself in second loop");
                             break;  // exit loop if we can't cast a heal for some reason
+                        }
                     }
                 }
 
@@ -4174,7 +4349,7 @@ namespace Bobby53
                     if (IsMovementDisabled())
                         Slog("Attention!  Move closer to {0} who is more than 30 yds away or not in line of sight", Safe_UnitName(_rezTarget));
                     else
-                        MoveToObject(_rezTarget);
+                        MoveToUnit(_rezTarget);
                 }
                 else
                 {
@@ -4291,7 +4466,9 @@ namespace Bobby53
                     {
                         // confirm the drink isn't the same as the food
                         if (stoppedToEat && 0 == String.Compare(CharacterSettings.Instance.FoodName, CharacterSettings.Instance.DrinkName, true))
-                            ;
+                        {
+                            Dlog("RestLogic:  already stopped to eat and food({0}) and drink({1}) are the same", CharacterSettings.Instance.FoodName, CharacterSettings.Instance.DrinkName);
+                        }
                         else
                         {
                             noDrink = !UseConsumeable(CharacterSettings.Instance.DrinkName);
@@ -4329,14 +4506,20 @@ namespace Bobby53
                 // wait until food/drink buffs to display
 
                 Countdown waitForAuras = new Countdown(750);
+                Dlog("RestLogic:  waiting {0} ms for buffs to appear", waitForAuras.Remaining);
                 while (!IsGameUnstable())
                 {
-                    haveRestAura = IsAuraPresent(_me, "Food");
-                    haveRestAura = haveRestAura || IsAuraPresent(_me, "Drink");
-                    haveRestAura = haveRestAura || IsAuraPresent(_me, "Nourishment");
-                    haveRestAura = haveRestAura || ( castManaSpring && TotemExist(TotemId.MANA_SPRING_TOTEM));
+                    bool foodAura = IsAuraPresent(_me, "Food");
+                    bool drinkAura = IsAuraPresent(_me, "Drink");
+                    bool nourAura = IsAuraPresent(_me, "Nourishment");
+                    bool manaAura = ( castManaSpring && TotemExist(TotemId.MANA_SPRING_TOTEM));
+
+                    haveRestAura = foodAura || drinkAura || nourAura || manaAura;
                     if (haveRestAura)
+                    {
+                        Dlog("RestLogic:  found a rest buffs -- food({0}) drink({1}) nourishment({2}) manaspring({3})", foodAura, drinkAura, nourAura, manaAura);
                         break;
+                    }
 
                     if (_me.Combat || !_me.IsAlive)
                         break;
@@ -4358,11 +4541,11 @@ namespace Bobby53
             // wait until topped off OR Food/Drink/Nourishment buffs have expired
             while (haveRestAura && !IsGameUnstable())
             {
-                bool keepWaiting = IsAuraPresent(_me, "Food") && _me.HealthPercent < 99;
-                keepWaiting = keepWaiting || (IsAuraPresent(_me, "Drink") && _me.ManaPercent < 99);
-                keepWaiting = keepWaiting || (IsAuraPresent(_me, "Nourishment") && _me.HealthPercent < 99);
-                keepWaiting = keepWaiting || (IsAuraPresent(_me, "Nourishment") && _me.ManaPercent < 99);
-                keepWaiting = keepWaiting || (TotemExist(TotemId.MANA_SPRING_TOTEM) && _me.ManaPercent < cfg.RestManaPercent);
+                bool foodWait = IsAuraPresent(_me, "Food") && _me.HealthPercent < 99;
+                bool drinkWait = IsAuraPresent(_me, "Drink") && _me.ManaPercent < 99;
+                bool nourWait = IsAuraPresent(_me, "Nourishment") && ( _me.HealthPercent < 99 || _me.ManaPercent < 99);
+                bool manaWait = TotemExist(TotemId.MANA_SPRING_TOTEM) && _me.ManaPercent < cfg.RestManaPercent;
+                bool keepWaiting = foodWait || drinkWait || nourWait || manaWait;
 
                 if (!keepWaiting)
                 {
@@ -4370,7 +4553,11 @@ namespace Bobby53
                     break;
                 }
 
-                Dlog("dbg waiting:  Eating:{0} Health:{1:F0}%  /  Drinking:{2} Mana:{3:F0}%  /  Nourishment:{4}  /  Mana Spring:{5}", IsAuraPresent(_me, "Food"), _me.HealthPercent, IsAuraPresent(_me, "Drink"), _me.ManaPercent, IsAuraPresent(_me, "Nourishment"), TotemExist(TotemId.MANA_SPRING_TOTEM ));
+                Dlog("dbg waiting:  Eating:{0} Health:{1:F0}%  /  Drinking:{2} Mana:{3:F0}%  /  Nourishment:{4}  /  Mana Spring:{5}", 
+                    IsAuraPresent(_me, "Food"), _me.HealthPercent, 
+                    IsAuraPresent(_me, "Drink"), _me.ManaPercent, 
+                    IsAuraPresent(_me, "Nourishment"), 
+                    TotemExist(TotemId.MANA_SPRING_TOTEM ));
 
                 if ((_me.Combat && !IsRAFandTANK()) || !_me.IsAlive)
                 {
@@ -4387,7 +4574,7 @@ namespace Bobby53
                 Thread.Sleep(100);
             }
 
-            if (!IsMovementDisabled())
+            if (!IsMovementDisabled() )
             {
                 if (IsAuraPresentOnMeLUA("Herbouflage"))
                 {
@@ -4437,7 +4624,9 @@ namespace Bobby53
         {
             bool b = false;
 
-            if (!SpellManager.HasSpell("Ghost Wolf"))
+            if (!cfg.UseGhostWolfForm)
+                ;
+            else if (!SpellManager.HasSpell("Ghost Wolf"))
                 ;
             else if (IsSpellBlacklisted("Ghost Wolf"))
                 ;
@@ -4449,13 +4638,32 @@ namespace Bobby53
                 }
 
                 b = Safe_CastSpell(_me, "Ghost Wolf");
-                if (b)
-                    AddSpellToBlacklist("Ghost Wolf");
+                if (!_hasTalentAncestralSwiftness)
+                {
+                    WaitForCurrentCastOrGCD();
+                }
             }
 
             return b;
         }
 
+        public static bool WaterWalking()
+        {
+            const int WATER_WALKING = 546;
+            if ( SpellManager.HasSpell( WATER_WALKING ))
+            {
+                if ( !IsAuraPresent( _me, WATER_WALKING))
+                {
+                    WoWSpell spell = WoWSpell.FromId( WATER_WALKING);
+                    if ( spell.CanCast )
+                    {
+                        return Safe_CastSpell( _me, spell );
+                    }
+                }
+            }
+
+            return false;
+        }
 
 
         public void HandleFalling() { }
@@ -4628,7 +4836,7 @@ namespace Bobby53
                 return false;
             }
 
-            if (!soulwell.InLineOfSightOCD || soulwell.Distance > soulwell.InteractRange)
+            if (!soulwell.InLineOfSight || soulwell.Distance > soulwell.InteractRange)
             {
                 MoveToObject(soulwell, soulwell.InteractRange - 1);
                 return true;
@@ -4639,6 +4847,22 @@ namespace Bobby53
             StyxWoW.SleepForLagDuration();
             AddToBlacklist(SOULWELL, TimeSpan.FromMilliseconds(5000));
             return true;
+        }
+
+        private static bool AchieveCompleted(int id)
+        {
+            // id, name, points, completed, month, day, year, description, flags, icon, rewardText, isGuildAch = GetAchievementInfo(category, index) or GetAchievementInfo(id)
+            List<string> result = CallLUA( String.Format( "return GetAchievementInfo({0})", id));
+            if ( result != null && result.Count() >= 4)
+            {
+                bool completed = false; 
+                if ( Boolean.TryParse( result[3], out completed ))
+                {
+                    return completed;
+                }
+            }
+
+            return false;
         }
 
         /*
@@ -4738,7 +4962,7 @@ namespace Bobby53
             // if we don't have any or cleansing disabled, exit quickly
             if (MeSilenced() || !unit.Debuffs.Any() || (IsHealer() && !cfg.GroupHeal.Cleanse))
                 return null;
-
+            
             bool knowCleanseSpirit = SpellManager.CanCast(CLEANSE_SPIRIT);
             bool canCleanMagic = (knowCleanseSpirit && _hasTalentImprovedCleanseSpirit)
                                 || (_hasGlyphOfShamanisticRage && SpellManager.CanCast(SHAMANISTIC_RAGE) && SpellHelper.OnCooldown(SHAMANISTIC_RAGE));
@@ -5116,7 +5340,9 @@ namespace Bobby53
                 }
 
                 // use LB if first attempt and don't already have aggro or close
-                if (_pullAttackCount == 0 && (_me.CurrentTarget.Distance > 10 || !_me.CurrentTarget.Aggro) && LightningBolt())
+                if (FarmingAsElemental())
+                    _pullAttackCount++;
+                else if (_pullAttackCount == 0 && (_me.CurrentTarget.Distance > 10 || !_me.CurrentTarget.Aggro) && LightningBolt())
                     _pullAttackCount++;
                 else if (IsWeaponImbuedWithDPS() && UnleashElements())
                     _pullAttackCount++;
@@ -5147,7 +5373,9 @@ namespace Bobby53
                 {
                     if (typeShaman == ShamanType.Enhance)
                     {
+                        ShowStatus("Enter COMBAT");
                         CombatLogicEnhancePVP();
+                        ShowStatus("Exit  COMBAT");
                         return;
                     }
 /*
@@ -5651,7 +5879,7 @@ namespace Bobby53
                                       && !Blacklist.Contains(unit)
                                       && (IsPVP() || (unit.Combat && IsTargetingMeOrMyGroup(unit)))
                                       && null == GetAuraCreatedByMe(_me.CurrentTarget, "Flame Shock")
-                                      && unit.InLineOfSightOCD
+                                      && unit.InLineOfSpellSight
                                       && FaceToUnit(unit)
                                   orderby unit.Distance descending 
                                   select unit
@@ -5874,11 +6102,13 @@ namespace Bobby53
 
             if (HandleBreakingCrowdControl())
             {
+                Dlog("CombatLogicEnhcPVP: handled cc break is true this pass");
                 return;
             }
 
             if (HandlePvpTargetChange())
             {
+                Dlog("CombatLogicEnhcPVP: handled pvp target change is true this pass");
                 return;
             }
 
@@ -5898,18 +6128,15 @@ namespace Bobby53
 
                         Dlog("CombatLogicEnhcPVP: casting but have SpiritWalkers Grace or Unleashed Lightning");
                     }
-
-                    if (_me.CurrentTarget.Distance > 2.5 || (_me.CurrentTarget.IsMoving))
-                    {
-                        MoveToObject(_me.CurrentTarget, 0);
-                    }
                 }
-                else
+
+                if (_me.CurrentTarget.Distance > 2.5 || (_me.CurrentTarget.IsMoving) || _me.CurrentTarget.IsSafelyBehind(_me))
                 {
-                    if (_me.CurrentTarget.Distance < 1.5)
-                    {
-                        Safe_StopMoving(String.Format("Target {0:F1} yds away", _me.CurrentTarget.Distance));
-                    }
+                    MoveToUnit(_me.CurrentTarget, 0.5);
+                }
+                else // if (_me.CurrentTarget.Distance < 1.5 || _me.CurrentTarget.IsSafelyBehind( _me))
+                {
+                    Safe_StopMoving(String.Format("Target {0:F1} yds away", _me.CurrentTarget.Distance));
                 }
             }
             #endregion
@@ -5927,19 +6154,26 @@ namespace Bobby53
                 return;
             }
 
-            if (_me.Silenced)
+            WoWAura aura = GetCrowdControlledAura(_me);
+            if (IsSilencedAura(aura))
             {
-                Slog(Color.Orange, "You are silenced and unable to cast");
+                Slog(Color.Orange, "{0} due to {1} -- unable to cast", aura.Spell.Mechanic.ToString(), aura.Name);
                 return;
             }
 
             Dlog("CombatLogicEnhcPVP: okay to cast");
 
             if (MaelstromCheckHealPriority())
+            {
+                Dlog("CombatLogicEnhcPVP: looks like we healed, done");
                 return;
+            }
 
             if (HealMySelfInstantOnly())
+            {
+                Dlog("CombatLogicEnhcPVP: looks like we insta-healed, done");
                 return;
+            }
 
             if (!_me.IsSafelyFacing(_me.CurrentTarget))
             {
@@ -5949,7 +6183,15 @@ namespace Bobby53
 
             double distTarget = _me.CurrentTarget.Distance;
 
-            if (distTarget > 7)
+            if (distTarget < 7 )
+            {
+                if (!TotemsWereSet && !InGhostwolfForm() && SetTotemsAsNeeded())
+                {
+                    return;
+                }
+            }
+
+            if ( distTarget > 7 )
             {
                 // Stay in Ghostwolf or Mounted if > 7 yds away
                 if (_me.Mounted || InGhostwolfForm())
@@ -5959,7 +6201,7 @@ namespace Bobby53
                 }
 
                 const int FROST_SHOCK = 8056;
-                const int UNLEASH_ELEMENTS = 73680;
+                // const int UNLEASH_ELEMENTS = 73680;
 
                 if (_me.CurrentTarget.IsMoving)
                 {
@@ -5985,7 +6227,7 @@ namespace Bobby53
 
             if (distTarget > 10)
             {
-                if (!InGhostwolfForm())
+                if (cfg.UseGhostWolfForm && !InGhostwolfForm())
                 {
                     if (_hasTalentAncestralSwiftness || distTarget > 15)
                     {
@@ -6002,6 +6244,7 @@ namespace Bobby53
                 AutoAttack();
                 return;
             }
+
 
             if (HandleHex())
             {
@@ -6141,13 +6384,19 @@ namespace Bobby53
 
             if (Safe_IsMoving())
             {
-                if (IsMovementDisabled())
+                if (CanMoveWhileCasting())
                 {
-                    Dlog("User is moving - waiting to cast");
+                    Dlog("CombatElemental:  User is moving - waiting to cast");
+                }
+                else if (IsMovementDisabled())
+                {
+                    Dlog("CombatElemental:  User is moving - waiting to cast");
                     return;
                 }
-
-                Safe_StopMoving("in range for Elemental combat");
+                else
+                {
+                    Safe_StopMoving("in range for Elemental combat");
+                }
             }
 
             if (IsCastingOrGCD())
@@ -6197,6 +6446,11 @@ namespace Bobby53
                     Dlog("CombatElem: Thunderstorm cast so no further attacks this pass");
                     return;
                 }
+            }
+
+            if (FarmingAsElemental())
+            {
+                return;
             }
 
             int aoeCountNeeded = _hasGlyphOfChainLightning ? 7 : 5;
@@ -6301,6 +6555,19 @@ namespace Bobby53
             }
 
             Dlog("CombatElem: made it through entire pass without casting anything!!!!");
+        }
+
+        private bool FarmingAsElemental()
+        {
+            bool castSpell = false;
+            if (!InGroup() && cfg.PVE_CombatStyle == ConfigValues.PveCombatStyle.FarmingLowLevelMobs)
+            {
+                int countMobs = (from u in AllEnemyOrNeutralMobs where _me.CurrentTarget.Location.Distance(u.Location) < 12 select u).Count();
+                if (countMobs >= 2)
+                    castSpell = ChainLightning();
+            }
+
+            return castSpell;
         }
 
         private void CombatElementalPVP()
@@ -6459,13 +6726,13 @@ namespace Bobby53
 
                     if ( !CurrentTargetInRangedDistance())
                     {
-                        MoveToObject(_me.CurrentTarget, 0);
+                        MoveToUnit(_me.CurrentTarget, 0);
                     }
                 }
 
                 if (!CurrentTargetInRangedDistance())
                 {
-                    MoveToObject(_me.CurrentTarget, 0);
+                    MoveToUnit(_me.CurrentTarget, 0);
                 }
 
                 if (_me.CurrentTarget.Distance < (_maxDistForRangeAttack - 5))
@@ -6519,7 +6786,7 @@ namespace Bobby53
                 // out of range by 10 or more?  go go Ghost Wolf
                 if (distTarget > (_maxDistForRangeAttack + 7))
                 {
-                    if (!InGhostwolfForm())
+                    if (cfg.UseGhostWolfForm && !InGhostwolfForm())
                     {
                         if (_hasTalentAncestralSwiftness || distTarget > (_maxDistForRangeAttack + 15))
                         {
@@ -6883,7 +7150,7 @@ namespace Bobby53
                     if (_me.GotTarget && !_me.IsSafelyFacing(_me.CurrentTarget))
                         Safe_FaceTarget();
 
-                    if (_me.GotTarget && _me.CurrentTarget.IsAlive && _me.CurrentTarget.Combat && Safe_IsHostile(_me.CurrentTarget) && _me.CurrentTarget.InLineOfSightOCD)
+                    if (_me.GotTarget && _me.CurrentTarget.IsAlive && _me.CurrentTarget.Combat && Safe_IsHostile(_me.CurrentTarget) && _me.CurrentTarget.InLineOfSpellSight)
                     {
                         bool castAttack = false;
 #if HEALER_IGNORE_FOCUSED_INSIGHT
@@ -6921,27 +7188,31 @@ namespace Bobby53
 
             TotemId totem = TotemId.NONE;
 
-            if (!IsCastingOrGCD())
+            Slog(Color.Orange, "Loss of control ({0}) due to {1}", aura.Spell.Mechanic.ToString(), aura.Name);
+            if (IsCastingOrGCD())
             {
-                switch (aura.Spell.Mechanic)
-                {
-                    case WoWSpellMechanic.Fleeing:
-                    case WoWSpellMechanic.Charmed:
-                    case WoWSpellMechanic.Asleep:
-                        totem = TotemId.TREMOR_TOTEM;
-                        break;
+                Dlog("HandleBreakingCrowdControl: suppress cc break since Casting={0} GCD={1}", GCD(), IsCasting());
+                return false;
+            }
 
-                    case WoWSpellMechanic.Snared:
-                        if (_hasTalentEarthenPower )
-                            totem = TotemId.EARTHBIND_TOTEM;
-                        break;
-                }
+            switch (aura.Spell.Mechanic)
+            {
+                case WoWSpellMechanic.Fleeing:
+                case WoWSpellMechanic.Charmed:
+                case WoWSpellMechanic.Asleep:
+                    totem = TotemId.TREMOR_TOTEM;
+                    break;
+
+                case WoWSpellMechanic.Snared:
+                    if (_hasTalentEarthenPower )
+                        totem = TotemId.EARTHBIND_TOTEM;
+                    break;
             }
 
             if (typeShaman == ShamanType.Enhance && _me.GotAlivePet )
             {
                 if ( IsSpellBlacklisted( PET_SPIRITWALK ))
-                    return false;   // possibly broken, so allow other stuff
+                    return false;   // possibly broke CC, so allow other stuff
 
                 if (IsPetSpellUsable(PET_SPIRITWALK))
                 {
@@ -6955,6 +7226,7 @@ namespace Bobby53
             {
                 if (IsSpellBlacklisted((int)totem))
                 {
+                    Dlog("HandleBreakingCrowdControl:  {0} is currently blacklisted", totem.ToString());
                     return false;   // possibly broken, so allow other stuff
                 }
 
@@ -6982,14 +7254,12 @@ namespace Bobby53
                     return true;
                 }
 
-                if (_me.IsSafelyFacing(_me.CurrentTarget))
+                if (aura.Spell.Mechanic != WoWSpellMechanic.Stunned && _me.IsSafelyFacing(_me.CurrentTarget))
                 {
-                    Dlog("HandleBreakingCrowdControl:  crowd controlled but still facing so fight on");
+                    Dlog("HandleBreakingCrowdControl:  crowd controlled but still facing so try to fight on");
                     return false;
                 }
             }
-
-            Slog(Color.Orange, "Loss of control ({0}) due to {1}", aura.Spell.Mechanic.ToString(), aura.Name);
 
             if (aura.TimeLeft.TotalMilliseconds < 1000)
             {
@@ -7013,6 +7283,17 @@ namespace Bobby53
                 return true;
             }
 
+#if MAKELOVE
+            if ( _me.CurrentTarget.Dead && !_hasAchieveMakeLoveNotWarcraft && Safe_IsEnemyPlayer(_me.CurrentTarget))
+            {
+                _hasAchieveMakeLoveNotWarcraft = AchieveCompleted(247);
+                if (!_hasAchieveMakeLoveNotWarcraft)
+                {
+                    Slog("/hug {0}", Safe_UnitName(_me.CurrentTarget));
+                    RunLUA("RunMacroText(\"/hug\")");
+                }
+            }
+#endif
             if (_pullTargGuid != _me.CurrentTarget.Guid)
             {
                 Slog(">>> NEW TARGET: " + Safe_UnitName(_me.CurrentTarget) + "[" + _me.CurrentTarget.Level + "] at " + _me.CurrentTarget.Distance.ToString("F1") + " yds");
@@ -7068,17 +7349,17 @@ namespace Bobby53
                               let unit = o.ToUnit()
                               where unit != null 
                                   && unit.IsValid
-                                  && unit != _me.CurrentTarget 
+                                  && (unit != _me.CurrentTarget || _me.Rooted)
                                   && unit.IsPlayer
                                   && Safe_IsHostile(unit)
                                   && !unit.IsPet
                                   && unit.HealthPercent > 1
-                                  && unit.IsCasting 
-                                  && _me.CombatDistance(unit) < hex.MaxRange 
+                                  && (unit.IsCasting || unit.Class == WoWClass.Hunter)
+                                  && 10 < _me.CombatDistance(unit) && _me.CombatDistance(unit) < hex.MaxRange 
                                   && !Blacklist.Contains(unit)
                                   && (IsPVP() || (unit.Combat && IsTargetingMeOrMyGroup(unit)))
-                                  && unit.InLineOfSightOCD
-                                  && _me.IsSafelyFacing(unit)
+                                  && unit.InLineOfSpellSight
+                                  && FaceToUnit(unit)      //  && _me.IsSafelyFacing(unit) 
                               orderby unit.Distance descending
                               select unit
                             ).FirstOrDefault();
@@ -7115,7 +7396,7 @@ namespace Bobby53
                         _countMeleeEnemy,
                         _countRangedEnemy,
                         BoolToYN(_me.Rooted),
-                        BoolToYN(MeImmobilized()),
+                        BoolToYN(_me.IsImmobilized()),
                         BoolToYN(_me.Silenced),
                         BoolToYN(IsFleeing(_me))
                         );
@@ -7175,7 +7456,7 @@ namespace Bobby53
                     _countMeleeEnemy,
                     _countRangedEnemy,
                     BoolToYN(_me.Rooted),
-                    BoolToYN(MeImmobilized()),
+                    BoolToYN(_me.IsImmobilized()),
                     BoolToYN(_me.Silenced),
                     BoolToYN(IsFleeing(_me))
                     );
@@ -7190,7 +7471,7 @@ namespace Bobby53
                     _countMeleeEnemy,
                     _countRangedEnemy,
                     BoolToYN(_me.Rooted),
-                    BoolToYN(MeImmobilized()),
+                    BoolToYN(_me.IsImmobilized()),
                     BoolToYN(_me.Silenced),
                     BoolToYN(IsFleeing(_me)),
                     BoolToYN(Safe_IsMoving()),
@@ -7210,7 +7491,7 @@ namespace Bobby53
                     _me.CurrentTarget.HealthPercent,
                     _me.CurrentTarget.Distance,
                     BoolToYN(_me.CurrentTarget.InLineOfSight),
-                    BoolToYN(_me.CurrentTarget.InLineOfSightOCD),
+                    BoolToYN(_me.CurrentTarget.InLineOfSpellSight),
                     BoolToYN(_me.CurrentTarget.Combat),
                     !_me.CurrentTarget.GotTarget ? "(null)" : Safe_UnitName(_me.CurrentTarget.CurrentTarget),
                     BoolToYN(_me.CurrentTarget.Aggro),
@@ -7322,7 +7603,7 @@ namespace Bobby53
                                 && unit.Attackable
                                 && unit.IsAlive
                                 && !Safe_IsFriendly(unit)
-                                && unit.InLineOfSightOCD
+                                && unit.InLineOfSpellSight
                                 && unit.CreatedByUnitGuid != _me.Guid   // guard against my own totems being selected
                                 && unit.CreatureType == WoWCreatureType.Totem
                                select unit
@@ -7476,7 +7757,7 @@ namespace Bobby53
                         {
                             if (InGhostwolfForm())
                                 Dlog("pvpChecks:  target at range and nothing better, so closing with Ghost Wolf");
-                            else
+                            else if ( cfg.UseGhostWolfForm )
                             {
                                 Dlog("pvpChecks:  target at range and nothing better, so casting Ghost Wolf to close ground");
                                 GhostWolf();
@@ -7509,9 +7790,9 @@ namespace Bobby53
         {
             bool cast = false;
 
-            if (combatChecks() && AllowNonHealSpells() && !cfg.FarmingLowLevel)
+            if (AllowNonHealSpells() )
             {
-                if (IsPVP() || IsFightStressful() || ( Safe_IsHostile( _me.CurrentTarget) && _me.CurrentTarget.HealthPercent > 75))
+                if (IsPVP() || IsFightStressful() || ( _me.CurrentTarget.Attackable && !Safe_IsFriendly( _me.CurrentTarget) && _me.CurrentTarget.HealthPercent > 70))
                 {
                     /*
                                         if (_me.Auras.ContainsKey("Elemental Mastery"))
@@ -7552,9 +7833,7 @@ namespace Bobby53
 
         private bool LightningBolt()
         {
-            if (!combatChecks())
-                ;
-            else if (!HaveValidTarget() || !AllowNonHealSpells())
+            if (!HaveValidTarget() || !AllowNonHealSpells())
                 ;
             else if (IsImmunneToNature(_me.CurrentTarget))
                 Dlog("skipping Lightning Bolt since {0}[{1}] is immune to Nature damage", Safe_UnitName(_me.CurrentTarget), _me.CurrentTarget.Entry);
@@ -7638,9 +7917,7 @@ namespace Bobby53
 #endif
         private bool ChainLightning()
         {
-            if (!combatChecks())
-                ;
-            else if (!SpellManager.HasSpell("Chain Lightning"))
+            if (!SpellManager.HasSpell("Chain Lightning"))
                 ;
             else if (!HaveValidTarget() || !AllowNonHealSpells())
                 ;
@@ -7652,7 +7929,7 @@ namespace Bobby53
 
         private bool ShamanisticRage()
         {
-            if (combatChecks() && SpellManager.HasSpell("Shamanistic Rage"))
+            if (SpellManager.HasSpell("Shamanistic Rage"))
                 return Safe_CastSpell(_me, "Shamanistic Rage");
 
             return false;
@@ -7660,9 +7937,7 @@ namespace Bobby53
 
         private bool EarthShock()
         {
-            if (!combatChecks())
-                Dlog("EarthShock:  failed combat check");
-            else if (!HaveValidTarget() || !AllowNonHealSpells())
+            if (!HaveValidTarget() || !AllowNonHealSpells())
                 ;
             else if (!SpellManager.HasSpell("Earth Shock"))
                 ;
@@ -7695,9 +7970,7 @@ namespace Bobby53
 
         private bool UnleashFlameCheck()
         {
-            if (!combatChecks())
-                Dlog("UnleashFlameCheck:  failed combat check");
-            else if (!HaveValidTarget() || !AllowNonHealSpells())
+            if (!HaveValidTarget() || !AllowNonHealSpells())
                 ;
             else if (!SpellManager.HasSpell("Flame Shock"))
                 ;
@@ -7713,9 +7986,7 @@ namespace Bobby53
 
         private bool UnleashElements()
         {
-            if (!combatChecks())
-                Dlog("UnleashElements:  failed combat check");
-            else if (!AllowNonHealSpells() || !SpellManager.HasSpell("Unleash Elements"))
+            if (!AllowNonHealSpells() || !SpellManager.HasSpell("Unleash Elements"))
                 ;
             else if (!DoWeaponsHaveImbue())
                 Dlog("UnleashElements:  skipping cast until weapons imbued");
@@ -7727,9 +7998,7 @@ namespace Bobby53
 
         private bool FlameShock()
         {
-            if (!combatChecks())
-                Dlog("FlameShock:  failed combat check");
-            else if (!HaveValidTarget() || !AllowNonHealSpells())
+            if (!HaveValidTarget() || !AllowNonHealSpells())
                 ;
             else if (!SpellManager.HasSpell("Flame Shock"))
                 ;
@@ -7745,9 +8014,7 @@ namespace Bobby53
 
         private bool FlameShockRenew()
         {
-            if (!combatChecks())
-                Dlog("FlameShock:  failed combat check");
-            else if (!HaveValidTarget() || !AllowNonHealSpells())
+            if (!HaveValidTarget() || !AllowNonHealSpells())
                 ;
             else if (!SpellManager.HasSpell("Flame Shock"))
                 ;
@@ -7782,9 +8049,7 @@ namespace Bobby53
 
         private bool FrostShock()
         {
-            if (!combatChecks())
-                ;
-            else if (!HaveValidTarget() && !AllowNonHealSpells())
+            if (!HaveValidTarget() && !AllowNonHealSpells())
                 ;
             else if (!SpellManager.HasSpell("Frost Shock"))
                 ;
@@ -7833,9 +8098,6 @@ namespace Bobby53
             bool knowEarth = SpellManager.HasSpell("Earth Shock");
             bool knowFire = SpellManager.HasSpell("Flame Shock");
             
-            if (!combatChecks())
-                return false;
-
             if (priorityPurge == ConfigValues.SpellPriority.High && Purge(null))
                 return true;
 
@@ -7934,9 +8196,7 @@ namespace Bobby53
         {
             const int PRIMAL_STRIKE = 73899;
 
-            if (!combatChecks())
-                ;
-            else if (!HaveValidTarget() || !AllowNonHealSpells())
+            if (!HaveValidTarget() || !AllowNonHealSpells())
                 ;
             else if (SpellManager.HasSpell("Stormstrike"))      // never use if we know Stormstrike
                 ;                                               // .. since they share a cooldown
@@ -7954,9 +8214,7 @@ namespace Bobby53
 
         private bool Stormstrike()
         {
-            if (!combatChecks())
-                ;
-            else if (!HaveValidTarget() || !AllowNonHealSpells())
+            if (!HaveValidTarget() || !AllowNonHealSpells())
                 ;
             else if (!SpellManager.HasSpell("Stormstrike"))
                 ;
@@ -7985,9 +8243,7 @@ namespace Bobby53
 
         private bool LavaLash()
         {
-            if (!combatChecks())
-                ;
-            else if (!HaveValidTarget() && !AllowNonHealSpells())
+            if (!HaveValidTarget() && !AllowNonHealSpells())
                 ;
             else if (!CurrentTargetInMeleeDistance())
                 ;
@@ -8015,9 +8271,7 @@ namespace Bobby53
 
         private bool LavaBurst()
         {
-            if (!combatChecks())
-                ;
-            else if (!HaveValidTarget() && !AllowNonHealSpells())
+            if (!HaveValidTarget() && !AllowNonHealSpells())
                 ;
             else if (!SpellManager.HasSpell("Lava Burst"))
                 ;
@@ -8031,9 +8285,7 @@ namespace Bobby53
 
         private bool ElementalMastery()
         {
-            if (!combatChecks())
-                ;
-            else if (!HaveValidTarget() && !AllowNonHealSpells())
+            if (!HaveValidTarget() && !AllowNonHealSpells())
                 ;
             else if (IsRAF() && !cfg.RAF_UseCooldowns)
                 ;
@@ -8049,9 +8301,7 @@ namespace Bobby53
 
         private bool Thunderstorm()
         {
-            if (!combatChecks())
-                ;
-            else if (IsRAF() && !cfg.RAF_UseThunderstorm)
+            if (IsRAF() && !cfg.RAF_UseThunderstorm)
                 ;
             else if (!SpellManager.HasSpell("Thunderstorm"))
                 ;
@@ -8063,9 +8313,7 @@ namespace Bobby53
 
         private bool FireNova()
         {
-            if (!combatChecks())
-                ;
-            else if (!HaveValidTarget() && !AllowNonHealSpells())
+            if (!HaveValidTarget() && !AllowNonHealSpells())
                 ;
             else if (!SpellManager.HasSpell("Fire Nova"))
                 ;
@@ -8097,19 +8345,19 @@ namespace Bobby53
 
             if (!_hasTalentMaelstromWeapon)
                 return castSpell;
-            
-            if (IsPVP())
-                return MaelstromCheckHealPriority();
-            
-            if (!IsRAF())
+
+            if (IsPVP() && cfg.PVP_HealOnMaelstrom )
             {
-                if (cfg.PVE_HealOnMaelstrom || IsFightStressful())
+                return MaelstromCheckHealPriority();
+            }
+            else if (!IsRAF() && cfg.PVE_HealOnMaelstrom )
+            {
+                if (IsFightStressful())
                 {
                     return MaelstromCheckHealPriority();
                 }
             }
-
-            if (cfg.RAF_CombatStyle != ConfigValues.RafCombatStyle.CombatOnly && _me.HealthPercent < cfg.RAF_GroupOffHeal)
+            else if (cfg.RAF_CombatStyle != ConfigValues.RafCombatStyle.CombatOnly && _me.HealthPercent < cfg.RAF_GroupOffHeal)
             {
                 if ( MaelstromCheckHealPriority())
                     return true;
@@ -8151,7 +8399,7 @@ namespace Bobby53
                 ;
             else if (Blacklist.Contains(MAELSTROM_WEAPON))
                 ;
-            else
+            else if (!IsCastingOrGCD())
             {
                 WoWAura mael = GetAura(_me, "Maelstrom Weapon");
                 if (mael == null)
@@ -8166,15 +8414,30 @@ namespace Bobby53
                     return false;
                 }
 
+                bool keepForHealing = false;
+                if (IsPVP())
+                    keepForHealing = cfg.PVP_HealOnMaelstrom;
+                else if (!IsRAF())
+                    keepForHealing = cfg.PVE_HealOnMaelstrom;
 
-                WoWPlayer heal;
-                if (_me.HealthPercent < 75)
+                WoWPlayer heal = null;
+                if (!keepForHealing)
+                {
+                    heal = _me.HealthPercent < cfg.NeedHealHealthPercent ? _me.ToPlayer() : null;
+                }
+                else if (_me.HealthPercent < 75)
+                {
                     heal = _me.ToPlayer();
+                }
                 else
                 {
                     heal =
                         (from p in GroupMembers
-                         where _me.CombatDistance(p) < 38 && p.HealthPercent < 75 && p.InLineOfSightOCD
+                         where
+                            _me.CombatDistance(p) < 38
+                            && p.IsAlive
+                            && p.HealthPercent < 75
+                            && p.InLineOfSpellSight
                          orderby p.HealthPercent ascending
                          select p
                          ).FirstOrDefault();
@@ -8188,7 +8451,7 @@ namespace Bobby53
                     else
                     {
                         Log("^Maelstrom Heal @ {0} stacks", mael.StackCount);
-                        if (heal.HealthPercent > 70 && SpellManager.HasSpell("Healing Rain") && SpellManager.CanCast("Healing Rain") && WillHealingRainCover(heal, 2))
+                        if (heal.HealthPercent > 60 && SpellManager.HasSpell("Healing Rain") && SpellManager.CanCast("Healing Rain") && WillHealingRainCover(heal, 2))
                         {
                             if (Safe_CastSpell( heal, "Healing Rain"))
                             {
@@ -8201,11 +8464,11 @@ namespace Bobby53
                             }
                         }
 
-                        if (SpellManager.HasSpell("Greater Healing Wave") && SpellManager.CanCast("Greater Healing Wave"))
+                        if (SpellManager.HasSpell("Greater Healing Wave") )
                             castSpell = Safe_CastSpell(heal, "Greater Healing Wave");
-                        else if (SpellManager.HasSpell("Healing Surge") && SpellManager.CanCast("Healing Surge"))
+                        if (!castSpell && SpellManager.HasSpell("Healing Surge") )
                             castSpell = Safe_CastSpell(heal, "Healing Surge");
-                        else 
+                        if (!castSpell)
                             castSpell = Safe_CastSpell(heal, "Healing Wave");
 
                     if (castSpell)
@@ -8215,21 +8478,15 @@ namespace Bobby53
                     }
                 }
 
-                if (mael.TimeLeft.TotalMilliseconds > 2500)
-                    return false;
-
-                if (!combatChecks())
-                    return false;
-
                 if (IsImmunneToNature(_me.CurrentTarget))
                     return false;
 
-                Log("^Maelstrom Attack @ 5 stks since only {0} ms left", mael.TimeLeft.TotalMilliseconds);
-                while (!IsGameUnstable() && _me.IsAlive && _me.ManaPercent > cfg.EmergencyManaPercent && !SpellManager.CanCast("Lightning Bolt"))
-                {
-                    Dlog("MaelstromCheckHealPriority:  waiting to cast some Lightning");
-                    Thread.Sleep(25);
-                }
+                if (!keepForHealing)
+                    Log("^Maelstrom Attack @ 5 stks");
+                else if (mael.TimeLeft.TotalMilliseconds > 2500)
+                    return false;   // save stacks
+                else
+                    Log("^Maelstrom Attack @ 5 stks since only {0} ms left", mael.TimeLeft.TotalMilliseconds);
 
                 if ((IsPVP() || _countAoe12Enemy > 1) && SpellManager.HasSpell("Chain Lightning"))
                     castSpell = Safe_CastSpell(_me.CurrentTarget, "Chain Lightning");
@@ -8246,6 +8503,11 @@ namespace Bobby53
 
         private bool HealMySelfInstantOnly()
         {
+            if (_me.Stunned || _me.Silenced)
+            {
+                return false;
+            }
+
             bool castSpell = false;
             if (_me.HealthPercent < cfg.InstantHealPercent)
             {
@@ -8310,7 +8572,7 @@ namespace Bobby53
 
         private bool CanMoveWhileCasting()
         {
-            const int LIGHTNING_BOLT = 403;
+            // const int LIGHTNING_BOLT = 403;
             return IsSpiritWalkersGraceActive(); // || (_hasGlyphOfUnleashedLightning && _me.CastingSpellId == LIGHTNING_BOLT);
         }
 
@@ -8325,8 +8587,6 @@ namespace Bobby53
             const int EARTH_SHOCK = 8042;
 
             if (!_hasTalentFulmination)
-                ;
-            else if (!combatChecks())
                 ;
             else if (!HaveValidTarget())
                 ;
@@ -8368,7 +8628,7 @@ namespace Bobby53
             if (cfg.InterruptStyle == ConfigValues.SpellInterruptStyle.None)
                 return false;
 
-            if ( MeSilenced() || MeImmobilized())
+            if ( MeSilenced())
                 return false;
 
             if (SpellManager.HasSpell("Wind Shear"))
@@ -8425,7 +8685,7 @@ namespace Bobby53
                                 && unit.HealthPercent > 5
                                 && ((unit.Combat && IsTargetingMeOrMyGroup(unit)) || IsPVP())
                                 && IsTargetCastInterruptible(unit)
-                                && unit.InLineOfSightOCD
+                                && unit.InLineOfSpellSight
                                 && ((warStomp != null && unit.Distance < 8) || (thunderStorm != null && unit.Distance < 10) || (windShear != null))
                           orderby unit.CurrentHealth ascending
                           select unit
@@ -8506,7 +8766,7 @@ namespace Bobby53
                                       && _hashPurgeWhitelist.Contains(dbf.Value.SpellId)
                                   select dbf.Value
                                   ).Any()
-                              && unit.InLineOfSightOCD
+                              && unit.InLineOfSpellSight
                           select unit
                         ).FirstOrDefault();
             }
@@ -8516,7 +8776,7 @@ namespace Bobby53
                 {
                     if ( !unitFilter.IsPet && unitFilter.HealthPercent > 1 && !Blacklist.Contains(unitFilter) )
                     {
-                        if ((IsPVP() || (unitFilter.Combat && IsTargetingMeOrMyGroup(unitFilter)) && unitFilter.InLineOfSightOCD))
+                        if ((IsPVP() || (unitFilter.Combat && IsTargetingMeOrMyGroup(unitFilter)) && unitFilter.InLineOfSpellSight))
                         {
                             if ((   from dbf in unitFilter.Buffs
                                     where dbf.Value.Spell.DispelType == WoWDispelType.Magic 
@@ -8545,7 +8805,7 @@ namespace Bobby53
                     if (Safe_CastSpell(target, purge  ))
                         return true;
 
-                    Dlog("Purge:  failed to cast purge on {0} @ {1:F1} yds with los={2}", Safe_UnitName(target), _me.CombatDistance(target), target.InLineOfSightOCD );
+                    Dlog("Purge:  failed to cast purge on {0} @ {1:F1} yds with los={2}", Safe_UnitName(target), _me.CombatDistance(target), target.InLineOfSpellSight );
                 }
             }
 
@@ -8594,8 +8854,14 @@ namespace Bobby53
                     Dlog( "FeralSpirit: disable autocast - Twin Howl");
                     RunLUA( "DisableSpellAutocast(\"Twin Howl\")");
 
-                    Log( Color.MediumSpringGreen, "^Pet Defensive Mode");
-                    RunLUA("PetDefensiveMode()");       // turn on defensive mode
+                    string sMode;
+                    if (IsPVP())
+                        sMode = "PetAssistMode";
+                    else
+                        sMode = "PetDefensiveMode";
+
+                    Log(Color.MediumSpringGreen, "^" + sMode);
+                    RunLUA( sMode + "()");       // turn on defensive mode
 
                     Log(Color.MediumSpringGreen, "^Pet Attack");
                     RunLUA("PetAttack()");              // now attack something hitting me
@@ -8811,9 +9077,14 @@ namespace Bobby53
                 if (!cfg.PVP_UseCooldowns)
                     return false;   // currently always allow it to be cast
             }
-            else if ((!IsFightStressful() && cfg.PVE_SaveForStress_ElementalTotems) || cfg.PVE_CombatStyle == ConfigValues.PveCombatStyle.FarmingLowLevelMobs )
+            else if ((!IsFightStressful() && cfg.PVE_SaveForStress_ElementalTotems))
             {
                 Dlog("Earth Elemental Totem:  not cast because not a stressful PVE situation");
+                return false;
+            }
+            else if (cfg.PVE_CombatStyle == ConfigValues.PveCombatStyle.FarmingLowLevelMobs)
+            {
+                Dlog("Earth Elemental Totem:  not cast because farming lowlevel mobs");
                 return false;
             }
 
@@ -8920,9 +9191,6 @@ namespace Bobby53
 
         private bool BloodlustHeroism()
         {
-            if (cfg.FarmingLowLevel)
-                return false;
-
             if (IsPVP())
             {
                 if ( !cfg.PVP_UseCooldowns )
@@ -8949,13 +9217,16 @@ namespace Bobby53
                 WoWUnit target = GroupTank.CurrentTarget;
                 if (target == null || !target.Combat)
                     return false;
-                if ( !AreWeNearBoss() )
+                if (!AreWeNearBoss())
                     return false;
             }
-            else
+            else if (cfg.FarmingLowLevel)
             {
-                if (cfg.PVE_SaveForStress_Bloodlust && !IsFightStressful())
-                    return false;
+                return false;
+            }
+            else if (cfg.PVE_SaveForStress_Bloodlust && !IsFightStressful())
+            {
+                return false;
             }
 
             bool knowBloodlust = SpellManager.HasSpell("Bloodlust");
@@ -8979,34 +9250,33 @@ namespace Bobby53
         }
 
 
-        private bool CanUsePotion()
-        {
-            return _potionCountdown.Done;
-        }
-
         private bool UseManaPotionIfAvailable()
         {
-            return UsePotion(CheckForItem(_potionManaEID));
+            // return UsePotion(CheckForItem(_potionManaEID));
+            return UsePotion(FindPotion(WoWSpellEffectType.Energize));
         }
 
         private bool UseHealthPotionIfAvailable()
         {
-            return UsePotion(CheckForItem(_potionHealthEID));
+            // return UsePotion(CheckForItem(_potionHealthEID));
+            return UsePotion(FindPotion(WoWSpellEffectType.Heal));
         }
 
         private bool UsePotion(WoWItem potion)
         {
             if (potion != null)
             {
-                if (MeImmobilized())
+                if (_me.IsImmobilized())
                     Slog("Immobilized -- unable to use potion now");
                 else
                 {
-                    if (CanUsePotion())
+                    if (CanUsePotion() )
                     {
                         Slog("^CONSUME:  /use '" + potion.Name + "'");
-                        Dlog("{0} has a cooldown of {1}", potion.Name, potion.Cooldown);
-                        RunLUA("UseItemByName(\"" + potion.Name + "\")");
+                        Dlog("{0} has a cooldown of {1:F1}", potion.Name, potion.Cooldown);
+                        // RunLUA("UseItemByName(\"" + potion.Name + "\")");
+                        potion.Use();
+
                         // StyxWoW.SleepForLagDuration();
                         _potionCountdown = new Countdown(60 * 1000);
                         return true;
@@ -9015,6 +9285,102 @@ namespace Bobby53
             }
             return false;
         }
+
+        private bool CanUsePotion()
+        {
+            return _potionCountdown.Done;
+        }
+
+        public static bool IsPotion(WoWItem item, WoWSpellEffectType effectType)
+        {
+            bool isPot = item != null
+                        && 0 != item.BaseAddress
+                        && item.ItemInfo.ItemClass == WoWItemClass.Consumable
+                        && item.ItemInfo.ContainerClass == WoWItemContainerClass.Potion;
+
+            if (isPot)
+            {
+                isPot = item.ItemSpells.Any(s => s != null && s.ActualSpell.SpellEffects.Any(e => e != null && e.EffectType == effectType));
+            }
+
+            return isPot;
+        }
+
+        public static WoWItem FindPotion(WoWSpellEffectType effectType)
+        {
+            WoWItem pot = (from item in StyxWoW.Me.BagItems
+                           where IsPotion(item, effectType)
+                           && item.ItemInfo.RequiredLevel <= _me.Level
+                           orderby item.ItemInfo.Level descending, item.ItemInfo.RequiredLevel descending 
+                           select item).FirstOrDefault();
+            return pot;
+        }
+
+
+        public static bool IsFlask(WoWItem item)
+        {
+            bool isFlask = item != null
+                        && 0 != item.BaseAddress
+                        && item.ItemInfo.ItemClass == WoWItemClass.Consumable
+                        && item.ItemInfo.ContainerClass == WoWItemContainerClass.Flask;
+            return isFlask;
+        }
+
+        public static WoWItem FindFlask()
+        {
+            WoWItem flask = (from item in StyxWoW.Me.BagItems
+                           where IsFlask(item) && item.ItemInfo.RequiredLevel <= _me.Level 
+                           orderby item.ItemInfo.Level descending, item.ItemInfo.RequiredLevel descending 
+                           select item).FirstOrDefault();
+            return flask;
+        }
+
+
+        private bool UseFlask(WoWItem flask)
+        {
+            if (flask != null)
+            {
+                if (!flask.ItemSpells.Any())
+                {
+                    Dlog("UseFlask:  item {0} does not have any item spells", flask.Name);
+                }
+                else if (flask.CooldownTimeLeft.TotalMilliseconds > 0)
+                {
+                    Dlog("UseFlask:  cannot use {0} for {1} ms", flask.Name, flask.CooldownTimeLeft.TotalMilliseconds);
+                }
+                else if (IsSpellBlacklisted(flask.ItemSpells[0].Id))
+                {
+                    Dlog("UseFlask:  temporarily blacklisted {0}", flask.Name);
+                }
+                else
+                {
+                    Slog("^FLASK:  /use '" + flask.Name + "'");
+                    Dlog("{0} has a cooldown of {1:F1} and spell id #{2}", flask.Name, flask.Cooldown, flask.ItemSpells[0].Id);
+                    flask.Use();
+                    AddSpellToBlacklist(flask.ItemSpells[0].Id);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool UseFlaskIfAvailable()
+        {
+            if (!cfg.UseFlasks)
+                return false;
+
+            WoWAura flaskAura = ( from buffKvp in _me.ActiveAuras 
+                                  where buffKvp.Key.ToLower().IndexOf("flask") >= 0
+                                  select buffKvp.Value).FirstOrDefault();
+            if (flaskAura != null)
+            {
+                Dlog("UseFlaskIfAvailable:  found flask buff {0} with {1:F0} seconds left", flaskAura.Name, flaskAura.TimeLeft.TotalSeconds);
+                return false;
+            }
+
+            return UseFlask(FindFlask());
+        }
+
 
         private static bool UseConsumeable(string sItem)
         {
@@ -9039,7 +9405,7 @@ namespace Bobby53
                 Wlog("FIRST-AID:  no bandages in inventory");
             else if (_me.Debuffs.ContainsKey("Recently Bandaged"))
                 Dlog("FIRST-AID:  can't bandage -- currently under 'Recently Bandaged' debuff");
-            else if (!MeImmobilized())
+            else if (!_me.IsImmobilized())
             {
                 foreach (KeyValuePair<string, WoWAura> dbf in _me.Debuffs)
                 {
@@ -9750,33 +10116,57 @@ namespace Bobby53
             return totem;
         }
 
+        public static bool IsCrowdControlledAura(WoWAura aura)
+        {
+            if (aura != null)
+            {
+                switch (aura.Spell.Mechanic)
+                {
+                    case WoWSpellMechanic.Charmed:
+                    case WoWSpellMechanic.Disoriented:
+                    case WoWSpellMechanic.Distracted:
+                    case WoWSpellMechanic.Fleeing:
+                    case WoWSpellMechanic.Gripped:
+                    case WoWSpellMechanic.Rooted:
+                    case WoWSpellMechanic.Asleep:
+                    case WoWSpellMechanic.Snared:
+                    case WoWSpellMechanic.Stunned:
+                    case WoWSpellMechanic.Frozen:
+                    case WoWSpellMechanic.Incapacitated:
+                    case WoWSpellMechanic.Polymorphed:
+                    case WoWSpellMechanic.Banished:
+                    case WoWSpellMechanic.Shackled:
+                    case WoWSpellMechanic.Turned:
+                    case WoWSpellMechanic.Horrified:
+                    case WoWSpellMechanic.Invulnerable2:
+                    case WoWSpellMechanic.Sapped:
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool IsImmobilizedAura(WoWAura aura)
+        {
+            if (aura == null)
+                return false;
+
+            return IsCrowdControlledAura(aura) && aura.Spell.Mechanic != WoWSpellMechanic.Rooted && aura.Spell.Mechanic != WoWSpellMechanic.Snared;
+        }
+
+        public static bool IsSilencedAura(WoWAura aura)
+        {
+            return aura != null && (IsImmobilizedAura(aura) || aura.Spell.Mechanic == WoWSpellMechanic.Silenced);
+        }
+
         public static WoWAura GetCrowdControlledAura( WoWUnit u)
         {
             WoWAura aura = null;
 
             if (u != null)
             {
-                aura =
-                    (from kvp in u.ActiveAuras
-                     where  (kvp.Value.Spell.Mechanic == WoWSpellMechanic.Charmed 
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Disoriented 
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Distracted 
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Fleeing 
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Gripped 
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Rooted 
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Asleep 
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Snared 
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Stunned
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Frozen 
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Incapacitated 
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Polymorphed 
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Banished 
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Shackled 
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Turned 
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Horrified 
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Invulnerable2 
-                            || kvp.Value.Spell.Mechanic == WoWSpellMechanic.Sapped )                           
-                     select kvp.Value).FirstOrDefault();
+                aura = (from kvp in u.ActiveAuras where  IsCrowdControlledAura(kvp.Value) select kvp.Value).FirstOrDefault();
                 if (aura != null)
                 {
                     Dlog("GetCrowdControlledAura: {0} is {1} due to aura {2}#{3}", Safe_UnitName(u), aura.Spell.Mechanic.ToString(), aura.Name, aura.SpellId);
@@ -10525,6 +10915,10 @@ namespace Bobby53
 
             33668   , //    Regal Protectorate
 
+            23991   , //    Damage Absorb - Defiler's Talisman
+            25746   , //    Damage Absorb - Defiler's Talisman
+            25747   , //    Damage Absorb - Defiler's Talisman
+            25750   , //    Damage Absorb - Defiler's Talisman
 
         };
 
@@ -10712,6 +11106,115 @@ namespace Bobby53
             return unitByName;
         }
 
+
+        public static bool IsEnemy(WoWUnit u)
+        {
+            return u != null && u.IsValid && u.Attackable && u.IsAlive && Safe_IsHostile(u);
+        }
+
+        public static bool IsEnemyOrNeutral(WoWUnit u)
+        {
+            return u != null && u.IsValid && u.Attackable && u.IsAlive && (u.IsNeutral || Safe_IsHostile(u));
+        }
+
+        private static IEnumerable<WoWUnit> AllEnemyMobs
+        {
+            get
+            {
+                return (from o in ObjectManager.ObjectList
+                        where o is WoWUnit && o.Distance < 80
+                        let u = o.ToUnit()
+                        where IsEnemy(u)
+                        select u);
+            }
+        }
+
+        private static IEnumerable<WoWUnit> AllEnemyOrNeutralMobs
+        {
+            get
+            {
+                return (from o in ObjectManager.ObjectList
+                        where o is WoWUnit && o.Distance < 80
+                        let u = o.ToUnit()
+                        where IsEnemyOrNeutral(u)
+                        select u);
+            }
+        }
+
+        private static List<WoWPoint> AllMobLocations
+        {
+            get
+            {
+                return (from u in AllEnemyMobs
+                        select u.Location).ToList();
+            }
+        }
+
+        private static WoWPoint NearestMobLoc(WoWPoint p, IEnumerable<WoWPoint> mobLocs)
+        {
+            if (!mobLocs.Any())
+                return WoWPoint.Empty;
+            
+            return mobLocs.OrderBy(u => u.Distance2DSqr(p)).First();
+        }
+
+        public static WoWPoint FindSafeLocation(double minSafeDist)
+        {
+            return FindSafeLocation(_me.Location, minSafeDist);
+        }
+
+        public static WoWPoint FindSafeLocation(WoWPoint ptOrigin, double minSafeDist)
+        {
+            WoWPoint destinationLocation = new WoWPoint();
+            List<WoWPoint> mobLocations = new List<WoWPoint>();
+
+            mobLocations = AllMobLocations;
+
+            double minSafeDistSqr = minSafeDist * minSafeDist;
+
+            for (int arcIndex = 0; arcIndex < 36; arcIndex++)
+            {
+                float degreesFrom = 180;
+                if ((arcIndex & 1) == 0)
+                    degreesFrom += (arcIndex >> 1) * 10;
+                else
+                    degreesFrom -= (arcIndex >> 1) * 10;
+
+                for (float distFromOrigin = 0f; distFromOrigin <= 35f; distFromOrigin += 5f)
+                {
+                    if (degreesFrom != 0f && distFromOrigin == 0f)
+                        continue;
+
+                    destinationLocation = ptOrigin.RayCast((float)(degreesFrom * Math.PI / 180f), distFromOrigin);
+                    double mobDistSqr = destinationLocation.Distance2DSqr(NearestMobLoc(destinationLocation, mobLocations));
+
+                    if (mobDistSqr <= minSafeDistSqr) 
+                        continue;
+
+                    if (Navigator.GeneratePath(_me.Location, destinationLocation).Length <= 0)
+                    {
+                        Dlog("Mob-free location failed path generation check for degrees={0:F1} dist={1:F1}", degreesFrom, distFromOrigin );
+                        continue;
+                    }
+
+                    if (!Styx.WoWInternals.World.GameWorld.IsInLineOfSight(_me.Location, destinationLocation))
+                    {
+                        Dlog("Mob-free location failed line of sight check for degrees={0:F1} dist={1:F1}", degreesFrom, distFromOrigin);
+                        continue;
+                    }
+
+                    Dlog( "Mob-free location found for degrees={0:F1} dist={1:F1}", degreesFrom, distFromOrigin);
+
+                    // We pass all checks. This is a good location 
+                    // Make it so 'Number 1', "Engage"
+                    return destinationLocation;
+                }
+            }
+
+            Dlog("No mob-free location found with {0:F1} yds of {1}", minSafeDist, ptOrigin );
+            return WoWPoint.Empty;
+        }
+
     }
 
     /// <summary>
@@ -10810,7 +11313,7 @@ namespace Bobby53
             if (x == null || y == null)
                 return false;
             double combatDistance = x.CombatDistance(y);
-            return (combatDistance < range && y.InLineOfSightOCD);
+            return (combatDistance < range && y.InLineOfSpellSight);
         }
 
         public static double CombatDistance(this WoWUnit x, WoWUnit y)
@@ -10830,5 +11333,13 @@ namespace Bobby53
             return combatDistance;
         }
 
+        public static bool IsImmobilized(this WoWUnit unit)
+        {
+            WoWAura aura = Shaman.GetCrowdControlledAura(unit);
+            if (aura == null)
+                return false;
+
+            return Shaman.IsImmobilizedAura(aura);
+        }
     }
 }

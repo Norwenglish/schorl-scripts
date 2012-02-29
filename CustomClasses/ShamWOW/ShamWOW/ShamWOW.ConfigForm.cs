@@ -22,6 +22,8 @@ using System.Diagnostics;
 using Styx.WoWInternals;
 using Styx.Logic.Combat;
 using System.Collections.Generic;
+using Styx.Logic.Pathing;
+using System.Threading;
 
 namespace Bobby53
 {
@@ -117,6 +119,10 @@ namespace Bobby53
             cboRAF_RaidHealStyle.Items.Add(new CboItem((int)ConfigValues.RaidHealStyle.RaidOnly,  "Raid (No Tanks)"));
             cboRAF_RaidHealStyle.Items.Add(new CboItem((int)ConfigValues.RaidHealStyle.PartyOnly, "Party Only"));
             cboRAF_RaidHealStyle.Items.Add(new CboItem((int)ConfigValues.RaidHealStyle.FocusOnly, "Focus Only"));
+
+            cboDisableMovement.Items.Add( new CboItem((int)ConfigValues.DisableMovementType.Auto, "Auto"));
+            cboDisableMovement.Items.Add( new CboItem((int)ConfigValues.DisableMovementType.Always,  "Always"));
+            cboDisableMovement.Items.Add( new CboItem((int)ConfigValues.DisableMovementType.Never,   "Never"));
         }
 
         private void ConfigForm_Load(object sender, EventArgs e)
@@ -147,11 +153,12 @@ namespace Bobby53
             chkDisableShields.Checked = Shaman.cfg.ShieldsDisabled;
             chkDisableShields_CheckedChanged(null, null);
 
-            chkDisableMovement.Checked = Shaman.cfg.DisableMovement;
+
+            SetComboBoxEnum(cboDisableMovement, (int)Shaman.cfg.DisableMovement);
             chkDisableTargeting.Checked = Shaman.cfg.DisableTargeting;
             chkMeleeCombatBeforeLevel10.Checked = Shaman.cfg.MeleeCombatBeforeLevel10;
             SetComboBoxEnum(cboInterruptStyle, (int)Shaman.cfg.InterruptStyle);
-            chkDetectImmunities.Checked = Shaman.cfg.DetectImmunities;
+            chkUseFlasks.Checked = Shaman.cfg.UseFlasks;
             chkWaterWalking.Checked = Shaman.cfg.WaterWalking;
             chkAccountForLag.Checked = Shaman.cfg.AccountForLag;
 
@@ -201,6 +208,7 @@ namespace Bobby53
             chkPVP_UseCooldowns.Checked = Shaman.cfg.PVP_UseCooldowns;
 
             numPVP_BloodlustCount.Value = Shaman.cfg.PVP_BloodlustCount;
+            chkPVP_HealOnMaelstrom.Checked = Shaman.cfg.PVP_HealOnMaelstrom;
 
             this.numPVP_Heal_HealingWave.Value = Shaman.cfg.PVP_Heal.HealingWave;
             this.numPVP_Heal_Riptide.Value = Shaman.cfg.PVP_Heal.Riptide;
@@ -389,11 +397,11 @@ namespace Bobby53
             Shaman.cfg.TwistDamagePercent = (int)numPVE_TwistDamage.Value;
             Shaman.cfg.ShieldsDisabled = chkDisableShields.Checked;
 
-            Shaman.cfg.DisableMovement = chkDisableMovement.Checked;
+            Shaman.cfg.DisableMovement = (ConfigValues.DisableMovementType)GetComboBoxEnum(cboDisableMovement);
             Shaman.cfg.DisableTargeting = chkDisableTargeting.Checked;
             Shaman.cfg.MeleeCombatBeforeLevel10 = chkMeleeCombatBeforeLevel10.Checked;
             Shaman.cfg.InterruptStyle = (ConfigValues.SpellInterruptStyle)GetComboBoxEnum(cboInterruptStyle);
-            Shaman.cfg.DetectImmunities = chkDetectImmunities.Checked;
+            Shaman.cfg.UseFlasks = chkUseFlasks.Checked;
             Shaman.cfg.WaterWalking = chkWaterWalking.Checked;
             Shaman.cfg.AccountForLag = chkAccountForLag.Checked;
 
@@ -431,6 +439,7 @@ namespace Bobby53
             Shaman.cfg.PVP_UseCooldowns = chkPVP_UseCooldowns.Checked;
 
             Shaman.cfg.PVP_BloodlustCount = (int) numPVP_BloodlustCount.Value;
+            Shaman.cfg.PVP_HealOnMaelstrom = chkPVP_HealOnMaelstrom.Checked;
 
             Shaman.cfg.PVP_Heal.HealingSurge = (int)this.numPVP_Heal_HealingSurge.Value;
             Shaman.cfg.PVP_Heal.OhShoot = (int)this.numPVP_Heal_OhShoot.Value;
@@ -521,6 +530,7 @@ namespace Bobby53
 
         private void chkUseGhostWolf_CheckedChanged(object sender, EventArgs e)
         {
+#if WARN_ABOUT_GHOSTWOLF
             if (chkUseGhostWolf.Checked)
             {
                 MessageBox.Show(
@@ -530,7 +540,7 @@ namespace Bobby53
                     MessageBoxIcon.Information
                     );
             }
-
+#endif
             lblSafeDistGhostWolf.Enabled = chkUseGhostWolf.Checked;
             numDistanceForGhostWolf.Enabled = chkUseGhostWolf.Checked;
         }
@@ -868,6 +878,30 @@ namespace Bobby53
         {
             numPVE_TwistDamage.Enabled = !chkDisableShields.Checked;
             numPVE_TwistMana.Enabled = !chkDisableShields.Checked;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            double safeDist = 35;
+            WoWPoint pt = Shaman.FindSafeLocation(safeDist);
+
+            if (pt == WoWPoint.Empty )
+            {
+                Shaman.Log("Sorry, no safe spot within {0:F1} yds", safeDist);
+            }
+            else
+            {
+                Shaman.Log("Moving to Safe Location {0:F1} yds away", ObjectManager.Me.Location.Distance(pt));
+                Shaman.MoveTo(pt);
+                Styx.StyxWoW.SleepForLagDuration();
+                Styx.StyxWoW.SleepForLagDuration();
+                while (!Shaman.IsGameUnstable() && ObjectManager.Me.IsAlive && ObjectManager.Me.IsMoving)
+                {
+                    Thread.Sleep(50);
+                }
+            }
+
+            return;
         }
     }
 

@@ -218,6 +218,7 @@ namespace Bobby53
         public enum SpellRange { NoCheck, Check };
         public enum SpellWait { NoWait, Complete };
 
+
         public static bool Safe_CastSpell(WoWUnit unit, string sSpellName)
         {
             WoWSpell spell = null;
@@ -261,7 +262,6 @@ namespace Bobby53
         public static bool Safe_CastSpell(WoWUnit unit, WoWSpell spell)
         {
             bool bCastSuccessful = false;
-            bool isCooldownActive = false;
 
             if ( !_me.Combat )
                 WaitForCurrentCastOrGCD();
@@ -295,6 +295,12 @@ namespace Bobby53
                 }
             }
 
+            if (spell.PowerType == WoWPowerType.Mana && _me.CurrentMana < spell.PowerCost)
+            {
+                Dlog("Safe_CastSpell: spell {0} requires {1} mana but only {2} available", spell.Name, spell.PowerCost, _me.CurrentMana );
+                return false;
+            }
+
             if (IsSpellBlacklisted(spell))
             {
                 Dlog("Safe_CastSpell: spell {0} #{1} temporarily blacklisted", spell.Name, spell.Id);
@@ -311,19 +317,9 @@ namespace Bobby53
             uint timeLag = SpellHelper.LagAmount;
             uint currMana = _me.CurrentMana;
 
-#if OLD_VERSION
-            isCooldownActive = spell.Cooldown;
-            if ( isCooldownActive && cfg.AccountForLag)
-                isCooldownActive = (timeLeft > timeLag);
-#else
-            isCooldownActive = SpellHelper.OnCooldown(spell);
-#endif
-            if (!isCooldownActive)
-                isCooldownActive = !SpellManager.CanCast(spell, unit, false, false, cfg.AccountForLag);
-
-            if (isCooldownActive)
+            if (SpellHelper.OnCooldown(spell))
             {
-                Dlog("Safe_CastSpell: cannot cast '{0}' - cd={1}, castleft={2}, lagamt={3}, cost={4}, mana={5}, blacklist={6}",
+                Dlog("Safe_CastSpell: cannot cast '{0}' spell on cooldown - cd={1}, castleft={2}, lagamt={3}, cost={4}, mana={5}, blacklist={6}",
                     spell.Name,
                     spell.Cooldown,
                     timeLeft,
@@ -333,6 +329,20 @@ namespace Bobby53
                     IsSpellBlacklisted(spell)
                     );
             }
+#if NOPE
+            else if (!SpellManager.CanCast(spell, unit, false, false, cfg.AccountForLag))
+            {
+                Dlog("Safe_CastSpell: cannot cast '{0}' cancast says no - cd={1}, castleft={2}, lagamt={3}, cost={4}, mana={5}, blacklist={6}",
+                    spell.Name,
+                    spell.Cooldown,
+                    timeLeft,
+                    timeLag,
+                    spell.PowerCost,
+                    currMana,
+                    IsSpellBlacklisted(spell)
+                    );
+            }
+#endif
             else
             {
                 double udist = -1;
@@ -608,11 +618,12 @@ namespace Bobby53
                 return false;
 
             uint timeToBlacklist = 1000;
+#if ADJUST_WAIT_TO_CAST_TIME
             if (s.CastTime > 0)
             {
                 timeToBlacklist = s.CastTime;
             }
-
+#endif
             timeToBlacklist -= (SpellHelper.LagAmount + 150);
             if (timeToBlacklist < SpellHelper.LagAmount)
                 timeToBlacklist = SpellHelper.LagAmount;
