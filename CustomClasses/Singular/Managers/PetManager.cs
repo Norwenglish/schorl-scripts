@@ -1,16 +1,17 @@
 ﻿#region Revision Info
 
 // This file is part of Singular - A community driven Honorbuddy CC
-// $Author: hawker $
-// $Date: 2012-01-21 14:46:03 -0800 (Sat, 21 Jan 2012) $
+// $Author: raphus $
+// $Date: 2012-02-04 13:23:51 -0800 (Sat, 04 Feb 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/Managers/PetManager.cs $
-// $LastChangedBy: hawker $
-// $LastChangedDate: 2012-01-21 14:46:03 -0800 (Sat, 21 Jan 2012) $
-// $LastChangedRevision: 566 $
-// $Revision: 566 $
+// $LastChangedBy: raphus $
+// $LastChangedDate: 2012-02-04 13:23:51 -0800 (Sat, 04 Feb 2012) $
+// $LastChangedRevision: 583 $
+// $Revision: 583 $
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -43,19 +44,19 @@ namespace Singular.Managers
         private static ulong _petGuid;
         private static readonly List<WoWPetSpell> PetSpells = new List<WoWPetSpell>();
 
-static PetManager()
-{
-    // NOTE: This is a bit hackish. This fires VERY OFTEN in major cities. But should prevent us from summoning right after dismounting.
-    // Lua.Events.AttachEvent("COMPANION_UPDATE", (s, e) => CallPetTimer.Reset());
-    // Note: To be changed to OnDismount with new release
-    Mount.OnDismount += (s, e) =>
-                            {
-                                if (StyxWoW.Me.Class == WoWClass.Hunter || StyxWoW.Me.Class == WoWClass.Warlock || StyxWoW.Me.PetNumber > 0)
-                                {
-                                    Thread.Sleep(1000);
-                                }
-                            };
-}
+        static PetManager()
+        {
+            // NOTE: This is a bit hackish. This fires VERY OFTEN in major cities. But should prevent us from summoning right after dismounting.
+            // Lua.Events.AttachEvent("COMPANION_UPDATE", (s, e) => CallPetTimer.Reset());
+            // Note: To be changed to OnDismount with new release
+            Mount.OnDismount += (s, e) =>
+                    {
+                        if (StyxWoW.Me.Class == WoWClass.Hunter || StyxWoW.Me.Class == WoWClass.Warlock || StyxWoW.Me.PetNumber > 0)
+                        {
+                            PetTimer.Reset();
+                        }
+                    };
+        }
 
         public static PetType CurrentPetType
         {
@@ -76,6 +77,9 @@ static PetManager()
 
         public static string WantedPet { get; set; }
 
+        public static readonly WaitTimer PetTimer = new WaitTimer(TimeSpan.FromSeconds(2));
+
+        private static bool _wasMounted;
         internal static void Pulse()
         {
             if (!StyxWoW.Me.GotAlivePet)
@@ -84,12 +88,24 @@ static PetManager()
                 return;
             }
 
+            if (StyxWoW.Me.Mounted)
+            {
+                _wasMounted = true;
+            }
+
+            if (_wasMounted && !StyxWoW.Me.Mounted)
+            {
+                _wasMounted = false;
+                PetTimer.Reset();
+            }
+
             if (StyxWoW.Me.Pet != null && _petGuid != StyxWoW.Me.Pet.Guid)
             {
                 _petGuid = StyxWoW.Me.Pet.Guid;
                 PetSpells.Clear();
                 // Cache the list. yea yea, we should just copy it, but I'd rather have shallow copies of each object, rather than a copy of the list.
                 PetSpells.AddRange(StyxWoW.Me.PetSpells);
+                PetTimer.Reset();
             }
         }
 
@@ -125,6 +141,17 @@ static PetManager()
             Lua.DoString("CastPetAction({0}, 'focus')", spell.ActionBarIndex + 1);
             StyxWoW.Me.SetFocus(0);
         }
+
+        //public static void EnableActionAutocast(string action)
+        //{
+        //    var spell = PetSpells.FirstOrDefault(p => p.ToString() == action);
+        //    if (spell == null)
+        //        return;
+
+        //    var index = spell.ActionBarIndex + 1;
+        //    Logger.Write("[Pet] Enabling autocast for {0}", action, index);
+        //    Lua.DoString("local index = " + index + " if not select(6, GetPetActionInfo(index)) then TogglePetAutocast(index) end");
+        //}
 
         /// <summary>
         ///   Calls a pet by name, if applicable.

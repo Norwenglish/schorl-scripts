@@ -2,12 +2,12 @@
 
 // This file is part of Singular - A community driven Honorbuddy CC
 // $Author: raphus $
-// $Date: 2012-01-27 12:48:22 -0800 (Fri, 27 Jan 2012) $
+// $Date: 2012-02-05 22:18:55 -0800 (Sun, 05 Feb 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/Settings/DeathKnightSettings.cs $
 // $LastChangedBy: raphus $
-// $LastChangedDate: 2012-01-27 12:48:22 -0800 (Fri, 27 Jan 2012) $
-// $LastChangedRevision: 574 $
-// $Revision: 574 $
+// $LastChangedDate: 2012-02-05 22:18:55 -0800 (Sun, 05 Feb 2012) $
+// $LastChangedRevision: 587 $
+// $Revision: 587 $
 
 #endregion
 
@@ -105,19 +105,7 @@ namespace Singular.Settings
         [Category("Blood")]
         [DisplayName("Dancing Rune Weapon")]
         public bool UseDancingRuneWeapon { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        [Category("Blood")]
-        [DisplayName("Dancing Rune Weapon Exclusive")]
-        public bool DancingRuneWeaponExclusive { get; set; }
-
-        [Setting]
-        [DefaultValue(80)]
-        [Category("Blood")]
-        [DisplayName("Dancing Rune Weapon Percent")]
-        public int DancingRuneWeaponPercent { get; set; }
-
+        
         [Setting]
         [DefaultValue(30)]
         [Category("Blood")]
@@ -165,13 +153,7 @@ namespace Singular.Settings
         [Category("Blood")]
         [DisplayName("Pet Sacrifice Percent")]
         public int PetSacrificePercent { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        [Category("Blood")]
-        [DisplayName("Rune Tap")]
-        public bool UseRuneTap { get; set; }
-
+        
         [Setting]
         [DefaultValue(true)]
         [Category("Blood")]

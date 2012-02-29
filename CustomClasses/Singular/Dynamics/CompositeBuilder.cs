@@ -1,13 +1,13 @@
 ﻿#region Revision Info
 
 // This file is part of Singular - A community driven Honorbuddy CC
-// $Author: apoc $
-// $Date: 2011-11-03 22:38:43 -0700 (Thu, 03 Nov 2011) $
+// $Author: raphus $
+// $Date: 2012-02-07 05:03:12 -0800 (Tue, 07 Feb 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/Dynamics/CompositeBuilder.cs $
-// $LastChangedBy: apoc $
-// $LastChangedDate: 2011-11-03 22:38:43 -0700 (Thu, 03 Nov 2011) $
-// $LastChangedRevision: 432 $
-// $Revision: 432 $
+// $LastChangedBy: raphus $
+// $LastChangedDate: 2012-02-07 05:03:12 -0800 (Tue, 07 Feb 2012) $
+// $LastChangedRevision: 589 $
+// $Revision: 589 $
 
 #endregion
 
@@ -17,7 +17,7 @@ using System.Linq;
 using System.Reflection;
 
 using Singular.Managers;
-
+using Singular.Settings;
 using Styx.Combat.CombatRoutine;
 
 using TreeSharp;
@@ -93,9 +93,15 @@ namespace Singular.Dynamics
                     else if (ca is ContextAttribute)
                     {
                         var attrib = ca as ContextAttribute;
-                        if ((attrib.SpecificContext & context) == 0)
+
+                        if (SingularSettings.Instance.UseInstanceRotation)
                         {
-                            continue;
+                            if ((attrib.SpecificContext & WoWContext.Instances) == 0)
+                                continue;
+                        }
+                        else if ((attrib.SpecificContext & context) == 0)
+                        {
+                             continue;
                         }
                         //Logger.WriteDebug(mi.Name + " has my context");
                         contextMatches = true;

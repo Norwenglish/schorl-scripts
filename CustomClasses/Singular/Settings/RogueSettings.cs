@@ -1,13 +1,13 @@
 ﻿#region Revision Info
 
 // This file is part of Singular - A community driven Honorbuddy CC
-// $Author: apoc $
-// $Date: 2011-10-10 08:01:50 -0700 (Mon, 10 Oct 2011) $
+// $Author: raphus $
+// $Date: 2012-02-28 09:21:20 -0800 (Tue, 28 Feb 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/Settings/RogueSettings.cs $
-// $LastChangedBy: apoc $
-// $LastChangedDate: 2011-10-10 08:01:50 -0700 (Mon, 10 Oct 2011) $
-// $LastChangedRevision: 405 $
-// $Revision: 405 $
+// $LastChangedBy: raphus $
+// $LastChangedDate: 2012-02-28 09:21:20 -0800 (Tue, 28 Feb 2012) $
+// $LastChangedRevision: 604 $
+// $Revision: 604 $
 
 #endregion
 
@@ -69,6 +69,7 @@ namespace Singular.Settings
         [DisplayName("Use Rupture Finisher")]
         [Description("Use Rupture Finisher")]
         public bool CombatUseRuptureFinisher { get; set; }
+
         [Setting]
         [DefaultValue(true)]
         [Category("Combat Spec")]

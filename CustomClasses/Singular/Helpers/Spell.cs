@@ -144,7 +144,21 @@ namespace Singular.Helpers
         /// <returns></returns>
         public static Composite WaitForCast()
         {
-            return WaitForCast(false);
+            return WaitForCast(false, true);
+        }
+
+        /// <summary>
+        ///   Creates a composite that will return a success, so long as you are currently casting. (Use this to prevent the CC from
+        ///   going down to lower branches in the tree, while casting.)
+        /// </summary>
+        /// <remarks>
+        ///   Created 13/5/2011.
+        /// </remarks>
+        /// <param name = "faceDuring">Whether or not to face during casting</param>-
+        /// <returns></returns>
+        public static Composite WaitForCast(bool faceDuring)
+        {
+            return WaitForCast(faceDuring, true);
         }
 
         /// <summary>
@@ -155,8 +169,9 @@ namespace Singular.Helpers
         ///   Created 13/5/2011.
         /// </remarks>
         /// <param name = "faceDuring">Whether or not to face during casting</param>
+        /// <param name = "allowLagTollerance">Whether or not to allow lag tollerance for spell queueing</param>
         /// <returns></returns>
-        public static Composite WaitForCast(bool faceDuring)
+        public static Composite WaitForCast(bool faceDuring, bool allowLagTollerance)
         {
             return
                 new Action(ret =>
@@ -168,7 +183,7 @@ namespace Singular.Helpers
                                     return RunStatus.Failure;
 
                                 var latency = StyxWoW.WoWClient.Latency*2;
-                                if (StyxWoW.Me.CurrentCastTimeLeft.TotalMilliseconds < latency)
+                                if (allowLagTollerance && StyxWoW.Me.CurrentCastTimeLeft.TotalMilliseconds < latency)
                                     return RunStatus.Failure;
 
                                 if (faceDuring && StyxWoW.Me.ChanneledCastingSpellId == 0)
@@ -342,6 +357,9 @@ namespace Singular.Helpers
                 new Action(
                     ret =>
                         {
+                            if (StyxWoW.Me.Mounted)
+                                Mount.Dismount("Casting spell");
+
                             Logger.Write("Casting " + name + " on " + onUnit(ret).SafeName());
                             SpellManager.Cast(name, onUnit(ret));
                         })
@@ -539,6 +557,7 @@ namespace Singular.Helpers
         ///   Created 5/2/2011.
         /// </remarks>
         /// <param name = "name">The name of the buff</param>
+        /// <param name = "myBuff">Check for self debuffs or not</param>
         /// <param name = "onUnit">The on unit</param>
         /// <param name = "requirements">The requirements.</param>
         /// <returns></returns>
@@ -580,8 +599,6 @@ namespace Singular.Helpers
                 DoubleCastPreventionDict[spellName] = DateTime.UtcNow;
 
             DoubleCastPreventionDict.Add(spellName, DateTime.UtcNow);
-
-            Logger.Write("Added {0} to double cast prevention dict", spellName);
         }
 
         public static readonly Dictionary<string, DateTime> DoubleCastPreventionDict = new Dictionary<string, DateTime>();

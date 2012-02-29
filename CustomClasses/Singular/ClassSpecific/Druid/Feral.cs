@@ -14,7 +14,7 @@ using Styx.WoWInternals.WoWObjects;
 
 using TreeSharp;
 using CommonBehaviors.Actions;
-using Action = System.Action;
+using Action = TreeSharp.Action;
 
 
 namespace Singular.ClassSpecific.Druid
@@ -87,6 +87,7 @@ namespace Singular.ClassSpecific.Druid
                 Spell.Cast("Pounce"),
                 Spell.Cast("Shred", ret => StyxWoW.Me.CurrentTarget.MeIsBehind),
                 Spell.Cast("Mangle (Cat)"),
+                Spell.Cast("Moonfire", ret => StyxWoW.Me.CurrentTarget.Distance2DSqr < 10*10 && Math.Abs(StyxWoW.Me.CurrentTarget.Z - StyxWoW.Me.Z) > 5),
                 Movement.CreateMoveToMeleeBehavior(true)
                 );
         }
@@ -99,7 +100,6 @@ namespace Singular.ClassSpecific.Druid
         {
             return new PrioritySelector(
                 Safers.EnsureTarget(),
-                Spell.WaitForCast(),
                 Common.CreateNonRestoHeals(),
                 Spell.BuffSelf("Cat Form"),
                 Movement.CreateMoveToLosBehavior(),
@@ -384,7 +384,7 @@ namespace Singular.ClassSpecific.Druid
                 Spell.Buff("Mangle (Cat)", "Mangle", "Trauma", "Stampede"),
                 Spell.Cast("Ravage!", ret => StyxWoW.Me.GetAuraTimeLeft("Stampede", true).TotalSeconds < 3),
                 Spell.Cast("Ferocious Bite", 
-                    ret => TalentManager.GetCount(1,18) == 2 && StyxWoW.Me.CurrentTarget.HealthPercent < (Has2PieceTier13Bonus ? 60 : 25) &&
+                    ret => TalentManager.GetCount(2,19) == 2 && StyxWoW.Me.CurrentTarget.HealthPercent < (Has2PieceTier13Bonus ? 60 : 25) &&
                            (StyxWoW.Me.ComboPoints == 5 ||
                            StyxWoW.Me.CurrentTarget.HasMyAura("Rip") && StyxWoW.Me.CurrentTarget.GetAuraTimeLeft("Rip", true).TotalSeconds < 3)),
                 Spell.Cast("Shred", 
@@ -404,11 +404,11 @@ namespace Singular.ClassSpecific.Druid
                 Spell.Cast("Rake", ret => StyxWoW.Me.CurrentTarget.GetAuraTimeLeft("Rake", true).TotalSeconds < 3),
                 Spell.Cast("Shred", ret => StyxWoW.Me.HasAura("Omen of Clarity") && StyxWoW.Me.CurrentTarget.MeIsBehind),
                 Spell.Cast("Mangle (Cat)", ret => StyxWoW.Me.HasAura("Omen of Clarity") && !StyxWoW.Me.CurrentTarget.MeIsBehind),
-                Spell.Cast("Savage Roar", ret => StyxWoW.Me.CurrentTarget.GetAuraTimeLeft("Savage Roar", true).TotalSeconds < 2),
+                Spell.Cast("Savage Roar", ret => StyxWoW.Me.GetAuraTimeLeft("Savage Roar", true).TotalSeconds < 2),
                 Spell.Cast("Ferocious Bite", 
                     ret => StyxWoW.Me.ComboPoints == 5 && StyxWoW.Me.CurrentTarget.HasMyAura("Rip") && 
                            StyxWoW.Me.CurrentTarget.GetAuraTimeLeft("Rip", true).TotalSeconds >= 14 &&
-                           (TalentManager.GetCount(1, 16) < 2 || 
+                           (TalentManager.GetCount(2, 17) < 2 || 
                            StyxWoW.Me.CurrentTarget.HasMyAura("Savage Roar") &&
                            StyxWoW.Me.CurrentTarget.GetAuraTimeLeft("Savage Roar", true).TotalSeconds >= 10)),
                 Spell.Cast("Ravage!", 

@@ -2,12 +2,12 @@
 
 // This file is part of Singular - A community driven Honorbuddy CC
 // $Author: raphus $
-// $Date: 2012-02-01 05:40:53 -0800 (Wed, 01 Feb 2012) $
+// $Date: 2012-02-28 09:21:20 -0800 (Tue, 28 Feb 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/Settings/DruidSettings.cs $
 // $LastChangedBy: raphus $
-// $LastChangedDate: 2012-02-01 05:40:53 -0800 (Wed, 01 Feb 2012) $
-// $LastChangedRevision: 576 $
-// $Revision: 576 $
+// $LastChangedDate: 2012-02-28 09:21:20 -0800 (Tue, 28 Feb 2012) $
+// $LastChangedRevision: 604 $
+// $Revision: 604 $
 
 #endregion
 
@@ -58,7 +58,7 @@ namespace Singular.Settings
         [Setting]
         [DefaultValue(40)]
         [Category("Common")]
-        [DisplayName("Regrowth Health (Balance and Feral")]
+        [DisplayName("Regrowth Health (Balance and Feral)")]
         [Description("Regrowth will be used at this value")]
         public int NonRestoRegrowth { get; set; }
 
@@ -164,44 +164,7 @@ namespace Singular.Settings
         #endregion
 
         #region Feral
-
-        [Setting]
-        [DefaultValue(true)]
-        [Category("Feral Tanking")]
-        [DisplayName("Feral Charge")]
-        [Description("Use Feral Charge to close gaps.")]
-        public bool UseFeralChargeBear { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        [Category("Feral Cat")]
-        [DisplayName("FeralHeal")]
-        [Description("Use healing spells in cat spec")]
-        public bool FeralHeal { get; set; }
-
-        [Setting]
-        [DefaultValue(3)]
-        [Category("Feral Cat")]
-        [DisplayName("Swipe Count")]
-        [Description("Set how many adds to swipe on.")]
-        public int SwipeCount { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        [Category("Feral Cat")]
-        [DisplayName("Feral Charge")]
-        [Description("Use Feral Charge to close gaps.")]
-        public bool UseFeralChargeCat { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        [Category("Feral")]
-        [DisplayName("Manual Forms")]
-        [Description(
-            "Disables any automatic form switching. Manually switching to cat form will automatically start the Cat combat cycle, and vice versa for bear."
-            )]
-        public bool ManualForms { get; set; }
-
+        
         [Setting]
         [DefaultValue(50)]
         [Category("Feral")]

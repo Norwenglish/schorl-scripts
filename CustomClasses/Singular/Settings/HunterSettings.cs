@@ -1,16 +1,17 @@
 ﻿#region Revision Info
 
 // This file is part of Singular - A community driven Honorbuddy CC
-// $Author: apoc $
-// $Date: 2011-12-11 01:22:31 -0800 (Sun, 11 Dec 2011) $
+// $Author: raphus $
+// $Date: 2012-02-05 22:18:55 -0800 (Sun, 05 Feb 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/Settings/HunterSettings.cs $
-// $LastChangedBy: apoc $
-// $LastChangedDate: 2011-12-11 01:22:31 -0800 (Sun, 11 Dec 2011) $
-// $LastChangedRevision: 450 $
-// $Revision: 450 $
+// $LastChangedBy: raphus $
+// $LastChangedDate: 2012-02-05 22:18:55 -0800 (Sun, 05 Feb 2012) $
+// $LastChangedRevision: 587 $
+// $Revision: 587 $
 
 #endregion
 
+using System;
 using System.ComponentModel;
 
 using Styx.Helpers;
@@ -28,11 +29,30 @@ namespace Singular.Settings
         }
 
         #region Category: Pet
+
         [Setting]
         [DefaultValue("1")]
         [Category("Pet")]
         [DisplayName("Pet Slot")]
         public string PetSlot { get; set; }
+
+        [Setting]
+        [DefaultValue(70)]
+        [Category("Pet")]
+        [DisplayName("Mend Pet Percent")]
+        public double MendPetPercent { get; set; }
+
+        #endregion
+
+        #region Category: Common
+
+        [Setting]
+        [DefaultValue(false)]
+        [Category("Common")]
+        [DisplayName("Use Disengage")]
+        [Description("Will be used in battlegrounds no matter what this is set")]
+        public bool UseDisengage { get; set; }
+
         #endregion
     }
 }
