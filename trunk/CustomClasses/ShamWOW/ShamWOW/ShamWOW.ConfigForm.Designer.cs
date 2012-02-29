@@ -48,6 +48,7 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.tabPVP = new System.Windows.Forms.TabPage();
             this.groupBox22 = new System.Windows.Forms.GroupBox();
+            this.chkPVP_HealOnMaelstrom = new System.Windows.Forms.CheckBox();
             this.chkPVP_UseCooldowns = new System.Windows.Forms.CheckBox();
             this.chkPVP_UsePVPTrinket = new System.Windows.Forms.CheckBox();
             this.groupBox20 = new System.Windows.Forms.GroupBox();
@@ -84,14 +85,15 @@
             this.label46 = new System.Windows.Forms.Label();
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.groupbox33 = new System.Windows.Forms.GroupBox();
+            this.chkUseFlasks = new System.Windows.Forms.CheckBox();
+            this.cboDisableMovement = new System.Windows.Forms.ComboBox();
+            this.label52 = new System.Windows.Forms.Label();
             this.chkWaterWalking = new System.Windows.Forms.CheckBox();
-            this.chkDetectImmunities = new System.Windows.Forms.CheckBox();
             this.label54 = new System.Windows.Forms.Label();
             this.cboInterruptStyle = new System.Windows.Forms.ComboBox();
             this.chkMeleeCombatBeforeLevel10 = new System.Windows.Forms.CheckBox();
             this.btnLogTargets = new System.Windows.Forms.Button();
             this.chkDisableTargeting = new System.Windows.Forms.CheckBox();
-            this.chkDisableMovement = new System.Windows.Forms.CheckBox();
             this.chkDebug = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.chkDisableShields = new System.Windows.Forms.CheckBox();
@@ -266,6 +268,7 @@
             this.numRAF_Heal_ChainHeal = new System.Windows.Forms.NumericUpDown();
             this.numRAF_Heal_HealingWave = new System.Windows.Forms.NumericUpDown();
             this.tabAdvanced = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
             this.chkAccountForLag = new System.Windows.Forms.CheckBox();
             this.label73 = new System.Windows.Forms.Label();
             this.lvwMoblist = new System.Windows.Forms.ListView();
@@ -440,7 +443,7 @@
             // 
             // btnReportIssue
             // 
-            this.btnReportIssue.Location = new System.Drawing.Point(348, 478);
+            this.btnReportIssue.Location = new System.Drawing.Point(348, 492);
             this.btnReportIssue.Name = "btnReportIssue";
             this.btnReportIssue.Size = new System.Drawing.Size(94, 23);
             this.btnReportIssue.TabIndex = 4;
@@ -450,7 +453,7 @@
             // 
             // btnHelp
             // 
-            this.btnHelp.Location = new System.Drawing.Point(233, 478);
+            this.btnHelp.Location = new System.Drawing.Point(233, 492);
             this.btnHelp.Name = "btnHelp";
             this.btnHelp.Size = new System.Drawing.Size(75, 23);
             this.btnHelp.TabIndex = 3;
@@ -549,7 +552,7 @@
             // btnSave
             // 
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSave.Location = new System.Drawing.Point(16, 478);
+            this.btnSave.Location = new System.Drawing.Point(16, 492);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 1;
@@ -576,14 +579,27 @@
             // 
             // groupBox22
             // 
+            this.groupBox22.Controls.Add(this.chkPVP_HealOnMaelstrom);
             this.groupBox22.Controls.Add(this.chkPVP_UseCooldowns);
             this.groupBox22.Controls.Add(this.chkPVP_UsePVPTrinket);
             this.groupBox22.Location = new System.Drawing.Point(22, 305);
             this.groupBox22.Name = "groupBox22";
-            this.groupBox22.Size = new System.Drawing.Size(220, 85);
+            this.groupBox22.Size = new System.Drawing.Size(220, 109);
             this.groupBox22.TabIndex = 10;
             this.groupBox22.TabStop = false;
             this.groupBox22.Text = "Miscellaneous";
+            // 
+            // chkPVP_HealOnMaelstrom
+            // 
+            this.chkPVP_HealOnMaelstrom.AutoSize = true;
+            this.chkPVP_HealOnMaelstrom.Checked = true;
+            this.chkPVP_HealOnMaelstrom.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkPVP_HealOnMaelstrom.Location = new System.Drawing.Point(18, 70);
+            this.chkPVP_HealOnMaelstrom.Name = "chkPVP_HealOnMaelstrom";
+            this.chkPVP_HealOnMaelstrom.Size = new System.Drawing.Size(189, 17);
+            this.chkPVP_HealOnMaelstrom.TabIndex = 2;
+            this.chkPVP_HealOnMaelstrom.Text = "Prefer Healing on Maelstrom Procs";
+            this.chkPVP_HealOnMaelstrom.UseVisualStyleBackColor = true;
             // 
             // chkPVP_UseCooldowns
             // 
@@ -875,7 +891,7 @@
             this.tabOptions.Name = "tabOptions";
             this.tabOptions.SelectedIndex = 0;
             this.helpHelp.SetShowHelp(this.tabOptions, true);
-            this.tabOptions.Size = new System.Drawing.Size(515, 460);
+            this.tabOptions.Size = new System.Drawing.Size(515, 472);
             this.tabOptions.TabIndex = 0;
             // 
             // tabAbout
@@ -984,28 +1000,57 @@
             this.tabGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabGeneral.Name = "tabGeneral";
             this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGeneral.Size = new System.Drawing.Size(507, 434);
+            this.tabGeneral.Size = new System.Drawing.Size(507, 446);
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
             // 
             // groupbox33
             // 
+            this.groupbox33.Controls.Add(this.chkUseFlasks);
+            this.groupbox33.Controls.Add(this.cboDisableMovement);
+            this.groupbox33.Controls.Add(this.label52);
             this.groupbox33.Controls.Add(this.chkWaterWalking);
-            this.groupbox33.Controls.Add(this.chkDetectImmunities);
             this.groupbox33.Controls.Add(this.label54);
             this.groupbox33.Controls.Add(this.cboInterruptStyle);
             this.groupbox33.Controls.Add(this.chkMeleeCombatBeforeLevel10);
             this.groupbox33.Controls.Add(this.btnLogTargets);
             this.groupbox33.Controls.Add(this.chkDisableTargeting);
-            this.groupbox33.Controls.Add(this.chkDisableMovement);
             this.groupbox33.Controls.Add(this.chkDebug);
             this.groupbox33.Location = new System.Drawing.Point(292, 233);
             this.groupbox33.Name = "groupbox33";
-            this.groupbox33.Size = new System.Drawing.Size(200, 195);
-            this.groupbox33.TabIndex = 7;
+            this.groupbox33.Size = new System.Drawing.Size(200, 204);
+            this.groupbox33.TabIndex = 6;
             this.groupbox33.TabStop = false;
             this.groupbox33.Text = "Miscellaneous";
+            // 
+            // chkUseFlasks
+            // 
+            this.chkUseFlasks.AutoSize = true;
+            this.chkUseFlasks.Location = new System.Drawing.Point(16, 143);
+            this.chkUseFlasks.Name = "chkUseFlasks";
+            this.chkUseFlasks.Size = new System.Drawing.Size(78, 17);
+            this.chkUseFlasks.TabIndex = 10;
+            this.chkUseFlasks.Text = "Use Flasks";
+            this.chkUseFlasks.UseVisualStyleBackColor = true;
+            // 
+            // cboDisableMovement
+            // 
+            this.cboDisableMovement.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboDisableMovement.FormattingEnabled = true;
+            this.cboDisableMovement.Location = new System.Drawing.Point(114, 44);
+            this.cboDisableMovement.Name = "cboDisableMovement";
+            this.cboDisableMovement.Size = new System.Drawing.Size(77, 21);
+            this.cboDisableMovement.TabIndex = 3;
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(13, 47);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(95, 13);
+            this.label52.TabIndex = 2;
+            this.label52.Text = "Disable Movement";
             // 
             // chkWaterWalking
             // 
@@ -1013,28 +1058,17 @@
             this.chkWaterWalking.Location = new System.Drawing.Point(16, 120);
             this.chkWaterWalking.Name = "chkWaterWalking";
             this.chkWaterWalking.Size = new System.Drawing.Size(176, 17);
-            this.chkWaterWalking.TabIndex = 11;
+            this.chkWaterWalking.TabIndex = 6;
             this.chkWaterWalking.Text = "Water Walking before mounting";
             this.chkWaterWalking.UseVisualStyleBackColor = true;
-            // 
-            // chkDetectImmunities
-            // 
-            this.chkDetectImmunities.AutoSize = true;
-            this.chkDetectImmunities.Location = new System.Drawing.Point(16, 144);
-            this.chkDetectImmunities.Name = "chkDetectImmunities";
-            this.chkDetectImmunities.Size = new System.Drawing.Size(136, 17);
-            this.chkDetectImmunities.TabIndex = 11;
-            this.chkDetectImmunities.Text = "Detect Spell Immunities";
-            this.toolTip1.SetToolTip(this.chkDetectImmunities, "CC will not perform any movement.  Has no effect upon HB movement");
-            this.chkDetectImmunities.UseVisualStyleBackColor = true;
             // 
             // label54
             // 
             this.label54.AutoSize = true;
-            this.label54.Location = new System.Drawing.Point(13, 23);
+            this.label54.Location = new System.Drawing.Point(13, 21);
             this.label54.Name = "label54";
             this.label54.Size = new System.Drawing.Size(72, 13);
-            this.label54.TabIndex = 9;
+            this.label54.TabIndex = 0;
             this.label54.Text = "Interrupt Style";
             // 
             // cboInterruptStyle
@@ -1042,19 +1076,19 @@
             this.cboInterruptStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboInterruptStyle.FormattingEnabled = true;
             this.helpHelp.SetHelpNavigator(this.cboInterruptStyle, System.Windows.Forms.HelpNavigator.Topic);
-            this.cboInterruptStyle.Location = new System.Drawing.Point(89, 20);
+            this.cboInterruptStyle.Location = new System.Drawing.Point(89, 18);
             this.cboInterruptStyle.Name = "cboInterruptStyle";
             this.helpHelp.SetShowHelp(this.cboInterruptStyle, true);
             this.cboInterruptStyle.Size = new System.Drawing.Size(102, 21);
-            this.cboInterruptStyle.TabIndex = 10;
+            this.cboInterruptStyle.TabIndex = 1;
             // 
             // chkMeleeCombatBeforeLevel10
             // 
             this.chkMeleeCombatBeforeLevel10.AutoSize = true;
-            this.chkMeleeCombatBeforeLevel10.Location = new System.Drawing.Point(16, 48);
+            this.chkMeleeCombatBeforeLevel10.Location = new System.Drawing.Point(16, 73);
             this.chkMeleeCombatBeforeLevel10.Name = "chkMeleeCombatBeforeLevel10";
             this.chkMeleeCombatBeforeLevel10.Size = new System.Drawing.Size(171, 17);
-            this.chkMeleeCombatBeforeLevel10.TabIndex = 8;
+            this.chkMeleeCombatBeforeLevel10.TabIndex = 4;
             this.chkMeleeCombatBeforeLevel10.Text = "Melee Combat before Level 10";
             this.toolTip1.SetToolTip(this.chkMeleeCombatBeforeLevel10, "CC will not perform any movement.  Has no effect upon HB movement");
             this.chkMeleeCombatBeforeLevel10.UseVisualStyleBackColor = true;
@@ -1064,7 +1098,7 @@
             this.btnLogTargets.Location = new System.Drawing.Point(114, 164);
             this.btnLogTargets.Name = "btnLogTargets";
             this.btnLogTargets.Size = new System.Drawing.Size(75, 23);
-            this.btnLogTargets.TabIndex = 7;
+            this.btnLogTargets.TabIndex = 9;
             this.btnLogTargets.Text = "Log Mobs";
             this.btnLogTargets.UseVisualStyleBackColor = true;
             this.btnLogTargets.Click += new System.EventHandler(this.btnLogTargets_Click);
@@ -1075,21 +1109,9 @@
             this.chkDisableTargeting.Location = new System.Drawing.Point(16, 96);
             this.chkDisableTargeting.Name = "chkDisableTargeting";
             this.chkDisableTargeting.Size = new System.Drawing.Size(188, 17);
-            this.chkDisableTargeting.TabIndex = 0;
+            this.chkDisableTargeting.TabIndex = 5;
             this.chkDisableTargeting.Text = "Dont Target if Movement Disabled";
             this.chkDisableTargeting.UseVisualStyleBackColor = true;
-            // 
-            // chkDisableMovement
-            // 
-            this.chkDisableMovement.AutoSize = true;
-            this.chkDisableMovement.Location = new System.Drawing.Point(16, 72);
-            this.chkDisableMovement.Name = "chkDisableMovement";
-            this.chkDisableMovement.Size = new System.Drawing.Size(131, 17);
-            this.chkDisableMovement.TabIndex = 0;
-            this.chkDisableMovement.Text = "Disable CC Movement";
-            this.toolTip1.SetToolTip(this.chkDisableMovement, "CC will not perform any movement.  Has no effect upon HB movement");
-            this.chkDisableMovement.UseVisualStyleBackColor = true;
-            this.chkDisableMovement.CheckedChanged += new System.EventHandler(this.chkDisableMovement_CheckedChanged);
             // 
             // chkDebug
             // 
@@ -1100,7 +1122,7 @@
             this.chkDebug.Name = "chkDebug";
             this.helpHelp.SetShowHelp(this.chkDebug, true);
             this.chkDebug.Size = new System.Drawing.Size(93, 17);
-            this.chkDebug.TabIndex = 6;
+            this.chkDebug.TabIndex = 8;
             this.chkDebug.Text = "Debug Output";
             this.chkDebug.UseVisualStyleBackColor = true;
             // 
@@ -1264,7 +1286,7 @@
             this.groupBox9.Controls.Add(this.numEmergencyMinHealth);
             this.groupBox9.Location = new System.Drawing.Point(14, 199);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(267, 229);
+            this.groupBox9.Size = new System.Drawing.Size(267, 238);
             this.groupBox9.TabIndex = 5;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Combat Mana / Health Levels";
@@ -1597,7 +1619,7 @@
             this.tabPVE.Location = new System.Drawing.Point(4, 22);
             this.tabPVE.Name = "tabPVE";
             this.tabPVE.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPVE.Size = new System.Drawing.Size(507, 434);
+            this.tabPVE.Size = new System.Drawing.Size(507, 446);
             this.tabPVE.TabIndex = 1;
             this.tabPVE.Text = "Grinding";
             this.tabPVE.UseVisualStyleBackColor = true;
@@ -1621,7 +1643,7 @@
             this.chkPVE_HealOnMaelstrom.Name = "chkPVE_HealOnMaelstrom";
             this.chkPVE_HealOnMaelstrom.Size = new System.Drawing.Size(189, 17);
             this.chkPVE_HealOnMaelstrom.TabIndex = 0;
-            this.chkPVE_HealOnMaelstrom.Text = "Prefer Healing for Maelstrom Procs";
+            this.chkPVE_HealOnMaelstrom.Text = "Prefer Healing on Maelstrom Procs";
             this.chkPVE_HealOnMaelstrom.UseVisualStyleBackColor = true;
             // 
             // groupBox3
@@ -3200,6 +3222,7 @@
             // 
             // tabAdvanced
             // 
+            this.tabAdvanced.Controls.Add(this.button1);
             this.tabAdvanced.Controls.Add(this.chkAccountForLag);
             this.tabAdvanced.Controls.Add(this.label73);
             this.tabAdvanced.Controls.Add(this.lvwMoblist);
@@ -3210,10 +3233,20 @@
             this.tabAdvanced.Controls.Add(this.label68);
             this.tabAdvanced.Location = new System.Drawing.Point(4, 22);
             this.tabAdvanced.Name = "tabAdvanced";
-            this.tabAdvanced.Size = new System.Drawing.Size(507, 434);
+            this.tabAdvanced.Size = new System.Drawing.Size(507, 446);
             this.tabAdvanced.TabIndex = 7;
             this.tabAdvanced.Text = "Advanced";
             this.tabAdvanced.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(18, 52);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Move";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // chkAccountForLag
             // 
@@ -3336,7 +3369,7 @@
             // 
             // btnGiveRep
             // 
-            this.btnGiveRep.Location = new System.Drawing.Point(448, 478);
+            this.btnGiveRep.Location = new System.Drawing.Point(448, 492);
             this.btnGiveRep.Name = "btnGiveRep";
             this.btnGiveRep.Size = new System.Drawing.Size(75, 23);
             this.btnGiveRep.TabIndex = 5;
@@ -3351,7 +3384,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(98, 478);
+            this.btnCancel.Location = new System.Drawing.Point(98, 492);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 2;
@@ -3364,7 +3397,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(538, 508);
+            this.ClientSize = new System.Drawing.Size(538, 520);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnGiveRep);
             this.Controls.Add(this.btnReportIssue);
@@ -3723,10 +3756,8 @@
     private System.Windows.Forms.CheckBox chkPVP_UseCooldowns;
     private System.Windows.Forms.CheckBox chkAccountForLag;
     private System.Windows.Forms.Label label74;
-    private System.Windows.Forms.CheckBox chkDetectImmunities;
     private System.Windows.Forms.CheckBox chkMeleeCombatBeforeLevel10;
     private System.Windows.Forms.CheckBox chkDisableTargeting;
-    private System.Windows.Forms.CheckBox chkDisableMovement;
     private System.Windows.Forms.Label lblGrpHeal_ChainHealTargets;
     private System.Windows.Forms.NumericUpDown numPVP_Heal_ChainHealTargets;
     private System.Windows.Forms.Label lblGrpHeal_HealingRainTargets;
@@ -3744,5 +3775,10 @@
     private System.Windows.Forms.Label label20;
     private System.Windows.Forms.GroupBox groupBox23;
     private System.Windows.Forms.CheckBox chkPVE_HealOnMaelstrom;
+    private System.Windows.Forms.Button button1;
+    private System.Windows.Forms.ComboBox cboDisableMovement;
+    private System.Windows.Forms.Label label52;
+    private System.Windows.Forms.CheckBox chkUseFlasks;
+    private System.Windows.Forms.CheckBox chkPVP_HealOnMaelstrom;
     }
 }
