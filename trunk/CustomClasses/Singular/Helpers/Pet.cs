@@ -13,7 +13,7 @@ namespace Singular.Helpers
         public static Composite CreateSummonPet(string petName)
         {
             return new Decorator(
-                ret => !StyxWoW.Me.GotAlivePet,
+                ret => !StyxWoW.Me.GotAlivePet && PetManager.PetTimer.IsFinished,
                 new Sequence(
                     new Action(ret => PetManager.CallPet(petName)),
                     new Wait(
@@ -119,6 +119,7 @@ namespace Singular.Helpers
                 ret => extra(ret) && PetManager.CanCastPetAction(action),
                 new Sequence(
                     new Action(ret => PetManager.CastPetAction(action)),
+                    new ActionSleep(250),
                     new Action(ret => LegacySpellManager.ClickRemoteLocation(location(ret)))));
         }
     }

@@ -2,12 +2,12 @@
 
 // This file is part of Singular - A community driven Honorbuddy CC
 // $Author: raphus $
-// $Date: 2012-02-01 05:40:53 -0800 (Wed, 01 Feb 2012) $
+// $Date: 2012-02-04 13:23:51 -0800 (Sat, 04 Feb 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/Managers/TalentManager.cs $
 // $LastChangedBy: raphus $
-// $LastChangedDate: 2012-02-01 05:40:53 -0800 (Wed, 01 Feb 2012) $
-// $LastChangedRevision: 576 $
-// $Revision: 576 $
+// $LastChangedDate: 2012-02-04 13:23:51 -0800 (Sat, 04 Feb 2012) $
+// $LastChangedRevision: 583 $
+// $Revision: 583 $
 
 #endregion
 
@@ -147,7 +147,7 @@ namespace Singular.Managers
                     for (int index = 1; index <= numTalents; index++)
                     {
                         var rank = Lua.GetReturnVal<int>(string.Format("return GetTalentInfo({0}, {1})", tab, index), 4);
-                        var t = new Talent { Tab = tab - 1, Index = index - 1, Count = rank };
+                        var t = new Talent { Tab = tab, Index = index, Count = rank };
                         Talents.Add(t);
 
                         //// Thick Hide - Only used by tanking druids

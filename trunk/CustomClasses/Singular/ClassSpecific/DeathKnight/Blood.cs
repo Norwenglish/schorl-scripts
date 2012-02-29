@@ -143,7 +143,7 @@ namespace Singular.ClassSpecific.DeathKnight
                                                 !u.HasMyAura("Blood Plague") && 
                                                 !u.HasMyAura("Frost Fever")) > 0),
                             Spell.Cast("Blood Boil",
-                                ret => TalentManager.GetCount(0, 5) > 0 &&
+                                ret => TalentManager.GetCount(1, 6) > 0 &&
                                         Unit.UnfriendlyUnitsNearTarget(12f).Count(u => !u.HasMyAura("Scarlet Fever")) > 0),
                             new Sequence(
                                 Spell.Cast("Death Strike", ret => DeathStrikeTimer.IsFinished),
@@ -326,7 +326,7 @@ namespace Singular.ClassSpecific.DeathKnight
                     Helpers.Common.CreateAutoAttack(true),
                     new Sequence(
                         Spell.Cast("Death Grip",
-                                    ret => StyxWoW.Me.CurrentTarget.DistanceSqr > 10 * 10),
+                                    ret => SingularSettings.Instance.EnableTaunting && StyxWoW.Me.CurrentTarget.DistanceSqr > 10 * 10),
                         new DecoratorContinue(
                             ret => StyxWoW.Me.IsMoving,
                             new Action(ret => Navigator.PlayerMover.MoveStop())),
@@ -427,12 +427,17 @@ namespace Singular.ClassSpecific.DeathKnight
 
                     new Sequence(
                         Spell.Cast("Death Grip",
-                                    ret => StyxWoW.Me.CurrentTarget.DistanceSqr > 10 * 10),
+                                    ret => SingularSettings.Instance.EnableTaunting &&
+                                           StyxWoW.Me.CurrentTarget.DistanceSqr > 10 * 10),
                         new DecoratorContinue(
                             ret => StyxWoW.Me.IsMoving,
                             new Action(ret => Navigator.PlayerMover.MoveStop())),
                         new WaitContinue(1, new ActionAlwaysSucceed())
                         ),
+
+                    Spell.Cast("Dark Command",
+                        ret => TankManager.Instance.NeedToTaunt.FirstOrDefault(),
+                        ret => SingularSettings.Instance.EnableTaunting),
 
                     // Start AoE section
                     new Decorator(ret => Unit.UnfriendlyUnitsNearTarget(15f).Count() >= SingularSettings.Instance.DeathKnight.DeathAndDecayCount,
@@ -456,7 +461,7 @@ namespace Singular.ClassSpecific.DeathKnight
                                                 !u.HasMyAura("Blood Plague") &&
                                                 !u.HasMyAura("Frost Fever")) > 0),
                             Spell.Cast("Blood Boil",
-                                ret => TalentManager.GetCount(0, 5) > 0 &&
+                                ret => TalentManager.GetCount(1, 6) > 0 &&
                                         Unit.UnfriendlyUnitsNearTarget(12f).Count(u => !u.HasMyAura("Scarlet Fever")) > 0),
                             new Sequence(
                                 Spell.Cast("Death Strike", ret => DeathStrikeTimer.IsFinished),
@@ -467,9 +472,7 @@ namespace Singular.ClassSpecific.DeathKnight
                             Spell.Cast("Icy Touch"),
                             Movement.CreateMoveToMeleeBehavior(true)
                             )),
-
-                    Spell.Cast("Dark Command", ret => TankManager.Instance.NeedToTaunt.FirstOrDefault()),
-
+                            
                     Spell.Cast("Outbreak",
                         ret => !StyxWoW.Me.CurrentTarget.HasMyAura("Frost Fever") ||
                                 !StyxWoW.Me.CurrentTarget.HasAura("Blood Plague")),

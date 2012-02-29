@@ -2,12 +2,12 @@
 
 // This file is part of Singular - A community driven Honorbuddy CC
 // $Author: raphus $
-// $Date: 2011-12-13 01:07:17 -0800 (Tue, 13 Dec 2011) $
+// $Date: 2012-02-07 05:03:12 -0800 (Tue, 07 Feb 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/Settings/SingularSettings.cs $
 // $LastChangedBy: raphus $
-// $LastChangedDate: 2011-12-13 01:07:17 -0800 (Tue, 13 Dec 2011) $
-// $LastChangedRevision: 459 $
-// $Revision: 459 $
+// $LastChangedDate: 2012-02-07 05:03:12 -0800 (Tue, 07 Feb 2012) $
+// $LastChangedRevision: 589 $
+// $Revision: 589 $
 
 #endregion
 
@@ -43,6 +43,13 @@ namespace Singular.Settings
 
         [Setting]
         [DefaultValue(false)]
+        [Category("General")]
+        [DisplayName("Use Instance Rotation (Needs a restart !)")]
+        [Description("When this is set to true, Singular will always use Instance rotations no matter what the current Context is.")]
+        public bool UseInstanceRotation { get; set; }
+
+        [Setting]
+        [DefaultValue(false)]
         [Category("Targeting")]
         [DisplayName("Disable Targeting")]
         [Description("Disable all Targeting within the CC. This will NOT stop it from casting spells/heals on units other than your target. Only changing actual targets will be disabled.")]
@@ -56,14 +63,14 @@ namespace Singular.Settings
         public bool WaitForResSickness { get; set; }
 
         [Setting]
-        [DefaultValue(30)]
+        [DefaultValue(65)]
         [Category("General")]
         [DisplayName("Min Health")]
         [Description("Minimum health to eat at.")]
         public int MinHealth { get; set; }
 
         [Setting]
-        [DefaultValue(30)]
+        [DefaultValue(65)]
         [Category("General")]
         [DisplayName("Min Mana")]
         [Description("Minimum mana to drink at.")]
