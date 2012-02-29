@@ -1,0 +1,87 @@
+ <HBProfile>
+   <!--
+      PROFILE EXPECTATIONS:
+         1. When using this profile, be certain to set the HonorBuddy bot to (select only one):
+                (*) Grinding / Mixed
+                ( ) Questing
+                ( ) PvP
+   
+         2. This profile is appropriate for (check all that apply):
+                [ ] Alliance   [ ] Achievement
+                [X] Horde      [X] Farming Non-Combat Pet
+                               [X] Leveling
+                               [ ] PvP
+                               [ ] Questing
+                               [ ] Reputation
+                               [ ] Seasonal
+   
+    -->
+   <Name>Tiny Emerald Whelpling + Sprite Darter Egg Farm (small loop)</Name>
+   <MinLevel>34</MinLevel>
+   <MaxLevel>86</MaxLevel>
+   
+   <MinDurability>0.3</MinDurability>
+   <MinFreeBagSlots>2</MinFreeBagSlots>
+   
+   <MailGrey>False</MailGrey>
+   <MailWhite>True</MailWhite>
+   <MailGreen>True</MailGreen>
+   <MailBlue>True</MailBlue>
+   <MailPurple>True</MailPurple>
+   
+   <SellGrey>True</SellGrey>
+   <SellWhite>False</SellWhite>
+   <SellGreen>False</SellGreen>
+   <SellBlue>False</SellBlue>
+   <SellPurple>False</SellPurple>
+   
+   <TargetElites>True</TargetElites>	
+   
+   <AvoidMobs>
+	<Mob Name="Jademir Echospawn" Entry="39395" />
+	<Mob Name="Lethlas" Entry="39394" />
+   </AvoidMobs>
+   
+   <Blackspots>
+
+   </Blackspots>
+   
+   <ContinentID>1</ContinentID> <!--Kalimdor -->
+   
+   <Mailboxes>
+
+   </Mailboxes>
+   
+   <Vendors>
+       <Vendor Name="Moro Sungrain" Entry="40474" Type="Vendor" X="-3071.34" Y="2593.40" Z="56.68" />
+   </Vendors>
+   
+   <GrindArea>
+       <TargetMinLevel>34</TargetMinLevel>
+       <TargetMaxLevel>36</TargetMaxLevel>
+       <Factions>14</Factions>
+       <MaxDistance>30</MaxDistance>
+       <Hotspots>
+			<!-- small loop -->
+			<Hotspot X="-2871.731" Y="2214.117" Z="33.04328" />
+			<Hotspot X="-2818.23" Y="2183.808" Z="35.04831" />
+			<Hotspot X="-2776.457" Y="2210.376" Z="44.90827" />
+			<Hotspot X="-2713.332" Y="2226.611" Z="55.87464" />
+			<Hotspot X="-2715.964" Y="2191.152" Z="53.47377" />
+			<Hotspot X="-2677.409" Y="2172.464" Z="57.80736" />
+			<Hotspot X="-2783.788" Y="2148.34" Z="33.06954" />
+			<Hotspot X="-2719.645" Y="2114.228" Z="39.76408" />
+			<Hotspot X="-2659.731" Y="2114.634" Z="39.51089" />
+			<Hotspot X="-2694.541" Y="2073.944" Z="32.27184" />
+			<Hotspot X="-2726.044" Y="2041.649" Z="33.41189" />
+			<Hotspot X="-2756.033" Y="1996.263" Z="28.88602" />
+			<Hotspot X="-2789.566" Y="2046.154" Z="30.42967" />
+			<Hotspot X="-2867.873" Y="2094.273" Z="43.71304" />
+			<Hotspot X="-2871.89" Y="2050.239" Z="29.11575" />
+			<Hotspot X="-2911.061" Y="2114.897" Z="32.91851" />
+			<Hotspot X="-2872.498" Y="2146.358" Z="31.90378" />
+			<Hotspot X="-2825.37" Y="2120.357" Z="25.7763" />
+       </Hotspots>
+   </GrindArea>
+   
+</HBProfile>
