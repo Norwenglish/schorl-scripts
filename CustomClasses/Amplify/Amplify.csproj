@@ -31,8 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="hdcp">
-      <HintPath>..\..\hdcp.exe</HintPath>
+    <Reference Include="HDCP, Version=2.0.0.5771, Culture=neutral, PublicKeyToken=50a565ab5c01ae50, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\HDCP.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

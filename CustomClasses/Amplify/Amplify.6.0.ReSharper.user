@@ -8,39 +8,24 @@
   </SettingsComponent>
   <RecentFiles>
     <RecentFiles>
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Spells.cs" caret="5351" fromTop="98" />
       <File id="A3F3D514-71DE-4712-A2F6-709232110E01/d:Talents/f:TalentManager.cs" caret="2079" fromTop="25" />
       <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Amplify.PreCombatBuffs.cs" caret="570" fromTop="0" />
       <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:AmplifySettings.cs" caret="5371" fromTop="10" />
       <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:AmpConfig.Designer.cs" caret="0" fromTop="0" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Amplify.Pull.cs" caret="4283" fromTop="13" />
       <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Amplify.Combat.cs" caret="4622" fromTop="7" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Frost.cs" caret="1419" fromTop="0" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Arcane.cs" caret="2473" fromTop="5" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:LowLevel.cs" caret="1432" fromTop="21" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:AmpConfig.cs" caret="2239" fromTop="11" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="8391" fromTop="17" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Amplify.cs" caret="5748" fromTop="24" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/d:Properties/f:AssemblyInfo.cs" caret="955" fromTop="18" />
       <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Fire.cs" caret="2481" fromTop="6" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Amplify.Pull.cs" caret="3456" fromTop="14" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/d:Properties/f:AssemblyInfo.cs" caret="955" fromTop="18" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:LowLevel.cs" caret="1432" fromTop="21" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Functions.cs" caret="3526" fromTop="33" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Spells.cs" caret="1692" fromTop="0" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Arcane.cs" caret="872" fromTop="0" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Frost.cs" caret="1345" fromTop="9" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="32752" fromTop="25" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:AmpConfig.cs" caret="791" fromTop="9" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Amplify.cs" caret="3263" fromTop="5" />
     </RecentFiles>
     <RecentEdits>
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:AmpConfig.cs" caret="2239" fromTop="11" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Frost.cs" caret="5955" fromTop="24" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Frost.cs" caret="6364" fromTop="28" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Frost.cs" caret="6256" fromTop="24" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Frost.cs" caret="9789" fromTop="16" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Frost.cs" caret="10214" fromTop="21" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Frost.cs" caret="8992" fromTop="20" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Amplify.cs" caret="701" fromTop="12" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="8904" fromTop="36" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="6754" fromTop="33" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="6466" fromTop="25" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="8074" fromTop="23" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="7683" fromTop="19" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="7907" fromTop="30" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="8482" fromTop="22" />
-      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="7159" fromTop="15" />
       <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Amplify.Combat.cs" caret="9901" fromTop="12" />
       <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Amplify.Combat.cs" caret="10981" fromTop="12" />
       <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Amplify.Combat.cs" caret="6692" fromTop="8" />
@@ -55,6 +40,22 @@
       <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Amplify.Combat.cs" caret="4622" fromTop="7" />
       <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Fire.cs" caret="4901" fromTop="19" />
       <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Amplify.Pull.cs" caret="3456" fromTop="14" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Spells.cs" caret="1687" fromTop="14" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Spells.cs" caret="1687" fromTop="19" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="25745" fromTop="22" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="22882" fromTop="3" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="22882" fromTop="14" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Spells.cs" caret="1690" fromTop="11" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Amplify.cs" caret="724" fromTop="14" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="22882" fromTop="6" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="32141" fromTop="18" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="33793" fromTop="20" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="32372" fromTop="2" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="32522" fromTop="20" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="32522" fromTop="8" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="32522" fromTop="14" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="32830" fromTop="15" />
+      <File id="A3F3D514-71DE-4712-A2F6-709232110E01/f:Methods.cs" caret="32462" fromTop="5" />
     </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>
@@ -141,18 +142,28 @@
       <Item value="IsFacing`0" priority="0" />
       <Item value="HasAura`0" priority="26" />
       <Item value="IsAlliance" priority="26" />
+      <Item value="Auras" priority="53" />
+      <Item value="GetAllAuras`0" priority="26" />
+      <Item value="Guid" priority="26" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:Styx.WoWInternals.WoWObjects.WoWUnit">
       <Item value="ActiveAuras" priority="55" />
       <Item value="HealthPercent" priority="1" />
       <Item value="Face`0" priority="0" />
       <Item value="Dead" priority="0" />
+      <Item value="Buffs" priority="26" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:System.Collections.Generic.Dictionary`2">
       <Item value="ContainsKey`0" priority="84" />
+      <Item value="ToList`1" priority="26" />
+      <Item value="Where`1" priority="26" />
+      <Item value="Values" priority="26" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:Styx.Logic.Combat.WoWAura">
       <Item value="StackCount" priority="0" />
+      <Item value="Name" priority="53" />
+      <Item value="CreatorGuid" priority="53" />
+      <Item value="TimeLeft" priority="26" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:@Styx.Helpers.Logging">
       <Item value="Write`0" priority="1" />
@@ -202,6 +213,8 @@
       <Item value="Count" priority="3" />
       <Item value="RemoveAll`0" priority="0" />
       <Item value="Clear`0" priority="1" />
+      <Item value="First`1" priority="26" />
+      <Item value="FirstOrDefault`1" priority="53" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:System.Int32">
       <Item value="ToString`0" priority="1" />
@@ -209,7 +222,7 @@
     <ItemStatistics item="CSharpCodeCompletionContext">
       <Item value="_MirrorImageAlways" priority="95" />
       <Item value="false" priority="159" />
-      <Item value="if" priority="159" />
+      <Item value="if" priority="191" />
       <Item value="true" priority="159" />
       <Item value="_MirrorImageAdds" priority="31" />
       <Item value="_FlameOrbAdds" priority="95" />
@@ -224,17 +237,52 @@
       <Item value="BotPoi`0" priority="26" />
       <Item value="private" priority="63" />
       <Item value="bool" priority="31" />
-      <Item value="Me" priority="127" />
+      <Item value="Me" priority="255" />
       <Item value="isItemInCooldown`0" priority="31" />
       <Item value="object" priority="31" />
       <Item value="Composite`0" priority="31" />
-      <Item value="return" priority="31" />
+      <Item value="return" priority="63" />
       <Item value="new" priority="63" />
       <Item value="PrioritySelector" priority="28" />
       <Item value="Decorator" priority="57" />
+      <Item value="item" priority="31" />
+      <Item value="TimeSpan`0" priority="31" />
+      <Item value="Logging`0" priority="31" />
+      <Item value="WoWUnit`0" priority="31" />
+      <Item value="Plr" priority="31" />
+      <Item value="ret" priority="127" />
+      <Item value="retargetSheep`0" priority="31" />
+      <Item value="WoWAura`0" priority="31" />
+      <Item value="aura" priority="63" />
+      <Item value="name" priority="31" />
+      <Item value="auras" priority="63" />
+      <Item value="null" priority="31" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:@Styx.Logic.POI.BotPoi">
       <Item value="Clear`0" priority="26" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Styx.WoWInternals.WoWObjects.WoWItem">
+      <Item value="Cooldown" priority="26" />
+      <Item value="CooldownTimeLeft" priority="26" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.TimeSpan">
+      <Item value="FromMilliseconds`0" priority="26" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Styx.Logic.Combat.WoWAuraCollection">
+      <Item value="ToList`1" priority="26" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.KeyValuePair`2">
+      <Item value="Key" priority="26" />
+      <Item value="Value" priority="53" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.UInt64">
+      <Item value="CompareTo`0" priority="26" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.Dictionary`2+ValueCollection">
+      <Item value="ToList`1" priority="26" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.TimeSpan">
+      <Item value="TotalSeconds" priority="26" />
     </ItemStatistics>
   </CompletionStatisticsManager>
 </Configuration>

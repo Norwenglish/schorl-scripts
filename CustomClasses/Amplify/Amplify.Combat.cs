@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using CommonBehaviors.Actions;
+using Levelbot.Actions.Combat;
 using Styx;
 using Amplify.Talents;
 using Styx.Logic;
@@ -68,8 +69,9 @@ namespace Amplify
 
 
                 // Face thehe tart if we aren't
+
                 new Decorator(ret => !AmplifySettings.Instance.MoveDisable && Me.GotTarget && !Me.IsFacing(Me.CurrentTarget),
-                              new Action(ret => Me.CurrentTarget.Face())),
+                              new Action(ret => WoWMovement.Face())),
 
                 new Decorator(ret => Me.IsCasting || Me.Silenced || Me.ActiveAuras.ContainsKey("Hypothermia"),
                     new Action(ctx => RunStatus.Success)),
@@ -89,11 +91,25 @@ namespace Amplify
                 new Decorator(ret => Me.ManaPercent <= 20 && HaveManaGem(),
                               new Action(ret => UseManaGem())),
 
-
+               new Decorator(ret => !AmplifySettings.Instance.MoveDisable && Me.GotTarget && Navigator.CanNavigateFully(Me.Location, Me.CurrentTarget.Location) && (!Me.CurrentTarget.InLineOfSight || !Me.InLineOfSpellSight),
+                     new Action(delegate
+                     {
+                         Log("Moving towards:{0}", Me.CurrentTarget);
+                         Navigator.MoveTo(Me.CurrentTarget.Location);
+                         return RunStatus.Success;
+                     })),
 
                 // Move closer to the target if we are too far away or in !Los
-                new Decorator(ret => !AmplifySettings.Instance.MoveDisable && Me.GotTarget && (Me.CurrentTarget.Distance > PullDistance + 3 || (!Me.CurrentTarget.InLineOfSight || !Me.InLineOfSpellSight)),
-                    new NavigationAction(ret => Me.CurrentTarget.Location)),
+                new Decorator(ret => !AmplifySettings.Instance.MoveDisable && Me.GotTarget && Navigator.CanNavigateFully(Me.Location, Me.CurrentTarget.Location) && (Me.CurrentTarget.Distance > PullDistance + 3),
+                     new Action(delegate
+                     {
+                         Log("Moving towards:{0}", Me.CurrentTarget);
+                         Navigator.MoveTo(Me.CurrentTarget.Location);
+                         return RunStatus.Success;
+                     })),
+
+
+                    
 
 
                 // At this point we shouldn't be moving. Atleast not with this 'simple' kind of logic
@@ -129,6 +145,8 @@ namespace Amplify
          * Added in version 1.8.3 on 11/11/2011 (lots of 11's)
          * Enjoy :)
          */
+        
+
         private Composite GetAllChecks(string specTree, bool universal)
         {
             return new Decorator(
@@ -138,6 +156,7 @@ namespace Amplify
                     using (new FrameLock())
                     {
                         ObjectManager.Update();
+                      
                         if (universal)
                         {
                             _FindClosestPlayer = false;

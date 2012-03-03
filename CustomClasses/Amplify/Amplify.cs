@@ -11,6 +11,7 @@ using Styx;
 using Styx.Combat.CombatRoutine;
 using Styx.Helpers;
 using Styx.Logic;
+using Styx.Logic.BehaviorTree;
 using Styx.Logic.Combat;
 using Styx.Logic.Pathing;
 using Styx.WoWInternals;
@@ -25,7 +26,7 @@ namespace Amplify
 {
     public partial class Amplify : CombatRoutine
     {
-        private readonly Version _version = new Version(1, 8, 5);
+        private readonly Version _version = new Version(1, 8, 7);
         private readonly TalentManager _talentManager = new TalentManager();
         private static LocalPlayer Me { get { return StyxWoW.Me; } }
         public override string Name { get { return "Amplify Elite " + _version; } }
@@ -69,7 +70,16 @@ namespace Amplify
 
         public override void Pulse()
         {
- 
+            if(!Me.Combat && AmplifySettings.Instance.TurboCombat && TreeRoot.TicksPerSecond != 15)
+            {
+                TreeRoot.TicksPerSecond = ticks;
+                Log("Turbo = {0}", TreeRoot.TicksPerSecond.ToString());
+            }
+            if (Me.Combat && AmplifySettings.Instance.TurboCombat && TreeRoot.TicksPerSecond != 30)
+            {
+                TreeRoot.TicksPerSecond = 30;
+                Log("Turbo = {0}", TreeRoot.TicksPerSecond.ToString());
+            }
             if (IsBattleGround() && Me.IsActuallyInCombat && Me.Mounted)
             {
                 Log("Im in Combat Dismouting");
@@ -100,6 +110,8 @@ namespace Amplify
             Log("Loading Saved Setttings");
             Lua.Events.AttachEvent("COMBAT_LOG_EVENT", CombatLogEventHander);
             Lua.Events.AttachEvent("UI_ERROR_MESSAGE", UIErrorEventHander);
+            ticks = TreeRoot.TicksPerSecond;
+
             if(AmplifySettings.Instance.IsConfigured == false)
             {
                 Logging.Write(Color.Yellow,
@@ -127,6 +139,8 @@ namespace Amplify
             }
                 
         }
+
+        public byte ticks;
         private static void UIErrorEventHander(object sender, LuaEventArgs args)
         {
             string Error = args.Args[0].ToString();
@@ -209,7 +223,7 @@ namespace Amplify
         {
             if (_configForm == null || _configForm.IsDisposed || _configForm.Disposing)
                 _configForm = new AmpConfig();
-
+          
             _configForm.ShowDialog();
         }
 
