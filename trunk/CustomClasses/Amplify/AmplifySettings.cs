@@ -9,7 +9,9 @@ namespace Amplify
         public static readonly AmplifySettings Instance = new AmplifySettings();
 
         public AmplifySettings()
-            : base(Path.Combine(Logging.ApplicationPath, string.Format(@"CustomClasses/Config/Amplify-Settings-{0}.xml", StyxWoW.Me.Name)))
+            : base(
+                Path.Combine(Logging.ApplicationPath,
+                             string.Format(@"CustomClasses/Config/Amplify-Settings-{0}.xml", StyxWoW.Me.Name)))
         {
         }
 
@@ -21,6 +23,7 @@ namespace Amplify
 
         [Setting, DefaultValue(40)]
         public int RestManaPercentage { get; set; }
+
         //0 for auto, 1 for Molten, 2 for Frost, 3 for Mage
         [Setting, DefaultValue("Auto")]
         public string ArmorSelect { get; set; }
@@ -33,6 +36,7 @@ namespace Amplify
 
         [Setting, DefaultValue(false)]
         public bool Freeze { get; set; }
+
         #endregion
 
 
@@ -64,6 +68,7 @@ namespace Amplify
 
         [Setting, DefaultValue(true)]
         public bool Use_CounterSpellArcane { get; set; }
+
         #endregion
 
 
@@ -87,7 +92,7 @@ namespace Amplify
         [Setting, DefaultValue(30)]
         public int FrostNova_Mob_Hp_Above { get; set; }
 
-        [Setting, DefaultValue(true)] 
+        [Setting, DefaultValue(true)]
         public bool Use_Polymorph { get; set; }
 
         [Setting, DefaultValue(true)]
@@ -106,7 +111,7 @@ namespace Amplify
         public int IceBlock_hP_Percent { get; set; }
 
         [Setting, DefaultValue(true)]
-        public bool Use_ManaGems{ get; set; }
+        public bool Use_ManaGems { get; set; }
 
         [Setting, DefaultValue(30)]
         public int ManaGems_MP_Percent { get; set; }
@@ -134,6 +139,7 @@ namespace Amplify
 
         [Setting, DefaultValue(true)]
         public bool Use_ColdSnap { get; set; }
+
         #endregion
 
         [Setting, DefaultValue(true)]
@@ -177,7 +183,7 @@ namespace Amplify
 
         [Setting, DefaultValue("Frostbolt")]
         public string FrostSpamSpell { get; set; }
-        
+
 
         [Setting, DefaultValue("Fireball")]
         public string FireSpamSpell { get; set; }
@@ -214,11 +220,14 @@ namespace Amplify
 
         [Setting, DefaultValue(true)]
         public bool DeCurseParty { get; set; }
-        
+
         [Setting, DefaultValue(false)]
         public bool IsConfigured { get; set; }
 
         [Setting, DefaultValue(false)]
         public bool MoveDisable { get; set; }
-    }
+
+        [Setting, DefaultValue(false)]
+        public bool TurboCombat { get; set; }
+}
 }

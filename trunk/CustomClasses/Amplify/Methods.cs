@@ -173,6 +173,54 @@ unit != Me.CurrentTarget &&
                 return false;
             }
         }
+
+        public bool IsConstantFacingtoggle = false;
+        public ulong LastFacingGuid;
+        public void SetConstantFace()
+        {
+            WoWMovement.ConstantFace(Me.CurrentTargetGuid);
+            IsConstantFacingtoggle = true;
+            LastFacingGuid = Me.CurrentTargetGuid;
+        }
+        public bool isContsantFacing()
+        {
+            if (Me.CurrentTarget == null)
+            {
+                WoWMovement.ConstantFaceStop(LastFacingGuid);
+                IsConstantFacingtoggle = false;
+                return false;
+            }
+            if (Me.CurrentTarget != null && Me.CurrentTargetGuid != LastFacingGuid)
+            {
+                WoWMovement.ConstantFaceStop(LastFacingGuid);
+                IsConstantFacingtoggle = false;
+                return false;
+            }
+            if (IsConstantFacingtoggle == true)
+            {
+
+                return IsConstantFacingtoggle;
+            }
+            return false;
+
+
+        }
+        public bool IsMovmentImpared()
+        {
+            using (new FrameLock())
+            {
+                foreach (KeyValuePair<string, WoWAura> pair in Me.Auras)
+                {
+                    WoWAura curAura = pair.Value;
+                    if (curAura.Spell.SpellEffect1.EffectType == WoWSpellEffectType.Stuck)
+                    {
+                        Logging.Write("Buff Is  " + curAura.Name + " is healing him");
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
         public static bool IsInPartyOrRaid()
         {
             if (Me.PartyMembers.Count > 0)
@@ -650,23 +698,7 @@ unit.Auras.ContainsKey("Polymorph"));
                 return false;
             }
         }   
-        public bool isItemInCooldown(WoWItem item)
-        {
-            using (new FrameLock())
-            {
-                if (Equals(null, item))
-                    return true;
 
-                string cd_st;
-                Lua.DoString("s=GetItemCooldown(" + item.Entry + ")");
-                cd_st = Lua.GetLocalizedText("s", ObjectManager.Me.BaseAddress);
-                if (cd_st == "0")
-                    return false;
-
-                return true;
-            }
-        }
-       
      private WoWItem HaveItemCheck(List<int> listId)
         {
             foreach (WoWItem item in ObjectManager.GetObjectsOfType<WoWItem>(false))

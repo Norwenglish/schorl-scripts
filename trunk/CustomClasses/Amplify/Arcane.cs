@@ -267,15 +267,20 @@ namespace Amplify
                 //some switch here. 
                 );
         }
+        /*
         private Composite ArcaneRaid_Build()
         {
             return new PrioritySelector(
+               CreateSpellCheckAndCast("Flame Orb"),
+               CreateSpellCheckAndCast("Arcane Missles", ret => StyxWoW.Me.ActiveAuras.ContainsKey("Arcane Missiles!") && StyxWoW.Me.ActiveAuras.Where(i => i.Value != null && i.Value.Name == "Arcane Blast" && i.Value.StackCount > 3).FirstOrDefault() != null),
+                CreateSpellCheckAndCast("Arcane Blast"),
                    new Decorator(ret => SpellManager.CanCast("Shoot") && IsNotWanding && AmplifySettings.Instance.Use_Wand,
                     new PrioritySelector(
                         CreateSpellCheckAndCast("Shoot")
                         ))
                 );
         }
+         */
         private Composite ArcaneRaid_Burn()
         {
             return new PrioritySelector(
