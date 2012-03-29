@@ -30,6 +30,7 @@
 	</AvoidMobs>
    
 	<Blackspots>
+		<Blackspot X="-548.1035" Y="1101.35" Z="95.06052" Radius="5" />
 		<Blackspot X="-1279.2" Y="1052.76" Z="119.8992" Radius="8.899702" />
 		<Blackspot X="-1423.173" Y="1263.538" Z="133.716" Radius="4.768376" />
 		<Blackspot X="-166.1057" Y="1887.206" Z="2.573525" Radius="24.23259" />
@@ -155,7 +156,22 @@
 
 		<CustomBehavior File="UserSettings" TrainNewSkills="False" LootMobs="True" PullDistance="25"  />
 		
-			<!-- <RunTo X="-1225.118" Y="979.6929" Z="119.7149" /> -->
+			<!-- If I am in EK, take the SW portal -->
+			 <If Condition="(Me.MapId == 0) &amp;&amp; (Me.ZoneId != 5389) &amp;&amp; (Me.ZoneId != 5095)" >
+				<CustomBehavior File="FlyTo" DestName="SW Portal" X="-8208.783" Y="445.8443" Z="117.9366" />
+				<CustomBehavior File="ForcedDismount" />
+				
+				<CustomBehavior File="InteractWith" MobId="206594" ObjectType="Gameobject" Range="4" X="-8208.508" Y="449.4972" Z="117.7234" />
+				<CustomBehavior File="WaitTimer" WaitTime="5000" GoalText="Waiting for port {TimeRemaining}" />
+			 </If>
+	
+			<!-- 
+			<RunTo X="-1225.118" Y="979.6929" Z="119.7149" />
+			-->
+			<If Condition="(Me.ZoneId == 5389)" >
+				<!-- Run to BH if we're in Peninsula -->
+				<RunTo X="-1225.118" Y="979.6929" Z="119.7149" />
+			</If>
 	
 			<!-- This is the MobId, not QuestId -->
 			<While Condition="HasQuestAvailable(48066)" >
@@ -183,8 +199,6 @@
 				<CustomBehavior File="RunMacro" Macro="/click GossipTitleButton1" NumOfTimes="1" WaitTime="1000" />
 				<CustomBehavior File="RunMacro" Macro="/click QuestFrameAcceptButton" NumOfTimes="1" WaitTime="1000" />
 			</While>
-	
-
 
 			<If Condition="HasQuest(28118) &amp;&amp; !IsQuestCompleted(28118)"> <!-- BH -->
 				<!--
@@ -252,13 +266,6 @@
 				<Objective QuestName="A Huge Problem" QuestId="28122" Type="KillMob" MobId="47593" KillCount="1" />
 			</If> 
 			
-			
-
-
-
-	
-			
-			
 				<CustomBehavior File="UserSettings" PullDistance="1" />
 			
 			<!-- Turn In -->
@@ -305,12 +312,16 @@
 		<TurnIn QuestName="Food From Below" QuestId="28232" TurnInName="Marshal Fallows" TurnInId="48074" />
 			</If>
 
-
+			<If Condition="(Me.ZoneId == 5095)" >
+				<RunTo X="-345.2877" Y="1035.014" Z="22.08401" />
+			</If>
+			<If Condition="(Me.ZoneId == 5389)" >
+				<CustomBehavior File="LoadProfile" ProfileName="[A - Rep Quest] TB Peninsula Dailies [Kick]" /> 
+			</If>
 
 		
 		
-	<CustomBehavior File="UserDialog"  Title="title" AllowBotStop="True" SoundCue="Asterisk" SoundCueInterval="1" 
-	Text="End of BH Dailies\n\nIf you have quests completed, or quests still available, please let me know what they are (just simply copy and paste the &quot;Quest Order&quot; code into a pm)" />
+	<CustomBehavior File="UserDialog"  Title="title" AllowBotStop="True" SoundCue="Asterisk" SoundCueInterval="1" Text="End of BH Dailies" />
 
 
 

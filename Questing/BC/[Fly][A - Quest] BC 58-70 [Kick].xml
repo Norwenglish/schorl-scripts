@@ -59,6 +59,9 @@
 	</AvoidMobs>
   
 	<Blackspots>
+		<Blackspot X="-671.8173" Y="8485.206" Z="52.70205" Radius="10" />
+		<Blackspot X="4114.914" Y="1503.817" Z="-110.902" Radius="5" />
+		<Blackspot X="2525.866" Y="1995.082" Z="90.22734" Radius="15" />
 		<Blackspot X="889.6235" Y="7630.545" Z="20.83928" Radius="41.52261" /> <!-- Zangarmash Big Mushroom --> 
 		<Blackspot X="-1617.634" Y="5291.355" Z="-40.46586" Radius="3" />
 		<Blackspot X="4155.397" Y="1530.617" Z="-107.5108" Radius="15" />
@@ -1347,7 +1350,34 @@
 			</Hotspots>
 		</Objective>
 	</Quest>
+	<Quest Id="10314" Name="A Lingering Suspicion">
+		<Objective Type="CollectItem" ItemId="29338" CollectCount="10">
+			<Hotspots>
+				<Hotspot X="2531.019" Y="2039.697" Z="86.2417" />
+				<Hotspot X="2498.566" Y="2003.554" Z="83.68211" />
+				<Hotspot X="2488.937" Y="1989.593" Z="88.17304" />
+				<Hotspot X="2483.859" Y="2031.739" Z="88.25821" />
+				<Hotspot X="2531.4" Y="2107.388" Z="99.92776" />
+			</Hotspots>
+		</Objective>
+	</Quest>
+	<Quest Id="9708" Name="Familiar Fungi">
+		<Objective Type="CollectItem" ItemId="24238" CollectCount="15">
+			<Hotspots>
+				<Hotspot X="816.1794" Y="7619.208" Z="20.9686" />
+				<Hotspot X="741.5389" Y="7723.657" Z="21.57439" />
+				<Hotspot X="707.2363" Y="7847.843" Z="18.63008" />
+				<Hotspot X="929.4507" Y="7941.183" Z="22.58813" />
+				<Hotspot X="988.1926" Y="7701.32" Z="24.15817" />
+			</Hotspots>
+		</Objective>
+	</Quest>
 
+	
+	
+	
+	
+	
 	
 	<QuestOrder IgnoreCheckPoints="True" >
 	
@@ -1357,7 +1387,7 @@
 			<CustomBehavior File="UserDialog"  Title="title" AllowBotStop="True" SoundCue="Asterisk" SoundCueInterval="2" Text="You must be Alliance to run this profile" />
 		</If>
 		
-	<CustomBehavior File="UserSettings" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" />
+	<CustomBehavior File="UserSettings" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" GroundMountFarmingMode="False" KillBetweenHotspots="True" />
 
 			<If Condition="Me.ZoneId == 3483" >
 	<CustomBehavior File="UserDialog" AllowBotStop="False" SoundCue="Exclamation" SoundCueInterval="1" ExpiryTime="6" ExpiryAction="InputEnabled_Continue" Text="This profile doesn't fly until Zangarmarsh\n\nDiese Meldung ist nur eine Warnung udn wird in 6 Sekunden automatisch geschlossen" />
@@ -2554,7 +2584,10 @@
 			</If>
 		<PickUp QuestName="A'dal" QuestId="10210" GiverName="Haggard War Veteran" GiverId="19684" X="-1702.186" Y="5374.703" Z="3.867954" />
 		<TurnIn QuestName="A'dal" Questid="10210" TurnInName="A'dal" TurnInId="18481" X="-1863.683" Y="5430.042" Z="-9.703983" />
-		<PickUp QuestName="Rather Be Fishin'" QuestId="10037" GiverName="Seth" GiverId="18653" X="-1609.176" Y="5299.937" Z="-38.58288" />
+			<If Condition="!HasQuest(10037) &amp;&amp; !IsQuestCompleted(10037)">
+		<PickUp QuestName="Rather Be Fishin'" QuestId="10037" GiverName="Seth" GiverId="18653" />
+				<RunTo X="-1642.46" Y="5298.863" Z="-40.20853" />
+			</If>
 			<If Condition="((HasQuest(10037)) &amp;&amp; (!IsQuestCompleted(10037)))" >
 				<CustomBehavior File="FlyTo" X="-1463.941" Y="4993.428" Z="-8.706647" />
 				<CustomBehavior File="ForcedDismount" />
@@ -2675,7 +2708,10 @@
 			<Objective QuestName="The Shadow Tomb" QuestId="10881" Type="CollectItem" ItemId="31710" CollectCount="1" />
 			<Objective QuestName="The Shadow Tomb" QuestId="10881" Type="CollectItem" ItemId="31708" CollectCount="1" />
 		<TurnIn QuestName="The Shadow Tomb" QuestId="10881" TurnInName="Mekeda" TurnInId="22370" />
-		<Pickup QuestName="The Infested Protectors" QuestId="10896" GiverName="Lakotae" GiverId="22420" />
+			<If Condition="((!HasQuest(10896)) &amp;&amp; (!IsQuestCompleted(10896)))" >
+		<PickUp QuestName="The Infested Protectors" QuestId="10896" GiverName="Lakotae" GiverId="22420" />
+				<RunTo X="-2884.048" Y="5032.076" Z="-20.68161" />
+			</If>
 			<If Condition="(HasQuest(10104))" >
 				<CustomBehavior File="FlyTo" X="-2935.482" Y="3954.349" Z="0.08784905" />
 				<CustomBehavior File="ForcedDismount" />
@@ -3057,7 +3093,18 @@
 		<!-- Nagrand -->
 		<Checkpoint Level="66" />
 		
-		<!-- add in zangarmarsh 'get to neutral' questline -->
+		<!-- add in zangarmarsh 'get to neutral' questline
+			add in these quests for kurenai rep from zangarmarsh from ?? to neutral
+			http://www.wowhead.com/quests=8.3521&filter=si=1%3bcr=1%3bcrs=978%3bcrv=
+			<PickUp QuestName="Ango'rosh Encroachment" QuestId="9835" GiverName="Ikuti" GiverId="18008" X="1024.031" Y="7366.399" Z="36.33617" />
+			<PickUp QuestName="Daggerfen Deviance" QuestId="10115" GiverName="Ikuti" GiverId="18008" X="1024.031" Y="7366.399" Z="36.33617" />
+			// turnin those 2		
+		<PickUp QuestName="Overlord Gorefist" QuestId="9839" GiverName="Ikuti" GiverId="18008" X="1024.031" Y="7366.399" Z="36.33617" />
+		<PickUp QuestName="Stinger Venom" QuestId="9830" GiverName="Puluu" GiverId="18009" X="974.8629" Y="7421.645" Z="31.90633" />
+		<PickUp QuestName="Lines of Communication" QuestId="9833" GiverName="Puluu" GiverId="18009" X="974.8629" Y="7421.645" Z="31.90633" />
+		<PickUp QuestName="The Terror of Marshlight Lake" QuestId="9902" GiverName="Puluu" GiverId="18009" X="974.8629" Y="7421.645" Z="31.90633" />
+				-->
+			
 
 			<!-- Grind to Neutral -->
 			<If Condition="Me.GetReputationLevelWith(978) &lt; Styx.WoWUnitReaction.Neutral" >
@@ -3196,7 +3243,7 @@
 			</If>
 		<TurnIn QuestName="I Must Have Them!" QuestId="10109" TurnInName="Wazat" TurnInId="19035" X="-2429.066" Y="6888.377" Z="4.399668" />
 			<If Condition="((HasQuest(9917)) &amp;&amp; (IsQuestCompleted(9917)))" >
-				<CustomBehavior File="FlyTo" X="-2556.34" Y="7254.186" Z="15.12053" />
+				<CustomBehavior File="FlyTo" X="-2568.75" Y="7271.354" Z="15.48032" />
 				<CustomBehavior File="ForcedDismount" />
 			</If>
 		<TurnIn QuestName="Do My Eyes Deceive Me" QuestId="9917" TurnInName="Huntress Bintook" TurnInId="18353" X="-2556.34" Y="7254.186" Z="15.12053" />
@@ -3551,9 +3598,11 @@
 				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="Message to Telaar" TurnInName="Arechron" QuestId="9933" TurnInId="18183" />
 			</If>
+			<!--
 			<If Condition="(Me.Level &gt;= 67)" >
 		<PickUp QuestName="Visions of Destruction" GiverName="Seer Jovar" QuestId="11044" GiverId="23268" />
 			</If>
+			-->
 			</If>
 			<If Condition="((HasQuest(9956)) &amp;&amp; (IsQuestCompleted(9956)))" >
 		<TurnIn QuestName="The Ravaged Caravan" QuestId="9956" TurnInName="Huntress Kima" TurnInId="18416" X="-2548.599" Y="7329.804" Z="6.920063" />
@@ -4381,7 +4430,9 @@
 				<CustomBehavior File="WaitTimer" WaitTime="2000"/>
 		<TurnIn QuestName="Unlocking the Compendium" TurnInName="Image of Archmage Vargoth" QuestId="10301" TurnInId="19644" />
 		<TurnIn QuestName="Krasus's Compendium" TurnInName="Image of Archmage Vargoth" QuestId="10192" TurnInId="19644" />
+		<!--
 		<PickUp QuestName="Summoner Kanthin's Prize" GiverName="Image of Archmage Vargoth" QuestId="10209" GiverId="19644" />
+		-->
 			</If>
 			<If Condition="((HasQuest(10192)) &amp;&amp; (IsQuestCompleted(10192)))" >
 				<CustomBehavior File="FlyTo" X="2400.195" Y="2225.911" Z="111.0966" />
@@ -4390,8 +4441,11 @@
 				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(28455)" WaitTime="1000" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000"/>
 		<TurnIn QuestName="Krasus's Compendium" TurnInName="Image of Archmage Vargoth" QuestId="10192" TurnInId="19644" />
+		<!--
 		<PickUp QuestName="Summoner Kanthin's Prize" GiverName="Image of Archmage Vargoth" QuestId="10209" GiverId="19644" />
+		-->
 			</If>
+			<!--
 			<If Condition="((!HasQuest(10209)) &amp;&amp; (!IsQuestCompleted(10209)))" >
 				<CustomBehavior File="FlyTo" X="2400.195" Y="2225.911" Z="111.0966" />
 				<CustomBehavior File="ForcedDismount" />
@@ -4400,7 +4454,6 @@
 				<CustomBehavior File="WaitTimer" WaitTime="2000"/>
 		<PickUp QuestName="Summoner Kanthin's Prize" GiverName="Image of Archmage Vargoth" QuestId="10209" GiverId="19644" />
 			</If>
-			<!--
 			<If Condition="((HasQuest(10233)) &amp;&amp; (IsQuestCompleted(10233)))" >
 				<CustomBehavior File="FlyTo" X="2251.079" Y="2277.055" Z="97.76612" />
 				<CustomBehavior File="ForcedDismount" />
@@ -5309,12 +5362,15 @@
 	</QuestOrder>
  
 	<ProtectedItems>
+		<Item Name="Murkblood Invasion Plans" Id="24559" />
+		<Item Name="Murkblood Invasion Plans" Id="24558" />
 		<Item Name="Nethergarde Bitter" Entry="23848" />
 		<Item Name="Arakkoa Feather" Entry="25719" />
 		<Item Name="Glowcap" Entry="24245" />
 		<Item Name="Fertile Spores" Entry="24449" />
 		<Item Name="Mature Spore Sac" Entry="24290" />
 		<Item Name="Bog Lord Tendril" Entry="24291" />
+		<Item Name="Unidentified Plant Parts" Id="24401" />
 	</ProtectedItems>
 
   </HBProfile>
