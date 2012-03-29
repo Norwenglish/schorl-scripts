@@ -1,9 +1,3 @@
-<!-- Special thanks to everyone who has helped me with this profile & coding issues
-
-	USERS:
-		Please report all bugs (even minor) and I'll see what I can do about fixing them
--->
-
 <HBProfile>
 	<Name>[A - Fly] QO 68-80 [Kick] Release</Name>
 	<MinLevel>68</MinLevel>
@@ -24,6 +18,7 @@
   
 
 	<Blackspots>
+		<Blackspot X="5604.736" Y="-697.129" Z="206.6216" Radius="60" />
 		<Blackspot X="2848.804" Y="36.11216" Z="-0.03785837" Radius="15" />
 		<Blackspot X="3399.723" Y="-2811.226" Z="200.4494" Radius="6" />
 		<Blackspot X="1380.144" Y="-3167.883" Z="162.8093" Radius="20" />
@@ -146,9 +141,12 @@
 		<Vendor Name="Quartermaster McCarty" Entry="26375" Type="Food" X="4596.138" Y="-4237.277" Z="178.6546" /> <!-- ? -->
 		<Vendor Name="Caregiver Poallu" Entry="27187" Type="Food" X="3003.715" Y="4052.131" Z="26.36849" /> <!-- Unu'pe, Borean Tundra -->
 		<Vendor Name="James Deacon" Entry="25245" Type="Food" X="2282.294" Y="5210.832" Z="12.49439" /> <!-- Valiance Keep, Borean Tundra -->
+		<Vendor Name="Naohain" Entry="27052" Type="Food" X="3477.54" Y="2006.678" Z="64.8625" /> <!--Stars' Rest,Dragonblight-->
 		<Vendor Name="Caregiver Mumik" Entry="27174" Type="Food" X="2779.231" Y="927.0215" Z="22.52661" /> <!-- Moa'ki Harbor, Dragonblight -->
 		<Vendor Name="Purser Boulian" Entry="28038" Type="Food" X="5566.248" Y="5763.706" Z="-75.22581" /> <!-- Nesingwary Base, Sholazar Basin -->
 		<Vendor Name="Spiked" Entry="28867" Type="Food" X="5229.741" Y="-1315.265" Z="242.2773" /> <!-- Ebon Watch, Zul'Drak -->
+		<Vendor Name="Scout Yribria" Entry="30257" Type="Food" X="5054.408" Y="-581.1053" Z="219.9714" /> <!-- Crystalsong Forest -->
+		<Vendor Name="Smilin' Slirk Brassknob" Entry="29904" Type="Food" X="6124.416" Y="-1080.962" Z="402.5406" /> <!-- K3 -->
 	</Vendors>
 
 	<Mailboxes>
@@ -2220,7 +2218,7 @@
 			</If>
 		
 		
-	<CustomBehavior File="UserSettings" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" LootMobs="True" PullDistance="25" />
+	<CustomBehavior File="UserSettings" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" LootMobs="True" PullDistance="25" GroundMountFarmingMode="False" KillBetweenHotspots="True" />
 	
 		<CustomBehavior File="Message" Text="If the bot takes more than 10 seconds to move, it is compiling quests to see where you are - it's about 1 minute per zone completed" LogColor="Cornflowerblue" />
 
@@ -2434,6 +2432,7 @@
 		<PickUp QuestName="The Hunt is On" QuestId="11794" GiverId="25826" GiverName="Vindicator Yaala" />
 		-->
 			 </If>
+				<RunTo X="2266.861" Y="5229.104" Z="11.24634" />
 			</If>
 			<If Condition="((HasQuest(11793)) &amp;&amp; (IsQuestCompleted(11793)))" >
 				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="2258.399" Y="5201.553" Z="11.32161" />
@@ -2442,6 +2441,7 @@
 			<!-- Disabled until i can fiddle with it
 		<PickUp QuestName="The Hunt is On" QuestId="11794" GiverId="25826" GiverName="Vindicator Yaala" />
 			-->
+				<RunTo X="2266.861" Y="5229.104" Z="11.24634" />
 			</If>
 			<!-- fix this later
 			<If Condition="((!HasQuest(11794)) &amp;&amp; (!IsQuestCompleted(11794)))" >
@@ -2692,22 +2692,26 @@
 				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="In Wine, Truth" QuestId="11603" TurnInName="Old Man Colburn" TurnInId="25302" />
 		<PickUp QuestName="A Deserter" QuestId="11604" GiverName="Old Man Colburn" GiverId="25302" />
+				<RunTo X="2257.313" Y="5202.184" Z="11.31332" />
 			</If>
 			<If Condition="((!HasQuest(11604)) &amp;&amp; (!IsQuestCompleted(11604)))" >
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="2257.313" Y="5202.184" Z="11.31332" />
 				<CustomBehavior File="ForcedDismount" />
 		<PickUp QuestName="A Deserter" QuestId="11604" GiverName="Old Man Colburn" GiverId="25302" />
+				<RunTo X="2257.313" Y="5202.184" Z="11.31332" />
 			</If>
 			<If Condition="((HasQuest(11604)) &amp;&amp; (IsQuestCompleted(11604)))" >
 				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="2142.494" Y="5292.179" Z="23.82647" />
 				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="A Deserter" QuestId="11604" TurnInName="Private Brau" TurnInId="25395" />
 		<PickUp QuestName="Cowards and Fools" QuestId="11932" GiverName="Private Brau" GiverId="25395" />
+				<RunTo X="2257.313" Y="5202.184" Z="11.31332" />
 			</If>
 			<If Condition="((!HasQuest(11932)) &amp;&amp; (!IsQuestCompleted(11932)))" >
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="2142.494" Y="5292.179" Z="23.82647" />
 				<CustomBehavior File="ForcedDismount" />
 		<PickUp QuestName="Cowards and Fools" QuestId="11932" GiverName="Private Brau" GiverId="25395" />
+				<RunTo X="2257.313" Y="5202.184" Z="11.31332" />
 			</If>
 			<!-- End of random quests -->
 			
@@ -2851,7 +2855,7 @@
 			<!-- End of Kaskala daily -->
 
 			<If Condition="((HasQuest(11949)) &amp;&amp; (!IsQuestCompleted(11949)))" >
-				<CustomBehavior File="FlyTo" DestName="Objective" X="3088.551" Y="4796.059" Z="0.7614743" />
+				<CustomBehavior File="FlyTo" DestName="Objective" X="3080.794" Y="4810.804" Z="1.216116" />
 				<CustomBehavior File="ForcedDismount" />
 				<Objective QuestName="Not Without a Fight!" QuestId="11949" Type="KillMob" MobId="25760" KillCount="12" />
 			</If>
@@ -3696,7 +3700,7 @@
 			<If Condition="((HasQuest(11712)) &amp;&amp; (!IsQuestCompleted(11712)))" >
 				<CustomBehavior File="FlyTo" DestName="Objective" X="4171.517" Y="5207.585" Z="16.73495" />
 				<CustomBehavior File="ForcedDismount" />
-				<CustomBehavior File="UseItemOn" QuestId="11712" MobId="25814" ItemId="34973" NumOfTimes="20" WaitTime="6000" CollectionDistance="1000" X="4152.145" Y="5133.038" Z="14.36886" />
+				<CustomBehavior File="UseItemOn" QuestId="11712" MobId="25814" ItemId="34973" NumOfTimes="200" WaitTime="6000" CollectionDistance="1000" X="4152.145" Y="5133.038" Z="14.36886" />
 			</If>
 			<If Condition="((!HasQuest(11729)) &amp;&amp; (!IsQuestCompleted(11729)))" >
 			 <If Condition="(!HasItem(34984))" >
@@ -3839,6 +3843,31 @@
 			 </While>
 				<CustomBehavior File="MyCTM" X="4178.774" Y="5286.273" Z="39.60883" />
 		<TurnIn QuestName="The Gearmaster" QuestId="11798" TurnInName="Fizzcrank Fullthrottle" TurnInId="25590" />
+		<PickUp QuestName="Finding Pilot Tailspin" QuestId="11725" GiverName="Fizzcrank Fullthrottle" GiverId="25590" />
+				<CustomBehavior File="MyCTM" X="4181.785" Y="5282.175" Z="39.60907" />
+				<CustomBehavior File="UseTransport"
+								WaitAtX="4181.382" WaitAtY="5281.989" WaitAtZ="39.60874" 
+								GetOffX="4180.536" GetOffY="5280.977" GetOffZ="26.49352" 
+								TransportStartX="4184.285" TransportStartY="5281.594" TransportStartZ="39.48473" 
+								TransportEndX="4184.285" TransportEndY="5281.594" TransportEndZ="26.7" 
+								TransportId="152614" />
+			</If>
+			<If Condition="((!HasQuest(11725)) &amp;&amp; (!IsQuestCompleted(11725)))" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="4159.061" Y="5281.848" Z="26.10235" />
+				<CustomBehavior File="ForcedDismount" />
+				<RunTo X="4177.329" Y="5280.924" Z="26.69335" />
+				<CustomBehavior File="WaitTimer" WaitTime="1000" GoalText="Waiting for elevator {TimeRemaining}" />
+			 <While Condition="(Me.Z &lt; 30)">
+				<CustomBehavior File="UseTransport"
+								WaitAtX="4180.536" WaitAtY="5280.977" WaitAtZ="26.49352"
+								GetOffX="4180.375" GetOffY="5282.13" GetOffZ="39.60874" 
+								TransportStartX="4184.285" TransportStartY="5281.594" TransportStartZ="26.8" 
+								TransportEndX="4184.285" TransportEndY="5281.594" TransportEndZ="39.48473" 
+								TransportId="152614" />
+								
+				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for elevator {TimeRemaining}" />
+			 </While>
+				<CustomBehavior File="MyCTM" X="4178.774" Y="5286.273" Z="39.60883" />
 		<PickUp QuestName="Finding Pilot Tailspin" QuestId="11725" GiverName="Fizzcrank Fullthrottle" GiverId="25590" />
 				<CustomBehavior File="MyCTM" X="4181.785" Y="5282.175" Z="39.60907" />
 				<CustomBehavior File="UseTransport"
@@ -5033,6 +5062,9 @@
 				<RunTo X="1029.346" Y="-5026.838" Z="10.77196" />
 				<RunTo X="1041.565" Y="-5068.429" Z="10.74051" />
 				<RunTo X="1035.424" Y="-5042.65" Z="10.73383" />				
+				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for agro {TimeRemaining}" />
+				<RunTo X="1035.424" Y="-5042.65" Z="10.73383" />				
+				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(33637)" WaitTime="1000" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for agro {TimeRemaining}" />
 				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(33637)" WaitTime="1000" />
 				<CustomBehavior File="WaitTimer" WaitTime="6000" GoalText="Using Item {TimeRemaining}" />

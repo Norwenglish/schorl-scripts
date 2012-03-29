@@ -40,6 +40,10 @@
 	</Mailboxes>
 
 	<Blackspots>
+		<Blackspot X="-671.8173" Y="8485.206" Z="52.70205" Radius="10" />
+		<Blackspot X="4114.914" Y="1503.817" Z="-110.902" Radius="5" />
+		<Blackspot X="-1336.343" Y="2346.418" Z="88.95507" Radius="10" />
+		<Blackspot X="2525.866" Y="1995.082" Z="90.22734" Radius="15" />
 		<Blackspot X="889.6235" Y="7630.545" Z="20.83928" Radius="41.52261" /> <!-- Zangarmash Big Mushroom --> 
 		<Blackspot X="-1617.634" Y="5291.355" Z="-40.46586" Radius="3" />
 		<Blackspot X="4155.397" Y="1530.617" Z="-107.5108" Radius="15" />
@@ -797,6 +801,17 @@
 			</Hotspots>
 		</Objective>
 	</Quest>
+	<Quest Id="9708" Name="Familiar Fungi">
+		<Objective Type="CollectItem" ItemId="24238" CollectCount="15">
+			<Hotspots>
+				<Hotspot X="816.1794" Y="7619.208" Z="20.9686" />
+				<Hotspot X="741.5389" Y="7723.657" Z="21.57439" />
+				<Hotspot X="707.2363" Y="7847.843" Z="18.63008" />
+				<Hotspot X="929.4507" Y="7941.183" Z="22.58813" />
+				<Hotspot X="988.1926" Y="7701.32" Z="24.15817" />
+			</Hotspots>
+		</Objective>
+	</Quest>
 
 	<!--Hellfire Peninsular Overrides-->
 	<Quest Id="9396" Name="Magic of the Arakkoa">
@@ -1075,12 +1090,35 @@
 			</Hotspots>
 		</Objective>
 	</Quest>
+	<Quest Id="10314" Name="A Lingering Suspicion">
+		<Objective Type="CollectItem" ItemId="29338" CollectCount="10">
+			<Hotspots>
+				<Hotspot X="2531.019" Y="2039.697" Z="86.2417" />
+				<Hotspot X="2498.566" Y="2003.554" Z="83.68211" />
+				<Hotspot X="2488.937" Y="1989.593" Z="88.17304" />
+				<Hotspot X="2483.859" Y="2031.739" Z="88.25821" />
+				<Hotspot X="2531.4" Y="2107.388" Z="99.92776" />
+			</Hotspots>
+		</Objective>
+	</Quest>
+	<Quest Id="10847" Name="The Eyes of Skettis">
+		<Objective Type="CollectItem" ItemId="25638" CollectCount="1">
+			<Hotspots>
+				<Hotspot X="-1698.389" Y="4376.254" Z="53.20021" />
+			</Hotspots>
+		</Objective>
+		<Objective Type="CollectItem" ItemId="25642" CollectCount="1">
+			<Hotspots>
+				<Hotspot X="-1835.711" Y="3962.149" Z="46.5631" />
+			</Hotspots>
+		</Objective>
+	</Quest>
 
 
 	<QuestOrder IgnoreCheckPoints="True" >
 
 		<!--BEGIN HELLFIRE PENINSULAR QUESTING-->
-			<CustomBehavior File="UserSettings" UseMount="True" LootMobs="True" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" PullDistance="25" />
+			<CustomBehavior File="UserSettings" UseMount="True" LootMobs="True" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" PullDistance="25" GroundMountFarmingMode="False" KillBetweenHotspots="True" />
 			
 			<If Condition="Me.ZoneId == 3483" >
 	<CustomBehavior File="UserDialog" AllowBotStop="False" SoundCue="Exclamation" SoundCueInterval="2" ExpiryTime="20" ExpiryAction="InputEnabled_Continue" Text="This profile doesn't fly until Zangarmarsh\n\nMake sure that Shak Questing / Azenius Plugin is enabled!!!!\n\nNote: This is just a warning and will go away in 30 seconds\n\nDiese Meldung ist nur eine Warnung udn wird in 30 Sekunden automatisch geschlossen" />
@@ -1181,8 +1219,8 @@
 		<TurnIn QuestName="Disrupt Their Reinforcements" QuestId="10208" TurnInName="Forward Commander To'arch" TurnInId="19273" />
 		<PickUp QuestName="Mission: Gateways Murketh and Shaadraz" QuestId="10129" GiverName="Forward Commander To'arch" GiverId="19273" />
 			<If Condition="HasQuest(10129) &amp;&amp; !IsQuestCompleted(10129)">
-				<CustomBehavior File="ForcedDismount" />
 				<RunTo X="-24.09538" Y="2125.857" Z="112.7033" />
+				<CustomBehavior File="ForcedDismount" />
 				<CustomBehavior File="InteractWith" QuestId="10129" MobId="19401" GossipOptions="1" X="-24.09538" Y="2125.857" Z="112.7033" />
 				<CustomBehavior File="Message" Text="Azenius Plugin kicks-in." />
 			</If>
@@ -1231,6 +1269,9 @@
 		<PickUp QuestName="Spinebreaker Post" QuestId="10242" GiverName="Apothecary Zelana" GiverId="21257" />
 		<PickUp QuestName="The Warp Rifts" QuestId="10278" GiverName="Ogath the Mad" GiverId="19683" />
 		<PickUp QuestName="Make Them Listen" QuestId="10220" GiverName="Emissary Mordiba" GiverId="19682" />
+			<If Condition="((HasQuest(10242)) &amp;&amp; (IsQuestCompleted(10242)))" >
+				<RunTo X="-1325.354" Y="2361.366" Z="88.95512" />
+			</If>
 		<TurnIn QuestName="Spinebreaker Post" QuestId="10242" TurnInName="Apothecary Albreck" TurnInId="21279" />
 		<PickUp QuestName="Boiling Blood" QuestId="10538" GiverName="Apothecary Albreck" GiverId="21279" />
 		<PickUp QuestName="Preparing the Salve" QuestId="9345" GiverName="Grelag" GiverId="16858" />
@@ -1592,19 +1633,23 @@
 			</If>
 		<TurnIn QuestName="The Great Fissure" QuestId="9340" TurnInName="Ranger Captain Venn'ren" TurnInId="16789" />
 		<PickUp QuestName="Marking the Path" QuestId="9391" GiverName="Ranger Captain Venn'ren" GiverId="16789" />
-			<If Condition="HasQuest(9370) &amp;&amp; !IsQuestCompleted(9370) &amp;&amp; (Me.Z &gt; 130)">
+			<While Condition="HasQuest(9370) &amp;&amp; !IsQuestCompleted(9370)">
+			 <If Condition="HasQuest(9370) &amp;&amp; !IsQuestCompleted(9370) &amp;&amp; (Me.Z &gt; 130)">
 				<CustomBehavior File="MyCTM" X="-587.4887" Y="4069.858" Z="143.2581" />
 				<CustomBehavior File="MyCTM" X="-585.7033" Y="4076.605" Z="143.2581" />
 				<CustomBehavior File="MyCTM" X="-589.981" Y="4078.174" Z="143.2581" />
 				<CustomBehavior File="InteractWith" MobId="184500" ObjectType="Gameobject" Range="8" WaitTime="7000" CollectionDistance="1000" X="-589.981" Y="4078.174" Z="143.2581" />
-			</If>
-			
-			<If Condition="HasQuest(9370) &amp;&amp; !IsQuestCompleted(9370)">
+			 </If>
+			 <If Condition="HasQuest(9370) &amp;&amp; !IsQuestCompleted(9370)">
 				<RunTo X="93.81661" Y="3519.336" Z="60.95002" />
+				<CustomBehavior File="WaitTimer" WaitTime="2000" />
+				<RunTo X="93.81661" Y="3519.336" Z="60.95002" />
+				<CustomBehavior File="WaitTimer" WaitTime="2000" />
 				<CustomBehavior File="Misc\RunLua" WaitTime="10000" NumOfTimes="1" Lua="UseItemByName(23358)" />
 				<CustomBehavior File="WaitTimer" WaitTime="20000" />
 				<CustomBehavior File="InteractWith" MobId="16994" NumOfTimes="1" GossipOptions="1" WaitForNpcs="False" Range="2" WaitTime="6000" X="98.97932" Y="3512.318" Z="61.96777" />
-			</If>
+			 </If>
+			</While>
 			
 			<If Condition="(HasQuest(10286))" >
 				<CustomBehavior File="Message" LogColor="Orange" Text="Do not interfere, I'm waiting for an NPC to pass by (Quest = Arelion's Secret)." />
@@ -1926,7 +1971,7 @@
 		<PickUp QuestName="Return to the Marsh" QuestId="9732" GiverName="Amythiel Mistwalker" GiverId="16885" X="-314.8192" Y="4711.438" Z="18.33707" />
 			</If>
 			<If Condition="(HasQuest(9732))" >
-				<CustomBehavior File="FlyTo" X="-143.4519" Y="5533.816" Z="31.06601" />
+				<CustomBehavior File="FlyTo" X="-143.4519" Y="5533.816" Z="31.06601" Distance="2" />
 				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="Return to the Marsh" QuestId="9732" TurnInName="Ysiel Windsinger" TurnInId="17841" X="-143.4519" Y="5533.816" Z="31.06601" />
 			</If>
@@ -1948,9 +1993,9 @@
 		<TurnIn QuestName="Blessings of the Ancients" QuestId="9785" TurnInName="Windcaller Blackhoof" TurnInId="18070" X="-234.2691" Y="5434.766" Z="22.42206" />
 		<PickUp QuestName="Watcher Leesa'oh" QuestId="9697" GiverName="Lethyn Moonfire" GiverId="17834" X="-181.3797" Y="5527.087" Z="29.40768" />
 			<If Condition="(HasQuest(9697))" >
-				<CustomBehavior File="FlyTo" X="-283.8969" Y="8304.076" Z="19.64768" />
+				<CustomBehavior File="FlyTo" X="-278.2877" Y="8306.994" Z="20.08303" />
 				<CustomBehavior File="ForcedDismount" />
-				<RunTo X="-283.8969" Y="8304.076" Z="19.64768" />
+				<RunTo X="-278.2877" Y="8306.994" Z="20.08303" />
 			</If>
 		<TurnIn QuestName="Watcher Leesa'oh" QuestId="9697" TurnInName="Watcher Leesa'oh" TurnInId="17831" X="-283.8969" Y="8304.076" Z="19.64768" />
 		<PickUp QuestName="Observing the Sporelings" QuestId="9701" GiverName="Watcher Leesa'oh" GiverId="17831" X="-283.8969" Y="8304.076" Z="19.64768" />
@@ -1970,8 +2015,9 @@
 		<PickUp QuestName="A Question of Gluttony" QuestId="9702" GiverName="Watcher Leesa'oh" GiverId="17831" X="-294.1468" Y="8232.191" Z="20.88719" />
 			<Objective QuestName="A Question of Gluttony" QuestId="9702" Type="CollectItem" CollectCount="10" Name="Discarded Nutriment" ItemId="24233" />
 			<If Condition="((HasQuest(9702)) &amp;&amp; (IsQuestCompleted(9702)))" >
-				<CustomBehavior File="FlyTo" X="-281.6287" Y="8306.561" Z="19.85801" />
+				<CustomBehavior File="FlyTo" X="-278.2877" Y="8306.994" Z="20.08303" />
 				<CustomBehavior File="ForcedDismount" />
+				<RunTo X="-278.2877" Y="8306.994" Z="20.08303" />
 			</If>
 		<TurnIn QuestName="A Question of Gluttony" QuestId="9702" TurnInName="Watcher Leesa'oh" TurnInId="17831" X="-294.1468" Y="8232.191" Z="20.88719" />
 		<PickUp QuestName="Familiar Fungi" QuestId="9708" GiverName="Watcher Leesa'oh" GiverId="17831" />
@@ -1981,8 +2027,9 @@
 			</If>
 			<Objective QuestName="Familiar Fungi" QuestId="9708" Type="CollectItem" ItemId="24238" CollectCount="15" />
 			<If Condition="(HasQuest(9708)) &amp;&amp; (IsQuestCompleted(9708))">
-				<CustomBehavior File="FlyTo" X="-290.2593" Y="8305.209" Z="19.43753" />
+				<CustomBehavior File="FlyTo" X="-278.2877" Y="8306.994" Z="20.08303" />
 				<CustomBehavior File="ForcedDismount" />
+				<RunTo X="-278.2877" Y="8306.994" Z="20.08303" />
 			</If>
 		<TurnIn QuestName="Familiar Fungi" QuestId="9708" TurnInName="Watcher Leesa'oh" TurnInId="17831" />
 		<PickUp QuestName="Stealing Back the Mushrooms" QuestId="9709" GiverName="Watcher Leesa'oh" GiverId="17831" />
@@ -1990,14 +2037,16 @@
 				<CustomBehavior File="FlyTo" X="1370.382" Y="8575.799" Z="21.37692" />
 				<CustomBehavior File="ForcedDismount" />
 			</If>
-			<Objective QuestName="Stealing Back the Mushrooms" QuestId="9709" Type="CollectItem" ItemId="24240" CollectCount="10" />
-			<If Condition="(HasQuest(9709)) &amp;&amp; (IsQuestCompleted(9709))">
+			<If Condition="((HasQuest(9709)) &amp;&amp; (!IsQuestCompleted(9709)))" >
+				<Objective QuestName="Stealing Back the Mushrooms" QuestId="9709" Type="CollectItem" ItemId="24240" CollectCount="10" />
 				<RunTo X="1370.382" Y="8575.799" Z="21.37692" />
-				<CustomBehavior File="FlyTo" X="-290.2593" Y="8305.209" Z="19.43753" />
+			</If>
+			<If Condition="(HasQuest(9709)) &amp;&amp; (IsQuestCompleted(9709))">
+				<CustomBehavior File="FlyTo" X="-278.2877" Y="8306.994" Z="20.08303" />
 				<CustomBehavior File="ForcedDismount" />
+				<RunTo X="-278.2877" Y="8306.994" Z="20.08303" />
 			</If>
 		<TurnIn QuestName="Stealing Back the Mushrooms" QuestId="9709" TurnInName="Watcher Leesa'oh" TurnInId="17831" />
-
 		
 			<If Condition="HasQuest(10103) &amp;&amp; IsQuestCompleted(10103)" >
 				<CustomBehavior File="FlyTo" X="106.0771" Y="5204.103" Z="21.48164" />
@@ -2326,8 +2375,9 @@
 			<If Condition="!HasQuest(10037) &amp;&amp; !IsQuestCompleted(10037)">
 				<CustomBehavior File="FlyTo" DestName="Flying to 'Seth' (Picking up Quest = Rather Be Fishin')." X="-1626.757" Y="5299.776" Z="-40.21038" />
 				<CustomBehavior File="ForcedDismount" />
-			</If>
 		<PickUp QuestName="Rather Be Fishin'" QuestId="10037" GiverName="Seth" GiverId="18653" />
+				<RunTo X="-1642.46" Y="5298.863" Z="-40.20853" />
+			</If>
 			<If Condition="!HasQuest(10847) &amp;&amp; !IsQuestCompleted(10847)" >
 				<CustomBehavior File="FlyTo" DestName="Flying to 'Rilak the Redeemed' (Picking up Quest = The Eyes of Skettis)." X="-1654.105" Y="5446.75" Z="-40.40615" />
 				<CustomBehavior File="ForcedDismount" />
@@ -2351,7 +2401,7 @@
 		<PickUp QuestName="Strange Energy" QuestId="9968" GiverName="Earthbinder Tavgren" GiverId="18446" />
 		<PickUp QuestName="Clues in the Thicket" QuestId="9971" GiverName="Earthbinder Tavgren" GiverId="18446" />
 			<If Condition="HasQuest(9971) &amp;&amp; !IsQuestCompleted(9971)" >
-				<CustomBehavior File="FlyTo" DestName="Flying to 'Warden Treelos' (Picking up Quest = It's Watching You!)." X="-1844.434" Y="4692.944" Z="8.80941" />
+				<CustomBehavior File="FlyTo" DestName="Flying to 'Warden Treelos' (Picking up Quest = It's Watching You!)." X="-1790.573" Y="4698.428" Z="12.23734" />
 				<CustomBehavior File="ForcedDismount" />
 			</If>
 		<PickUp QuestName="It's Watching You!" QuestId="9951" GiverName="Warden Treelos" GiverId="18424" />
@@ -2406,23 +2456,18 @@
 			 </If>
 		<TurnIn QuestName="By Any Means Necessary" QuestId="9978" TurnInName="Empoor" TurnInId="18482" />
 		<PickUp QuestName="Wind Trader Lathrai" QuestId="9979" GiverName="Empoor" GiverId="18482" />
-			<If Condition="HasQuest(10847) &amp;&amp; !IsObjectiveComplete(1, 10847)" >
-				<CustomBehavior File="FlyTo" DestName="Flying to Hotspot area (Quest = The Eyes of Skettis)." X="-1695.268" Y="4382.719" Z="53.39054" />
+			 <If Condition="((HasQuest(10847)) &amp;&amp; (!IsObjectiveComplete(1, 10847)))">
+				<CustomBehavior File="FlyTo" X="-1687.967" Y="4432.479" Z="79.36324" />
+				<CustomBehavior File="FlyTo" X="-1631.385" Y="4420.064" Z="54.19151" />
 				<CustomBehavior File="ForcedDismount" />
-			</If>
-			<Objective QuestName="The Eyes of Skettis" QuestId="10847" Type="CollectItem" ItemId="25638" CollectCount="1" />
-			<While Condition="HasQuest(10847) &amp;&amp; !IsObjectiveComplete(2, 10847)" >
-				<CustomBehavior File="FlyTo" DestName="Flying to Hotspot area (Quest = The Eyes of Skettis)." X="-1899.595" Y="3927.292" Z="81.9945" />
-				<CustomBehavior File="FlyTo" DestName="Flying to Hotspot area (Quest = The Eyes of Skettis)." X="-1854.508" Y="3921.684" Z="44.34206" />
+				<Objective QuestName="The Eyes of Skettis" QuestId="10847" Type="CollectItem" ItemId="25638" CollectCount="1" X="-1698.389" Y="4376.254" Z="53.20021" />
+			 </If>
+			 <If Condition="((HasQuest(10847)) &amp;&amp; (!IsObjectiveComplete(2, 10847)))">
+				<CustomBehavior File="FlyTo" X="-1698.132" Y="4451.118" Z="80.80379" />
+				<CustomBehavior File="FlyTo" X="-1635.986" Y="4421.118" Z="61.71068" />
 				<CustomBehavior File="ForcedDismount" />
-				<!--
-				<Objective QuestName="The Eyes of Skettis" QuestId="10847" Type="CollectItem" ItemId="25642" CollectCount="1" />
-				-->
-				<RunTo X="-1833.308" Y="3960.438" Z="46.56073" />
-				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for  {TimeRemaining}" />
-				<CustomBehavior File="InteractWith" QuestId="10847" MobId="185201" ObjectType="Gameobject" Range="5" X="-1833.308" Y="3960.438" Z="46.56073" />
-				<RunTo X="-1854.508" Y="3921.684" Z="44.34206" />
-			</While>
+				<Objective QuestName="The Eyes of Skettis" QuestId="10847" Type="CollectItem" ItemId="25642" CollectCount="1" X="-1835.711" Y="3962.149" Z="46.5631" />
+			 </If>
 			<If Condition="HasQuest(10847) &amp;&amp; IsQuestCompleted(10847)" >
 				<CustomBehavior File="FlyTo" X="-1654.654" Y="5446.56" Z="-40.40606" />
 				<CustomBehavior File="ForcedDismount" />
@@ -2435,11 +2480,14 @@
 			</If>
 		<TurnIn QuestName="Rather Be Fishin'" QuestId="10037" TurnInName="Seth" TurnInId="18653" />
 			<If Condition="HasQuest(9979) &amp;&amp; IsQuestCompleted(9979)" >
-				<CustomBehavior File="FlyTo" Text="Flying to 'Seth' (Turning in Quest = Wind Trader Lathrai)." X="-1746.264" Y="5188.835" Z="-40.20822" />
+				<CustomBehavior File="FlyTo" DestName="Flying to 'Seth' (Turning in Quest = Wind Trader Lathrai)." Distance="2" X="-1739.664" Y="5182.944" Z="-40.20925" />
 				<CustomBehavior File="ForcedDismount" />
 			</If>
 		<TurnIn QuestName="Wind Trader Lathrai" QuestId="9979" TurnInName="Wind Trader Lathrai" TurnInId="18484" />
+			<If Condition="((!HasQuest(10112)) &amp;&amp; (!IsQuestCompleted(10112)))" >
 		<PickUp QuestName="A Personal Favor" QuestId="10112" GiverName="Wind Trader Lathrai" GiverId="18484" />
+				<RunTo X="-1779.784" Y="5178.055" Z="-40.26755" />
+			</If>
 			<If Condition="HasQuest(10849) &amp;&amp; IsQuestCompleted(10849)" >
 				<CustomBehavior File="FlyTo" DestName="Flying to 'Kirrik the Awakened' (Turning in Quest = Seek Out Kirrik)." X="-2840.865" Y="5063.955" Z="-17.65049" />
 				<CustomBehavior File="ForcedDismount" />
@@ -2448,7 +2496,10 @@
 		<PickUp QuestName="Veil Skith: Darkstone of Terokk" QuestId="10839" GiverName="Kirrik the Awakened" GiverId="22272" />
 		<PickUp QuestName="Missing Friends" QuestId="10852" GiverName="Ethan" GiverId="22365" />
 		<PickUp QuestName="Before Darkness Falls" QuestId="10878" GiverName="Mekeda" GiverId="22370" />
+			<If Condition="((!HasQuest(10896)) &amp;&amp; (!IsQuestCompleted(10896)))" >
 		<PickUp QuestName="The Infested Protectors" QuestId="10896" GiverName="Lakotae" GiverId="22420" />
+				<RunTo X="-2884.048" Y="5032.076" Z="-20.68161" />
+			</If>
 			<If Condition="HasQuest(10896) &amp;&amp; !IsQuestCompleted(10896)" >
 				<CustomBehavior File="FlyTo" DestName="kill Termites" X="-2722.007" Y="5009.472" Z="-6.470714" />
 				<CustomBehavior File="ForcedDismount" />
@@ -2924,12 +2975,15 @@
 			-->
 		<TurnIn QuestName="Patriarch Ironjaw" QuestId="10023" TurnInName="Malukaz" TurnInId="18384" />
 		<PickUp QuestName="Welcoming the Wolf Spirit" QuestId="10791" GiverName="Malukaz" GiverId="18384" />
-			<If Condition="HasQuest(10791) &amp;&amp; !IsQuestCompleted(10791)">
+			<While Condition="HasQuest(10791) &amp;&amp; !IsQuestCompleted(10791)">
+				<RunTo X="-2655.62" Y="4391.473" Z="36.13333" />
 				<UseItem ItemId="31344" QuestId="10791" NumOfTimes="1" X="-2667.054" Y="4377.325" Z="36.21084" />
-				<CustomBehavior File="WaitTimer" WaitTime="4000" />
-			</If>
+				<CustomBehavior File="WaitTimer" WaitTime="25000" />
+			</While>
 			</If>
 			<If Condition="((HasQuest(10791)) &amp;&amp; (IsQuestCompleted(10791)))" >
+				<CustomBehavior File="FlyTo" DestName="Stonebreaker Hold" X="-2651.536" Y="4396.26" Z="36.21259" />
+				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="Welcoming the Wolf Spirit" QuestId="10791" TurnInName="Malukaz" TurnInId="18384" />
 				<RunTo X="-2650.843" Y="4396.41" Z="36.13869" />
 			</If>
@@ -2944,8 +2998,8 @@
 			<If Condition="!HasQuest(9797) &amp;&amp; !IsQuestCompleted(9797)">
 				<CustomBehavior File="FlyTo" X="261.7116" Y="7860.628" Z="23.40682" />
 				<CustomBehavior File="ForcedDismount" />
-			</If>
 		<PickUp QuestName="Reinforcements for Garadar" QuestId="9797" GiverName="Messenger Gazgrigg" GiverId="18091" />
+			</If>
 	   
 			<If Condition="(Me.Level &lt; 66)" >
 				<CustomBehavior File="FlyTo" X="-1535.106" Y="7594.53" Z="-5.453713" />
@@ -3756,6 +3810,10 @@
 			<Objective QuestName="Silkwing Cocoons" QuestId="10617" Type="CollectItem" ItemId="30791" CollectCount="8" />	
 		<TurnIn QuestName="The Softest Wings" QuestId="10618" TurnInName="Silmara" TurnInId="21896" />
 		<TurnIn QuestName="Silkwing Cocoons" QuestId="10617" TurnInName="Taerek" TurnInId="21895" />
+			<If Condition="((HasQuest(10860)) &amp;&amp; (IsQuestCompleted(10860)))" >
+				<CustomBehavior File="FlyTo" DestName="Mok'nathal Village" X="2200.936" Y="4748.813" Z="157.1842" />
+				<CustomBehavior File="ForcedDismount" />
+			</If>
 		<TurnIn QuestName="Mok'Nathal Treats" QuestId="10860" TurnInName="Matron Varah" TurnInId="21088" />
 	<!--END Blade's Edge Mountains Questing-->
 
@@ -4166,7 +4224,9 @@
 				<CustomBehavior File="WaitTimer" WaitTime="2000"/>
 		<TurnIn QuestName="Unlocking the Compendium" TurnInName="Image of Archmage Vargoth" QuestId="10301" TurnInId="19644" />
 		<TurnIn QuestName="Krasus's Compendium" TurnInName="Image of Archmage Vargoth" QuestId="10192" TurnInId="19644" />
+		<!--
 		<PickUp QuestName="Summoner Kanthin's Prize" GiverName="Image of Archmage Vargoth" QuestId="10209" GiverId="19644" />
+		-->
 			</If>
 			<If Condition="((HasQuest(10192)) &amp;&amp; (IsQuestCompleted(10192)))" >
 				<CustomBehavior File="FlyTo" X="2400.195" Y="2225.911" Z="111.0966" />
@@ -4175,8 +4235,11 @@
 				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(28455)" WaitTime="1000" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000"/>
 		<TurnIn QuestName="Krasus's Compendium" TurnInName="Image of Archmage Vargoth" QuestId="10192" TurnInId="19644" />
+		<!--
 		<PickUp QuestName="Summoner Kanthin's Prize" GiverName="Image of Archmage Vargoth" QuestId="10209" GiverId="19644" />
+		-->
 			</If>
+			<!--
 			<If Condition="((!HasQuest(10209)) &amp;&amp; (!IsQuestCompleted(10209)))" >
 				<CustomBehavior File="FlyTo" X="2400.195" Y="2225.911" Z="111.0966" />
 				<CustomBehavior File="ForcedDismount" />
@@ -4185,6 +4248,7 @@
 				<CustomBehavior File="WaitTimer" WaitTime="2000"/>
 		<PickUp QuestName="Summoner Kanthin's Prize" GiverName="Image of Archmage Vargoth" QuestId="10209" GiverId="19644" />
 			</If>
+			-->
 			<!--
 			<If Condition="((HasQuest(10233)) &amp;&amp; (IsQuestCompleted(10233)))" >
 				<CustomBehavior File="FlyTo" X="2251.079" Y="2277.055" Z="97.76612" />
@@ -4619,7 +4683,9 @@
 			</If>
 		<PickUp QuestName="The Ethereum" GiverName="Commander Ameer" QuestId="10339" GiverId="20448" />
 			</If>
+			<!--
 		<PickUp QuestName="Captain Tyralius" QuestId="10422" GiverName="Flesh Handler Viridius" GiverId="20450" />
+			-->
 		<PickUp QuestName="Recipe for Destruction" GiverName="Professor Dabiri" QuestId="10437" GiverId="20907" />
 			<If Condition="((!HasQuest(10345)) &amp;&amp; (!IsQuestCompleted(10345)))" >
 				<CustomBehavior File="FlyTo" X="3780.374" Y="2172.567" Z="141.3429" />
@@ -4668,6 +4734,7 @@
 				<CustomBehavior File="ForcedDismount" />
 			</If>
 		<TurnIn QuestName="Formal Introductions" TurnInName="Tyri" QuestId="10281" TurnInId="20110" />
+		<!--
 		<PickUp QuestName="A Promising Start" GiverName="Tyri" QuestId="10272" GiverId="20110" />
 			<If Condition="((HasQuest(10272)) &amp;&amp; (!IsQuestCompleted(10272)))" >
 				<RunTo X="4156.517" Y="1381.839" Z="-126.2684" />
@@ -4689,7 +4756,6 @@
 				<RunTo X="3907.292" Y="2503.786" Z="106.0081" />
 				<CustomBehavior File="WaitTimer" WaitTime="3000" />
 			</While>
-			<!--
 			<If Condition="((HasQuest(10411)) &amp;&amp; (!IsQuestCompleted(10411)))" >
 				<CustomBehavior File="FlyTo" X="4168.458" Y="1988.64" Z="207.2185" />
 				<CustomBehavior File="ForcedDismount" />
@@ -4751,6 +4817,7 @@
 			<Objective QuestName="Potential for Brain Damage = High" QuestId="10385" Type="Collect" CollectCount="15" ItemId="29459" />
 		<TurnIn QuestName="Potential for Brain Damage = High" TurnInName="Image of Commander Ameer" QuestId="10385" TurnInId="20482" />
 		-->
+		<!--
 			<While Condition="((HasQuest(10273)) &amp;&amp; (!IsQuestCompleted(10273)))" >
 				<CustomBehavior File="FlyTo" X="4277.414" Y="2260.65" Z="125.306" />
 				<CustomBehavior File="ForcedDismount" />
@@ -4762,6 +4829,7 @@
 				<CustomBehavior File="WaitTimer" WaitTime="5000"/>
 			</While>
 			<Objective QuestName="Troublesome Distractions" QuestId="10273" Type="KillMob" KillCount="1" MobId="20071" X="4305.531" Y="2141.197" Z="129.4738" />
+		-->
 			<If Condition="((HasQuest(10353)) &amp;&amp; (IsQuestCompleted(10353)))" >
 				<CustomBehavior File="FlyTo" X="4260.776" Y="2193.431" Z="136.2895" />
 				<CustomBehavior File="ForcedDismount" />
@@ -4769,15 +4837,17 @@
 		<TurnIn QuestName="Arconus the Insatiable" TurnInName="Commander Ameer" QuestId="10353" TurnInId="20448" />
 		<!--
 		<TurnIn QuestName="Electro-Shock Goodness!" TurnInName="Researcher Navuud" QuestId="10411" TurnInId="20449" />
-		-->
 		<TurnIn QuestName="Captain Tyralius" TurnInName="Flesh Handler Viridius" QuestId="10422" TurnInId="20450" />
+		-->
 		<TurnIn QuestName="Recipe for Destruction" TurnInName="Professor Dabiri" QuestId="10437" TurnInId="20907" />
 		<!-- not picking up On Nethery Wings - it's a vehicle flying quest where im on a taxi -->
+		<!--
 			<If Condition="((HasQuest(10273)) &amp;&amp; (IsQuestCompleted(10273)))" >
 				<CustomBehavior File="FlyTo" X="4138.188" Y="1504.637" Z="-108.4519" />
 				<CustomBehavior File="ForcedDismount" />
 			</If>
 		<TurnIn QuestName="Troublesome Distractions" TurnInName="Tyri" QuestId="10273" TurnInId="20110" />
+		-->
 		<!-- not picking up Securing the Celestial Ridge - 3 players needed -->
 		<!-- Not picking up Bloddy Imp-ossible! - It's a dumb quest 
 			<If Condition="((!HasQuest(10924)) &amp;&amp; (!IsQuestCompleted(10924)))" >
@@ -4811,5 +4881,19 @@
 		
 		
 	</QuestOrder>
+	
+	<ProtectedItems>
+		<Item Name="Murkblood Invasion Plans" Id="24559" />
+		<Item Name="Murkblood Invasion Plans" Id="24558" />
+		<Item Name="Unidentified Plant Parts" Id="24401" />
+		<Item Name="Raptor Ribs" Id="31670" />
+		<Item Name="Serpent Flesh" Id="31671" />
+		<Item Name="Arakkoa Feather" Entry="25719" />
+		<Item Name="Glowcap" Entry="24245" />
+		<Item Name="Fertile Spores" Entry="24449" />
+		<Item Name="Mature Spore Sac" Entry="24290" />
+		<Item Name="Bog Lord Tendril" Entry="24291" />
+		<Item Name="Unidentified Plant Parts" Id="24401" />
+	</ProtectedItems>
 
 </HBProfile>

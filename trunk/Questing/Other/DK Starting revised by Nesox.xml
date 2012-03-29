@@ -9,6 +9,8 @@
   <MailBlue>True</MailBlue>
   <MailPurple>True</MailPurple>
   <TargetElites>False</TargetElites>
+  
+  
 
   <!--
   1 In Service Of The Lich King (Works!//Nesox)
@@ -142,7 +144,7 @@
 
       <While Condition="HasQuest(12680) &amp;&amp; !IsQuestCompleted(12680)" >
 		<RunTo X="2175.955" Y="-5769.175" Z="101.3312" />
-        <CustomBehavior File="DeathknightStart\WaitForPatrol" AvoidMobId="28683" AvoidDistance="85" X="2175.955" Y="-5769.175" Z="101.3312" />
+        <CustomBehavior File="WaitForPatrolKick" AvoidMobId="28683" AvoidDistance="85" X="2175.955" Y="-5769.175" Z="101.3312" />
         <CustomBehavior File="Vehicles\VehicleMover" VehicleId = "28605" VehicleId2 = "28606" VehicleId3 = "28607" UseNavigator = "true" MobId = "28653" SpellId = "52264" Hop = "true" X="2347.104" Y="-5695.789" Z="155.9568" />
         <CustomBehavior File="Misc\RunLua" Lua= "VehicleExit()" />
         <CustomBehavior File="WaitTimer" WaitTime="5000" />
@@ -285,9 +287,10 @@
       <CustomBehavior File="EquipItem" ItemId="38667" />
       <!-- Bloody Breakout - http://www.wowhead.com/quest=12727 -->
       <PickUp QuestName="Bloody Breakout" QuestId="12727" GiverName="Koltira Deathweaver" GiverId="28912" />
-      <If Condition="HasQuest(12727) &amp;&amp; !IsQuestCompleted(12727)" >
-        <CustomBehavior File="InteractWith" ObjectType="Gameobject" MobId="191092" Loot="True" X="1652.649" Y="-6035.982" Z="127.5845" />
-      </If>
+		  <While Condition="HasQuest(12727) &amp;&amp; !IsQuestCompleted(12727)" >
+			<CustomBehavior File="InteractWith" MobId="28912" GossipOptions="1" WaitForNpcs="False" X="1652.649" Y="-6035.982" Z="127.5845" />
+			<CustomBehavior File="InteractWith" ObjectType="Gameobject" MobId="191092" WaitForNpcs="False" Loot="True" X="1652.649" Y="-6035.982" Z="127.5845" />
+		  </While>
       <TurnIn QuestName="Bloody Breakout" QuestId="12727" TurnInName="Thassarian" TurnInId="28913" />
 
       <!-- A Cry For Vengeance! - http://www.wowhead.com/quest=12738 -->
@@ -597,6 +600,7 @@
     </Blackspots>
     <AvoidMobs>
       <Mob Name="Stable Master Kitrik" Entry="28683" />
+	  <Mob Name="Initiate's Training Dummy" Entry="32541" />
     </AvoidMobs>
     <Vendors>
       <Vendor Name="Hargus the Gimp" Entry="28760" Type="Repair" X="2344.974" Y="-5720.853" Z="153.9221" />

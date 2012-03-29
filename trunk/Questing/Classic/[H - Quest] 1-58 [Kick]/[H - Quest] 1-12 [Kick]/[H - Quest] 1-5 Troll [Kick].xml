@@ -477,14 +477,23 @@
 		<TurnIn QuestName="Consort of the Sea Witch" QuestId="24625" TurnInName="Tegashi" TurnInId="37987" />
 		<TurnIn QuestName="Saving the Young" QuestId="24623" TurnInName="Kijara" TurnInId="37969" />
 		<PickUp QuestName="Young and Vicious" QuestId="24626" GiverName="Kijara" GiverId="37969" />
-			<CustomBehavior QuestId="24626" File="WaitTimer" WaitTime="10000" />
-			<CustomBehavior File="UseItemOn" QuestId="24626" ItemId="50053" Range="15" MobId="38002" X="-1550.751" Y="-5311.479" Z="8.237605" />
-			<RunTo QuestId="24626" X="-1304.525" Y="-5443.421" Z="14.68565" />
+			<While Condition="((HasQuest(24626)) &amp;&amp; (!IsQuestCompleted(24626)))" >
+				<CustomBehavior QuestId="24626" File="WaitTimer" WaitTime="10000" />
+				<CustomBehavior File="UseItemOn" QuestId="24626" ItemId="50053" Range="10" WaitForNpcs="False" MobId="38002" X="-1550.751" Y="-5311.479" Z="8.237605" />
+				<CustomBehavior QuestId="24626" File="WaitTimer" WaitTime="3000" />
+				<RunTo QuestId="24626" X="-1304.525" Y="-5443.421" Z="14.68565" />
+				<CustomBehavior QuestId="24626" File="WaitTimer" WaitTime="10000" />
+				<CustomBehavior File="AbandonQuest" QuestId="24626" Type="Incomplete" />
+				<CustomBehavior QuestId="24626" File="WaitTimer" WaitTime="10000" />
+		<PickUp QuestName="Young and Vicious" QuestId="24626" GiverName="Kijara" GiverId="37969" />
+				<CustomBehavior QuestId="24626" File="WaitTimer" WaitTime="2000" />
+			</While>
 		<TurnIn QuestName="Young and Vicious" QuestId="24626" TurnInName="Moraya" TurnInId="38005" />
 		<TurnIn QuestName="Crab Fishin'" QuestId="25037" TurnInName="Tora'jin" TurnInId="39007" />
 		<PickUp QuestName="Breaking the Line" QuestId="25035" GiverName="Tortunga" GiverId="38440" />
 			<CustomBehavior File="InteractWith" QuestId="25035" MobId="38989" GossipOptions="1, 1, 1" WaitTime="31000" X="-1280.58" Y="-5583.325" Z="21.69825" />
 		<TurnIn QuestName="Breaking the Line" QuestId="25035" TurnInName="Morakki" TurnInId="38442" />
+		<!-- My Feral Druid couldn't pick up the next few quests
 		<PickUp QuestName="No More Mercy" QuestId="24812" GiverName="Morakki" GiverId="38442" />
 		<PickUp QuestName="Territorial Fetish" QuestId="24813" GiverName="Morakki" GiverId="38442" />
 			<CustomBehavior File="CollectThings" CollectUntil="QuestComplete" QuestId="24812" MobId1="38301" MobId2="38300" HuntingGroundRadius="200" X="-841.8256" Y="-5603.839" Z="3.291721" />
@@ -511,6 +520,7 @@
 		<TurnIn QuestName="An Ancient Enemy" QuestId="24814" TurnInName="Vol'jin" TurnInId="38966" />
 		<PickUp QuestName="Sen'jin Village" QuestId="25073" GiverName="Vol'jin" GiverId="38966" />
 		<TurnIn QuestName="Sen'jin Village" QuestId="25073" TurnInName="Master Gadrin" TurnInId="3188" />
+		-->
 		
 		<CustomBehavior File="LoadProfile" ProfileName="[H - Quest] 5-12 Durotar [Kick]" /> 
 		
