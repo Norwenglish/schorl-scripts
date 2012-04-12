@@ -1,0 +1,58 @@
+ <HBProfile Creator="Zikke" >
+
+   <Name>[H] Noblegarden Egg Farm</Name>
+   <MinLevel>1</MinLevel>
+   <MaxLevel>86</MaxLevel>
+   
+   <MinDurability>0.3</MinDurability>
+   <MinFreeBagSlots>2</MinFreeBagSlots>
+   
+   <MailGrey>False</MailGrey>
+   <MailWhite>False</MailWhite>
+   <MailGreen>True</MailGreen>
+   <MailBlue>True</MailBlue>
+   <MailPurple>True</MailPurple>
+   
+   <SellGrey>True</SellGrey>
+   <SellWhite>True</SellWhite>
+   <SellGreen>False</SellGreen>
+   <SellBlue>False</SellBlue>
+   <SellPurple>False</SellPurple>
+   
+   <TargetElites>False</TargetElites>	
+   
+   <AvoidMobs>
+   
+   </AvoidMobs>
+   
+   <Blackspots>
+		<Blackspot X="2279.076" Y="269.8907" Z="33.67267" Radius="5.047134" />
+		<Blackspot X="2267.41" Y="320.3618" Z="33.57324" Radius="2.368985" />
+		<Blackspot X="2267.167" Y="290.6526" Z="33.68995" Radius="2.600238" /> <!-- Brill mailbox -->
+   </Blackspots>
+   
+   <Mailboxes>
+
+   </Mailboxes>
+   
+   <Vendors>
+
+   </Vendors>
+   
+   <GrindArea>
+
+       <Factions></Factions>
+       <MaxDistance>80</MaxDistance>
+       <Hotspots>
+			<Hotspot X="2270.388" Y="337.5741" Z="33.57502" />
+			<Hotspot X="2211.485" Y="331.1357" Z="33.68284" />
+			<Hotspot X="2227.173" Y="257.2016" Z="33.53717" />
+			<Hotspot X="2255.81" Y="217.1393" Z="33.58599" />
+			<Hotspot X="2293.44" Y="222.2732" Z="33.68697" />
+			<Hotspot X="2269.33" Y="265.7404" Z="33.69027" />
+			<Hotspot X="2288.003" Y="311.4437" Z="33.82259" />
+			<Hotspot X="2252.871" Y="345.4401" Z="33.57451" />
+	   </Hotspots>
+   </GrindArea>
+   
+</HBProfile>
