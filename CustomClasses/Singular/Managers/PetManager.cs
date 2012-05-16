@@ -1,13 +1,13 @@
 ﻿#region Revision Info
 
 // This file is part of Singular - A community driven Honorbuddy CC
-// $Author: raphus $
-// $Date: 2012-02-04 13:23:51 -0800 (Sat, 04 Feb 2012) $
+// $Author: highvoltz $
+// $Date: 2012-04-13 16:41:55 -0700 (Fri, 13 Apr 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/Managers/PetManager.cs $
-// $LastChangedBy: raphus $
-// $LastChangedDate: 2012-02-04 13:23:51 -0800 (Sat, 04 Feb 2012) $
-// $LastChangedRevision: 583 $
-// $Revision: 583 $
+// $LastChangedBy: highvoltz $
+// $LastChangedDate: 2012-04-13 16:41:55 -0700 (Fri, 13 Apr 2012) $
+// $LastChangedRevision: 612 $
+// $Revision: 612 $
 
 #endregion
 
@@ -175,8 +175,8 @@ namespace Singular.Managers
                     {
                         Logger.Write(string.Format("[Pet] Calling out my {0}", petName));
                         bool result = SpellManager.Cast("Summon " + petName);
-                        if (result)
-                            StyxWoW.SleepForLagDuration();
+                        //if (result)
+                        //    StyxWoW.SleepForLagDuration();
                         return result;
                     }
                     break;
@@ -186,8 +186,8 @@ namespace Singular.Managers
                     {
                         Logger.Write("[Pet] Calling out Water Elemental");
                         bool result = SpellManager.Cast("Summon Water Elemental");
-                        if (result)
-                            StyxWoW.SleepForLagDuration();
+                        //if (result)   - All calls to this method are now placed in a sequence that uses WaitContinue 
+                        //    StyxWoW.SleepForLagDuration();
                         return result;
                     }
                     break;
@@ -199,8 +199,8 @@ namespace Singular.Managers
                         {
                             Logger.Write(string.Format("[Pet] Calling out pet #{0}", petName));
                             bool result = SpellManager.Cast("Call Pet " + petName);
-                            if (result)
-                                StyxWoW.SleepForLagDuration();
+                            //if (result)
+                            //    StyxWoW.SleepForLagDuration();
                             return result;
                         }
                     }

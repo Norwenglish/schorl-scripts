@@ -12,6 +12,14 @@
     <AssemblyName>Singular</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -68,8 +76,23 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'HighVoltz|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\HighVoltz\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Jim\Singular.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Honorbuddy, Version=2.0.0.5387, Culture=neutral, PublicKeyToken=50a565ab5c01ae50, processorArchitecture=x86">
+    <Reference Include="Honorbuddy, Version=2.0.0.5842, Culture=neutral, PublicKeyToken=50a565ab5c01ae50, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <ExecutableExtension>.exe</ExecutableExtension>
       <HintPath>..\Honorbuddy\Honorbuddy.exe</HintPath>
@@ -109,6 +132,8 @@
     <Compile Include="ClassSpecific\Mage\Fire.cs" />
     <Compile Include="ClassSpecific\Mage\Frost.cs" />
     <Compile Include="ClassSpecific\Mage\Lowbie.cs" />
+    <Compile Include="ClassSpecific\Monk\Common.cs" />
+    <Compile Include="ClassSpecific\Monk\Lowbie.cs" />
     <Compile Include="ClassSpecific\Paladin\Common.cs" />
     <Compile Include="ClassSpecific\Paladin\Holy.cs" />
     <Compile Include="ClassSpecific\Paladin\Lowbie.cs" />
@@ -116,6 +141,7 @@
     <Compile Include="ClassSpecific\Paladin\Retribution.cs" />
     <Compile Include="ClassSpecific\Priest\Common.cs" />
     <Compile Include="ClassSpecific\Priest\Discipline.cs" />
+    <Compile Include="ClassSpecific\Priest\Holy.cs" />
     <Compile Include="ClassSpecific\Priest\Lowbie.cs" />
     <Compile Include="ClassSpecific\Priest\Shadow.cs" />
     <Compile Include="ClassSpecific\Rogue\Assassination.cs" />
@@ -132,8 +158,10 @@
     <Compile Include="ClassSpecific\Warlock\Affliction.cs" />
     <Compile Include="ClassSpecific\Warlock\Common.cs" />
     <Compile Include="ClassSpecific\Warlock\Demonology.cs" />
+    <Compile Include="ClassSpecific\Warlock\Destruction.cs" />
     <Compile Include="ClassSpecific\Warlock\Lowbie.cs" />
     <Compile Include="ClassSpecific\Warrior\Arms.cs" />
+    <Compile Include="ClassSpecific\Warrior\Common.cs" />
     <Compile Include="ClassSpecific\Warrior\Fury.cs" />
     <Compile Include="ClassSpecific\Warrior\Lowbie.cs" />
     <Compile Include="ClassSpecific\Warrior\Protection.cs" />
@@ -162,11 +190,14 @@
     <Compile Include="Lists\BossList.cs" />
     <Compile Include="Lists\CataHeroicDpsList.cs" />
     <Compile Include="Managers\HealerManager.cs" />
+    <Compile Include="Managers\MountManager.cs" />
     <Compile Include="Managers\PetManager.cs" />
+    <Compile Include="Managers\SpellImmunityManager.cs" />
     <Compile Include="Settings\DeathKnightSettings.cs" />
     <Compile Include="Settings\DruidSettings.cs" />
     <Compile Include="Settings\HunterSettings.cs" />
     <Compile Include="Settings\MageSettings.cs" />
+    <Compile Include="Settings\MonkSettings.cs" />
     <Compile Include="Settings\PaladinSettings.cs" />
     <Compile Include="Settings\PriestSettings.cs" />
     <Compile Include="Settings\RogueSettings.cs" />
@@ -200,13 +231,21 @@
 %25SystemRoot%25\system32\xcopy.exe "$(ProjectDir)*.cs" "G:\Code\WoW\Honorbuddy 2\trunk\Honorbuddy\bin\Debug\CustomClasses\Singular v2\" /i /f /s /v /y
 )
 if $(ConfigurationName) == Raphus (
-%25SystemRoot%25\system32\xcopy.exe "$(ProjectDir)*.cs" "E:\Buddy\Honorbuddy\Source\trunk\Honorbuddy\CustomClasses\Singular\" /i /f /s /v /y
+%25SystemRoot%25\system32\xcopy.exe "$(ProjectDir)*.cs" "D:\Buddy\Honorbuddy\Source\trunk\Honorbuddy\CustomClasses\Singular\" /i /f /s /v /y
 
 )
 
 if $(ConfigurationName) == Bobby53 (
 %25SystemRoot%25\system32\xcopy.exe "$(ProjectDir)*.cs" "C:\HB\CustomClasses\Singular\" /i /f /s /v /y
 )
+
+if $(ConfigurationName) == HighVoltz (
+echo _ReSharper.Singular &gt; excludes.txt
+%25SystemRoot%25\system32\xcopy.exe "$(ProjectDir)*.cs" "E:\Buddy\Honorbuddy\CustomClasses\Singular\" /i /f /s /v /y /EXCLUDE:excludes.txt
+del excludes.txt
+)
+
+
 ECHO Copied</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

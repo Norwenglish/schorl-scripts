@@ -2,12 +2,12 @@
 
 // This file is part of Singular - A community driven Honorbuddy CC
 // $Author: raphus $
-// $Date: 2012-02-07 05:03:12 -0800 (Tue, 07 Feb 2012) $
+// $Date: 2012-03-30 04:36:25 -0700 (Fri, 30 Mar 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/Dynamics/CompositeBuilder.cs $
 // $LastChangedBy: raphus $
-// $LastChangedDate: 2012-02-07 05:03:12 -0800 (Tue, 07 Feb 2012) $
-// $LastChangedRevision: 589 $
-// $Revision: 589 $
+// $LastChangedDate: 2012-03-30 04:36:25 -0700 (Fri, 30 Mar 2012) $
+// $LastChangedRevision: 606 $
+// $Revision: 606 $
 
 #endregion
 
@@ -162,6 +162,13 @@ namespace Singular.Dynamics
                 return null;
             }
 
+            var result = new PrioritySelector();
+            foreach (var kvp in matchedMethods.OrderByDescending(mm => mm.Key))
+            {
+                result.AddChild(kvp.Value);
+            }
+
+            return result;
             // Return the composite match we found. (Note: ANY composite return is fine)
             return matchedMethods.OrderByDescending(mm => mm.Key).First().Value;
         }

@@ -1,13 +1,13 @@
 ﻿#region Revision Info
 
 // This file is part of Singular - A community driven Honorbuddy CC
-// $Author: apoc $
-// $Date: 2011-09-06 22:33:53 -0700 (Tue, 06 Sep 2011) $
+// $Author: highvoltz $
+// $Date: 2012-04-24 10:46:36 -0700 (Tue, 24 Apr 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/GUI/ConfigurationForm.cs $
-// $LastChangedBy: apoc $
-// $LastChangedDate: 2011-09-06 22:33:53 -0700 (Tue, 06 Sep 2011) $
-// $LastChangedRevision: 362 $
-// $Revision: 362 $
+// $LastChangedBy: highvoltz $
+// $LastChangedDate: 2012-04-24 10:46:36 -0700 (Tue, 24 Apr 2012) $
+// $LastChangedRevision: 626 $
+// $Revision: 626 $
 
 #endregion
 
@@ -39,7 +39,7 @@ namespace Singular.GUI
 
         private void ConfigurationForm_Load(object sender, EventArgs e)
         {
-            lblVersion.Text = string.Format("v{0}", Assembly.GetExecutingAssembly().GetName().Version) + " [$Revision: 362 $]";
+            lblVersion.Text = string.Format("v{0}", Assembly.GetExecutingAssembly().GetName().Version) + " [$Revision: 626 $]";
             //HealTargeting.Instance.OnTargetListUpdateFinished += new Styx.Logic.TargetListUpdateFinishedDelegate(Instance_OnTargetListUpdateFinished);
             pgGeneral.SelectedObject = SingularSettings.Instance;
             SingularSettings main = SingularSettings.Instance;
@@ -105,13 +105,20 @@ namespace Singular.GUI
         }
 
         private void btnSaveAndClose_Click(object sender, EventArgs e)
-        {
-            ((Styx.Helpers.Settings)pgGeneral.SelectedObject).Save();
-            if (pgClass.SelectedObject != null)
+        { // prevent an exception from closing HB.
+            try
             {
-                ((Styx.Helpers.Settings)pgClass.SelectedObject).Save();
+                ((Styx.Helpers.Settings)pgGeneral.SelectedObject).Save();
+                if (pgClass.SelectedObject != null)
+                {
+                    ((Styx.Helpers.Settings)pgClass.SelectedObject).Save();
+                }
+                Close();
             }
-            Close();
+            catch (Exception ex)
+            {
+                Logger.Write("ERROR saving settings: {0}", e);
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -130,6 +137,7 @@ namespace Singular.GUI
         {
             ObjectManager.Update();
             SpellManager.CanCast("Evasion");
+            Logger.Write("Current target is immune to frost? {0}", StyxWoW.Me.CurrentTarget.IsImmune(WoWSpellSchool.Frost));
             //var val = Enum.GetValues(typeof(WoWMovement.ClickToMoveType)).GetValue(lastTried++);
             //WoWMovement.ClickToMove(StyxWoW.Me.CurrentTargetGuid, (WoWMovement.ClickToMoveType)val);
             //Logging.Write("Trying " + val);

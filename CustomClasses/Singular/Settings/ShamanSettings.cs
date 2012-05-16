@@ -2,12 +2,12 @@
 
 // This file is part of Singular - A community driven Honorbuddy CC
 // $Author: raphus $
-// $Date: 2011-12-26 12:48:42 -0800 (Mon, 26 Dec 2011) $
+// $Date: 2012-03-03 16:46:04 -0800 (Sat, 03 Mar 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/Settings/ShamanSettings.cs $
 // $LastChangedBy: raphus $
-// $LastChangedDate: 2011-12-26 12:48:42 -0800 (Mon, 26 Dec 2011) $
-// $LastChangedRevision: 508 $
-// $Revision: 508 $
+// $LastChangedDate: 2012-03-03 16:46:04 -0800 (Sat, 03 Mar 2012) $
+// $LastChangedRevision: 605 $
+// $Revision: 605 $
 
 #endregion
 
@@ -28,11 +28,6 @@ namespace Singular.Settings
         }
 
         #region Category: Totems
-        [Setting]
-        [DefaultValue(WoWTotem.None)]
-        [Category("Totems")]
-        [Description("The totem to use for this slot. Select 'None' for automatic usage.")]
-        public WoWTotem FireTotem { get; set; }
         [Setting]
         [DefaultValue(WoWTotem.None)]
         [Category("Totems")]

@@ -125,7 +125,17 @@ namespace Singular.ClassSpecific.Druid
                             ret => (WoWUnit)ret,
                             ret => !((WoWUnit)ret).HasMyAura("Rejuvenation") &&
                                    ((WoWUnit)ret).HealthPercent <= SingularSettings.Instance.Druid.Rejuvenation),
-
+                        new Decorator(
+                            ret => StyxWoW.Me.Combat && StyxWoW.Me.GotTarget && Unit.NearbyFriendlyPlayers.Count(u => u.IsInMyPartyOrRaid) == 0,
+                            new PrioritySelector(
+                                Movement.CreateMoveToLosBehavior(),
+                                Movement.CreateFaceTargetBehavior(),
+                                Helpers.Common.CreateInterruptSpellCast(ret => StyxWoW.Me.CurrentTarget),
+                                Spell.Buff("Moonfire"),
+                                Spell.Cast("Starfire", ret => StyxWoW.Me.HasAura("Fury of Stormrage")),
+                                Spell.Cast("Wrath"),
+                                Movement.CreateMoveToTargetBehavior(true, 35f)
+                                )),
                         new Decorator(
                             ret => moveInRange,
                             Movement.CreateMoveToTargetBehavior(true, 35f, ret => (WoWUnit)ret))
@@ -152,7 +162,7 @@ namespace Singular.ClassSpecific.Druid
             return
                 new PrioritySelector(
                     new Decorator(
-                        ret => Battlegrounds.IsInsideBattleground || (!StyxWoW.Me.IsInParty && !StyxWoW.Me.IsInRaid),
+                        ret => Unit.NearbyFriendlyPlayers.Count(u => u.IsInMyPartyOrRaid) == 0,
                         new PrioritySelector(
                             Safers.EnsureTarget(),
                             Movement.CreateMoveToLosBehavior(),

@@ -36,8 +36,11 @@ namespace Singular.ClassSpecific.Mage
                 // We want our pet alive !
                 new Decorator(
                     ret => !StyxWoW.Me.GotAlivePet && PetManager.PetTimer.IsFinished && SpellManager.CanCast("Summon Water Elemental"),
-                    new Action(ret => PetManager.CallPet("Summon Water Elemental"))),
-                Spell.Cast("Frostbolt"),
+                    new Sequence(
+                        new Action(ret => PetManager.CallPet("Summon Water Elemental")),
+                        Helpers.Common.CreateWaitForLagDuration())),
+                Spell.Cast("Frostbolt", ret => !StyxWoW.Me.CurrentTarget.IsImmune(WoWSpellSchool.Frost)),
+                Spell.Cast("Frostfire Bolt"),
                 Movement.CreateMoveToTargetBehavior(true, 35f)
                 );
         }
@@ -59,7 +62,9 @@ namespace Singular.ClassSpecific.Mage
                 // We want our pet alive !
                 new Decorator(
                     ret => !StyxWoW.Me.GotAlivePet && PetManager.PetTimer.IsFinished && SpellManager.CanCast("Summon Water Elemental"),
-                    new Action(ret => PetManager.CallPet("Summon Water Elemental"))),
+                    new Sequence(
+                        new Action(ret => PetManager.CallPet("Summon Water Elemental")),
+                        Helpers.Common.CreateWaitForLagDuration())),
 
                 // Defensive stuff
                 new Decorator(
@@ -84,7 +89,7 @@ namespace Singular.ClassSpecific.Mage
                 new Decorator(
                     ret => !Unit.NearbyUnfriendlyUnits.Any(u => u.DistanceSqr < 10 * 10 && u.IsCrowdControlled()),
                     new PrioritySelector(
-                        Pet.CreateCastPetActionOnLocation("Freeze", ret => !StyxWoW.Me.CurrentTarget.HasAura("Frost Nova")),
+                        Pet.CreateCastPetActionOnLocation("Freeze", ret => !StyxWoW.Me.CurrentTarget.HasAura("Frost Nova") && StyxWoW.Me.GotAlivePet && StyxWoW.Me.Pet.ManaPercent >=12),
                         Spell.BuffSelf("Frost Nova", 
                             ret => Unit.NearbyUnfriendlyUnits.Any(u => 
                                             u.DistanceSqr <= 8 * 8 && !u.HasAura("Freeze") && 
@@ -110,7 +115,8 @@ namespace Singular.ClassSpecific.Mage
                            StyxWoW.Me.CurrentTarget.HasAura("Freeze") ||
                            StyxWoW.Me.CurrentTarget.HasAura("Frost Nova") ||
                            StyxWoW.Me.IsMoving),
-                Spell.Cast("Frostbolt"),
+                Spell.Cast("Frostbolt", ret => !StyxWoW.Me.CurrentTarget.IsImmune(WoWSpellSchool.Frost)),
+                Spell.Cast("Frostfire Bolt"),
                 Movement.CreateMoveToTargetBehavior(true, 35f)
                 );
         }
@@ -137,7 +143,9 @@ namespace Singular.ClassSpecific.Mage
                 // We want our pet alive !
                 new Decorator(
                     ret => !StyxWoW.Me.GotAlivePet && PetManager.PetTimer.IsFinished && SpellManager.CanCast("Summon Water Elemental"),
-                    new Action(ret => PetManager.CallPet("Summon Water Elemental"))),
+                    new Sequence(
+                        new Action(ret => PetManager.CallPet("Summon Water Elemental")),
+                        Helpers.Common.CreateWaitForLagDuration())),
 
                 // Defensive stuff
                 new Decorator(
@@ -146,7 +154,7 @@ namespace Singular.ClassSpecific.Mage
                 Spell.BuffSelf("Ice Block", ret => StyxWoW.Me.HealthPercent < 10 && !StyxWoW.Me.ActiveAuras.ContainsKey("Hypothermia")),
                 Spell.BuffSelf("Blink", ret => StyxWoW.Me.IsStunned() || StyxWoW.Me.IsRooted()),
                 Spell.BuffSelf("Mana Shield", ret => StyxWoW.Me.HealthPercent <= 75),
-                Pet.CreateCastPetActionOnLocation("Freeze", ret => !StyxWoW.Me.CurrentTarget.HasAura("Frost Nova")),
+                Pet.CreateCastPetActionOnLocation("Freeze", ret => !StyxWoW.Me.CurrentTarget.HasAura("Frost Nova") && StyxWoW.Me.GotAlivePet && StyxWoW.Me.Pet.ManaPercent >= 12),
                 Spell.BuffSelf("Frost Nova", ret => Unit.NearbyUnfriendlyUnits.Any(u => u.DistanceSqr <= 8 * 8 && !u.HasAura("Freeze") && !u.HasAura("Frost Nova") && !u.Stunned)),
 
                 Common.CreateUseManaGemBehavior(ret => StyxWoW.Me.ManaPercent < 80),
@@ -201,7 +209,9 @@ namespace Singular.ClassSpecific.Mage
                 // We want our pet alive !
                 new Decorator(
                     ret => !StyxWoW.Me.GotAlivePet && PetManager.PetTimer.IsFinished && SpellManager.CanCast("Summon Water Elemental"),
-                    new Action(ret => PetManager.CallPet("Summon Water Elemental"))),
+                    new Sequence(
+                        new Action(ret => PetManager.CallPet("Summon Water Elemental")),
+                        Helpers.Common.CreateWaitForLagDuration())),
 
                 // Defensive stuff
                 new Decorator(
@@ -263,7 +273,8 @@ namespace Singular.ClassSpecific.Mage
                            StyxWoW.Me.CurrentTarget.HasAura("Freeze") ||
                            StyxWoW.Me.CurrentTarget.HasAura("Frost Nova") ||
                            StyxWoW.Me.IsMoving),
-                Spell.Cast("Frostbolt"),
+                Spell.Cast("Frostbolt", ret => !StyxWoW.Me.CurrentTarget.IsImmune(WoWSpellSchool.Frost)),
+                Spell.Cast("Frostfire Bolt"),
                 Movement.CreateMoveToTargetBehavior(true, 35f)
                 );
         }

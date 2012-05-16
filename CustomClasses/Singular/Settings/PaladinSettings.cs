@@ -1,16 +1,17 @@
 ﻿#region Revision Info
 
 // This file is part of Singular - A community driven Honorbuddy CC
-// $Author: raphus $
-// $Date: 2011-12-15 11:22:52 -0800 (Thu, 15 Dec 2011) $
+// $Author: highvoltz $
+// $Date: 2012-05-01 15:05:56 -0700 (Tue, 01 May 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/Settings/PaladinSettings.cs $
-// $LastChangedBy: raphus $
-// $LastChangedDate: 2011-12-15 11:22:52 -0800 (Thu, 15 Dec 2011) $
-// $LastChangedRevision: 478 $
-// $Revision: 478 $
+// $LastChangedBy: highvoltz $
+// $LastChangedDate: 2012-05-01 15:05:56 -0700 (Tue, 01 May 2012) $
+// $LastChangedRevision: 629 $
+// $Revision: 629 $
 
 #endregion
 
+using System;
 using System.ComponentModel;
 
 using Singular.ClassSpecific.Paladin;
@@ -28,7 +29,7 @@ namespace Singular.Settings
         {
         }
 
-
+        #region Common
         [Setting]
         [DefaultValue(PaladinAura.Auto)]
         [Category("Common")]
@@ -36,6 +37,73 @@ namespace Singular.Settings
         [Description("The aura to be used while not mounted. Set this to Auto to allow the CC to automatically pick the aura depending on spec.")]
         public PaladinAura Aura { get; set; }
 
+        [Setting]
+        [DefaultValue(90)]
+        [Category("Common")]
+        [DisplayName("Holy Light Health")]
+        [Description("Holy Light will be used at this value")]
+        public int HolyLightHealth { get; set; }
+
+        [Setting]
+        [DefaultValue(30)]
+        [Category("Common")]
+        [DisplayName("Lay on Hand Health")]
+        [Description("Lay on Hands will be used at this value")]
+        public int LayOnHandsHealth { get; set; }
+
+        [Setting]
+        [DefaultValue(50)]
+        [Category("Common")]
+        [DisplayName("Flash of Light Health")]
+        [Description("Flash of Light will be used at this value")]
+        public int FlashOfLightHealth { get; set; }
+
+        [Setting]
+        [DefaultValue(65)]
+        [Category("Common")]
+        [DisplayName("Word of Glory Health")]
+        [Description("Word of Glory will be used at this value")]
+        public int WordOfGloryHealth { get; set; } 
+        #endregion
+
+        #region Holy
+        [Setting]
+        [DefaultValue(80)]
+        [Category("Holy")]
+        [DisplayName("Light of Dawn Health")]
+        [Description("Light of Dawn will be used at this value")]
+        public int LightOfDawnHealth { get; set; }
+
+        [Setting]
+        [DefaultValue(2)]
+        [Category("Holy")]
+        [DisplayName("Light of Dawn Count")]
+        [Description("Light of Dawn will be used when there are more then that many players with lower health then LoD Health setting")]
+        public int LightOfDawnCount { get; set; }
+
+        [Setting]
+        [DefaultValue(90)]
+        [Category("Holy")]
+        [DisplayName("Holy Shock Health")]
+        [Description("Holy Shock will be used at this value")]
+        public int HolyShockHealth { get; set; }
+
+        [Setting]
+        [DefaultValue(65)]
+        [Category("Holy")]
+        [DisplayName("Divine Light Health")]
+        [Description("Divine Light will be used at this value")]
+        public int DivineLightHealth { get; set; }
+
+        [Setting]
+        [DefaultValue(50)]
+        [Category("Holy")]
+        [DisplayName("Divine Plea Mana")]
+        [Description("Divine Plea will be used at this value")]
+        public double DivinePleaMana { get; set; } 
+        #endregion
+
+        #region Protection
         [Setting]
         [DefaultValue(40)]
         [Category("Protection")]
@@ -58,6 +126,22 @@ namespace Singular.Settings
         public int DivineProtectionHealthProt { get; set; }
 
         [Setting]
+        [DefaultValue(false)]
+        [Category("Protection")]
+        [DisplayName("Avengers On Pull Only")]
+        [Description("Only use Avenger's Shield to pull")]
+        public bool AvengersPullOnly { get; set; }
+
+        [Setting]
+        [DefaultValue(3)]
+        [Category("Protection")]
+        [DisplayName("Consecration Count")]
+        [Description("Consecration will be used when you have more then that many mobs attacking you")]
+        public int ProtConsecrationCount { get; set; }
+        #endregion
+
+        #region Retribution
+        [Setting]
         [DefaultValue(70)]
         [Category("Retribution")]
         [DisplayName("Divine Protection Health")]
@@ -73,72 +157,17 @@ namespace Singular.Settings
 
         [Setting]
         [DefaultValue(30)]
-        [Category("Common")]
-        [DisplayName("Lay on Hand Health")]
-        [Description("Lay on Hands will be used at this value")]
-        public int LayOnHandsHealth { get; set; }
+        [Category("Retribution")]
+        [DisplayName("Heal Health")]
+        [Description("Healing will be done at this percentage")]
+        public int RetributionHealHealth { get; set; }
 
         [Setting]
-        [DefaultValue(80)]
-        [Category("Holy")]
-        [DisplayName("Light of Dawn Health")]
-        [Description("Light of Dawn will be used at this value")]
-        public int LightOfDawnHealth { get; set; }
-
-        [Setting]
-        [DefaultValue(2)]
-        [Category("Holy")]
-        [DisplayName("Light of Dawn Count")]
-        [Description("Light of Dawn will be used when there are more then that many players with lower health then LoD Health setting")]
-        public int LightOfDawnCount { get; set; }
-
-        [Setting]
-        [DefaultValue(65)]
-        [Category("Common")]
-        [DisplayName("Word of Glory Health")]
-        [Description("Word of Glory will be used at this value")]
-        public int WordOfGloryHealth { get; set; }
-
-        [Setting]
-        [DefaultValue(90)]
-        [Category("Holy")]
-        [DisplayName("Holy Shock Health")]
-        [Description("Holy Shock will be used at this value")]
-        public int HolyShockHealth { get; set; }
-
-        [Setting]
-        [DefaultValue(50)]
-        [Category("Common")]
-        [DisplayName("Flash of Light Health")]
-        [Description("Flash of Light will be used at this value")]
-        public int FlashOfLightHealth { get; set; }
-
-        [Setting]
-        [DefaultValue(65)]
-        [Category("Holy")]
-        [DisplayName("Divine Light Health")]
-        [Description("Divine Light will be used at this value")]
-        public int DivineLightHealth { get; set; }
-
-        [Setting]
-        [DefaultValue(90)]
-        [Category("Common")]
-        [DisplayName("Holy Light Health")]
-        [Description("Holy Light will be used at this value")]
-        public int HolyLightHealth { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        [Category("Protection")]
-        [DisplayName("Avengers On Pull Only")]
-        [Description("Only use Avenger's Shield to pull")]
-        public bool AvengersPullOnly { get; set; }
-
-        [Setting]
-        [DefaultValue(50)]
-        [Category("Holy")]
-        [DisplayName("Divine Plea Mana")]
-        [Description("Divine Plea will be used at this value")]
-        public double DivinePleaMana { get; set; }
+        [DefaultValue(true)]
+        [Category("Retribution")]
+        [DisplayName("Auto GotAK and Zealotry")]
+        [Description("Auomatically use Guardian of the Ancient Kings and Zealotry.  When false both will be disabled.")]
+        public bool RetGoatK { get; set; } 
+        #endregion
     }
 }

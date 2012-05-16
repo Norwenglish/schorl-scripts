@@ -1,13 +1,13 @@
 ﻿#region Revision Info
 
 // This file is part of Singular - A community driven Honorbuddy CC
-// $Author: raphus $
-// $Date: 2012-02-07 05:03:12 -0800 (Tue, 07 Feb 2012) $
+// $Author: highvoltz $
+// $Date: 2012-04-11 21:09:06 -0700 (Wed, 11 Apr 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/Settings/SingularSettings.cs $
-// $LastChangedBy: raphus $
-// $LastChangedDate: 2012-02-07 05:03:12 -0800 (Tue, 07 Feb 2012) $
-// $LastChangedRevision: 589 $
-// $Revision: 589 $
+// $LastChangedBy: highvoltz $
+// $LastChangedDate: 2012-04-11 21:09:06 -0700 (Wed, 11 Apr 2012) $
+// $LastChangedRevision: 608 $
+// $Revision: 608 $
 
 #endregion
 
@@ -208,7 +208,9 @@ namespace Singular.Settings
         private HunterSettings _hunterSettings;
 
         private MageSettings _mageSettings;
-
+		
+		private MonkSettings _monkSettings;
+		
         private PaladinSettings _pallySettings;
 
         private PriestSettings _priestSettings;
@@ -232,7 +234,10 @@ namespace Singular.Settings
 
         [Browsable(false)]
         public MageSettings Mage { get { return _mageSettings ?? (_mageSettings = new MageSettings()); } }
-
+		
+		[Browsable(false)]
+        public MonkSettings Monk { get { return _monkSettings ?? (_monkSettings = new MonkSettings()); } }
+		
         [Browsable(false)]
         public PaladinSettings Paladin { get { return _pallySettings ?? (_pallySettings = new PaladinSettings()); } }
 
