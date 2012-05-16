@@ -1,13 +1,13 @@
 ﻿#region Revision Info
 
 // This file is part of Singular - A community driven Honorbuddy CC
-// $Author: raphus $
-// $Date: 2012-02-01 05:40:53 -0800 (Wed, 01 Feb 2012) $
+// $Author: highvoltz $
+// $Date: 2012-04-16 11:18:06 -0700 (Mon, 16 Apr 2012) $
 // $HeadURL: http://svn.apocdev.com/singular/trunk/Singular/SingularRoutine.cs $
-// $LastChangedBy: raphus $
-// $LastChangedDate: 2012-02-01 05:40:53 -0800 (Wed, 01 Feb 2012) $
-// $LastChangedRevision: 576 $
-// $Revision: 576 $
+// $LastChangedBy: highvoltz $
+// $LastChangedDate: 2012-04-16 11:18:06 -0700 (Mon, 16 Apr 2012) $
+// $LastChangedRevision: 616 $
+// $Revision: 616 $
 
 #endregion
 
@@ -52,7 +52,7 @@ namespace Singular
 
         public static SingularRoutine Instance { get; private set; }
 
-        public override string Name { get { return "Singular v2 $Revision: 576 $"; } }
+        public override string Name { get { return "Singular v2 $Revision: 616 $"; } }
 
         public override WoWClass Class { get { return StyxWoW.Me.Class; } }
 
@@ -61,6 +61,8 @@ namespace Singular
         private static LocalPlayer Me { get { return StyxWoW.Me; } }
 
         internal static WoWClass MyClass { get; set; }
+
+        internal static event EventHandler<WoWContextEventArg> OnWoWContextChanged;
 
         internal static WoWContext LastWoWContext { get; set; }
 
@@ -117,7 +119,7 @@ namespace Singular
             new ConfigurationForm().ShowDialog();
         }
 
-        private ulong _lastTargetGuid=0;
+        private ulong _lastTargetGuid = 0;
 
         public override void Pulse()
         {
@@ -173,11 +175,16 @@ namespace Singular
 
             // When we actually need to use it, we will.
             EventHandlers.Init();
+            MountManager.Init();
             //Logger.Write("Combat log event handler started.");
         }
 
         public bool CreateBehaviors()
         {
+            // let behaviors be notified if context changes.
+            if (OnWoWContextChanged != null)
+                OnWoWContextChanged(this, new WoWContextEventArg(CurrentWoWContext, LastWoWContext));
+
             //Caching the context to not recreate same behaviors repeatedly.
             LastWoWContext = CurrentWoWContext;
 
@@ -212,22 +219,24 @@ namespace Singular
 
             // Since we can be lazy, we're going to fix a bug right here and now.
             // We should *never* cast buffs while mounted. EVER. So we simply wrap it in a decorator, and be done with it.
+            // 4/11/2012 - Changed to use a LockSelector to increased performance.
             if (_preCombatBuffsBehavior != null)
             {
-                _preCombatBuffsBehavior = 
+                _preCombatBuffsBehavior =
                     new Decorator(
-                    ret => !IsMounted && !Me.IsOnTransport && !SingularSettings.Instance.DisableNonCombatBehaviors, 
-                        new PrioritySelector(
+                    ret => !IsMounted && !Me.IsOnTransport && !SingularSettings.Instance.DisableNonCombatBehaviors,
+                        new LockSelector(
                             _preCombatBuffsBehavior));
             }
+
             if (_combatBuffsBehavior != null)
             {
                 _combatBuffsBehavior = new Decorator(
                     ret => !IsMounted && !Me.IsOnTransport,
-                    new PrioritySelector(
-                        //Item.CreateUseAlchemyBuffsBehavior(),
+                    new LockSelector(
+                    //Item.CreateUseAlchemyBuffsBehavior(),
                         Item.CreateUseTrinketsBehavior(),
-                        //Item.CreateUsePotionAndHealthstone(SingularSettings.Instance.PotionHealth, SingularSettings.Instance.PotionMana),
+                    //Item.CreateUsePotionAndHealthstone(SingularSettings.Instance.PotionHealth, SingularSettings.Instance.PotionMana),
                         _combatBuffsBehavior)
                     );
             }
@@ -236,11 +245,30 @@ namespace Singular
             if (_restBehavior != null)
             {
                 _restBehavior = new Decorator(
-                    ret => !Me.IsFlying && !SingularSettings.Instance.DisableNonCombatBehaviors,
-                    new PrioritySelector(
+                    ret => !Me.IsFlying && !Me.IsOnTransport && !SingularSettings.Instance.DisableNonCombatBehaviors,
+                    new LockSelector(
                         _restBehavior));
             }
 
+            // Wrap all the behaviors with a LockSelector which basically wraps the child bahaviors with a framelock.
+            // This will generally reduce the time it takes to pulse the behavior thus increasing performance of the cc
+            if (_healBehavior != null)
+            {
+                _healBehavior = new LockSelector(
+                    _healBehavior);
+            }
+
+            if (_pullBuffsBehavior != null)
+            {
+                _pullBuffsBehavior = new LockSelector(
+                    _pullBuffsBehavior);
+            }
+
+            _combatBehavior = new LockSelector(
+                _combatBehavior);
+
+            _pullBehavior = new LockSelector(
+                _pullBehavior);
             return true;
         }
 
@@ -265,5 +293,39 @@ namespace Singular
             Logger.Write(reason);
             TreeRoot.Stop();
         }
+
+        #region Nested type: LockSelector
+        /// <summary>
+        /// This behavior wraps the child behaviors in a 'FrameLock' which can provide a big performance improvement 
+        /// if the child behaviors makes multiple api calls that internally run off a frame in WoW in one CC pulse.
+        /// </summary>
+        private class LockSelector : PrioritySelector
+        {
+            public LockSelector(params Composite[] children)
+                : base(children)
+            {
+            }
+            public override RunStatus Tick(object context)
+            {
+                using (new FrameLock())
+                {
+                    return base.Tick(context);
+                }
+            }
+        }
+        #endregion
+
+        #region Nested type: WoWContextEventArg
+        public class WoWContextEventArg : EventArgs
+        {
+            public WoWContextEventArg(WoWContext currentContext, WoWContext prevContext)
+            {
+                CurrentContext = currentContext;
+                PreviousContext = prevContext;
+            }
+            public readonly WoWContext CurrentContext;
+            public readonly WoWContext PreviousContext;
+        }
+        #endregion
     }
 }

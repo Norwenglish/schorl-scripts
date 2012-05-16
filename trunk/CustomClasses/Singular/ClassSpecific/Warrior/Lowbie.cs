@@ -26,7 +26,7 @@ namespace Singular.ClassSpecific.Warrior
                 // face target
                 Movement.CreateFaceTargetBehavior(),
                 // Auto Attack
-                Common.CreateAutoAttack(false),
+                Helpers.Common.CreateAutoAttack(false),
                 Helpers.Common.CreateInterruptSpellCast(ret => StyxWoW.Me.CurrentTarget),
                 // Heal
                 Spell.Cast("Victory Rush"),
@@ -36,7 +36,7 @@ namespace Singular.ClassSpecific.Warrior
                 new Decorator(
                     ret => Clusters.GetClusterCount(StyxWoW.Me, Unit.NearbyUnfriendlyUnits, ClusterType.Radius, 6f) >= 2,
                     new PrioritySelector(
-                        Spell.Cast("Victory Rush", ret => StyxWoW.Me.HealthPercent < 80),
+                        Spell.Cast("Victory Rush"),
                         Spell.Cast("Thunder Clap"),
                         Spell.Cast("Strike"))),
                 // DPS
@@ -62,7 +62,7 @@ namespace Singular.ClassSpecific.Warrior
                 // face target
                 Movement.CreateFaceTargetBehavior(),
                 // Auto Attack
-                Common.CreateAutoAttack(false),
+                Helpers.Common.CreateAutoAttack(false),
                 // charge
                 Spell.Cast("Charge", ret => StyxWoW.Me.CurrentTarget.Distance > 10 && StyxWoW.Me.CurrentTarget.Distance < 25),
                 Spell.Cast("Throw", ret => StyxWoW.Me.CurrentTarget.IsFlying && Item.RangedIsType(WoWItemWeaponClass.Thrown)), Spell.Cast(
