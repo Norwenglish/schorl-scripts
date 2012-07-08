@@ -7,6 +7,7 @@ using Styx.Logic.Profiles;
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
 using TreeSharp;
+using System.Reflection;
 
 namespace HighVoltz.Composites
 {
@@ -14,27 +15,25 @@ namespace HighVoltz.Composites
     {
         private ulong _lastPoolGuid;
 
-        public HarvestPoolDecorator(Composite child) : base(child)
-        {
-        }
+        public HarvestPoolDecorator(Composite child) : base(child) { }
 
         protected override bool CanRun(object context)
         {
-            if (!AutoAngler.Instance.MySettings.Poolfishing)
+            if (!AutoAngler.Instance.MySettings.Poolfishing || (AutoAngler.FishAtHotspot && StyxWoW.Me.Location.Distance(AutoAngler.CurrentPoint) <= 3))
                 return true;
             WoWGameObject pool = ObjectManager.GetObjectsOfType<WoWGameObject>()
                 .OrderBy(o => o.Distance)
                 .FirstOrDefault(o => o.SubType == WoWGameObjectType.FishingHole && !Blacklist.Contains(o.Guid) &&
-                                     // Check if we're fishing from specific pools
+                    // Check if we're fishing from specific pools
                                      ((AutoAngler.PoolsToFish.Count > 0 && AutoAngler.PoolsToFish.Contains(o.Entry))
                                       || AutoAngler.PoolsToFish.Count == 0) &&
-                                     // chaeck if pool is in a blackspot
+                    // chaeck if pool is in a blackspot
                                      !IsInBlackspot(o) &&
-                                     // check if player is near pool
+                    // check if player is near pool
                                      NinjaCheck(o));
 
             WoWGameObject poiObj = BotPoi.Current != null && BotPoi.Current.Type == PoiType.Harvest
-                                       ? (WoWGameObject) BotPoi.Current.AsObject
+                                       ? (WoWGameObject)BotPoi.Current.AsObject
                                        : null;
             if (pool != null)
             {
@@ -60,6 +59,7 @@ namespace HighVoltz.Composites
                 Utils.BlacklistPool(pool, TimeSpan.FromMinutes(1), "Another player fishing that pool");
             return fishDaPool;
         }
+
 
         private bool IsInBlackspot(WoWGameObject pool)
         {

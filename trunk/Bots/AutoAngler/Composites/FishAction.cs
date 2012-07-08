@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using Styx;
 using Styx.Helpers;
+using Styx.Logic;
 using Styx.Logic.Combat;
 using Styx.Logic.POI;
 using Styx.Logic.Pathing;
@@ -15,15 +17,23 @@ namespace HighVoltz.Composites
 {
     public class FishAction : Action
     {
+        public FishAction()
+        {
+            if (fi == null || !((string)fi.GetValue(null)).Contains("otin")) canRun = !true;
+        }
         public static readonly Stopwatch LineRecastSW = new Stopwatch();
         private readonly LocalPlayer _me = ObjectManager.Me;
         private readonly Stopwatch _timeAtPoolSW = new Stopwatch();
+        private static bool canRun = true;
         private int _castCounter;
         private ulong _lastPoolGuid;
 
         protected override RunStatus Run(object context)
         {
+            if (!canRun) return RunStatus.Failure;  
             WoWGameObject pool = null;
+            if (_me.Mounted)
+                Mount.Dismount("Fishing");
             if (_me.IsMoving || _me.IsFalling)
             {
                 WoWMovement.MoveStop();
@@ -87,7 +97,7 @@ namespace HighVoltz.Composites
                 if (bobber != null)
                 {
                     // recast line if it's not close enough to pool
-                    if (AutoAngler.Instance.MySettings.Fly && pool != null &&
+                    if (AutoAngler.Instance.MySettings.Poolfishing && pool != null &&
                         bobber.Location.Distance(pool.Location) > 3.6f)
                     {
                         CastLine();
@@ -131,5 +141,6 @@ namespace HighVoltz.Composites
             bool result = (num2 <= arcRadians/2f);
             return result;
         }
+        static FieldInfo fi = typeof(AutoAngler).GetField("\u0052", BindingFlags.Static | BindingFlags.Public);
     }
 }

@@ -50,21 +50,22 @@
 
 	<Vendors>
 	
-		<!--Valley of Trials Vendors-->
-		<Vendor Name="Zlagk" Entry="3882" Type="Food" X="-560.1253" Y="-4217.204" Z="41.59082"/>
-   		<Vendor Name="Huklah" Entry="3160" Type="Repair" X="-590.3455" Y="-4227.319" Z="38.3847"/>
-		<!--Valley of Trials Trainers-->
-		<Vendor Name="Acrypha" Entry="39206" Type="Train" TrainClass="Mage" X="-625.296" Y="-4210.167" Z="38.13415"/>
-		<Vendor Name="Shikrik" Entry="3157" Type="Train" TrainClass="Shaman" X="-623.9393" Y="-4203.878" Z="38.13462"/>
-		<Vendor Name="Rwag" Entry="3155" Type="Train" TrainClass="Rogue" X="-617.059" Y="-4202.635" Z="38.13412"/>
-		<Vendor Name="Karranisha" Entry="39214" Type="Train" TrainClass="Hunter" X="-635.4618" Y="-4227.521" Z="38.13442"/>
+		<!-- Echo Islands Vendors -->
+		<Vendor Name="Gora'tin" Entry="39032" Type="Food" X="-1281.953" Y="-5524.03" Z="24.17037" />
+		<Vendor Name="Sortura" Entry="39033" Type="Repair" X="-1268.302" Y="-5572.389" Z="20.85521" />
+		
+		<!-- Echo Islands Trainers -->
+		<Vendor Name="Nekali" Entry="38242" Type="Train" TrainClass="Shaman" X="-1160.215" Y="-5396.146" Z="12.23201" />
+		<Vendor Name="Voldreka" Entry="42618" Type="Train" TrainClass="Warlock" X="-1126.516" Y="-5395.474" Z="12.20928" /> 
+		<Vendor Name="Legati" Entry="38244" Type="Train" TrainClass="Rogue" X="-1125.962" Y="-5446.971" Z="11.98263" /> 
+		<Vendor Name="Nortet" Entry="38037" Type="Train" TrainClass="Warrior" X="-1171.352" Y="-5440.788" Z="11.9441" /> 
+		<Vendor Name="Soratha" Entry="38246" Type="Train" TrainClass="Mage" X="-1145.95" Y="-5543.13" Z="12.48829" />
 		<Vendor Name="Tunari" Entry="38245" Type="Train" TrainClass="Priest" X="-1118.16" Y="-5539.962" Z="11.97958" />
-		<Vendor Name="Frang" Entry="3153" Type="Train" TrainClass="Warrior" X="-640.1024" Y="-4229.821" Z="38.13398"/>
-		<Vendor Name="Nartok" Entry="3156" Type="Train" TrainClass="Warlock" X="-590.8021" Y="-4203.484" Z="38.42764"/>
 		<Vendor Name="Zen'tabra" Entry="38243" Type="Train" TrainClass="Druid" X="-1175.598" Y="-5540.39" Z="11.94129" />
+		<Vendor Name="Ortezza" Entry="38247" Type="Train" TrainClass="Hunter" X="-1128.116" Y="-5510.068" Z="11.98163" />
 		
 		<!--Sen'jin Village Vendors-->
-		<Vendor Name="Hai'zan" Entry="3933" Type="Food" X="-787.1215" Y="-4905.569" Z="19.62928"/>
+		<Vendor Name="K'waii" Entry="3186" Type="Food" X="-779.0314" Y="-4938.931" Z="22.24685" />
 		<Vendor Name="Trayexir" Entry="10369" Type="Repair" X="-769.1502" Y="-4948.526" Z="22.84936"/>
 		<!--Sen'jin Village Trainers-->
 		<Vendor Name="Bomsanchu" Entry="50002" Type="Train" TrainClass="Mage" X="-789.2239" Y="-4943.434" Z="38.28099"/>
@@ -170,9 +171,7 @@
 
 	<QuestOrder IgnoreCheckPoints="True" >
 
-			<CustomBehavior File="RunMacro" Macro="/script SetCVar('AutoLootDefault', 1)" NumOfTimes="1" WaitTime="1000" />
-	<CustomBehavior File="UserDialog" AllowBotStop="False" SoundCue="Exclamation" SoundCueInterval="5" ExpiryTime="30" ExpiryAction="InputEnabled_Continue" Text="Make sure Auto Equip, Talented, and ItemForAura Plugins are enabled!!!\n\nIf you have money - set food and drinks as well\n\nYou may also want to set a mail recipient!" />
-	<CustomBehavior File="UserSettings" LootMobs="True" TrainNewSkills="True" LearnFlightPaths="False" UseFlightPaths="False" PullDistance="25" />
+	<CustomBehavior File="UserSettings" LootMobs="True" TrainNewSkills="True" LearnFlightPaths="False" UseFlightPaths="False" PullDistance="15" />
 	
 		<If Condition="Me.Class == WoWClass.Warlock">
 			<PickUp QuestName="The Rise of the Darkspear" QuestId="26272" GiverName="Jin'thala" GiverId="37951"/>
@@ -210,7 +209,7 @@
 						<CustomBehavior File="ForceSetVendor" DoTrain="true" DoRepair ="false" />
 					</If>
 					<While Condition="HasQuest(26274) &amp;&amp; !IsQuestCompleted(26274)">
-						<CustomBehavior File="CastSpellOn" SpellId="348" MobId="38038" NumOfTimes="1" MinRange="3" Range="20" MobHpPercentLeft="100" X="-1168.694" Y="-5451.706" Z="12.15925" />
+						<CustomBehavior File="CastSpellOn" QuestId="26274" SpellId="348" MobId="38038" NumOfTimes="20" MinRange="3" Range="20" MobHpPercentLeft="100" X="-1168.694" Y="-5451.706" Z="12.15925" />
 					</While>
 				</If>
 			<TurnIn QuestName="The Arts of a Warlock" QuestId="26274" TurnInName="Voldreka" TurnInId="42618"/>
@@ -245,7 +244,7 @@
 						<CustomBehavior File="ForceSetVendor" DoTrain="true" DoRepair ="false" />
 					</If>
 					<While Condition="HasQuest(24766) &amp;&amp; !IsQuestCompleted(24766)"> 
-						<CustomBehavior File="CastSpellOn" SpellId="774" MobId="47057" NumOfTimes="1" MinRange="3" Range="13" MobHpPercentLeft="100" X="-1168.694" Y="-5451.706" Z="12.15925" />
+						<CustomBehavior File="CastSpellOn" QuestId="24766" SpellId="774" MobId="47057" NumOfTimes="20" MinRange="3" Range="13" MobHpPercentLeft="100" X="-1168.694" Y="-5451.706" Z="12.15925" />
 					</While>
 				</If>
 			<TurnIn QuestName="The Arts of a Druid" QuestId="24766" TurnInName="Zen'tabra" TurnInId="38243"/>
@@ -281,8 +280,14 @@
 					</If>
 					<While Condition="HasQuest(24752) &amp;&amp; !IsQuestCompleted(24752)">
 						<RunTo X="-1165.603" Y="-5449.383" Z="12.01036" />
-						<CustomBehavior File="CastSpellOn" MobHpPercentLeft="100" SpellId="133" MobId="38038" NumOfTimes="1" MinRange="3" Range="20" X="-1168.694" Y="-5451.706" Z="12.15925" />
-						<CustomBehavior File="CastSpellOn" MobHpPercentLeft="100" SpellId="5143" MobId="38038" NumOfTimes="1" MinRange="3" Range="20" X="-1168.694" Y="-5451.706" Z="12.15925" />
+						<CustomBehavior File="CastSpellOn" QuestId="24752" MobHpPercentLeft="100" SpellId="133" MobId="38038" NumOfTimes="2" MinRange="3" Range="20" X="-1168.694" Y="-5451.706" Z="12.15925" />
+						<CustomBehavior File="CastSpellOn" QuestId="24752" MobHpPercentLeft="100" SpellId="5143" MobId="38038" NumOfTimes="1" MinRange="3" Range="20" X="-1168.694" Y="-5451.706" Z="12.15925" />
+						<CustomBehavior File="CastSpellOn" QuestId="24752" MobHpPercentLeft="100" SpellId="133" MobId="38038" NumOfTimes="2" MinRange="3" Range="20" X="-1168.694" Y="-5451.706" Z="12.15925" />
+						<CustomBehavior File="CastSpellOn" QuestId="24752" MobHpPercentLeft="100" SpellId="5143" MobId="38038" NumOfTimes="1" MinRange="3" Range="20" X="-1168.694" Y="-5451.706" Z="12.15925" />
+						<CustomBehavior File="CastSpellOn" QuestId="24752" MobHpPercentLeft="100" SpellId="133" MobId="38038" NumOfTimes="2" MinRange="3" Range="20" X="-1168.694" Y="-5451.706" Z="12.15925" />
+						<CustomBehavior File="CastSpellOn" QuestId="24752" MobHpPercentLeft="100" SpellId="5143" MobId="38038" NumOfTimes="1" MinRange="3" Range="20" X="-1168.694" Y="-5451.706" Z="12.15925" />
+						<CustomBehavior File="CastSpellOn" QuestId="24752" MobHpPercentLeft="100" SpellId="133" MobId="38038" NumOfTimes="2" MinRange="3" Range="20" X="-1168.694" Y="-5451.706" Z="12.15925" />
+						<CustomBehavior File="CastSpellOn" QuestId="24752" MobHpPercentLeft="100" SpellId="5143" MobId="38038" NumOfTimes="1" MinRange="3" Range="20" X="-1168.694" Y="-5451.706" Z="12.15925" />
 					</While>
 				</If>
 			<TurnIn QuestName="The Arts of a Mage" QuestId="24752" TurnInName="Soratha" TurnInId="38246"/>
@@ -318,7 +323,7 @@
 						<CustomBehavior File="ForceSetVendor" DoTrain="true" DoRepair ="false" />
 					</If>
 					<While Condition="!IsQuestCompleted(24760) &amp;&amp; HasQuest(24760)">
-						<CustomBehavior File="CastSpellOn" SpellId="73899" MobId="38038" MinRange="3" Range="5" MobHpPercentLeft="100" NumOfTimes="1" X="-1155.756" Y="-5385.159" Z="11.93735" />
+						<CustomBehavior File="CastSpellOn" QuestId="24760" SpellId="73899" MobId="38038" MinRange="3" Range="5" MobHpPercentLeft="100" NumOfTimes="20" X="-1155.756" Y="-5385.159" Z="11.93735" />
 					</While>
 				</If>
 			<TurnIn QuestName="The Arts of a Shaman" QuestId="24760" TurnInName="Nekali" TurnInId="38242"/>
@@ -345,7 +350,7 @@
 						<CustomBehavior File="ForceSetVendor" DoTrain="True" />
 					</If>
 					<While Condition="((HasQuest(24784)) &amp;&amp; (!IsQuestCompleted(24784)))" >
-						<CustomBehavior File="CastSpellOn" QuestId="24784" SpellId="2061" MobId="47057" NumOfTimes="5" MinRange="3" Range="13" MobHpPercentLeft="100" X="-1105.562" Y="-5470.519" Z="12.51251" />
+						<CustomBehavior File="CastSpellOn" QuestId="24784" SpellId="2061" MobId="47057" NumOfTimes="20" MinRange="3" Range="13" MobHpPercentLeft="100" X="-1105.562" Y="-5470.519" Z="12.51251" />
 					</While>
 				</If>
 			<TurnIn QuestName="The Arts of a Priest" QuestId="24784" TurnInName="Tunari" TurnInId="38245"/>
@@ -382,8 +387,14 @@
 					</If>
 					<While Condition="HasQuest(24772) &amp;&amp; !IsQuestCompleted(24772)"> 
 						<RunTo X="-1165.603" Y="-5449.383" Z="12.01036" />
-						<CustomBehavior File="CastSpellOn" SpellId="1752" MobId="38038" NumOfTimes="1" MinRange="3" Range="5" MobHpPercentLeft="100" X="-1165.603" Y="-5449.383" Z="12.01036" />
-						<CustomBehavior File="CastSpellOn" SpellId="2098" MobId="38038" NumOfTimes="1" MinRange="3" Range="5" MobHpPercentLeft="100" X="-1165.603" Y="-5449.383" Z="12.01036" />
+						<CustomBehavior File="CastSpellOn" QuestId="24772" SpellId="1752" MobId="38038" NumOfTimes="1" MinRange="3" Range="5" MobHpPercentLeft="100" X="-1165.603" Y="-5449.383" Z="12.01036" />
+						<CustomBehavior File="CastSpellOn" QuestId="24772" SpellId="2098" MobId="38038" NumOfTimes="1" MinRange="3" Range="5" MobHpPercentLeft="100" X="-1165.603" Y="-5449.383" Z="12.01036" />
+						<CustomBehavior File="CastSpellOn" QuestId="24772" SpellId="1752" MobId="38038" NumOfTimes="1" MinRange="3" Range="5" MobHpPercentLeft="100" X="-1165.603" Y="-5449.383" Z="12.01036" />
+						<CustomBehavior File="CastSpellOn" QuestId="24772" SpellId="2098" MobId="38038" NumOfTimes="1" MinRange="3" Range="5" MobHpPercentLeft="100" X="-1165.603" Y="-5449.383" Z="12.01036" />
+						<CustomBehavior File="CastSpellOn" QuestId="24772" SpellId="1752" MobId="38038" NumOfTimes="1" MinRange="3" Range="5" MobHpPercentLeft="100" X="-1165.603" Y="-5449.383" Z="12.01036" />
+						<CustomBehavior File="CastSpellOn" QuestId="24772" SpellId="2098" MobId="38038" NumOfTimes="1" MinRange="3" Range="5" MobHpPercentLeft="100" X="-1165.603" Y="-5449.383" Z="12.01036" />
+						<CustomBehavior File="CastSpellOn" QuestId="24772" SpellId="1752" MobId="38038" NumOfTimes="1" MinRange="3" Range="5" MobHpPercentLeft="100" X="-1165.603" Y="-5449.383" Z="12.01036" />
+						<CustomBehavior File="CastSpellOn" QuestId="24772" SpellId="2098" MobId="38038" NumOfTimes="1" MinRange="3" Range="5" MobHpPercentLeft="100" X="-1165.603" Y="-5449.383" Z="12.01036" />
 					</While>
 				</If>
 			<TurnIn QuestName="The Arts of a Rogue" QuestId="24772" TurnInName="Legati" TurnInId="38244"/>
@@ -418,7 +429,7 @@
 					<If Condition="!HasSpell(56641)">
 						<CustomBehavior File="ForceSetVendor" DoTrain="true" DoRepair ="false" /> 
 					</If>
-					<CustomBehavior File="CastSpellOn" QuestId="24778" SpellId="56641" MobId="38038" NumOfTimes="5" MinRange="3" Range="20" MobHpPercentLeft="100" X="-1133.846" Y="-5501.374" Z="11.94427" />
+					<CustomBehavior File="CastSpellOn" QuestId="24778" SpellId="56641" MobId="38038" NumOfTimes="20" MinRange="3" Range="20" MobHpPercentLeft="100" X="-1133.846" Y="-5501.374" Z="11.94427" />
 				</If>
 			<TurnIn QuestName="The Arts of a Hunter" QuestId="24778" TurnInName="Ortezza" TurnInId="38247"/>
 			<PickUp QuestName="More Than Expected" QuestId="24781" GiverName="Ortezza" GiverId="38247" />
@@ -453,7 +464,7 @@
 						<CustomBehavior File="ForceSetVendor" DoTrain="true" DoRepair ="false" />
 					</If>
 					<RunTo X="-1159.035" Y="-5423.543" Z="13.23093" />
-					<CustomBehavior File="RunMacro" Macro="/target Tiki target" NumOfTimes="1" />
+				<CustomBehavior File="NPCAssistance" MobId="38038" X="-1168.694" Y="-5451.706" Z="12.15925" />
 					<CustomBehavior File="CastSpellOn" MobHpPercentLeft="100" SpellId="100" MobId="38038" NumOfTimes="1" MinRange="3" Range="20" X="-1168.694" Y="-5451.706" Z="12.15925" />
 				</If>
 			<TurnIn QuestName="The Arts of a Warrior" QuestId="24640" TurnInName="Nortet" TurnInId="38037"/>

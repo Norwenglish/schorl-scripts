@@ -3535,16 +3535,14 @@
   
 	<QuestOrder IgnoreCheckpoints="True" >
 	
-		<If Condition="Me.IsHorde" >
-			<CustomBehavior File="RunMacro" Macro="/exit" NumOfTimes="1" WaitTime="500" />
-			<CustomBehavior File="RunMacro" Macro="/click StaticPopup1Button1" NumOfTimes="1" WaitTime="500" />
-			<CustomBehavior File="UserDialog" AllowBotStop="True" SoundCue="Asterisk" SoundCueInterval="2" Text="You must be Alliance to run this profile" />
-		</If>
-	  
+			<!-- making sure we're in goldshire -->
+			
+			 <If Condition="(Me.ZoneId == 3524) || (Me.ZoneId == 3557) || (Me.ZoneId == 1657) || (Me.ZoneId == 141)" >
+				<CustomBehavior File="UserDialog" SoundCue="Exclamation" SoundCueInterval="2" Text="You cannot be in Draenei or Night Elf Territory.  Please go to Stormwind and press start!" />
+			 </If>
+  
 			<CustomBehavior File="Message" Text="Compiling Elwynn Forest Quests" LogColor="Green" />
 			
-			<CustomBehavior File="RunMacro" Macro="/script SetCVar('AutoLootDefault', 1)" NumOfTimes="1" WaitTime="1000" />
-	<CustomBehavior File="UserDialog" AllowBotStop="False" SoundCue="Exclamation" SoundCueInterval="5" ExpiryTime="30" ExpiryAction="InputEnabled_Continue" Text="Make sure Auto Equip, Talented, and ItemForAura Plugins are enabled!!!\n\nIf you have money - set food and drinks as well\n\nYou may also want to set a mail recipient!" />
 	
 				<SetGrindArea> 
 						<GrindArea> 
@@ -3568,7 +3566,7 @@
 		
 				<CustomBehavior File="Message" Text="Compiling Goldshire Quests" LogColor="Cornflowerblue" />
 
-	<CustomBehavior File="UserSettings" LootMobs="True" TrainNewSkills="True" LearnFlightPaths="True" UseFlightPaths="True" />
+	<CustomBehavior File="UserSettings" LootMobs="True" TrainNewSkills="True" LearnFlightPaths="False" UseFlightPaths="True" />
 			
 		<PickUp QuestName="The Fargodeep Mine" QuestId="62" GiverName="Marshal Dughan" GiverId="240" X="-9465.521" Y="74.00694" Z="56.59536" />
 		<PickUp QuestName="Gold Dust Exchange" QuestId="47" GiverName="Remy&quot;Two Times&quot;" GiverId="241" X="-9496.319" Y="72.82639" Z="56.41537" />
