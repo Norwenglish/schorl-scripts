@@ -31,7 +31,7 @@ namespace HighVoltz.Composites
                 else
                 {
                     if (!ObjectManager.Me.Mounted && Mount.ShouldMount(loc) && Mount.CanMount())
-                        Mount.MountUp();
+                        Mount.MountUp(() => loc);
                     Navigator.MoveTo(WoWMathHelper.CalculatePointFrom(_me.Location, loc, 4));
                 }
             }

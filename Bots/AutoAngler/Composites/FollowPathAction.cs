@@ -27,8 +27,12 @@ namespace HighVoltz.Composites
             {
                 WaterWalking.Cast();
             }
-            if (AutoAngler.CurrentPoint == WoWPoint.Zero)
+            if (AutoAngler.CurrentPoint == WoWPoint.Zero )
                 return RunStatus.Failure;
+            if (AutoAngler.FishAtHotspot && StyxWoW.Me.Location.Distance(AutoAngler.CurrentPoint) <= 3)
+            {
+                return RunStatus.Failure;
+            }
             float speed = ObjectManager.Me.MovementInfo.CurrentSpeed;
             float modifier = _settings.Fly ? 4f : 2f;
             float precision = speed > 7 ? (modifier*speed)/7f : modifier;
@@ -50,7 +54,7 @@ namespace HighVoltz.Composites
             else
             {
                 if (!ObjectManager.Me.Mounted && Mount.ShouldMount(AutoAngler.CurrentPoint) && Mount.CanMount())
-                    Mount.MountUp();
+                    Mount.MountUp(() => AutoAngler.CurrentPoint);
                 Navigator.MoveTo(AutoAngler.CurrentPoint);
             }
             return RunStatus.Success;

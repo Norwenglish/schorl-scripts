@@ -1,11 +1,15 @@
-﻿using System;
+﻿//!CompilerOption:Optimize:On
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using CommonBehaviors.Actions;
 using HighVoltz.Composites;
 using Levelbot.Actions.Death;
 using Levelbot.Decorators.Death;
@@ -72,6 +76,7 @@ namespace HighVoltz
             }
         }
 
+        public static bool FishAtHotspot { get; private set; }
         #region overrides
 
         private PrioritySelector _root;
@@ -86,11 +91,22 @@ namespace HighVoltz
             get { return PulseFlags.All; }
         }
 
+        private DateTime _pulseTimestamp;
         public override Composite Root
         {
             get
             {
                 return _root ?? (_root = new PrioritySelector(
+                    new Action(ctx =>
+                                   {
+                                       var pulseTime = DateTime.Now - _pulseTimestamp;
+                                       if (pulseTime >= TimeSpan.FromSeconds(3))
+                                       {
+                                           Err("Warning: It took {0} seconds to pulse.\nThis can cause missed bites. To fix try disabling all plugins", pulseTime.TotalSeconds);
+                                       }
+                                       _pulseTimestamp = DateTime.Now;
+                                       return RunStatus.Failure;
+                                   }),
                     // Is bot dead? if so, release and run back to corpse
                                              new Decorator(c => !_me.IsAlive,
                                                            new PrioritySelector(
@@ -101,8 +117,17 @@ namespace HighVoltz
                                                                )),
                     // If bot is in combat call the CC routine
                                              new Decorator(c => _me.Combat && !_me.IsFlying,
-                                                 new PrioritySelector(
-                                                           new CombatAction(),
+                                                 new PrioritySelector(  // equip weapons since we're in combat.
+                                                           new Decorator(ret => StyxWoW.Me.Inventory.Equipped.MainHand == null
+                                                                               || StyxWoW.Me.Inventory.Equipped.MainHand.ItemInfo.WeaponClass == WoWItemWeaponClass.FishingPole,
+                                                                               new Action(ret => Utils.EquipWeapon())),
+                                                           // reset the 'MoveToPool' timer when in combat. 
+                                                           new Decorator(ret => BotPoi.Current != null && BotPoi.Current.Type == PoiType.Harvest, 
+                                                               new Action(ret => {
+                                                                   MoveToPoolAction.MoveToPoolSW.Reset();
+                                                                   MoveToPoolAction.MoveToPoolSW.Start();
+                                                                   return RunStatus.Failure; // move on down to the next behavior.
+                                                               })),
                                                            Bots.Grind.LevelBot.CreateCombatBehavior()
 
                                             )),
@@ -204,6 +229,8 @@ namespace HighVoltz
                                                              new MoveToPoolAction(),
                                                              new EquipPoleAction(),
                                                              new ApplyLureAction(),
+                                                             new Decorator(c => FishAtHotspot,
+                                                                 new FaceWaterAction()),
                                                              new FishAction()
                                                              ))
                                                      )),
@@ -227,9 +254,8 @@ namespace HighVoltz
         {
             try
             {
-                WoWItem mainhand = MySettings.MainHand != 0 ? Utils.GetIteminBag(MySettings.MainHand) : null;
-                if (mainhand == null)
-                    mainhand = FindMainHand();
+                WoWItem mainhand = (MySettings.MainHand != 0 ? Utils.GetIteminBag(MySettings.MainHand) : null) ??
+                                   FindMainHand();
                 WoWItem offhand = MySettings.OffHand != 0 ? Utils.GetIteminBag(MySettings.OffHand) : null;
                 if (((mainhand != null && mainhand.ItemInfo.InventoryType != InventoryType.TwoHandWeapon) ||
                      mainhand == null) && offhand == null)
@@ -268,11 +294,16 @@ namespace HighVoltz
         public override void Start()
         {
             _botStartTime = DateTime.Now;
+            _pulseTimestamp = DateTime.Now;
             FishCaught = new Dictionary<string, uint>();
         }
 
+        private DateTime _weaponCheckTimeStamp = DateTime.Now;
+
         public override void Stop()
         {
+            Log("Equipping weapons");
+            Utils.EquipWeapon();
             Log("In {0} days, {1} hours and {2} minutes we have caught",
                 (DateTime.Now - _botStartTime).Days,
                 (DateTime.Now - _botStartTime).Hours,
@@ -361,6 +392,7 @@ namespace HighVoltz
                 }
                 else
                     WayPoints = new List<WoWPoint>();
+                FishAtHotspot = WayPoints.Count == 1;
             }
         }
 
@@ -475,5 +507,9 @@ namespace HighVoltz
         {
             Logging.WriteDebug(Color.DodgerBlue, String.Format("AutoAngler[{0}]: {1}", Version, format), args);
         }
+
+        public static string R = @"
+//!CompilerOption:AddRef:Remoting.dll
+";
     }
 }

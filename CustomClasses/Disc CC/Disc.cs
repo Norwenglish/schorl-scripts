@@ -26,7 +26,7 @@ namespace Disc
 {
     partial class DiscPriest : CombatRoutine
     {
-        public override sealed string Name { get { return "Disc CC v3.2"; } }
+        public override sealed string Name { get { return "Lazyraider - Doubt"; } }
         public override WoWClass Class { get { return WoWClass.Priest; } }
         public static LocalPlayer Me { get { return ObjectManager.Me; } }
         private WoWUnit lastCast;
@@ -290,7 +290,7 @@ namespace Disc
                 {
                     return false;
                 }                
-
+                
                 else if (!tank.HasAura("Power Word: Shield") && !tank.HasAura("Weakened Soul") && tank.Combat && DiscSettings.Instance.TankHealing_SET)
                 {
                     if (CC("Power Word: Shield", tank))
@@ -298,12 +298,7 @@ namespace Disc
                         //Casting Shield on tank
                         C("Power Word: Shield", tank);
                         Logging.Write("Shielding Tank");
-
-                        //Cast Pain Suppression if ready
-                        if (CC("Pain Suppression", tank) && tank.HealthPercent < DiscSettings.Instance.PainSuppression_SET)
-                        {
-                            C("Pain Suppression", tank);
-                        }
+                        
                         return true;
                     }
                     else
@@ -311,7 +306,12 @@ namespace Disc
                         return false;
                     }
                 }
-
+                //Cast Pain Suppression if ready
+                if (CC("Pain Suppression", tank) && tank.HealthPercent < DiscSettings.Instance.PainSuppression_SET)
+                {
+                    C("Pain Suppression", tank);
+                    return true;
+                }
                 if (tank.Combat
                     && tank.CurrentTarget != null
                     && tank.CurrentTarget.HealthPercent > 99
@@ -378,11 +378,15 @@ namespace Disc
                 tank.CurrentTarget.Target();
             }
             if (Me.ManaPercent <= DiscSettings.Instance.ShadowFiend_SET && CC("Shadowfiend") && tank.Combat)
-            {
+            {                
                 Logging.Write("Shadowfiend");
                 tank.CurrentTarget.Target();
                 C("Shadowfiend");
                 return true;
+            }
+            if (SpellManager.HasSpell("Arcane Torrent") && CC("Arcane Torrent") && Me.ManaPercent <= 80)
+            {
+                C("Arcane Torrent");
             }
             if (Me.ManaPercent <= DiscSettings.Instance.HymnHope_SET && CC("Hymn of Hope"))
             {
@@ -831,17 +835,7 @@ namespace Disc
                     {
                         C("Divine Hymn");
                     }
-                    if (hp>DiscSettings.Instance.PrayerHealingMin_SET
-                        && PrayerTar != null
-                        && CC("Prayer of Healing", PrayerTar))
-                    {
-                        if (CC("Inner Focus") && DiscSettings.Instance.InnerFocus_SET)
-                        {
-                            C("Inner Focus");
-                        }
-                        C("Prayer of Healing", PrayerTar);
-                        return true;
-                    }
+                    
                     if (NeedPrayerOfMending()
                         && CC("Prayer of Mending", tar)
                         && DiscSettings.Instance.PrayerMending_SET)
@@ -856,16 +850,27 @@ namespace Disc
                     {
                         C("Power Word: Shield", tar);
 
-                        if (CC("Pain Suppression", tar) && hp<DiscSettings.Instance.PainSuppression_SET 
+                        /*if (CC("Pain Suppression", tar) && hp<DiscSettings.Instance.PainSuppression_SET 
                             && !DiscSettings.Instance.TankHealing_SET)
                         {
                             C("Pain Suppression", tar);
-                        }
+                        }*/
                         return true;
                     }
                     if (hp < DiscSettings.Instance.Penance_SET && CC("Penance", tar))
                     {
                         C("Penance", tar);
+                        return true;
+                    }
+                    if (hp > DiscSettings.Instance.PrayerHealingMin_SET
+                        && PrayerTar != null
+                        && CC("Prayer of Healing", PrayerTar))
+                    {
+                        if (CC("Inner Focus") && DiscSettings.Instance.InnerFocus_SET)
+                        {
+                            C("Inner Focus");
+                        }
+                        C("Prayer of Healing", PrayerTar);
                         return true;
                     }
                     if (hp < DiscSettings.Instance.FlashHeal_SET && CC("Flash Heal", tar))
@@ -1011,7 +1016,7 @@ namespace Disc
 
                     //Power Word: Shield
                     if ((hp < DiscSettings.Instance.PWShield_SET
-                        || (DiscSettings.Instance.ShieldAggro_Heal_SET && PlayerHasAggro(tar)))
+                        || (tar.HasAura("Shrapnel") || (DiscSettings.Instance.ShieldAggro_Heal_SET && PlayerHasAggro(tar))))
                         && CC("Power Word: Shield", tar)
                         && !tar.HasAura("Power Word: Shield")
                         && !tar.HasAura("Weakened Soul"))

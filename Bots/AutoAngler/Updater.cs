@@ -19,7 +19,7 @@ namespace HighVoltz
             {
                 AutoAngler.Instance.Log("Checking for new version");
                 int remoteRev = GetRevision();
-                if (AutoAngler.Instance.MySettings.CurrentRevision < remoteRev)
+                if (AutoAngler.Instance.MySettings.CurrentRevision != remoteRev)
                 {
                     AutoAngler.Instance.Log("A new version was found.Downloading Update");
                     DownloadFilesFromSvn(new WebClient(), PbSvnUrl);

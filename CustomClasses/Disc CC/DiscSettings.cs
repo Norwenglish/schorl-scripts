@@ -319,7 +319,6 @@ namespace Disc
         [DisplayName("DPS Mana")]
         [Description("Min Mana to DPS")]
         public int DPSmana_SET { get; set; }
-
         
     }
 }

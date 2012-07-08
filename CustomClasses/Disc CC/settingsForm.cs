@@ -73,7 +73,7 @@ namespace Disc
         {
             try
             {
-                StreamReader s = new StreamReader(Path.Combine(Logging.ApplicationPath, string.Format(@"CustomClasses\DiscCC\DiscCC_dispels.ini")));
+                StreamReader s = new StreamReader(Path.Combine(Logging.ApplicationPath, string.Format(@"CustomClasses\Config\DiscCC_dispels.ini")));
                 String str;
                 while ((str = s.ReadLine()) != null)
                 {
@@ -91,7 +91,7 @@ namespace Disc
 
         private void PrintDispels()
         {
-            StreamWriter o = new StreamWriter(Path.Combine(Logging.ApplicationPath, string.Format(@"CustomClasses\DiscCC\DiscCC_dispels.ini")));
+            StreamWriter o = new StreamWriter(Path.Combine(Logging.ApplicationPath, string.Format(@"CustomClasses\Config\DiscCC_dispels.ini")));
             foreach(Dispels d in DiscSettings.Instance.UrgentDispelList)
             {
                 o.WriteLine(d.ListItem.ToString());

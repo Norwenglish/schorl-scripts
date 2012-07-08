@@ -58,9 +58,9 @@
     <Compile Include="AutoAnglerSettings.cs" />
     <None Include="SVN.template" />
     <Compile Include="Composites\ApplyLureAction.cs" />
-    <Compile Include="Composites\CombatAction.cs" />
     <Compile Include="Composites\AutoAnglerDecorator.cs" />
     <Compile Include="Composites\EquipPoleAction.cs" />
+    <Compile Include="Composites\FaceWaterAction.cs" />
     <Compile Include="Composites\FishAction.cs" />
     <Compile Include="Composites\FollowPathAction.cs" />
     <Compile Include="Composites\HarvestPoolDecorator.cs" />
@@ -91,9 +91,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(ProjectDir)*.cs" "$(ProjectDir)..\..\Honorbuddy\Bots\AutoAngler2" /I /S /Y
-xcopy "$(ProjectDir)*.xml" "$(ProjectDir)..\..\Honorbuddy\Bots\AutoAngler2" /I /S /Y
-</PostBuildEvent>
+    <PostBuildEvent>IF %25username%25==Highvoltz-VM (
+xcopy "$(ProjectDir)*.cs" "$(ProjectDir)..\..\Honorbuddy\Bots\AutoAngler2" /I /S /Y /D
+xcopy "$(ProjectDir)*.xml" "$(ProjectDir)..\..\Honorbuddy\Bots\AutoAngler2" /I /S /Y /D
+)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>SubWCRev.exe $(ProjectDir) $(ProjectDir)\SVN.template $(ProjectDir)\SVN.cs</PreBuildEvent>

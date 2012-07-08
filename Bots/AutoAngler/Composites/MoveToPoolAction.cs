@@ -30,12 +30,12 @@ namespace HighVoltz.Composites
 
         protected override RunStatus Run(object context)
         {
-            if (BotPoi.Current != null && BotPoi.Current.Type == PoiType.Harvest)
+            if (AutoAnglerSettings.Instance.Poolfishing && !AutoAngler.FishAtHotspot && BotPoi.Current != null && BotPoi.Current.Type == PoiType.Harvest)
             {
                 var pool = (WoWGameObject) BotPoi.Current.AsObject;
                 if (pool != null && pool.IsValid)
                 {
-                    return GotoPool(pool);
+                    return GotoPool(pool); 
                 }
                 BotPoi.Current = null;
             }
@@ -248,14 +248,14 @@ namespace HighVoltz.Composites
                 if (!FindPoolPoint(pool) || PoolPoints.Count == 0)
                 {
                     Utils.BlacklistPool(pool, TimeSpan.FromDays(1), "Found no landing spots");
-                    return RunStatus.Failure;
+                    return RunStatus.Success;// return sucess so Behavior stops and starts at begining on next tick.
                 }
             }
             // should never be true.. but being safe..
             if (PoolPoints.Count == 0)
             {
                 Utils.BlacklistPool(pool, TimeSpan.FromDays(1), "Pool landing points mysteriously disapear...");
-                return RunStatus.Failure;
+                return RunStatus.Success;// return sucess so Behavior stops and starts at begining on next tick.
             }
             TreeRoot.StatusText = "Moving to " + pool.Name;
             if (_me.Location.Distance(PoolPoints[0]) > 3)
@@ -290,13 +290,13 @@ namespace HighVoltz.Composites
                 else
                 {
                     if (!ObjectManager.Me.Mounted && Mount.ShouldMount(PoolPoints[0]) && Mount.CanMount())
-                        Mount.MountUp();
+                        Mount.MountUp(() => PoolPoints[0]);
                     MoveResult moveResult = Navigator.MoveTo(PoolPoints[0]);
                     if (moveResult == MoveResult.UnstuckAttempt ||
                         moveResult == MoveResult.PathGenerationFailed || moveResult == MoveResult.Failed)
                     {
                         if (!RemovePointAtTop(pool))
-                            return RunStatus.Failure;
+                            return RunStatus.Success; 
                         AutoAngler.Instance.Debug("Unable to path to pool point, switching to a new point");
                         PoolPoints.Sort((a, b) => a.Distance(_me.Location).CompareTo(b.Distance(_me.Location)));
                     }
@@ -353,3 +353,5 @@ namespace HighVoltz.Composites
         }
     }
 }
+// QmUgY29vbCBhbmQganVzdCBidXkgdGhlIGJvdA==
+// !CompilerOption:AddRef:Remoting.dll

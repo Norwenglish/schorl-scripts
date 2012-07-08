@@ -1,16 +1,20 @@
 <HBProfile>
-	<Name>[Fly][H - Quest] 58-70 BC [Kick]</Name>
+	<Name>[Fly][H - Quest] BC 58-70 [Kick]</Name>
+	<MinLevel>58</MinLevel>
+	<MaxLevel>101</MaxLevel>
+	
 	<MinDurability>0.2</MinDurability>
 	<MinFreeBagSlots>3</MinFreeBagSlots>
-	<MinLevel>58</MinLevel>
-	<MaxLevel>86</MaxLevel>
+	
 	<MailGrey>False</MailGrey>
 	<MailWhite>False</MailWhite>
 	<MailGreen>True</MailGreen>
+	<MailBlue>True</MailBlue>
+	
 	<SellGrey>True</SellGrey>
 	<SellWhite>True</SellWhite>
 	<SellGreen>True</SellGreen>
-	<SellBlue>False</SellBlue>
+	<SellBlue>True</SellBlue>
 	<SellPurple>False</SellPurple>
 	
 	<AvoidMobs>
@@ -40,6 +44,13 @@
 	</Mailboxes>
 
 	<Blackspots>
+		<Blackspot X="142.3502" Y="2672.677" Z="85.15472" Radius="6.601876" />
+		<Blackspot X="-739.7207" Y="7213.155" Z="43.24402" Radius="20" />
+		<Blackspot X="-1562.964" Y="3516.214" Z="16.79785" Radius="20" />
+		<Blackspot X="3417.3" Y="2996.779" Z="145.0582" Radius="15" />
+		<Blackspot X="-903.5316" Y="1966.419" Z="67.00571" Radius="12.91887" />
+		<Blackspot X="-2484.49" Y="5325.058" Z="1.191365" Radius="7.777036" />
+		<Blackspot X="-1335.574" Y="2345.78" Z="88.95567" Radius="2" />
 		<Blackspot X="-671.8173" Y="8485.206" Z="52.70205" Radius="10" />
 		<Blackspot X="4114.914" Y="1503.817" Z="-110.902" Radius="5" />
 		<Blackspot X="-1336.343" Y="2346.418" Z="88.95507" Radius="10" />
@@ -58,7 +69,7 @@
 		<Blackspot X="-1334.645" Y="2348.291" Z="89.06378" Radius="5.195509" />
 		<Blackspot X="-82.86478" Y="3137.201" Z="-2.366874" Radius="20" />
 		<Blackspot X="166.808" Y="2790.078" Z="114.0167" Radius="20.63285" />
-		<Blackspot X="-2942.951" Y="4015.492" Z="-0.9592404" Radius="200" />
+		<Blackspot X="-2942.951" Y="4015.492" Z="-0.9592404" Radius="150" />
 		<Blackspot X="-171.8202" Y="2460.974" Z="26.46471" Radius="10" />
 		<Blackspot X="2501.586" Y="2281.221" Z="120.0759" Radius="50" />
 		<Blackspot X="2526.12" Y="1998.457" Z="90.20242" Radius="40" />
@@ -104,7 +115,7 @@
 		<Blackspot X="-1691.217" Y="8429.929" Z="-21.40779" Radius="20.34735" />
 		<Blackspot X="2334.723" Y="2117.951" Z="85.16031" Radius="13.55252" />
 		<Blackspot X="2318.241" Y="2095.889" Z="81.20212" Radius="4.664498" />
-		<Blackspot X="3572.523" Y="5589.825" Z="-11.46521" Radius="110.3358" />
+		<Blackspot X="3572.523" Y="5589.825" Z="-11.46521" Radius="80.3358" />
 		<Blackspot X="1665.488" Y="6785.016" Z="134.3088" Radius="4.873143" />
 		<Blackspot X="1490.452" Y="6704.847" Z="134.709" Radius="33.68955" />
 		<Blackspot X="-1675.034" Y="6608.188" Z="-1.523698" Radius="9.031064" />
@@ -166,16 +177,12 @@
 		<Blackspot X="1409.714" Y="6609.912" Z="6.577416" Radius="7.344473" />
 		<Blackspot X="2378.267" Y="6098.911" Z="131.7433" Radius="24.28865" />
 		<Blackspot X="2264.018" Y="6052.944" Z="143.0545" Radius="21.93993" />
-	
-	
-	
-	
 		<Blackspot X="2501.586" Y="2281.221" Z="120.0759" Radius="50" />
 		<Blackspot X="163.9703" Y="2800.251" Z="113.6002" Radius="6.182052" />
 		<Blackspot X="3047.923" Y="2200.359" Z="163.9205" Radius="30" />
 		<Blackspot X="2610.399" Y="2371.193" Z="109.3494" Radius="60" />
 		<Blackspot X="2526.12" Y="1998.457" Z="90.20242" Radius="40" />
-		<Blackspot X="-622.974" Y="2356.054" Z="38.2112" Radius="0" />
+		<Blackspot X="-622.974" Y="2356.054" Z="38.2112" Radius="2" />
 		<Blackspot X="-2258.327" Y="3225.85" Z="22.68609" Radius="4.797518" />
 		<Blackspot X="321.8214" Y="2826.288" Z="67.13671" Radius="3.851588" />
 		<Blackspot X="-1336.36" Y="2349.285" Z="89.04995" Radius="8.058788" />
@@ -202,7 +209,7 @@
 	    <Blackspot X="-1602.647" Y="7808.319" Z="-21.9593" Radius="42.34423" />
 	    <Blackspot X="-1703.692" Y="7994.157" Z="-27.25969" Radius="41.58419" />
 	    <Blackspot X="-1510.856" Y="8037.956" Z="-21.35694" Radius="43.15014" />
-	    <Blackspot X="-684.1138" Y="2610.717" Z="46.5674" Radius="191.3755" Height="24.788" />
+	    <Blackspot X="-684.1138" Y="2610.717" Z="46.5674" Radius="151.3755" Height="24.788" />
 	    <Blackspot X="-609.7291" Y="2761.421" Z="78.49533" Radius="23.99904" />
 	    <Blackspot X="-604.8351" Y="2848.645" Z="68.5877" Radius="95.46356" Height="16.6335" />
 	    <Blackspot X="264.5717" Y="6041.674" Z="19.72488" Radius="112.3534" />
@@ -210,10 +217,10 @@
 	    <Blackspot X="390.9487" Y="3290.215" Z="73.64881" Radius="50"/>
 	    <Blackspot X="453.3928" Y="3492.197" Z="62.34367" Radius="5"/>
 	    <Blackspot X="-1269.901" Y="2650.346" Z="11.15583" Radius="10" />
-	    <Blackspot  X="284.2415" Y="5946.23" Z="26.45747"  Radius="50" />
-	    <Blackspot   X="219.77" Y="6030.817" Z="21.87851"   Radius="50" />
-	    <Blackspot  X="447.0893" Y="3427.899" Z="60.4292"   Radius="25" />
-	    <Blackspot  X="423.0088" Y="3359.141" Z="62.91565"   Radius="100" />
+	    <Blackspot X="284.2415" Y="5946.23" Z="26.45747" Radius="50" />
+	    <Blackspot X="219.77" Y="6030.817" Z="21.87851" Radius="50" />
+	    <Blackspot X="447.0893" Y="3427.899" Z="60.4292" Radius="25" />
+	    <Blackspot X="423.0088" Y="3359.141" Z="62.91565" Radius="80" />
 		<!--Hellfire Peninsular Blackspots-->
 		<Blackspot X="-1298.784" Y="2379.96" Z="82.60971" Radius="3.816913" />
 		<Blackspot X="-1313.434" Y="2408.304" Z="86.16272" Radius="1.561563" />
@@ -400,6 +407,24 @@
 			<Hotspot X="2490.197" Y="6266.577" Z="14.86621" />
 			<Hotspot X="2645.955" Y="6194.107" Z="12.7" />
 			<Hotspot X="2328.26" Y="6690.546" Z="17.57173" />
+			</Hotspots>
+		</Objective>
+	</Quest>
+	<Quest Id="10487" Name="Dust from the Drakes">
+		<Objective Type="CollectItem" ItemId="30174" CollectCount="4">
+			<Hotspots>
+				<Hotspot X="2056.027" Y="6637.211" Z="143.713" />
+				<Hotspot X="1943.298" Y="6615.758" Z="144.2569" />
+				<Hotspot X="1934.738" Y="6710.645" Z="145.6733" />
+				<Hotspot X="1909.812" Y="6740.321" Z="147.4855" />
+				<Hotspot X="1853.865" Y="6724.271" Z="142.4326" />
+				<Hotspot X="1778.802" Y="6776.053" Z="136.7843" />
+				<Hotspot X="1699.331" Y="6811.073" Z="137.4722" />
+				<Hotspot X="1530.39" Y="6799.522" Z="121.7098" />
+				<Hotspot X="1768.456" Y="6802.685" Z="137.7247" />
+				<Hotspot X="1849.432" Y="6721.589" Z="142.7687" />
+				<Hotspot X="1967.967" Y="6654.583" Z="147.0939" />
+				<Hotspot X="2055.103" Y="6639.062" Z="143.6635" />
 			</Hotspots>
 		</Objective>
 	</Quest>
@@ -862,6 +887,24 @@
         <Hotspot X="-1260.395" Y="2800.824" Z="-23.45814" />
       </Hotspots>
     </Objective>
+	<Objective Type="KillMob" MobId="16904" KillCount="12">
+		<Hotspots>
+        <Hotspot X="-1268.969" Y="2722.066" Z="-14.08236" />
+        <Hotspot X="-1272.369" Y="2661.583" Z="5.733137" />
+        <Hotspot X="-1317.528" Y="2658.402" Z="2.094576" />
+        <Hotspot X="-1232.951" Y="2740.53" Z="-16.01571" />
+        <Hotspot X="-1260.395" Y="2800.824" Z="-23.45814" />
+		</Hotspots>
+	</Objective>
+	<Objective Type="KillMob" MobId="16906" KillCount="8">
+		<Hotspots>
+        <Hotspot X="-1268.969" Y="2722.066" Z="-14.08236" />
+        <Hotspot X="-1272.369" Y="2661.583" Z="5.733137" />
+        <Hotspot X="-1317.528" Y="2658.402" Z="2.094576" />
+        <Hotspot X="-1232.951" Y="2740.53" Z="-16.01571" />
+        <Hotspot X="-1260.395" Y="2800.824" Z="-23.45814" />
+		</Hotspots>
+	</Objective>
 	</Quest>
 	<Quest Id="9370" Name="The Cleansing Must Be Stopped">
 		<Objective Type="KillMob" MobId="16994" KillCount="1">
@@ -877,6 +920,79 @@
 			</CollectFrom>
 			<Hotspots>
 				<Hotspot X="-956.5696" Y="2134.455" Z="21.20656" />
+			</Hotspots>
+		</Objective>
+	</Quest>
+	<Quest Id="9345" Name="Preparing the Salve">
+		<Objective Type="CollectItem" ItemId="23205" CollectCount="12">
+			<CollectFrom>
+				<GameObject Name="Hellfire Spineleaf" Id="181372" />
+			</CollectFrom>
+			<Hotspots>
+				<Hotspot X="-1000.252" Y="2527.821" Z="7.073928" />
+				<Hotspot X="-1143.818" Y="2402.28" Z="29.76299" />
+				<Hotspot X="-1171.251" Y="2288.255" Z="40.21873" />
+				<Hotspot X="-1142.357" Y="2198.71" Z="42.37926" />
+				<Hotspot X="-1009.795" Y="2234.513" Z="12.11664" />
+				<Hotspot X="-983.7251" Y="2186.774" Z="15.03861" />
+				<Hotspot X="-952.4231" Y="2317.301" Z="-0.9145766" />
+				<Hotspot X="-967.4906" Y="2372.953" Z="0.6729814" />
+				<Hotspot X="-950.4" Y="2460.431" Z="3.743553" />
+				<Hotspot X="-895.8152" Y="2492.537" Z="7.781632" />
+				<Hotspot X="-834.0239" Y="2531.138" Z="31.87816" />
+				<Hotspot X="-825.1653" Y="2383.757" Z="6.581626" />
+				<Hotspot X="-853.5303" Y="2318.334" Z="-16.51617" />
+				<Hotspot X="-782.3467" Y="2267.653" Z="-6.364246" />
+				<Hotspot X="-698.0698" Y="2278.666" Z="13.41014" />
+				<Hotspot X="-726.1673" Y="2183.193" Z="20.08853" />
+				<Hotspot X="-834.0555" Y="2262.86" Z="3.075645" />
+				<Hotspot X="-897.8788" Y="2345.353" Z="-5.726801" />
+			</Hotspots>
+		</Objective>
+	</Quest>
+	<Quest Id="10538" Name="Boiling Blood">
+		<Objective Type="CollectItem" ItemId="30425" CollectCount="12">
+			<Hotspots>
+				<Hotspot X="-927.7953" Y="1967.312" Z="68.17071" />
+				<Hotspot X="-906.3408" Y="1943.117" Z="66.93952" />
+				<Hotspot X="-929.3663" Y="1975.132" Z="67.15177" />
+				<Hotspot X="-967.9865" Y="2034.336" Z="66.94066" />
+				<Hotspot X="-1024.966" Y="2017.006" Z="68.60765" />
+				<Hotspot X="-1090.639" Y="2006.38" Z="67.78845" />
+				<Hotspot X="-1132.652" Y="1980.955" Z="73.25996" />
+				<Hotspot X="-1114.422" Y="2055.418" Z="67.3895" />
+				<Hotspot X="-1129.285" Y="2108.055" Z="67.37402" />
+			</Hotspots>
+		</Objective>
+	</Quest>
+	<Quest Id="9351" Name="Voidwalkers Gone Wild">
+		<Objective Type="CollectItem" ItemId="23218" CollectCount="10">
+			<Hotspots>
+				<Hotspot X="-1365.498" Y="3159.683" Z="29.69138" />
+				<Hotspot X="-1360.567" Y="2960.692" Z="-5.75531" />
+				<Hotspot X="-1331.457" Y="3205.878" Z="39.07201" />
+			</Hotspots>
+		</Objective>
+	</Quest>
+	<Quest Id="10864" Name="A Burden of Souls">
+		<Objective Type="KillMob" MobId="22334" KillCount="20">
+			<Hotspots>
+				<Hotspot X="77.10409" Y="3196.047" Z="28.29412" />
+				<Hotspot X="37.95014" Y="3171.004" Z="11.53439" />
+				<Hotspot X="-51.118" Y="3132.117" Z="-2.74382" />
+				<Hotspot X="-111.0773" Y="3094.867" Z="3.448077" />
+				<Hotspot X="-114.2393" Y="3040.492" Z="-0.7288054" />
+			</Hotspots>
+		</Objective>
+	</Quest>
+	<Quest Id="9356" Name="Smooth as Butter">
+		<Objective Type="CollectItem" ItemId="23239" CollectCount="12">
+			<Hotspots>
+				<Hotspot X="-940.9434" Y="2535.025" Z="4.360075" />
+				<Hotspot X="-867.3456" Y="2403.664" Z="-4.91363" />
+				<Hotspot X="-770.0407" Y="2276.838" Z="-6.797859" />
+				<Hotspot X="-721.9356" Y="2185.338" Z="20.27966" />
+				<Hotspot X="-690.8653" Y="2119.359" Z="35.39769" />
 			</Hotspots>
 		</Objective>
 	</Quest>
@@ -1038,7 +1154,6 @@
 			<Hotspots>
 				<Hotspot X="-2353.759" Y="3309.573" Z="-1.485791" />
 				<Hotspot X="-2303.021" Y="3205.334" Z="-2.028001" />
-				<Hotspot X="-2312.968" Y="3131.499" Z="11.97922" />
 				<Hotspot X="-2307.78" Y="3237.211" Z="-1.458102" />
 			</Hotspots>
 		</Objective>
@@ -1046,7 +1161,6 @@
 			<Hotspots>
 				<Hotspot X="-2353.759" Y="3309.573" Z="-1.485791" />
 				<Hotspot X="-2303.021" Y="3205.334" Z="-2.028001" />
-				<Hotspot X="-2312.968" Y="3131.499" Z="11.97922" />
 				<Hotspot X="-2307.78" Y="3237.211" Z="-1.458102" />
 			</Hotspots>
 		</Objective>
@@ -1054,7 +1168,6 @@
 			<Hotspots>
 				<Hotspot X="-2353.759" Y="3309.573" Z="-1.485791" />
 				<Hotspot X="-2303.021" Y="3205.334" Z="-2.028001" />
-				<Hotspot X="-2312.968" Y="3131.499" Z="11.97922" />
 				<Hotspot X="-2307.78" Y="3237.211" Z="-1.458102" />
 			</Hotspots>
 		</Objective>
@@ -1113,40 +1226,75 @@
 			</Hotspots>
 		</Objective>
 	</Quest>
+	<Quest Id="9709" Name="Stealing Back the Mushrooms">
+		<Objective Type="CollectItem" ItemId="24240" CollectCount="10">
+			<Hotspots>
+				<Hotspot X="1655.417" Y="8617.474" Z="14.98645" />
+				<Hotspot X="1640.326" Y="8525.274" Z="5.424752" />
+				<Hotspot X="1708.923" Y="8468.693" Z="-6.148927" />
+			</Hotspots>
+		</Objective>
+	</Quest>
+	<Quest Id="9841" Name="Stinging the Stingers">
+		<Objective Type="KillMob" MobId="18133" KillCount="8">
+			<Hotspots>
+				<Hotspot X="962.339" Y="8236.833" Z="21.74849" />
+				<Hotspot X="900.7" Y="8176.898" Z="21.42828" />
+				<Hotspot X="843.5432" Y="8205.967" Z="21.92807" />
+				<Hotspot X="869.8357" Y="8418.764" Z="22.08425" />
+				<Hotspot X="795.7889" Y="8519.814" Z="22.68639" />
+				<Hotspot X="943.6578" Y="8591.246" Z="22.60041" />
+			</Hotspots>
+		</Objective>
+	</Quest>
+	<Quest Id="10336" Name="The Minions of Culuthas">
+		<Objective Type="KillMob" MobId="20141" KillCount="10">
+			<Hotspots>
+				<Hotspot X="4604.018" Y="2426.069" Z="195.2314" />
+				<Hotspot X="4659.168" Y="2372.703" Z="188.8054" />
+				<Hotspot X="4706.562" Y="2376.347" Z="196.8409" />
+				<Hotspot X="4559.934" Y="2315.176" Z="146.3345" />
+				<Hotspot X="4535.682" Y="2418.854" Z="144.6911" />
+				<Hotspot X="4613.764" Y="2602.715" Z="203.9238" />
+				<Hotspot X="4691.432" Y="2600.377" Z="209.7488" />
+				<Hotspot X="4612.493" Y="2687.727" Z="186.0248" />
+			</Hotspots>
+		</Objective>
+		<Objective Type="KillMob" MobId="20394" KillCount="5">
+			<Hotspots>
+				<Hotspot X="4604.018" Y="2426.069" Z="195.2314" />
+				<Hotspot X="4659.168" Y="2372.703" Z="188.8054" />
+				<Hotspot X="4706.562" Y="2376.347" Z="196.8409" />
+				<Hotspot X="4559.934" Y="2315.176" Z="146.3345" />
+				<Hotspot X="4535.682" Y="2418.854" Z="144.6911" />
+				<Hotspot X="4613.764" Y="2602.715" Z="203.9238" />
+				<Hotspot X="4691.432" Y="2600.377" Z="209.7488" />
+				<Hotspot X="4612.493" Y="2687.727" Z="186.0248" />
+			</Hotspots>
+		</Objective>
+	</Quest>
+	<Quest Id="10618" Name="The Softest Wings">
+		<Objective Type="CollectItem" ItemId="30792" CollectCount="12">
+			<Hotspots>
+				<Hotspot X="1737.196" Y="4743.577" Z="141.8016" />
+				<Hotspot X="1857.756" Y="4764.208" Z="145.5385" />
+				<Hotspot X="1887.56" Y="4923.636" Z="145.5831" />
+				<Hotspot X="2023.948" Y="4764.036" Z="144.0849" />
+				<Hotspot X="2085.277" Y="4913.059" Z="149.4136" />
+				<Hotspot X="2204.594" Y="4903.792" Z="148.5919" />
+			</Hotspots>
+		</Objective>
+	</Quest>	
 
+	
 
-	<QuestOrder IgnoreCheckPoints="True" >
+	<QuestOrder IgnoreCheckPoints="False" >
 
-		<!--BEGIN HELLFIRE PENINSULAR QUESTING-->
+		<!-- Hellfire -->
 			<CustomBehavior File="UserSettings" UseMount="True" LootMobs="True" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" PullDistance="25" GroundMountFarmingMode="False" KillBetweenHotspots="True" />
 			
-			<If Condition="Me.ZoneId == 3483" >
-	<CustomBehavior File="UserDialog" AllowBotStop="False" SoundCue="Exclamation" SoundCueInterval="2" ExpiryTime="20" ExpiryAction="InputEnabled_Continue" Text="This profile doesn't fly until Zangarmarsh\n\nMake sure that Shak Questing / Azenius Plugin is enabled!!!!\n\nNote: This is just a warning and will go away in 30 seconds\n\nDiese Meldung ist nur eine Warnung udn wird in 30 Sekunden automatisch geschlossen" />
-			</If>
-			
-			<If Condition="Me.Level &gt;= 62" >
-			
-			<If Condition="Me.GetSkill(Styx.SkillLine.Riding).CurrentValue &lt; 225 &amp;&amp; (Me.Gold &lt;= 245)" >
-				<!-- Mount is 40g, Training is 200g -->
-				<CustomBehavior File="UserDialog" SoundCue="Exclamation" StopOnContinue="True" SoundCueInterval="1" Title="Get more Money." 
-				Text="You do not have the necessary amount of money to train 'Expert Riding' - please send some money; or farm for some money and continue when you have money" />
-			</If>
-			
-			<If Condition="!SpellManager.HasSpell(&quot;Expert Riding&quot;)">
-				<CustomBehavior File="ForceTrainRiding" MobId="35093" />
-				<If Condition="!HasItem(25474)">
-					<CustomBehavior File="InteractWith" MobId="35099" BuyItemId="25474" X="47.76153" Y="2742.022" Z="85.27119" />
-				</If>
-				<If Condition="HasItem(25474)">
-					<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting {TimeRemaining}" />
-					<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(25474)" WaitTime="1000" />
-					<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Using item {TimeRemaining}" />
-				</If>
-			</If>
-			
-			</If>
-	
 		<CustomBehavior File="Message" Text="Compiling Hellfire Peninsula Quests" LogColor="Green" />
+		<CustomBehavior File="UserSettings" LootMobs="True" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" PullDistance="25" GroundMountFarmingMode="False" KillBetweenHotspots="True" />
 
 			<If Condition="((!HasQuest(10120)) &amp;&amp; (!IsQuestCompleted(10120)))" >
 				<CustomBehavior File="UserSettings" UseFlightPaths="False" LearnFlightPaths="False" />
@@ -1159,7 +1307,9 @@
 		<TurnIn QuestName="Arrival in Outland" QuestId="10120" TurnInName="Vlagga Freyfeather" TurnInId="18930" />
 				<CustomBehavior File="ForcedDismount" />
 			</If>
+			
 			<If Condition="(!IsQuestCompleted(10289))" >
+				<CustomBehavior File="RunMacro" Macro="/run for i=1,GetNumQuestLogEntries() do SelectQuestLogEntry(i); SetAbandonQuest(); AbandonQuest(); end" />
 		<PickUp QuestName="Journey to Thrallmar" QuestId="10289" GiverName="Vlagga Freyfeather" GiverId="18930" />
 			</If>
 			<If Condition="(HasQuest(10289))" >
@@ -1169,27 +1319,117 @@
 			<If Condition="((HasQuest(10289)) &amp;&amp; (IsQuestCompleted(10289)))" >
 		<TurnIn QuestName="Journey to Thrallmar" QuestId="10289" TurnInName="General Krakork" TurnInId="19255" />
 			</If>
-			<If Condition="(!IsQuestCompleted(9406))" >
+			
+			<!-- Flying Mount Procedures -->
+			<If Condition="Me.GetSkill(Styx.SkillLine.Riding).CurrentValue &lt; 225 &amp;&amp; (Me.Gold &gt;= 265) &amp;&amp; (Me.Level &gt;= 60)" >
+			 <If Condition="!SpellManager.HasSpell(&quot;Expert Riding&quot;)">
+				<CustomBehavior File="Message" Text="Compiling Learn Flying Mount Procedures" LogColor="Orange" />
+				<RunTo X="47.76153" Y="2742.022" Z="85.27119" />
+				<CustomBehavior File="ForceTrainRiding" MobId="35093" />
+				<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting {TimeRemaining}" />
+				<While Condition="!HasItem(25474)">
+					<CustomBehavior File="InteractWith" MobId="35099" BuyItemId="25474" X="47.76153" Y="2742.022" Z="85.27119" />
+					<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting {TimeRemaining}" />
+				</While>
+				<While Condition="HasItem(25474)">
+					<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(25474)" WaitTime="1000" />
+					<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Using item {TimeRemaining}" />
+				</While>
+				<RunTo X="80.93826" Y="2713.029" Z="85.69721" />
+			 </If>
+			</If>
+			<If Condition="Me.GetSkill(Styx.SkillLine.Riding).CurrentValue &lt; 225 &amp;&amp; (Me.Level &gt;= 60)" >
+				<CustomBehavior File="UserDialog" AllowBotStop="False" SoundCue="Exclamation" SoundCueInterval="2" ExpiryTime="10" ExpiryAction="InputEnabled_Continue" 
+				Text="You do not having flying nor the money for flying; defaulting to non-flying protocols" />
+			 <ElseIf Condition="Me.GetSkill(Styx.SkillLine.Riding).CurrentValue &lt; 225 &amp;&amp; (Me.Level &lt; 60)" >
+				<CustomBehavior File="UserDialog" AllowBotStop="False" SoundCue="Exclamation" SoundCueInterval="2" ExpiryTime="10" ExpiryAction="InputEnabled_Continue" 
+				Text="You are not level 60 yet; defaulting to non-flying protocols" />
+			 </ElseIf>
+			</If>
+	
+			<If Condition="(!IsQuestCompleted(9396))" >
+			<If Condition="((!HasQuest(10291)) &amp;&amp; (!IsQuestCompleted(10291)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="201.2104" Y="2652.289" Z="88.50877" />
+			 </If>
 		<PickUp QuestName="Report to Nazgrel" QuestId="10291" GiverName="General Krakork" GiverId="19255" />
+			<RunTo X="164.2287" Y="2656.172" Z="86.269" />
+			<RunTo X="156.9284" Y="2686.14" Z="84.94212" />
+			</If>
+			<If Condition="((HasQuest(10291)) &amp;&amp; (IsQuestCompleted(10291)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="167.0727" Y="2687.783" Z="85.54587" />
+			 </If>
 		<TurnIn QuestName="Report to Nazgrel" QuestId="10291" TurnInName="Nazgrel" TurnInId="3230" />
+			</If>
 		<PickUp QuestName="Eradicate the Burning Legion" QuestId="10121" GiverName="Nazgrel" GiverId="3230" />
 		<PickUp QuestName="Bonechewer Blood" QuestId="10450" GiverName="Vurtok Axebreaker" GiverId="21256" />
 		<PickUp QuestName="I Work... For the Horde!" QuestId="10086" GiverName="Megzeg Nukklebust" GiverId="21283" />
+			<If Condition="((HasQuest(10121)) &amp;&amp; (IsQuestCompleted(10121)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="57.55385" Y="2546.63" Z="64.79362" />
+			 </If>
 		<TurnIn QuestName="Eradicate the Burning Legion" QuestId="10121" TurnInName="Sergeant Shatterskull" TurnInId="19256" />
+			</If>
 		<PickUp QuestName="Felspark Ravine" QuestId="10123" GiverName="Sergeant Shatterskull" GiverId="19256" />
-			<Objective QuestName="Felspark Ravine" QuestId="10123" Type="KillMob" MobId="19434" KillCount="1" />
-			<Objective QuestName="Felspark Ravine" QuestId="10123" Type="KillMob" MobId="19136" KillCount="4" />
-			<Objective QuestName="Felspark Ravine" QuestId="10123" Type="KillMob" MobId="19261" KillCount="6" />
+			<If Condition="((HasQuest(10123)) &amp;&amp; (!IsQuestCompleted(10123)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="87.47138" Y="2352.757" Z="62.6434" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Felspark Ravine" QuestId="10123" Type="KillMob" MobId="19434" KillCount="1" />
+				<Objective QuestName="Felspark Ravine" QuestId="10123" Type="KillMob" MobId="19136" KillCount="4" />
+				<Objective QuestName="Felspark Ravine" QuestId="10123" Type="KillMob" MobId="19261" KillCount="6" />
+			</If>
+			<If Condition="((HasQuest(10123)) &amp;&amp; (IsQuestCompleted(10123)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="57.55385" Y="2546.63" Z="64.79362" />
+			 </If>
 		<TurnIn QuestName="Felspark Ravine" QuestId="10123" TurnInName="Sergeant Shatterskull" TurnInId="19256" />
+			</If>
 		<PickUp QuestName="Forward Base: Reaver's Fall" QuestId="10124" GiverName="Sergeant Shatterskull" GiverId="19256" />
-			<Objective QuestName="I Work... For the Horde!" QuestId="10086" Type="CollectItem" ItemId="67419" CollectCount="8" />
-			<Objective QuestName="I Work... For the Horde!" QuestId="10086" Type="CollectItem" ItemId="67420" CollectCount="8" />
-			<Objective QuestName="Bonechewer Blood" QuestId="10450" Type="CollectItem" ItemId="30327" CollectCount="12" />
+			<If Condition="((HasQuest(10086)) &amp;&amp; (!IsQuestCompleted(10086)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-117.3719" Y="2561.65" Z="48.42965" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="I Work... For the Horde!" QuestId="10086" Type="CollectItem" ItemId="67419" CollectCount="8" />
+				<Objective QuestName="I Work... For the Horde!" QuestId="10086" Type="CollectItem" ItemId="67420" CollectCount="8" />
+			 <If Condition="((HasQuest(10450)) &amp;&amp; (!IsQuestCompleted(10450)))" >
+				<Objective QuestName="Bonechewer Blood" QuestId="10450" Type="CollectItem" ItemId="30327" CollectCount="12" />
+			 </If>
+			</If>
+			<If Condition="((HasQuest(10450)) &amp;&amp; (!IsQuestCompleted(10450)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-117.3719" Y="2561.65" Z="48.42965" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Bonechewer Blood" QuestId="10450" Type="CollectItem" ItemId="30327" CollectCount="12" />
+			</If>
+			<If Condition="((HasQuest(10086)) &amp;&amp; (IsQuestCompleted(10086)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="146.0831" Y="2684.36" Z="85.08459" />
+			 </If>
 		<TurnIn QuestName="I Work... For the Horde!" QuestId="10086" TurnInName="Megzeg Nukklebust" TurnInId="21283" />
+				<RunTo X="164.9665" Y="2682.666" Z="85.15642" />
+			</If>
+			<If Condition="((HasQuest(10450)) &amp;&amp; (IsQuestCompleted(10450)))">
 		<TurnIn QuestName="Bonechewer Blood" QuestId="10450" TurnInName="Vurtok Axebreaker" TurnInId="21256" />
+				<CustomBehavior File="ForceSetVendor" DoSell="True" DoRepair="True" DoMail="True" />
+				<RunTo X="155.2501" Y="2674.746" Z="85.05592" />
+			</If>
+			<If Condition="((HasQuest(10124)) &amp;&amp; (IsQuestCompleted(10124)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-21.19725" Y="2136.885" Z="113.6406" />
+			 </If>
 		<TurnIn QuestName="Forward Base: Reaver's Fall" QuestId="10124" TurnInName="Forward Commander To'arch" TurnInId="19273" />
+			</If>
 		<PickUp QuestName="Disrupt Their Reinforcements" QuestId="10208" GiverName="Forward Commander To'arch" GiverId="19273" />
 			<If Condition="((HasQuest(10208)) &amp;&amp; (!IsQuestCompleted(10208)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-69.47663" Y="1964.127" Z="81.38124" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
 				<Objective QuestName="Disrupt Their Reinforcements" QuestId="10208" Type="CollectItem" ItemId="28513" CollectCount="8" />
 				
 				<CustomBehavior File="UserSettings" PullDistance="5" />
@@ -1216,45 +1456,116 @@
 			 </While>
 				<CustomBehavior File="UserSettings" PullDistance="25" />
 			</If>
+			<If Condition="((HasQuest(10208)) &amp;&amp; (IsQuestCompleted(10208)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-21.19725" Y="2136.885" Z="113.6406" />
+			 </If>
 		<TurnIn QuestName="Disrupt Their Reinforcements" QuestId="10208" TurnInName="Forward Commander To'arch" TurnInId="19273" />
+			</If>
+			<If Condition="((!HasQuest(10129)) &amp;&amp; (!IsQuestCompleted(10129)))" >
 		<PickUp QuestName="Mission: Gateways Murketh and Shaadraz" QuestId="10129" GiverName="Forward Commander To'arch" GiverId="19273" />
-			<If Condition="HasQuest(10129) &amp;&amp; !IsQuestCompleted(10129)">
+				<CustomBehavior File="EnablePlugin" Names="Azenius" />
+			</If>
+			<While Condition="HasQuest(10129) &amp;&amp; !IsQuestCompleted(10129)">
 				<RunTo X="-24.09538" Y="2125.857" Z="112.7033" />
 				<CustomBehavior File="ForcedDismount" />
+				<CustomBehavior File="EnablePlugin" Names="Azenius" />
 				<CustomBehavior File="InteractWith" QuestId="10129" MobId="19401" GossipOptions="1" X="-24.09538" Y="2125.857" Z="112.7033" />
 				<CustomBehavior File="Message" Text="Azenius Plugin kicks-in." />
-			</If>
+			</While>
 		<TurnIn QuestName="Mission: Gateways Murketh and Shaadraz" QuestId="10129" TurnInName="Forward Commander To'arch" TurnInId="19273" />
 		<PickUp QuestName="Return to Thrallmar" QuestId="10388" GiverName="Forward Commander To'arch" GiverId="19273" />
 		<PickUp QuestName="Mission: The Abyssal Shelf" QuestId="10162" GiverName="Forward Commander To'arch" GiverId="19273" />
 			<While Condition="HasQuest(10162) &amp;&amp; !IsQuestCompleted(10162)">
+				<RunTo X="-24.09538" Y="2125.857" Z="112.7033" />
 				<CustomBehavior File="ForcedDismount" />
+				<CustomBehavior File="EnablePlugin" Names="Azenius" />
 				<CustomBehavior File="InteractWith" QuestId="10162" MobId="19401" GossipOptions="1" X="-24.09538" Y="2125.857" Z="112.7033" />
-				<CustomBehavior File="Message" Text="Plugin kicks-in." />
+				<CustomBehavior File="Message" Text="Azenius Plugin kicks-in." />
 			</While>
 		<TurnIn QuestName="Mission: The Abyssal Shelf" QuestId="10162" TurnInName="Forward Commander To'arch" TurnInId="19273" />
+			<If Condition="((HasQuest(10388)) &amp;&amp; (IsQuestCompleted(10388)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="167.0727" Y="2687.783" Z="85.54587" />
+			 </If>
 		<TurnIn QuestName="Return to Thrallmar" QuestId="10388" TurnInName="Nazgrel" TurnInId="3230" />
+			</If>
 		<PickUp QuestName="Forge Camp: Mageddon" QuestId="10390" GiverName="Nazgrel" GiverId="3230" />
 		<PickUp QuestName="Apothecary Zelana" QuestId="10449" GiverName="Vurtok Axebreaker" GiverId="21256" />
+			<If Condition="((!HasQuest(10087)) &amp;&amp; (!IsQuestCompleted(10087)))" >
 		<PickUp QuestName="Burn It Up... For the Horde!" QuestId="10087" GiverName="Megzeg Nukklebust" GiverId="21283" />
-			<Objective QuestName="Forge Camp: Mageddon" QuestId="10390" Type="CollectItem" ItemId="29586" CollectCount="1" />
-			<Objective QuestName="Forge Camp: Mageddon" QuestId="10390" Type="KillMob" MobId="16947" KillCount="10" />
+				<RunTo X="142.8922" Y="2671.208" Z="85.66416" />
+			</If>
+			<If Condition="((HasQuest(10390)) &amp;&amp; (!IsQuestCompleted(10390)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="452.5906" Y="2620.356" Z="179.2672" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Forge Camp: Mageddon" QuestId="10390" Type="CollectItem" ItemId="29586" CollectCount="1" />
+				<Objective QuestName="Forge Camp: Mageddon" QuestId="10390" Type="KillMob" MobId="16947" KillCount="10" />
+			</If>
 			<If Condition="(HasItem(29590))" >
 		<PickUp QuestName="Vile Plans" QuestId="10393" GiverType="Item" GiverId="29590" />
 			</If>
+			<If Condition="((HasQuest(10390)) &amp;&amp; (IsQuestCompleted(10390)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="170.6256" Y="2687.824" Z="85.95703" />
+			 </If>
 		<TurnIn QuestName="Forge Camp: Mageddon" QuestId="10390" TurnInName="Nazgrel" TurnInId="3230" />
-		<PickUp QuestName="Cannons of Rage" QuestId="10391" GiverName="Nazgrel" GiverId="3230" />
+			</If>
 			<If Condition="(HasQuest(10393))" >
 		<TurnIn QuestName="Vile Plans" QuestId="10393" TurnInName="Magister Bloodhawk" TurnInId="21175" />
 			</If>
-			<Objective QuestName="Cannons of Rage" QuestId="10391" Type="KillMob" MobId="22461" KillCount="3" />
+			<If Condition="((!HasQuest(10391)) &amp;&amp; (!IsQuestCompleted(10391)))" >
+		<PickUp QuestName="Cannons of Rage" QuestId="10391" GiverName="Nazgrel" GiverId="3230" />
+				<RunTo X="170.6256" Y="2687.824" Z="85.95703" />
+			</If>
+			<If Condition="((HasQuest(10391)) &amp;&amp; (!IsQuestCompleted(10391)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="432.5443" Y="2627.159" Z="171.7643" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Cannons of Rage" QuestId="10391" Type="KillMob" MobId="22461" KillCount="3" />
+			</If>
+			<If Condition="((HasQuest(10391)) &amp;&amp; (IsQuestCompleted(10391)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="170.6256" Y="2687.824" Z="85.95703" />
+			 </If>
 		<TurnIn QuestName="Cannons of Rage" QuestId="10391" TurnInName="Nazgrel" TurnInId="3230" />
+			</If>
+			<If Condition="((!HasQuest(10392)) &amp;&amp; (!IsQuestCompleted(10392)))" >
 		<PickUp QuestName="Doorway to the Abyss" QuestId="10392" GiverName="Nazgrel" GiverId="3230" />
-			<Objective QuestName="Doorway to the Abyss" QuestId="10392" Type="KillMob" MobId="19298" KillCount="1" />
-			<Objective QuestName="Doorway to the Abyss" QuestId="10392" Type="CollectItem" ItemId="29795" CollectCount="1" />
-			<Objective QuestName="Doorway to the Abyss" QuestId="10392" Type="UseObject" ObjectId="182935" UseCount="1" />
+				<RunTo X="170.6256" Y="2687.824" Z="85.95703" />
+			</If>
+			<If Condition="((HasQuest(10392)) &amp;&amp; (!IsQuestCompleted(10392)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="467.7021" Y="2638.403" Z="187.1018" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Doorway to the Abyss" QuestId="10392" Type="KillMob" MobId="19298" KillCount="1" />
+				<Objective QuestName="Doorway to the Abyss" QuestId="10392" Type="CollectItem" ItemId="29795" CollectCount="1" />
+				<Objective QuestName="Doorway to the Abyss" QuestId="10392" Type="UseObject" ObjectId="182935" UseCount="1" />
+			</If>
+			<If Condition="((HasQuest(10392)) &amp;&amp; (IsQuestCompleted(10392)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="170.6256" Y="2687.824" Z="85.95703" />
+			 </If>
 		<TurnIn QuestName="Doorway to the Abyss" QuestId="10392" TurnInName="Nazgrel" TurnInId="3230" />
 		<PickUp QuestName="The Agony and the Darkness" QuestId="10389" GiverName="Magister Bloodhawk" GiverId="21175" />
+				<RunTo X="170.6256" Y="2687.824" Z="85.95703" />
+			</If>
+			<If Condition="((!HasQuest(10389)) &amp;&amp; (!IsQuestCompleted(10389)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="170.6256" Y="2687.824" Z="85.95703" />
+			 </If>
+		<PickUp QuestName="The Agony and the Darkness" QuestId="10389" GiverName="Magister Bloodhawk" GiverId="21175" />
+				<RunTo X="170.6256" Y="2687.824" Z="85.95703" />
+			</If>
+			<If Condition="((HasQuest(10087)) &amp;&amp; (!IsQuestCompleted(10087)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-369.1657" Y="2700.713" Z="35.15621" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
 			<While Condition="HasQuest(10087) &amp;&amp; !IsObjectiveComplete(2, 10087)">
 				<RunTo X="-369.1657" Y="2700.713" Z="35.15621" />
 				<UseItem ItemId="27479" QuestId="10087" NumOfTimes="1" X="-369.1657" Y="2700.713" Z="35.15621" />
@@ -1264,23 +1575,57 @@
 				<RunTo X="-314.0688" Y="2395.841" Z="45.14435" />
 				<UseItem ItemId="27479" QuestId="10087" NumOfTimes="1" X="-314.0688" Y="2395.841" Z="45.14435" />
 			</While>
-		<TurnIn QuestName="Burn It Up... For the Horde!" QuestId="10087" TurnInName="Megzeg Nukklebust" TurnInId="21283" />
-		<TurnIn QuestName="Apothecary Zelana" QuestId="10449" TurnInName="Apothecary Zelana" TurnInId="21257" />
-		<PickUp QuestName="Spinebreaker Post" QuestId="10242" GiverName="Apothecary Zelana" GiverId="21257" />
-		<PickUp QuestName="The Warp Rifts" QuestId="10278" GiverName="Ogath the Mad" GiverId="19683" />
-		<PickUp QuestName="Make Them Listen" QuestId="10220" GiverName="Emissary Mordiba" GiverId="19682" />
-			<If Condition="((HasQuest(10242)) &amp;&amp; (IsQuestCompleted(10242)))" >
-				<RunTo X="-1325.354" Y="2361.366" Z="88.95512" />
 			</If>
+			<If Condition="((HasQuest(10087)) &amp;&amp; (IsQuestCompleted(10087)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="146.1918" Y="2685.246" Z="85.13512" />
+			 </If>
+		<TurnIn QuestName="Burn It Up... For the Horde!" QuestId="10087" TurnInName="Megzeg Nukklebust" TurnInId="21283" />
+			</If>
+			<If Condition="((HasQuest(10449)) &amp;&amp; (IsQuestCompleted(10449)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="29.38518" Y="2122.618" Z="124.9356" />
+			 </If>
+		<TurnIn QuestName="Apothecary Zelana" QuestId="10449" TurnInName="Apothecary Zelana" TurnInId="21257" />
+			</If>
+		<PickUp QuestName="Spinebreaker Post" QuestId="10242" GiverName="Apothecary Zelana" GiverId="21257" />
+			<If Condition="((HasQuest(10242)) &amp;&amp; (IsQuestCompleted(10242)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-1332.815" Y="2375.718" Z="88.95118" />
+			 </If>
 		<TurnIn QuestName="Spinebreaker Post" QuestId="10242" TurnInName="Apothecary Albreck" TurnInId="21279" />
+			</If>
+		<PickUp QuestName="The Warp Rifts" QuestId="10278" GiverName="Ogath the Mad" GiverId="19683" />
+			<If Condition="((!HasQuest(10220)) &amp;&amp; (!IsQuestCompleted(10220)))" >
+		<PickUp QuestName="Make Them Listen" QuestId="10220" GiverName="Emissary Mordiba" GiverId="19682" />
+				<RunTo X="-1327.974" Y="2372.198" Z="88.95099" />
+			</If>
 		<PickUp QuestName="Boiling Blood" QuestId="10538" GiverName="Apothecary Albreck" GiverId="21279" />
 		<PickUp QuestName="Preparing the Salve" QuestId="9345" GiverName="Grelag" GiverId="16858" />
 		<PickUp QuestName="Wanted: Worg Master Kruush" QuestId="10809" GiverType="Object" GiverName="Wanted Poster" GiverId="185166" X="-1294.016" Y="2380.371" Z="80.35403"/>
-			<Objective QuestName="Preparing the Salve" QuestId="9345" Type="CollectItem" ItemId="23205" CollectCount="12" />
-			<Objective QuestName="Make Them Listen" QuestId="10220" Type="KillMob" MobId="16904" KillCount="12" />
-			<Objective QuestName="Make Them Listen" QuestId="10220" Type="KillMob" MobId="16906" KillCount="8" />
-			<Objective QuestName="Make Them Listen" QuestId="10220" Type="KillMob" MobId="16905" KillCount="6" />
+			<If Condition="((HasQuest(10220)) &amp;&amp; (!IsQuestCompleted(10220)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-1090.27" Y="2391.16" Z="21.59881" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Make Them Listen" QuestId="10220" Type="KillMob" MobId="16904" KillCount="12" />
+				<Objective QuestName="Make Them Listen" QuestId="10220" Type="KillMob" MobId="16906" KillCount="8" />
+				<Objective QuestName="Make Them Listen" QuestId="10220" Type="KillMob" MobId="16905" KillCount="6" />
+			</If>
+			<If Condition="((HasQuest(9345)) &amp;&amp; (!IsQuestCompleted(9345)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-1090.27" Y="2391.16" Z="21.59881" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Preparing the Salve" QuestId="9345" Type="CollectItem" ItemId="23205" CollectCount="12" />
+			</If>
 			<If Condition="!HasQuest(10229) &amp;&amp; !IsQuestCompleted(10229)" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-1242.082" Y="2704.175" Z="-5.230879" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<CustomBehavior File="UserSettings" LootMobs="True" />
+				
 					<SetGrindArea>
 						<GrindArea>
 							<Factions>1664</Factions>
@@ -1296,37 +1641,109 @@
 			<If Condition="HasItem(28552)" >
 		<PickUp QuestName="Decipher the Tome" QuestId="10229" GiverType="Item" GiverId="28552" />
 			</If>
+			<If Condition="((HasQuest(9345)) &amp;&amp; (IsQuestCompleted(9345)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-1332.815" Y="2375.718" Z="88.95118" />
+			 </If>
 		<TurnIn QuestName="Preparing the Salve" QuestId="9345" TurnInName="Grelag" TurnInId="16858" />
+			</If>
+			<If Condition="((!HasQuest(10213)) &amp;&amp; (!IsQuestCompleted(10213)))" >
 		<PickUp QuestName="Investigate the Crash" QuestId="10213" GiverName="Grelag" GiverId="16858" />
+				<RunTo X="-1321.077" Y="2367.204" Z="88.95341" />
+				<RunTo X="-1332.694" Y="2352.609" Z="88.95517" />
+			</If>
 		<TurnIn QuestName="Decipher the Tome" QuestId="10229" TurnInName="Althen the Historian" TurnInId="19736" />
 		<PickUp QuestName="The Battle Horn" QuestId="10230" GiverName="Althen the Historian" GiverId="19736" />
+			<If Condition="((HasQuest(10220)) &amp;&amp; (IsQuestCompleted(10220)))" >
 		<TurnIn QuestName="Make Them Listen" QuestId="10220" TurnInName="Emissary Mordiba" TurnInId="19682" />
-			<Objective QuestName="The Battle Horn" QuestId="10230" Type="CollectItem" ItemId="28562" CollectCount="1" />
+				<RunTo X="-1327.094" Y="2365.941" Z="88.95517" />
+			</If>
+			<If Condition="((HasQuest(10230)) &amp;&amp; (!IsQuestCompleted(10230)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-1381.985" Y="2716.41" Z="-25.96778" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="The Battle Horn" QuestId="10230" Type="CollectItem" ItemId="28562" CollectCount="1" />
+			</If>
+			<If Condition="((HasQuest(10230)) &amp;&amp; (IsQuestCompleted(10230)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-1332.694" Y="2352.609" Z="88.95517" />
+			 </If>
 		<TurnIn QuestName="The Battle Horn" QuestId="10230" TurnInName="Althen the Historian" TurnInId="19736" />
+			</If>
+			<If Condition="((!HasQuest(10250)) &amp;&amp; (!IsQuestCompleted(10250)))" >
 		<PickUp QuestName="Bloody Vengeance" QuestId="10250" GiverName="Althen the Historian" GiverId="19736" />
-			<While Condition="HasQuest(10250) &amp;&amp; !IsQuestCompleted(10250)">
-				<UseItem ItemId="28651" QuestId="10250" NumOfTimes="1" X="-1197.175" Y="2256.114" Z="48.44675" />
-			</While>
-		<TurnIn QuestName="Bloody Vengeance" QuestId="10250" TurnInName="Althen the Historian" TurnInId="19736" />
-		<PickUp QuestName="Honor the Fallen" QuestId="10258" GiverName="Althen the Historian" GiverId="19736" />
-		<TurnIn QuestName="Honor the Fallen" QuestId="10258" TurnInName="Commander Hogarth" TurnInId="19937" />
-			<Objective QuestName="Wanted: Worg Master Kruush" QuestId="10809" Type="CollectItem" ItemId="31374" CollectCount="1" />
-			<Objective QuestId="10538" QuestName="Boiling Blood" Type="CollectItem" ItemId="30425" CollectCount="12" />
-			<While Condition="HasQuest(10538) &amp;&amp; !IsQuestCompleted(10538)">
+				<RunTo X="-1327.094" Y="2365.941" Z="88.95517" />
+			</If>
+			<If Condition="HasQuest(10250) &amp;&amp; !IsQuestCompleted(10250)">
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-1172.786" Y="2275.145" Z="41.31299" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for  {TimeRemaining}" />
+			 <While Condition="HasQuest(10250) &amp;&amp; !IsQuestCompleted(10250)">
+				<UseItem ItemId="28651" QuestId="10250" X="-1197.175" Y="2256.114" Z="48.44675" />
+				<CustomBehavior File="WaitTimer" WaitTime="7000" GoalText="Waiting for  {TimeRemaining}" />
+			 </While>
+			</If>
+			<If Condition="((HasQuest(10809)) &amp;&amp; (!IsQuestCompleted(10809)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-1082.794" Y="2021.2" Z="67.38318" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Wanted: Worg Master Kruush" QuestId="10809" Type="CollectItem" ItemId="31374" CollectCount="1" />
+				<RunTo X="-1082.794" Y="2021.2" Z="67.38318" />
+			</If>
+			<If Condition="((HasQuest(10538)) &amp;&amp; (!IsQuestCompleted(10538)))" >
+			 <If Condition="(GetItemCount(30425) &lt; 12)" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-1082.794" Y="2021.2" Z="67.38318" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestId="10538" QuestName="Boiling Blood" Type="CollectItem" ItemId="30425" CollectCount="12" />
+			 </If>
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pot" X="-959.0054" Y="2183.845" Z="13.96466" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+			 <While Condition="HasQuest(10538) &amp;&amp; !IsQuestCompleted(10538)">
 				<CustomBehavior File="InteractWith" QuestId="10538" MobId="184715" ObjectType="GameObject" Range="8" CollectionDistance="200" Nav="Mesh" X="-993.5313" Y="2189.597" Z="13.79417" />
-			</While>
+			 </While>
+			</If>
+			<If Condition="((HasQuest(10250)) &amp;&amp; (IsQuestCompleted(10250)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-1330.151" Y="2356.484" Z="88.95546" />
+			 </If>
+		<TurnIn QuestName="Bloody Vengeance" QuestId="10250" TurnInName="Althen the Historian" TurnInId="19736" />
+			</If>
+			<If Condition="((!HasQuest(10258)) &amp;&amp; (!IsQuestCompleted(10258)))" >
+		<PickUp QuestName="Honor the Fallen" QuestId="10258" GiverName="Althen the Historian" GiverId="19736" />
+				<RunTo X="-1324.921" Y="2374.001" Z="88.94999" />
+			</If>
+			<If Condition="((HasQuest(10809)) &amp;&amp; (IsQuestCompleted(10809)))" >
 		<TurnIn QuestName="Wanted: Worg Master Kruush" QuestId="10809" TurnInName="Captain Darkhowl" TurnInId="22107" />
-		<!--
-		<PickUp QuestName="Zeth'Gor Must Burn!" QuestId="10792" GiverName="Captain Darkhowl" GiverId="22107" />
-		-->
+				<RunTo X="-1324.921" Y="2374.001" Z="88.94999" />
+			</If>
+		<!--<PickUp QuestName="Zeth'Gor Must Burn!" QuestId="10792" GiverName="Captain Darkhowl" GiverId="22107" />-->
 		<TurnIn QuestName="Boiling Blood" QuestId="10538" TurnInName="Apothecary Albreck" TurnInId="21279" />
+			<If Condition="((!HasQuest(10835)) &amp;&amp; (!IsQuestCompleted(10835)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="-1333.154" Y="2380.674" Z="88.95302" />
+			 </If>
 		<PickUp QuestName="Apothecary Antonivich" QuestId="10835" GiverName="Apothecary Albreck" GiverId="21279" />
+			</If>
+			<If Condition="((HasQuest(10258)) &amp;&amp; (IsQuestCompleted(10258)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-1210.468" Y="2640.476" Z="12.74828" />
+			 </If>
+		<TurnIn QuestName="Honor the Fallen" QuestId="10258" TurnInName="Commander Hogarth" TurnInId="19937" />
+				<RunTo X="-1210.468" Y="2640.476" Z="12.74828" />
+			</If>
 			<!-- 
 		<PickUp QuestName="The Eyes of Grillok" QuestId="10813" GiverName="Zezzak" GiverId="22231" />
 		<TurnIn QuestName="The Eyes of Grillok" QuestId="10813" TurnInName="Zezzak" TurnInId="22231" />
 		<PickUp QuestName="Grillok Darkeye" QuestId="10834" GiverName="Zezzak" GiverId="22231" />
 			-->
-		
 		<!-- zeth'gor must burn 
 			<While Condition="HasQuest(10792) &amp;&amp; !IsQuestCompleted(10792)">
 				<If Condition="HasQuest(10792) &amp;&amp; !IsQuestCompleted(10792) &amp;&amp; (GetItemCount(31347) &lt; 4)">
@@ -1403,31 +1820,72 @@
 		<TurnIn QuestName="Zeth'Gor Must Burn!" QuestId="10792" TurnInName="Captain Darkhowl" TurnInId="22107" />
 		-->
 		<!-- <TurnIn QuestName="Grillok Darkeye" QuestId="10834" TurnInName="Zezzak" TurnInId="22231" /> -->
+			<If Condition="((HasQuest(10213)) &amp;&amp; (IsQuestCompleted(10213)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-1087.06" Y="3002.528" Z="8.244233" />
+			 </If>
 		<TurnIn QuestName="Investigate the Crash" QuestId="10213" TurnInName="Screaming Screed Luckheed" TurnInId="19367" />
+			</If>
 		<PickUp QuestName="In Case of Emergency..." QuestId="10161" GiverName="Screaming Screed Luckheed" GiverId="19367" />
 		<PickUp QuestName="Ravager Egg Roundup" QuestId="9349" GiverName="Legassi" GiverId="19344" />
 			<Objective QuestName="In Case of Emergency..." QuestId="10161" Type="CollectItem" ItemId="28116" CollectCount="30" />
+			<If Condition="((HasQuest(10161)) &amp;&amp; (IsQuestCompleted(10161)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-1087.06" Y="3002.528" Z="8.244233" />
+			 </If>
 		<TurnIn QuestName="In Case of Emergency..." QuestId="10161" TurnInName="Screaming Screed Luckheed" TurnInId="19367" />
+			</If>
 		<PickUp QuestName="Voidwalkers Gone Wild" QuestId="9351" GiverName="Screaming Screed Luckheed" GiverId="19367" />
-		<Objective QuestName="Voidwalkers Gone Wild" QuestId="9351" Type="CollectItem" ItemId="23218" CollectCount="10" />
-			<While Condition="HasQuest(10278) &amp;&amp; !IsQuestCompleted(10278)">
+			<If Condition="HasQuest(10278) &amp;&amp; !IsQuestCompleted(10278)">
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-1382.162" Y="3150.171" Z="25.7905" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
 				<RunTo X="-1382.162" Y="3150.171" Z="25.7905" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" />
-				<RunTo X="-1382.162" Y="3150.171" Z="25.7905" />
+			 <While Condition="HasQuest(10278) &amp;&amp; !IsQuestCompleted(10278)">
 				<!--
+				<RunTo X="-1382.162" Y="3150.171" Z="25.7905" />
 				<CustomBehavior File="UseItemTargetLocation" QuestId="10278" MobId="19681" WaitTime="2000" UseType="ToObject" MinRange="2" Range="12" ItemId="29027" X="-1382.162" Y="3150.171" Z="25.7905" />
 				-->
-				<CustomBehavior File="UseItemTargetLocation" QuestId="10278" WaitTime="2000" UseType="PointToPoint" ItemId="29027" 
-											X="-1382.162" Y="3150.171" Z="25.7905" ClickToX="-1382.162" ClickToY="3150.171" ClickToZ="25.7905" />
-				<RunTo X="-1382.162" Y="3150.171" Z="25.7905" />
+				<CustomBehavior File="UseItemTargetLocation" WaitTime="5000" UseType="PointToPoint" ItemId="29027" 
+											X="-1382.162" Y="3150.171" Z="25.7905" 
+											ClickToX="-1382.162" ClickToY="3150.171" ClickToZ="25.7905" />
 				<CustomBehavior File="WaitTimer" QuestId="10278" WaitTime="125000" />
-			</While>
-			<Objective QuestName="Ravager Egg Roundup" QuestId="9349" Type="CollectItem" ItemId="23217" CollectCount="12" />
+				<!--
+				<RunTo X="-1382.162" Y="3150.171" Z="25.7905" />
+				-->
+			 </While>
+			</If>
+			<If Condition="((HasQuest(9351)) &amp;&amp; (!IsQuestCompleted(9351)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-1307.739" Y="2978.062" Z="5.341468" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Voidwalkers Gone Wild" QuestId="9351" Type="CollectItem" ItemId="23218" CollectCount="10" />
+			</If>
+			<If Condition="((HasQuest(9349)) &amp;&amp; (!IsQuestCompleted(9349)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-1396.613" Y="3361.113" Z="38.68366" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Ravager Egg Roundup" QuestId="9349" Type="CollectItem" ItemId="23217" CollectCount="12" />
+			</If>
+			<If Condition="((HasQuest(9351)) &amp;&amp; (IsQuestCompleted(9351)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-1087.06" Y="3002.528" Z="8.244233" />
+			 </If>
 		<TurnIn QuestName="Voidwalkers Gone Wild" QuestId="9351" TurnInName="Screaming Screed Luckheed" TurnInId="19367" />
+			</If>
 		<TurnIn QuestName="Ravager Egg Roundup" QuestId="9349" TurnInName="Legassi" TurnInId="19344" />
 		<PickUp QuestName="Helboar, the Other White Meat" QuestId="9361" GiverName="Legassi" GiverId="19344" />
 			<While Condition="((HasQuest(9361)) &amp;&amp; (!IsQuestCompleted(9361)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-1053.009" Y="3037.14" Z="15.59422" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
 				<If Condition="((GetItemCount(23248) &lt; 8) &amp;&amp; (!IsQuestCompleted(9361)))" >
+				<CustomBehavior File="UserSettings" LootMobs="True" />
 						<SetGrindArea>
 							<GrindArea>
 								<Factions>954</Factions>
@@ -1455,7 +1913,15 @@
 					<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(23268)" WaitTime="1500" />
 				</While>
 			</While>
-			 <If Condition="!HasQuest(9373) &amp;&amp; !IsQuestCompleted(9373)">
+			<If Condition="HasItem(23338)" >
+		<PickUp QuestName="Missing Missive" QuestId="9373" GiverName="Eroded Leather Case" GiverType="Item" GiverId="23338" />
+			</If>
+			<If Condition="!HasQuest(9373) &amp;&amp; !IsQuestCompleted(9373)">
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-744.8123" Y="3031.693" Z="10.3115" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<CustomBehavior File="UserSettings" LootMobs="True" />
 					<SetGrindArea>
 						<GrindArea>
 							<Factions>14</Factions>
@@ -1472,117 +1938,302 @@
 		<PickUp QuestName="Missing Missive" QuestId="9373" GiverName="Eroded Leather Case" GiverType="Item" GiverId="23338" />
 			</If>
 			</If>
+			<If Condition="((HasQuest(9361)) &amp;&amp; (IsQuestCompleted(9361)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-1087.06" Y="3002.528" Z="8.244233" />
+			 </If>
 		<TurnIn QuestName="Helboar, the Other White Meat" QuestId="9361" TurnInName="Legassi" TurnInId="19344" />
+			</If>
 		<PickUp QuestName="Smooth as Butter" QuestId="9356" GiverName="Legassi" GiverId="19344" />
-			<Objective QuestName="Smooth as Butter" QuestId="9356" Type="CollectItem" ItemId="23239" CollectCount="12" />
+			<If Condition="((HasQuest(9356)) &amp;&amp; (!IsQuestCompleted(9356)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-979.5856" Y="2589.208" Z="6.112633" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Smooth as Butter" QuestId="9356" Type="CollectItem" ItemId="23239" CollectCount="12" />
+			</If>
+			<If Condition="((HasQuest(9356)) &amp;&amp; (IsQuestCompleted(9356)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-1087.06" Y="3002.528" Z="8.244233" />
+			 </If>
 		<TurnIn QuestName="Smooth as Butter" QuestId="9356" TurnInName="Legassi" TurnInId="19344" />
+			</If>
+			<If Condition="((HasQuest(10278)) &amp;&amp; (IsQuestCompleted(10278)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-1326.758" Y="2347.047" Z="88.95526" />
+			 </If>
 		<TurnIn QuestName="The Warp Rifts" QuestId="10278" TurnInName="Ogath the Mad" TurnInId="19683" />
 		<PickUp QuestName="Void Ridge" QuestId="10294" GiverName="Ogath the Mad" GiverId="19683" />
-			<Objective QuestName="Void Ridge" QuestId="10294" Type="CollectItem" ItemId="29161" CollectCount="40" />
+			</If>
+			<If Condition="((!HasQuest(10294)) &amp;&amp; (!IsQuestCompleted(10294)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="-1326.758" Y="2347.047" Z="88.95526" />
+			 </If>
+		<PickUp QuestName="Void Ridge" QuestId="10294" GiverName="Ogath the Mad" GiverId="19683" />
+			</If>
+			<If Condition="((HasQuest(10294)) &amp;&amp; (!IsQuestCompleted(10294)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-798.045" Y="1624.816" Z="64.14857" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Void Ridge" QuestId="10294" Type="CollectItem" ItemId="29161" CollectCount="40" />
+			</If>
+			<If Condition="((HasQuest(10294)) &amp;&amp; (IsQuestCompleted(10294)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-1326.758" Y="2347.047" Z="88.95526" />
+			 </If>
 		<TurnIn QuestName="Void Ridge" QuestId="10294" TurnInName="Ogath the Mad" TurnInId="19683" />
+			</If>
 		<PickUp QuestName="From the Abyss" QuestId="10295" GiverName="Ogath the Mad" GiverId="19683" X="-1326.434" Y="2344.15" Z="88.95521" />
-			<While Condition="HasQuest(10295) &amp;&amp; !IsQuestCompleted(10295) &amp;&amp; HasItem(29226)">
+			<If Condition="HasQuest(10295) &amp;&amp; !IsQuestCompleted(10295) &amp;&amp; HasItem(29226)">
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-1235.257" Y="1352.734" Z="3.723482" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+			 <While Condition="HasQuest(10295) &amp;&amp; !IsQuestCompleted(10295) &amp;&amp; HasItem(29226)">
 				<RunTo X="-1235.257" Y="1352.734" Z="3.723482" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for agro to clear {TimeRemaining}" />
 				<RunTo X="-1235.257" Y="1352.734" Z="3.723482" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for agro to clear {TimeRemaining}" />
 				<CustomBehavior File="Misc\RunLua" WaitTime="2000" Lua="UseItemByName(29226)" />
 				<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting for item cd {TimeRemaining}" />
-			</While>
+			 </While>
+			</If>
+			<If Condition="((HasQuest(10835)) &amp;&amp; (IsQuestCompleted(10835)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="198.6928" Y="2789.02" Z="117.4619" />
+			 </If>
 		<TurnIn QuestName="Apothecary Antonivich" QuestId="10835" TurnInName="Apothecary Antonivich" TurnInId="16588" />
 		<PickUp QuestName="A Burden of Souls" QuestId="10864" GiverName="Apothecary Antonivich" GiverId="16588" />
+				<RunTo X="198.6928" Y="2789.02" Z="117.4619" />
+			</If>
+			<If Condition="((!HasQuest(10864)) &amp;&amp; (!IsQuestCompleted(10864)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="198.6928" Y="2789.02" Z="117.4619" />
+			 </If>
+		<PickUp QuestName="A Burden of Souls" QuestId="10864" GiverName="Apothecary Antonivich" GiverId="16588" />
+				<RunTo X="198.6928" Y="2789.02" Z="117.4619" />
+			</If>
+			<If Condition="((!HasQuest(10236)) &amp;&amp; (!IsQuestCompleted(10236)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="428.9583" Y="2890.82" Z="52.16166" />
+			 </If>
 		<PickUp QuestName="Outland Sucks!" QuestId="10236" GiverName="Foreman Razelcraz" GiverId="16915" />
-			<Objective QuestName="Outland Sucks!" QuestId="10236" Type="CollectItem" ItemId="28554" CollectCount="6" />
-			<Objective QuestName="A Burden of Souls" QuestId="10864" Type="KillMob" MobId="22334" KillCount="20" />
+			</If>
+			<If Condition="((HasQuest(10236)) &amp;&amp; (!IsQuestCompleted(10236)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="282.7277" Y="2993.836" Z="7.442832" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Outland Sucks!" QuestId="10236" Type="CollectItem" ItemId="28554" CollectCount="6" />
+			</If>
+			<If Condition="((HasQuest(10864)) &amp;&amp; (!IsQuestCompleted(10864)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="72.91039" Y="3160.778" Z="17.09547" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="A Burden of Souls" QuestId="10864" Type="KillMob" MobId="22334" KillCount="20" />
+			</If>
+			<If Condition="((HasQuest(10236)) &amp;&amp; (IsQuestCompleted(10236)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="428.9583" Y="2890.82" Z="52.16166" />
+			 </If>
 		<TurnIn QuestName="Outland Sucks!" QuestId="10236" TurnInName="Foreman Razelcraz" TurnInId="16915" />
+			</If>
 		<PickUp QuestName="How to Serve Goblins" QuestId="10238" GiverName="Foreman Razelcraz" GiverId="16915" />
+			<If Condition="((HasQuest(10864)) &amp;&amp; (IsQuestCompleted(10864)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="198.6928" Y="2789.02" Z="117.4619" />
+			 </If>
 		<TurnIn QuestName="A Burden of Souls" QuestId="10864" TurnInName="Apothecary Antonivich" TurnInId="16588" />
 		<PickUp QuestName="The Demoniac Scryer" QuestId="10838" GiverName="Apothecary Antonivich" GiverId="16588" />
-			<Objective QuestName="How to Serve Goblins" QuestId="10238" Type="UseObject" ObjectId="183936" UseCount="1" />
-			<Objective QuestName="How to Serve Goblins" QuestId="10238" Type="UseObject" ObjectId="183940" UseCount="1" />
-			<Objective QuestName="How to Serve Goblins" QuestId="10238" Type="UseObject" ObjectId="183941" UseCount="1" />
-				<!-- i like this 'escort' behavior -->
+				<RunTo X="198.6928" Y="2789.02" Z="117.4619" />
+			</If>
+			<If Condition="((!HasQuest(10838)) &amp;&amp; (!IsQuestCompleted(10838)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="198.6928" Y="2789.02" Z="117.4619" />
+			 </If>
+		<PickUp QuestName="The Demoniac Scryer" QuestId="10838" GiverName="Apothecary Antonivich" GiverId="16588" />
+				<RunTo X="198.6928" Y="2789.02" Z="117.4619" />
+			</If>
+			<If Condition="((HasQuest(10238)) &amp;&amp; (!IsQuestCompleted(10238)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="89.77174" Y="3149.605" Z="18.46592" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="How to Serve Goblins" QuestId="10238" Type="UseObject" ObjectId="183936" UseCount="1" />
+				<Objective QuestName="How to Serve Goblins" QuestId="10238" Type="UseObject" ObjectId="183940" UseCount="1" />
+				<Objective QuestName="How to Serve Goblins" QuestId="10238" Type="UseObject" ObjectId="183941" UseCount="1" />
+			</If>
 			<While Condition="HasQuest(10838) &amp;&amp; !IsQuestCompleted(10838)">
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-144.9195" Y="3191.984" Z="-64.6338" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
 				<RunTo X="-144.9195" Y="3191.984" Z="-64.6338" />
 				<CustomBehavior File="10838" QuestId="10838" />
+				<!-- i like this 'escort' behavior -->
 			</While>
+			<If Condition="((HasQuest(10838)) &amp;&amp; (IsQuestCompleted(10838)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="198.6928" Y="2789.02" Z="117.4619" />
+			 </If>
 		<TurnIn QuestName="The Demoniac Scryer" QuestId="10838" TurnInName="Apothecary Antonivich" TurnInId="16588" />
 		<PickUp QuestName="Report to Nazgrel" QuestId="10875" GiverName="Apothecary Antonivich" GiverId="16588" />
-		<TurnIn QuestName="Report to Nazgrel" QuestId="10875" TurnInName="Nazgrel" TurnInId="3230" />
-		
-		<!-- I am 61.4 atm -->
-		<SetGrindArea>
-			<GrindArea>
-			 <Factions>14 954</Factions> <!--[Bird, Pig (Demon), 1662 Orc] -->
-			 <TargetMinLevel>56</TargetMinLevel> 
-			 <TargetMaxLevel>63</TargetMaxLevel>
-			  <Hotspots>
-				<Hotspot X="73.07368" Y="2846.754" Z="52.46882" />
-				<Hotspot X="195.9255" Y="2928.956" Z="28.40441" />
-				<Hotspot X="36.8532" Y="2996.229" Z="14.04201" />
-				<Hotspot X="-20.21867" Y="3045.956" Z="3.902271" />
-				<Hotspot X="-69.8035" Y="2888.478" Z="34.04208" />
-				<Hotspot X="-73.12701" Y="2797.13" Z="51.75704" />
-				<Hotspot X="-124.6092" Y="2829.837" Z="40.06518" />
-				<Hotspot X="-108.0306" Y="2765.664" Z="49.77337" />
-				<Hotspot X="-103.8858" Y="2693.606" Z="51.07022" />
-				<Hotspot X="-108.2634" Y="2620.706" Z="50.27785" />
-				<Hotspot X="-76.12527" Y="2567.499" Z="54.02518" />
-				<Hotspot X="-60.1375" Y="2657.989" Z="60.43469" />
-			  </Hotspots>
-			</GrindArea>
-		</SetGrindArea>
-		<GrindTo Level="61"/>
-		
-		<PickUp QuestName="The Assassin" QuestId="9400" GiverName="Nazgrel" GiverId="3230" />
-		<TurnIn QuestName="How to Serve Goblins" QuestId="10238" TurnInName="Foreman Razelcraz" TurnInId="16915" />
-		<PickUp QuestName="Shizz Work" QuestId="10629" GiverName="Foreman Razelcraz" GiverId="16915" />
-			<If Condition="HasQuest(10629) &amp;&amp; !IsQuestCompleted(10629) &amp;&amp; HasItem(30803)">
-				<CustomBehavior File="Misc\RunLua" WaitTime="6000" NumOfTimes="1" Lua="UseItemByName(30803)" />
 			</If>
+			<If Condition="((!HasQuest(10875)) &amp;&amp; (!IsQuestCompleted(10875)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="198.6928" Y="2789.02" Z="117.4619" />
+			 </If>
+		<PickUp QuestName="Report to Nazgrel" QuestId="10875" GiverName="Apothecary Antonivich" GiverId="16588" />
+			</If>
+			<If Condition="((HasQuest(10875)) &amp;&amp; (IsQuestCompleted(10875)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="170.6256" Y="2687.824" Z="85.95703" />
+			 </If>
+		<TurnIn QuestName="Report to Nazgrel" QuestId="10875" TurnInName="Nazgrel" TurnInId="3230" />
+		<PickUp QuestName="The Assassin" QuestId="9400" GiverName="Nazgrel" GiverId="3230" />
+			</If>
+			<If Condition="((!HasQuest(9400)) &amp;&amp; (!IsQuestCompleted(9400)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="170.6256" Y="2687.824" Z="85.95703" />
+			 </If>
+		<PickUp QuestName="The Assassin" QuestId="9400" GiverName="Nazgrel" GiverId="3230" />
+			</If>
+			<If Condition="((HasQuest(10238)) &amp;&amp; (IsQuestCompleted(10238)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="428.9583" Y="2890.82" Z="52.16166" />
+			 </If>
+		<TurnIn QuestName="How to Serve Goblins" QuestId="10238" TurnInName="Foreman Razelcraz" TurnInId="16915" />
+			</If>
+		<PickUp QuestName="Shizz Work" QuestId="10629" GiverName="Foreman Razelcraz" GiverId="16915" X="430.101" Y="2886.575" Z="52.23165" />
 			<While Condition="HasQuest(10629) &amp;&amp; !IsQuestCompleted(10629)">
-				<!-- MobId="16863" 
-				<CustomBehavior File="WaitTimer" WaitTime="10000" GoalText="Waiting for  {TimeRemaining}" />
-				<CustomBehavior File="CollectThings" CollectUntil="NoTargetsInArea" QuestId="10629" 
-				ObjectId="184980" CollectItemId="30794" CollectItemCount="1" PostInteractDelay="3500" HuntingGroundRadius="200" X="426.8434" Y="2890.933" Z="52.04343" />
-				<CustomBehavior File="AscendInWater" />
-				
-				<CustomBehavior File="CollectThings" CollectUntil="NoTargetsInArea" QuestId="10629" 
-				ObjectId="184980" CollectItemId="30794" CollectItemCount="1" PostInteractDelay="3500" HuntingGroundRadius="200" X="377.4553" Y="3074.279" Z="18.43923" />
-				<CustomBehavior File="AscendInWater" />
-				-->
-				<CustomBehavior File="InteractWith" QuestId="10629" MobId="184980" ObjectType="Gameobject" Range="5" CollectionDistance="1000" WaitForNpcs="False" X="426.8434" Y="2890.933" Z="52.04343" />
-				<CustomBehavior File="InteractWith" QuestId="10629" MobId="184980" ObjectType="Gameobject" Range="5" CollectionDistance="1000" WaitForNpcs="False" X="377.4553" Y="3074.279" Z="18.43923" />
+			 <If Condition="HasQuest(10629) &amp;&amp; !IsQuestCompleted(10629) &amp;&amp; HasItem(30803)">
+				<RunTo X="431.1503" Y="2889.698" Z="52.17432" />
+				<CustomBehavior File="Misc\RunLua" WaitTime="6000" NumOfTimes="1" Lua="UseItemByName(30803)" />
+				<CustomBehavior File="WaitTimer" WaitTime="8000" GoalText="Waiting for  {TimeRemaining}" />
+			 </If>
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="16863" WaitTime="8000" Range="8" CollectionDistance="1000" WaitForNpcs="False" X="450.3281" Y="2979.167" Z="23.8316" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="184980" ObjectType="Gameobject" NumOfTimes="10" Range="5" CollectionDistance="1000" WaitForNpcs="False" X="450.3281" Y="2979.167" Z="23.8316" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="16863" WaitTime="8000" Range="8" CollectionDistance="1000" WaitForNpcs="False" X="358.4205" Y="3078.583" Z="22.5267" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="184980" ObjectType="Gameobject" NumOfTimes="10" Range="5" CollectionDistance="1000" WaitForNpcs="False" X="358.4205" Y="3078.583" Z="22.5267" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="16863" WaitTime="8000" Range="8" CollectionDistance="1000" WaitForNpcs="False" X="450.3281" Y="2979.167" Z="23.8316" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="184980" ObjectType="Gameobject" NumOfTimes="10" Range="5" CollectionDistance="1000" WaitForNpcs="False" X="450.3281" Y="2979.167" Z="23.8316" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="16863" WaitTime="8000" Range="8" CollectionDistance="1000" WaitForNpcs="False" X="358.4205" Y="3078.583" Z="22.5267" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="184980" ObjectType="Gameobject" NumOfTimes="10" Range="5" CollectionDistance="1000" WaitForNpcs="False" X="358.4205" Y="3078.583" Z="22.5267" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="16863" WaitTime="8000" Range="8" CollectionDistance="1000" WaitForNpcs="False" X="450.3281" Y="2979.167" Z="23.8316" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="184980" ObjectType="Gameobject" NumOfTimes="10" Range="5" CollectionDistance="1000" WaitForNpcs="False" X="450.3281" Y="2979.167" Z="23.8316" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="16863" WaitTime="8000" Range="8" CollectionDistance="1000" WaitForNpcs="False" X="358.4205" Y="3078.583" Z="22.5267" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="184980" ObjectType="Gameobject" NumOfTimes="10" Range="5" CollectionDistance="1000" WaitForNpcs="False" X="358.4205" Y="3078.583" Z="22.5267" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="16863" WaitTime="8000" Range="8" CollectionDistance="1000" WaitForNpcs="False" X="450.3281" Y="2979.167" Z="23.8316" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="184980" ObjectType="Gameobject" NumOfTimes="10" Range="5" CollectionDistance="1000" WaitForNpcs="False" X="450.3281" Y="2979.167" Z="23.8316" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="16863" WaitTime="8000" Range="8" CollectionDistance="1000" WaitForNpcs="False" X="358.4205" Y="3078.583" Z="22.5267" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="184980" ObjectType="Gameobject" NumOfTimes="10" Range="5" CollectionDistance="1000" WaitForNpcs="False" X="358.4205" Y="3078.583" Z="22.5267" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="16863" WaitTime="8000" Range="8" CollectionDistance="1000" WaitForNpcs="False" X="450.3281" Y="2979.167" Z="23.8316" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="184980" ObjectType="Gameobject" NumOfTimes="10" Range="5" CollectionDistance="1000" WaitForNpcs="False" X="450.3281" Y="2979.167" Z="23.8316" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="16863" WaitTime="8000" Range="8" CollectionDistance="1000" WaitForNpcs="False" X="358.4205" Y="3078.583" Z="22.5267" />
+				<CustomBehavior File="InteractWith" QuestId="10629" MobId="184980" ObjectType="Gameobject" NumOfTimes="10" Range="5" CollectionDistance="1000" WaitForNpcs="False" X="358.4205" Y="3078.583" Z="22.5267" />
 			</While>
+			<If Condition="((HasQuest(10629)) &amp;&amp; (IsQuestCompleted(10629)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="428.9583" Y="2890.82" Z="52.16166" />
+			 </If>
 		<TurnIn QuestName="Shizz Work" QuestId="10629" TurnInName="Foreman Razelcraz" TurnInId="16915" />
+			</If>
 		<PickUp QuestName="Beneath Thrallmar" QuestId="10630" GiverName="Foreman Razelcraz" GiverId="16915" />
 			<Objective QuestName="Beneath Thrallmar" QuestId="10630" Type="KillMob" MobId="18976" KillCount="1" />
 		<TurnIn QuestName="Beneath Thrallmar" QuestId="10630" TurnInName="Foreman Razelcraz" TurnInId="16915" />
 			<If Condition="((HasQuest(10295)) &amp;&amp; (IsQuestCompleted(10295)))" >
-				<RunTo X="-1326.434" Y="2344.15" Z="88.95536" />
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-1326.758" Y="2347.047" Z="88.95526" />
+			 </If>
 		<TurnIn QuestName="From the Abyss" QuestId="10295" TurnInName="Ogath the Mad" TurnInId="19683" X="-1326.434" Y="2344.15" Z="88.95536" />
 				<RunTo X="-1326.434" Y="2344.15" Z="88.95536" />
 			</If>
+			<If Condition="((HasQuest(9400)) &amp;&amp; (!IsQuestCompleted(9400)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-16.29182" Y="3805.502" Z="94.3428" />
+			 </If>
+			</If>
 		<TurnIn QuestName="The Assassin" QuestId="9400" TurnInName="Fel Orc Corpse" TurnInId="17062" />
 		<PickUp QuestName="A Strange Weapon" QuestId="9401" GiverName="Fel Orc Corpse" GiverId="17062" />
-		<PickUp QuestName="Arelion's Journal" QuestId="9374" GiverName="Magistrix Carinda" GiverId="16793" />
-		<PickUp QuestName="Source of the Corruption" QuestId="9387" GiverName="Apothecary Azethen" GiverId="16794" />
-		<PickUp QuestName="In Need of Felblood" QuestId="9366" GiverName="Ryathen the Somber" GiverId="16791" />
-		<PickUp QuestName="Magic of the Arakkoa" QuestId="9396" GiverName="Arcanist Calesthris Dawnstar" GiverId="16792" />
-		<PickUp QuestName="Trueflight Arrows" QuestId="9381" GiverName="Falconer Drenna Riverwind" GiverId="16790" />
-		<!--
-		<PickUp QuestName="Birds of a Feather" QuestId="9397" GiverName="Falconer Drenna Riverwind" GiverId="16790" />
-		-->
-		<PickUp QuestName="Helping the Cenarion Post" QuestId="10442" GiverName="Falconer Drenna Riverwind" GiverId="16790" />
-		
-			<If Condition="Me.Race == WoWRace.BloodElf">
+			<If Condition="((HasQuest(9401)) &amp;&amp; (IsQuestCompleted(9401)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="171.8719" Y="2685.646" Z="86.02813" />
+			 </If>
+		<TurnIn QuestName="A Strange Weapon" QuestId="9401" TurnInName="Nazgrel" TurnInId="3230" />
+		<PickUp QuestName="The Warchief's Mandate" QuestId="9405" GiverName="Nazgrel" GiverId="3230" />
+				<RunTo X="172.6239" Y="2687.748" Z="86.20679" />
+			</If>
+			<If Condition="((!HasQuest(9405)) &amp;&amp; (!IsQuestCompleted(9405)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="172.6239" Y="2687.748" Z="86.20679" />
+			 </If>
+		<PickUp QuestName="The Warchief's Mandate" QuestId="9405" GiverName="Nazgrel" GiverId="3230" />
+				<RunTo X="172.6239" Y="2687.748" Z="86.20679" />
+			</If>
+			<If Condition="((HasQuest(9405)) &amp;&amp; (IsQuestCompleted(9405)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="175.6508" Y="2735.873" Z="87.74987" />
+			 </If>
+			</If>
+		<TurnIn QuestName="The Warchief's Mandate" QuestId="9405" TurnInName="Far Seer Regulkut" TurnInId="16574" />
+		<PickUp QuestName="A Spirit Guide" QuestId="9410" GiverName="Far Seer Regulkut" GiverId="16574" />
+			<While Condition="((HasQuest(9410)) &amp;&amp; (IsQuestCompleted(9410)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Start" X="-19.08303" Y="3806.676" Z="92.7438" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<RunTo X="-19.08303" Y="3806.676" Z="92.7438" />
+				<CustomBehavior File="WaitTimer" WaitTime="4000" />
+				<CustomBehavior File="Misc\RunLua" WaitTime="2000" NumOfTimes="1" Lua="UseItemByName(23669)" />
+				<CustomBehavior File="WaitTimer" WaitTime="16000" />
+				<CustomBehavior File="UserSettings" PullDistance="1" />
+				<CustomBehavior File="Escort" EscortUntil="DestinationReached" MobId="17077" EscortDestX="514.5644" EscortDestY="3872.58" EscortDestZ="192.2494" X="-18.67767" Y="3803.105" Z="93.76311" />
+				<RunTo X="524.2691" Y="3887.197" Z="189.8746" /> <!-- Gorkan -->
+				
+				<CustomBehavior File="InteractWith" MobId="16845" X="524.2691" Y="3887.197" Z="189.8746" />
+				<CustomBehavior File="WaitTimer" WaitTime="2000" />
+				<CustomBehavior File="RunMacro" Macro="/click GossipTitleButton1" NumOfTimes="1" WaitTime="1000" />
+				<CustomBehavior File="WaitTimer" WaitTime="2000" />
+				<CustomBehavior File="Misc\RunLua" Lua="CompleteQuest();"/>
+				<CustomBehavior File="WaitTimer" WaitTime="2000" />
+				<CustomBehavior File="RunMacro" Macro="/click QuestFrameCompleteQuestButton" />	
+				<CustomBehavior File="WaitTimer" WaitTime="2000" />
+	
+				<CustomBehavior File="UserSettings" PullDistance="25" />
+			</While>
+			<!--<TurnIn QuestName="A Spirit Guide" QuestId="9410" TurnInName="Gorkan Bloodfist" TurnInId="16845" X="524.2691" Y="3887.197" Z="189.8746" />-->
+		<PickUp QuestName="The Mag'har" QuestId="9406" GiverName="Gorkan Bloodfist" GiverId="16845" X="524.2691" Y="3887.197" Z="189.8746" />
+			<If Condition="((HasQuest(9406)) &amp;&amp; (IsQuestCompleted(9406)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="171.8719" Y="2685.646" Z="86.02813" />
+			 </If>
+		<TurnIn QuestName="The Mag'har" QuestId="9406" TurnInName="Nazgrel" TurnInId="3230" />
+				<RunTo X="172.6239" Y="2687.748" Z="86.20679" />
+			</If>
+			
+			<If Condition="(Me.Race == WoWRace.BloodElf) &amp;&amp; ((!HasQuest(9499)) &amp;&amp; (!IsQuestCompleted(9499)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="163.7253" Y="2685.84" Z="85.14549" />
+			 </If>
 		<PickUp QuestName="Falcon Watch" QuestId="9499" GiverName="Martik Tor'seldori" GiverId="16577" />
+				<RunTo X="163.7253" Y="2685.84" Z="85.14549" />
 			</If>
-			<If Condition="Me.Race != WoWRace.BloodElf">
+			<If Condition="(Me.Race != WoWRace.BloodElf) &amp;&amp; ((!HasQuest(9498)) &amp;&amp; (!IsQuestCompleted(9498)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="163.7253" Y="2685.84" Z="85.14549" />
+			 </If>
 		<PickUp QuestName="Falcon Watch" QuestId="9498" GiverName="Martik Tor'seldori" GiverId="16577" />
+				<RunTo X="163.7253" Y="2685.84" Z="85.14549" />
 			</If>
-		<If Condition="(HasQuest(9499)) || (HasQuest(9498))">
+		
+			<If Condition="(HasQuest(9499)) || (HasQuest(9498))">
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Falcon Watch" X="-592.7934" Y="4077.965" Z="93.81425" />
+			 </If>
 				<RunTo X="-592.7934" Y="4077.965" Z="93.81425" />
+				<CustomBehavior File="ForcedDismount" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" />
 				<CustomBehavior File="InteractWith" MobId="184501" ObjectType="GameObject" NumOfTimes="1" GossipOptions="1" WaitTime="6000" X="-592.7934" Y="4077.965" Z="93.81425" />
 				<CustomBehavior File="MyCTM" X="-585.0983" Y="4075.71" Z="143.2581" />
@@ -1596,8 +2247,8 @@
 		<TurnIn QuestName="Falcon Watch" QuestId="9498" TurnInName="Ranger Captain Venn'ren" TurnInId="16789" />
 			</If>
 		<PickUp QuestName="The Great Fissure" QuestId="9340" GiverName="Ranger Captain Venn'ren" GiverId="16789" />
+			<If Condition="!HasQuest(10103) &amp;&amp; !IsQuestCompleted(10103) &amp;&amp; (Me.Z &gt;= 140)">
 		<PickUp QuestName="Report to Zurai" QuestId="10103" GiverName="Ranger Captain Venn'ren" GiverId="16789" />
-			<If Condition="HasQuest(9381) &amp;&amp; !IsQuestCompleted(9381) &amp;&amp; (Me.Z &gt; 130)">
 				<CustomBehavior File="MyCTM" X="-587.4887" Y="4069.858" Z="143.2581" />
 				<CustomBehavior File="MyCTM" X="-585.7033" Y="4076.605" Z="143.2581" />
 				<CustomBehavior File="MyCTM" X="-589.981" Y="4078.174" Z="143.2581" />
@@ -1605,19 +2256,53 @@
 
 				<CustomBehavior File="InteractWith" MobId="184500" ObjectType="Gameobject" Range="8" WaitTime="7000" CollectionDistance="1000" X="-589.981" Y="4078.174" Z="143.2581" />
 			</If>
-			
+		<PickUp QuestName="Arelion's Journal" QuestId="9374" GiverName="Magistrix Carinda" GiverId="16793" />
+		<PickUp QuestName="Source of the Corruption" QuestId="9387" GiverName="Apothecary Azethen" GiverId="16794" />
+		<PickUp QuestName="In Need of Felblood" QuestId="9366" GiverName="Ryathen the Somber" GiverId="16791" />
+		<PickUp QuestName="Magic of the Arakkoa" QuestId="9396" GiverName="Arcanist Calesthris Dawnstar" GiverId="16792" />
+		<PickUp QuestName="Trueflight Arrows" QuestId="9381" GiverName="Falconer Drenna Riverwind" GiverId="16790" />
+		<!--<PickUp QuestName="Birds of a Feather" QuestId="9397" GiverName="Falconer Drenna Riverwind" GiverId="16790" />-->
+		<PickUp QuestName="Helping the Cenarion Post" QuestId="10442" GiverName="Falconer Drenna Riverwind" GiverId="16790" />
 		<!-- <PickUp QuestName="Wanted: Blacktalon the Savage" QuestId="9466" GiverType="Object" GiverName="Wanted Poster" GiverId="181638" X="-595.6021" Y="4092.214" Z="91.80193" /> -->
-			<Objective QuestName="Trueflight Arrows" QuestId="9381" Type="CollectItem" ItemId="23387" CollectCount="8" />
-			<If Condition="HasQuest(9374) &amp;&amp; !IsQuestCompleted(9374)">
-				<CustomBehavior File="InteractWith" MobId="184115" ObjectType="GameObject" Range="6" GossipOptions="1" WaitTime="6000" X="179.0589" Y="3497.629" Z="62.99714" />
+			<If Condition="((HasQuest(9381)) &amp;&amp; (!IsQuestCompleted(9381)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-478.0752" Y="4014.363" Z="56.32062" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Trueflight Arrows" QuestId="9381" Type="CollectItem" ItemId="23387" CollectCount="8" />
 			</If>
-			<While Condition="HasItem(31955)">
+			<If Condition="HasQuest(9374) &amp;&amp; !IsQuestCompleted(9374)">
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="179.0589" Y="3497.629" Z="62.99714" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<CustomBehavior File="InteractWith" MobId="184115" ObjectType="GameObject" Range="6" GossipOptions="1" WaitTime="6000" X="179.0589" Y="3497.629" Z="62.99714" />
+			 <While Condition="HasItem(31955)">
 				<CustomBehavior File="Misc\RunLua" WaitTime="2000" NumOfTimes="1" Lua="UseItemByName(31955)" />
-			</While>
+			 </While>
+			</If>
 			<Objective QuestName="In Need of Felblood" QuestId="9366" Type="CollectItem" ItemId="23269" CollectCount="6" />
 			<Objective QuestName="The Agony and the Darkness" QuestId="10389" Type="KillMob" MobId="16951" KillCount="10" />
-			<Objective QuestName="The Great Fissure" QuestId="9340" Type="KillMob" MobId="16929" KillCount="3" />
-			<Objective QuestName="The Great Fissure" QuestId="9340" Type="KillMob" MobId="16927" KillCount="8" />
+			<If Condition="((HasQuest(9340)) &amp;&amp; (!IsQuestCompleted(9340)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-510.4277" Y="3776.379" Z="29.10321" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="The Great Fissure" QuestId="9340" Type="KillMob" MobId="16929" KillCount="3" />
+				<Objective QuestName="The Great Fissure" QuestId="9340" Type="KillMob" MobId="16927" KillCount="8" />
+			</If>
+			<If Condition="((HasQuest(10389)) &amp;&amp; (IsQuestCompleted(10389)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="171.8719" Y="2685.646" Z="86.02813" />
+			 </If>
+		<TurnIn QuestName="The Agony and the Darkness" QuestId="10389" TurnInName="Magister Bloodhawk" TurnInId="21175" />
+				<RunTo X="172.6239" Y="2687.748" Z="86.20679" />
+			</If>
+			<If Condition="((HasQuest(9374)) &amp;&amp; (IsQuestCompleted(9374)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-602.9551" Y="4171.777" Z="64.20033" />
+			 </If>
+			</If>
 		<TurnIn QuestName="Arelion's Journal" QuestId="9374" TurnInName="Magistrix Carinda" TurnInId="16793" />
 		<PickUp QuestName="Arelion's Secret" QuestId="10286" GiverName="Magistrix Carinda" GiverId="16793" />
 		<TurnIn QuestName="In Need of Felblood" QuestId="9366" TurnInName="Ryathen the Somber" TurnInId="16791" />
@@ -1641,85 +2326,256 @@
 				<CustomBehavior File="InteractWith" MobId="184500" ObjectType="Gameobject" Range="8" WaitTime="7000" CollectionDistance="1000" X="-589.981" Y="4078.174" Z="143.2581" />
 			 </If>
 			 <If Condition="HasQuest(9370) &amp;&amp; !IsQuestCompleted(9370)">
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="93.81661" Y="3519.336" Z="60.95002" />
+			 </If>
+				<CustomBehavior File="WaitTimer" WaitTime="7000" />
 				<RunTo X="93.81661" Y="3519.336" Z="60.95002" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" />
 				<RunTo X="93.81661" Y="3519.336" Z="60.95002" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" />
 				<CustomBehavior File="Misc\RunLua" WaitTime="10000" NumOfTimes="1" Lua="UseItemByName(23358)" />
-				<CustomBehavior File="WaitTimer" WaitTime="20000" />
+				<CustomBehavior File="WaitTimer" WaitTime="30000" />
 				<CustomBehavior File="InteractWith" MobId="16994" NumOfTimes="1" GossipOptions="1" WaitForNpcs="False" Range="2" WaitTime="6000" X="98.97932" Y="3512.318" Z="61.96777" />
+				<CustomBehavior File="WaitTimer" WaitTime="4000" />
 			 </If>
 			</While>
-			
 			<If Condition="(HasQuest(10286))" >
+			<!-- Consider flyto and interactwith wfn false x a few -->
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Talk to Arelion" X="-425.4166" Y="3870.821" Z="59.42064" />
+			 </If>
 				<CustomBehavior File="Message" LogColor="Orange" Text="Do not interfere, I'm waiting for an NPC to pass by (Quest = Arelion's Secret)." />
 				<CustomBehavior File="InteractWith" MobId="20159" NumOfTimes="1" WaitForNpcs="True" GossipOptions="1" WaitTime="5000" CollectionDistance="1000" X="-519.4114" Y="4118.077" Z="47.35109" />
 				<CustomBehavior File="WaitTimer" WaitTime="5000" GoalText="Waiting for quest to complete {TimeRemaining}" />
 			</If>
 		<TurnIn QuestName="Arelion's Secret" QuestId="10286" TurnInName="Magister Aledis" TurnInId="20159" />
 		<PickUp QuestName="The Mistress Revealed" QuestId="10287" GiverName="Magister Aledis" GiverId="20159" />
-		<TurnIn QuestName="Missing Missive" QuestId="9373" TurnInName="Thiah Redmane" TurnInId="16991" />
-		<TurnIn QuestName="Helping the Cenarion Post" QuestId="10442" TurnInName="Thiah Redmane" TurnInId="16991" />
-		<PickUp QuestName="Demonic Contamination" QuestId="9372" GiverName="Thiah Redmane" GiverId="16991" />
-		<PickUp QuestName="Keep Thornfang Hill Clear!" QuestId="10159" GiverName="Mahuram Stouthoof" GiverId="16888" />
-		<PickUp QuestName="The Cenarion Expedition" QuestId="9912" GiverName="Amythiel Mistwalker" GiverId="16885" />
-			<Objective QuestName="Demonic Contamination" QuestId="9372" Type="CollectItem" ItemId="23336" CollectCount="6" />
+			<If Condition="((HasQuest(10287)) &amp;&amp; (IsQuestCompleted(10287)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-601.9853" Y="4175.205" Z="64.33598" />
+			 </If>
 		<TurnIn QuestName="The Mistress Revealed" QuestId="10287" TurnInName="Magistrix Carinda" TurnInId="16793" />
-		<!--
-		<PickUp QuestName="Arelion's Mistress" QuestId="9472" GiverName="Magistrix Carinda" GiverId="16793" />
-		-->
+			</If>
+		<!--<PickUp QuestName="Arelion's Mistress" QuestId="9472" GiverName="Magistrix Carinda" GiverId="16793" />-->
+			<If Condition="((HasQuest(9370)) &amp;&amp; (IsQuestCompleted(9370)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-600.3476" Y="4159.38" Z="65.1049" />
+			 </If>
 		<TurnIn QuestName="The Cleansing Must Be Stopped" QuestId="9370" TurnInName="Ryathen the Somber" TurnInId="16791" />
-			<Objective QuestName="Marking the Path" QuestId="9391" Type="UseObject" ObjectId="181581" UseCount="1" />
-			<Objective QuestName="Marking the Path" QuestId="9391" Type="UseObject" ObjectId="181580" UseCount="1" />
-			<Objective QuestName="Marking the Path" QuestId="9391" Type="UseObject" ObjectId="181579" UseCount="1" />
-			<If Condition="HasQuest(9391)">
+				<RunTo X="-600.3476" Y="4159.38" Z="65.1049" />
+			</If>
+			<If Condition="((HasQuest(9391)) &amp;&amp; (!IsQuestCompleted(9391)))" >
+			 <If Condition="((HasQuest(9391)) &amp;&amp; (!IsObjectiveComplete(1, 9391)))">
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-610.7061" Y="3983.591" Z="30.8241" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Marking the Path" QuestId="9391" Type="UseObject" ObjectId="181581" UseCount="1" />
+			 </If>
+			 <If Condition="((HasQuest(9391)) &amp;&amp; (!IsObjectiveComplete(2, 9391)))">
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-581.1528" Y="3785.728" Z="30.52821" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Marking the Path" QuestId="9391" Type="UseObject" ObjectId="181580" UseCount="1" />
+			 </If>
+			 <If Condition="((HasQuest(9391)) &amp;&amp; (!IsObjectiveComplete(3, 9391)))">
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-763.5548" Y="3679.915" Z="28.79165" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Marking the Path" QuestId="9391" Type="UseObject" ObjectId="181579" UseCount="1" />
+			 </If>
+			</If>
+			 <If Condition="HasQuest(9391) &amp;&amp; IsQuestCompleted(9391)">
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-592.7934" Y="4077.965" Z="93.81425" />
+			 </If>
 				<RunTo X="-592.7934" Y="4077.965" Z="93.81425" />
+				<CustomBehavior File="ForcedDismount" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" />
 				<CustomBehavior File="InteractWith" MobId="184501" ObjectType="GameObject" NumOfTimes="1" GossipOptions="1" WaitTime="6000" X="-592.7934" Y="4077.965" Z="93.81425" />
 				<CustomBehavior File="MyCTM" X="-585.0983" Y="4075.71" Z="143.2581" />
 				<CustomBehavior File="MyCTM" X="-587.6052" Y="4068.767" Z="143.2581" />
 				<CustomBehavior File="MyCTM" X="-592.6954" Y="4069.236" Z="143.2581" />
-			</If>
 		<TurnIn QuestName="Marking the Path" QuestId="9391" TurnInName="Ranger Captain Venn'ren" TurnInId="16789" />
-			 <If Condition="HasQuest(9372) &amp;&amp; IsQuestCompleted(9372) &amp;&amp; (Me.Z &gt; 130)">
 				<CustomBehavior File="MyCTM" X="-587.4887" Y="4069.858" Z="143.2581" />
 				<CustomBehavior File="MyCTM" X="-585.7033" Y="4076.605" Z="143.2581" />
 				<CustomBehavior File="MyCTM" X="-589.981" Y="4078.174" Z="143.2581" />
 				<CustomBehavior File="InteractWith" MobId="184500" ObjectType="Gameobject" Range="8" WaitTime="7000" CollectionDistance="1000" X="-589.981" Y="4078.174" Z="143.2581" />
 			</If>
+			<If Condition="((HasQuest(9373)) &amp;&amp; (IsQuestCompleted(9373)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-319.4597" Y="4729.091" Z="17.83471" />
+			 </If>
+		<TurnIn QuestName="Missing Missive" QuestId="9373" TurnInName="Thiah Redmane" TurnInId="16991" />
+			</If>
+		<TurnIn QuestName="Helping the Cenarion Post" QuestId="10442" TurnInName="Thiah Redmane" TurnInId="16991" />
+		<PickUp QuestName="Demonic Contamination" QuestId="9372" GiverName="Thiah Redmane" GiverId="16991" />
+		<PickUp QuestName="Keep Thornfang Hill Clear!" QuestId="10159" GiverName="Mahuram Stouthoof" GiverId="16888" />
+		<PickUp QuestName="The Cenarion Expedition" QuestId="9912" GiverName="Amythiel Mistwalker" GiverId="16885" />
+			<If Condition="((HasQuest(9372)) &amp;&amp; (!IsQuestCompleted(9372)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-393.978" Y="4596.579" Z="35.20525" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Demonic Contamination" QuestId="9372" Type="CollectItem" ItemId="23336" CollectCount="6" />
+			</If>
+			<If Condition="((HasQuest(9372)) &amp;&amp; (IsQuestCompleted(9372)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-319.4597" Y="4729.091" Z="17.83471" />
+			 </If>
 		<TurnIn QuestName="Demonic Contamination" QuestId="9372" TurnInName="Thiah Redmane" TurnInId="16991" />
+			</If>
 		<PickUp QuestName="Testing the Antidote" QuestId="10255" GiverName="Thiah Redmane" GiverId="16991" />
-			<While Condition="HasQuest(10255) &amp;&amp; !IsQuestCompleted(10255)">
+			<If Condition="HasQuest(10255) &amp;&amp; !IsQuestCompleted(10255)">
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-393.978" Y="4596.579" Z="35.20525" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+			 <While Condition="HasQuest(10255) &amp;&amp; !IsQuestCompleted(10255)">
+			 <If Condition="(Me.Level &gt;= 81)" >
+				<CustomBehavior File="UserDialog" AllowBotStop="True" SoundCue="Exclamation" SoundCueInterval="5" Text="You are too high for this Combat UseItemOn quest, please manually do it!" />
+			 </If>
 				<CustomBehavior File="CombatUseItemOn" NumOfTimes="1" MobId="16880" ItemId="23337" MaxRange="3" MobHpPercentLeft="99" X="-353.7725" Y="4635.455" Z="30.28903" />
-			</While>
+			 </While>
+			</If>
+			<If Condition="((HasQuest(10255)) &amp;&amp; (IsQuestCompleted(10255)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-319.4597" Y="4729.091" Z="17.83471" />
+			 </If>
 		<TurnIn QuestName="Testing the Antidote" QuestId="10255" TurnInName="Thiah Redmane" TurnInId="16991" />
-			<Objective QuestName="Keep Thornfang Hill Clear!" QuestId="10159" Type="KillMob" MobId="19349" KillCount="8" />
-			<Objective QuestName="Keep Thornfang Hill Clear!" QuestId="10159" Type="KillMob" MobId="19350" KillCount="8" />
+			</If>
+			<If Condition="((HasQuest(10159)) &amp;&amp; (!IsQuestCompleted(10159)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-259.3269" Y="5016.302" Z="59.52707" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Keep Thornfang Hill Clear!" QuestId="10159" Type="KillMob" MobId="19349" KillCount="8" />
+				<Objective QuestName="Keep Thornfang Hill Clear!" QuestId="10159" Type="KillMob" MobId="19350" KillCount="8" />
+			</If>
+			<If Condition="((HasQuest(10159)) &amp;&amp; (IsQuestCompleted(10159)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-319.4597" Y="4729.091" Z="17.83471" />
+			 </If>
 		<TurnIn QuestName="Keep Thornfang Hill Clear!" QuestId="10159" TurnInName="Mahuram Stouthoof" TurnInId="16888" />
-			<Objective QuestName="Source of the Corruption" QuestId="9387" Type="CollectItem" ItemId="29113" CollectCount="5" />
+			</If>
+			<If Condition="((HasQuest(9387)) &amp;&amp; (!IsQuestCompleted(9387)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-409.3327" Y="4771.821" Z="18.4513" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Source of the Corruption" QuestId="9387" Type="CollectItem" ItemId="29113" CollectCount="5" />
+			</If>
+			<If Condition="((!HasQuest(10403)) &amp;&amp; (!IsQuestCompleted(10403)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="-554.6837" Y="4865.41" Z="37.35445" />
+			 </If>
 		<PickUp QuestName="Naladu" QuestId="10403" GiverName="Aylaan the Waterwaker" GiverId="20679" />
+				<RunTo X="-555.1176" Y="4862.835" Z="37.2839" />
+			</If>
+			<If Condition="((HasQuest(10403)) &amp;&amp; (IsQuestCompleted(10403)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-729.0265" Y="4710.892" Z="58.39949" />
+			 </If>
 		<TurnIn QuestName="Naladu" QuestId="10403" TurnInName="Naladu" TurnInId="19361" />
 		<PickUp QuestName="A Traitor Among Us" QuestId="10367" GiverName="Naladu" GiverId="19361" />
-			<Objective QuestName="A Traitor Among Us" QuestId="10367" Type="CollectItem" ItemId="29501" CollectCount="1" />
+				<RunTo X="-737.0704" Y="4708.749" Z="58.71453" />
+			</If>
+			<If Condition="((!HasQuest(10367)) &amp;&amp; (!IsQuestCompleted(10367)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="-729.0265" Y="4710.892" Z="58.39949" />
+			 </If>
+		<PickUp QuestName="A Traitor Among Us" QuestId="10367" GiverName="Naladu" GiverId="19361" />
+				<RunTo X="-737.0704" Y="4708.749" Z="58.71453" />
+			</If>
+			<If Condition="((HasQuest(10367)) &amp;&amp; (!IsQuestCompleted(10367)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-667.6818" Y="4797.522" Z="49.09481" />
+			 </If>
+				<Objective QuestName="A Traitor Among Us" QuestId="10367" Type="CollectItem" ItemId="29501" CollectCount="1" />
+				<RunTo X="-667.6818" Y="4797.522" Z="49.09481" />
+			</If>
+			<If Condition="((HasQuest(10367)) &amp;&amp; (IsQuestCompleted(10367)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-737.0704" Y="4708.749" Z="58.71453" />
+			 </If>
 		<TurnIn QuestName="A Traitor Among Us" QuestId="10367" TurnInName="Naladu" TurnInId="19361" />
 		<PickUp QuestName="The Dreghood Elders" QuestId="10368" GiverName="Naladu" GiverId="19361" />
+				<RunTo X="-737.0704" Y="4708.749" Z="58.71453" />
+			</If>
+			<If Condition="((!HasQuest(10368)) &amp;&amp; (!IsQuestCompleted(10368)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="-737.0704" Y="4708.749" Z="58.71453" />
+			 </If>
+		<PickUp QuestName="The Dreghood Elders" QuestId="10368" GiverName="Naladu" GiverId="19361" />
+				<RunTo X="-737.0704" Y="4708.749" Z="58.71453" />
+			</If>
 			<If Condition="HasQuest(10368) &amp;&amp; !IsObjectiveComplete(2, 10368)">
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-546.4705" Y="4762.286" Z="32.83067" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
 				<CustomBehavior File="InteractWith" MobId="20678" NumOfTimes="1" GossipOptions="1" WaitTime="1000" X="-541.7875" Y="4734.32" Z="38.71293" />
+				<RunTo X="-546.4705" Y="4762.286" Z="32.83067" />
 			</If>
 			<If Condition="HasQuest(10368) &amp;&amp; !IsObjectiveComplete(3, 10368)">
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-552.3524" Y="4865.536" Z="37.04965" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
 				<CustomBehavior File="InteractWith" MobId="20679" NumOfTimes="1" GossipOptions="1" WaitTime="1000" X="-530.684" Y="4867.858" Z="34.12392" />
+				<RunTo X="-552.3524" Y="4865.536" Z="37.04965" />
 			</If>
 			<If Condition="HasQuest(10368) &amp;&amp; !IsObjectiveComplete(1, 10368)">
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-593.2638" Y="4839.015" Z="38.52351" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
 				<CustomBehavior File="InteractWith" MobId="20677" NumOfTimes="1" GossipOptions="1" WaitTime="1000" X="-620.888" Y="4861.629" Z="41.41795" />
+				<RunTo X="-593.2638" Y="4839.015" Z="38.52351" />
 			</If>
+			<If Condition="((HasQuest(10368)) &amp;&amp; (IsQuestCompleted(10368)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-733.2928" Y="4710.62" Z="58.66874" />
+			 </If>
 		<TurnIn QuestName="The Dreghood Elders" QuestId="10368" TurnInName="Naladu" TurnInId="19361" />
 		<PickUp QuestName="Arzeth's Demise" QuestId="10369" GiverName="Naladu" GiverId="19361" />
+				<RunTo X="-737.3969" Y="4708.018" Z="58.75999" />
+			</If>
+			<If Condition="((!HasQuest(10369)) &amp;&amp; (!IsQuestCompleted(10369)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="-733.2928" Y="4710.62" Z="58.66874" />
+			 </If>
+		<PickUp QuestName="Arzeth's Demise" QuestId="10369" GiverName="Naladu" GiverId="19361" />
+				<RunTo X="-737.3969" Y="4708.018" Z="58.75999" />
+			</If>
 			<If Condition="HasQuest(10369) &amp;&amp; !IsQuestCompleted(10369)">
-			<CustomBehavior File="Message" Text="Note that CombatUseItemOn seems to be bugged." />
+				<CustomBehavior File="Message" Text="Note that CombatUseItemOn seems to be bugged." />
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-678.0213" Y="4816.028" Z="49.06507" />
+			 </If>
+			 <If Condition="(Me.Level &gt;= 81)" >
+	<CustomBehavior File="UserDialog" AllowBotStop="True" SoundCue="Exclamation" SoundCueInterval="5" Text="You are too high for this Combat UseItemOn quest, please manually do it!" />
+			 </If>
+				<CustomBehavior File="Message" Text="Waiting for NPC to spawn" LogColor="Orange" />
 				<CustomBehavior File="CombatUseItemOn" QuestId="10369" MobId="19354" ItemId="29513" MaxRange="3" NumOfTimes="1" MobHpPercentLeft="99" X="-664.913" Y="4798.58" Z="49.05587" />
 			</If>
+			<If Condition="((HasQuest(10369)) &amp;&amp; (IsQuestCompleted(10369)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-733.2928" Y="4710.62" Z="58.66874" />
+			 </If>
 		<TurnIn QuestName="Arzeth's Demise" QuestId="10369" TurnInName="Naladu" TurnInId="19361" />
+				<RunTo X="-737.3969" Y="4708.018" Z="58.75999" />
+			</If>
+			<If Condition="((HasQuest(9387)) &amp;&amp; (IsQuestCompleted(9387)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Falcon Watch" X="-600.9" Y="4160.479" Z="65.01853" />
+			 </If>
 		<TurnIn QuestName="Source of the Corruption" QuestId="9387" TurnInName="Apothecary Azethen" TurnInId="16794" />
+				<RunTo X="-600.9" Y="4160.479" Z="65.01853" />
+			</If>
 			<!-- disabled until I can fiddle with it
 			<While Condition="HasQuest(9472) &amp;&amp; !IsQuestCompleted(9472)">
 				<CustomBehavior File="InteractWith" MobId="17226" NumOfTimes="1" CollectionDistance="200" WaitTime="1000" X="-657.8125" Y="4137.41" Z="64.41744" />
@@ -1744,13 +2600,23 @@
 		<!-- combat useitemon needs waitfornpcs false
 			<While Condition="HasQuest(9397) &amp;&amp; !IsQuestCompleted(9397)">
 				 <CustomBehavior File="InteractWith" MobId="181582" ObjectType="GameObject" NumOfTimes="1" CollectionDistance="500" WaitTime="1" X="-1105.702" Y="4220.203" Z="17.05391" />
+	
+			<If Condition="(Me.Level &gt;= 81)" >
+	<CustomBehavior File="UserDialog" AllowBotStop="True" SoundCue="Exclamation" SoundCueInterval="5" Text="You are too high for this Combat UseItemOn quest, please manually do it!" />
+			</If>
+		
 				 <CustomBehavior File="CombatUseItemOn" NumOfTimes="1" MobId1="17034" MobId2="17039" ItemId="23485" MaxRange="3" MobHpPercentLeft="99" X="-1105.702" Y="4220.203" Z="17.05391" />
 			</While>
 			-->
-			<Objective QuestName="Magic of the Arakkoa" QuestId="9396" Type="CollectItem" ItemId="23483" CollectCount="4" />
+			<If Condition="((HasQuest(9396)) &amp;&amp; (!IsQuestCompleted(9396)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Objective" X="-968.9563" Y="4183.331" Z="26.0503" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+				<Objective QuestName="Magic of the Arakkoa" QuestId="9396" Type="CollectItem" ItemId="23483" CollectCount="4" />
+			</If>
 			<!--
 		<PickUp QuestName="The Road to Falcon Watch" QuestId="9375" GiverName="Wounded Blood Elf Pilgrim" GiverId="16993" />
-			-->
 			<If Condition="((HasQuest(9375)) &amp;&amp; (!IsQuestCompleted(9375)))" >
 				<CustomBehavior File="UserSettings" LootMobs="false" PullDistance="10"/>
 			 <While Condition="HasQuest(9375) &amp;&amp; !IsQuestCompleted(9375)">
@@ -1762,59 +2628,44 @@
 			 </While>
 				<CustomBehavior File="UserSettings" LootMobs="True" PullDistance="30"/>
 			</If>
+			-->
 			<!--
 		<TurnIn QuestName="The Road to Falcon Watch" QuestId="9375" TurnInName="Taleris Dawngazer" TurnInId="17015" />
 		<PickUp QuestName="A Pilgrim's Plight" QuestId="9376" GiverName="Taleris Dawngazer" GiverId="17015" />
-			-->
-		<TurnIn QuestName="Magic of the Arakkoa" QuestId="9396" TurnInName="Arcanist Calesthris Dawnstar" TurnInId="16792" />
-		<!--
-		<TurnIn QuestName="Birds of a Feather" QuestId="9397" TurnInName="Falconer Drenna Riverwind" TurnInId="16790" />
-		-->
-		<TurnIn QuestName="The Agony and the Darkness" QuestId="10389" TurnInName="Magister Bloodhawk" TurnInId="21175" />
-		<TurnIn QuestName="A Strange Weapon" QuestId="9401" TurnInName="Nazgrel" TurnInId="3230" />
-		<PickUp QuestName="The Warchief's Mandate" QuestId="9405" GiverName="Nazgrel" GiverId="3230" />
-		<TurnIn QuestName="The Warchief's Mandate" QuestId="9405" TurnInName="Far Seer Regulkut" TurnInId="16574" />
-		<PickUp QuestName="A Spirit Guide" QuestId="9410" GiverName="Far Seer Regulkut" GiverId="16574" />
-			<While Condition="((HasQuest(9410)) &amp;&amp; (IsQuestCompleted(9410)))" >
-				<RunTo X="-17.75886" Y="3803.265" Z="94.09286" />
-				<CustomBehavior File="Misc\RunLua" WaitTime="2000" NumOfTimes="1" Lua="UseItemByName(23669)" />
-				<CustomBehavior File="WaitTimer" WaitTime="16000" />
-				<CustomBehavior File="UserSettings" PullDistance="1" />
-				<CustomBehavior File="Escort" EscortUntil="DestinationReached" MobId="17077" EscortDestX="514.5644" EscortDestY="3872.58" EscortDestZ="192.2494" X="-18.67767" Y="3803.105" Z="93.76311" />
-				<RunTo X="524.2691" Y="3887.197" Z="189.8746" /> <!-- Gorkan -->
-				<!--
-			 <If Condition="((HasQuest(9410)) &amp;&amp; (!IsQuestCompleted(9410)))" >
-				<CustomBehavior File="AbandonQuest" QuestId="9410" Type="Failed" />
-				<CustomBehavior File="WaitTimer" WaitTime="3000" GoalText="Waiting for quest to abandon {TimeRemaining}" />
-			<PickUp QuestName="A Spirit Guide" QuestId="9410" GiverName="Far Seer Regulkut" GiverId="16574" />
-				<CustomBehavior File="WaitTimer" WaitTime="3000" GoalText="Waiting for quest to complete {TimeRemaining}" />
-			 </If>
-				-->
-				
-				<CustomBehavior File="InteractWith" MobId="16845" X="524.2691" Y="3887.197" Z="189.8746" />
-				<CustomBehavior File="WaitTimer" WaitTime="2000" />
-				<CustomBehavior File="RunMacro" Macro="/click GossipTitleButton1" NumOfTimes="1" WaitTime="1000" />
-				<CustomBehavior File="WaitTimer" WaitTime="2000" />
-				<CustomBehavior File="Misc\RunLua" Lua="CompleteQuest();"/>
-				<CustomBehavior File="WaitTimer" WaitTime="2000" />
-				<CustomBehavior File="RunMacro" Macro="/click QuestFrameCompleteQuestButton" />	
-				<CustomBehavior File="WaitTimer" WaitTime="2000" />
-	
-				<CustomBehavior File="UserSettings" PullDistance="25" />
-			</While>
-			<!--
-		<TurnIn QuestName="A Spirit Guide" QuestId="9410" TurnInName="Gorkan Bloodfist" TurnInId="16845" X="524.2691" Y="3887.197" Z="189.8746" />
-			-->
-		<PickUp QuestName="The Mag'har" QuestId="9406" GiverName="Gorkan Bloodfist" GiverId="16845" X="524.2691" Y="3887.197" Z="189.8746" />
-			</If>
-			<If Condition="((HasQuest(9406)) &amp;&amp; (IsQuestCompleted(9406)))" >
-		<TurnIn QuestName="The Mag'har" QuestId="9406" TurnInName="Nazgrel" TurnInId="3230" />
-			</If>
-		<!--
 			<Objective QuestName="A Pilgrim's Plight" QuestId="9376" Type="CollectItem" ItemId="23343" CollectCount="1" />
 		<TurnIn QuestName="A Pilgrim's Plight" QuestId="9376" TurnInName="Taleris Dawngazer" TurnInId="17015" />
 			-->
-
+			</If>
+			<If Condition="((HasQuest(9396)) &amp;&amp; (IsQuestCompleted(9396)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-601.2709" Y="4175.681" Z="64.43552" />
+			 </If>
+		<TurnIn QuestName="Magic of the Arakkoa" QuestId="9396" TurnInName="Arcanist Calesthris Dawnstar" TurnInId="16792" />
+			</If>
+		<!--<TurnIn QuestName="Birds of a Feather" QuestId="9397" TurnInName="Falconer Drenna Riverwind" TurnInId="16790" />-->
+			<If Condition="((!HasQuest(9912)) &amp;&amp; (!IsQuestCompleted(9912)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" X="-215.5434" Y="5437.267" Z="21.4277" />
+				<CustomBehavior File="ForcedDismount" />
+			 </If>
+		<PickUp QuestName="The Cenarion Expedition" QuestId="9912" GiverName="Amythiel Mistwalker" GiverId="16885" X="-314.8192" Y="4711.438" Z="18.33707" />
+			</If>
+			<If Condition="HasQuest(10103) &amp;&amp; IsQuestCompleted(10103)" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" X="59.37819" Y="5293.984" Z="176.8624" />
+				<CustomBehavior File="FlyTo" X="106.0771" Y="5204.103" Z="21.48164" />
+			 </If>
+				<CustomBehavior File="ForcedDismount" />
+		<TurnIn QuestName="Report to Zurai" QuestId="10103" TurnInName="Zurai" TurnInId="18011" />
+			</If>
+			<If Condition="((HasQuest(9912)) &amp;&amp; (IsQuestCompleted(9912)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-212.9323" Y="5502.058" Z="21.52795" />
+			 </If>
+		<TurnIn QuestName="The Cenarion Expedition" QuestId="9912" TurnInName="Ysiel Windsinger" TurnInId="17841" X="-143.4519" Y="5533.816" Z="31.06601" />
+			</If>
+		
+		
 			<If Condition="(Me.Level &lt; 62)" >
 				<CustomBehavior File="FlyTo" X="-432.939" Y="4289.709" Z="65.62749" />
 				<CustomBehavior File="ForcedDismount" />
@@ -1836,36 +2687,49 @@
 			<GrindTo Level="62"/>
 			<Checkpoint Level="62"/>
 
-			<If Condition="Me.GetSkill(Styx.SkillLine.Riding).CurrentValue &lt; 225 &amp;&amp; (Me.Gold &lt;= 245)" >
+			<If Condition="Me.GetSkill(Styx.SkillLine.Riding).CurrentValue &lt; 225 &amp;&amp; (Me.Gold &lt;= 265)" >
 				<!-- Mount is 40g, Training is 200g -->
 				<CustomBehavior File="UserDialog" SoundCue="Exclamation" StopOnContinue="True" SoundCueInterval="1" Title="Get more Money." 
 				Text="You do not have the necessary amount of money to train 'Expert Riding' - please send some money; or farm for some money and continue when you have money" />
 			</If>
 			
 			<If Condition="!SpellManager.HasSpell(&quot;Expert Riding&quot;)">
+				<CustomBehavior File="Message" Text="Compiling Learn Flying Mount Procedures" LogColor="Orange" />
+				<RunTo X="47.76153" Y="2742.022" Z="85.27119" />
 				<CustomBehavior File="ForceTrainRiding" MobId="35093" />
-				<If Condition="!HasItem(25474)">
+				<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting {TimeRemaining}" />
+				<While Condition="!HasItem(25474)">
 					<CustomBehavior File="InteractWith" MobId="35099" BuyItemId="25474" X="47.76153" Y="2742.022" Z="85.27119" />
-				</If>
-				<If Condition="HasItem(25474)">
 					<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting {TimeRemaining}" />
+				</While>
+				<While Condition="HasItem(25474)">
 					<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(25474)" WaitTime="1000" />
 					<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Using item {TimeRemaining}" />
-				</If>
+				</While>
+				<RunTo X="80.93826" Y="2713.029" Z="85.69721" />
 			</If>
 		
 		<CustomBehavior File="Message" Text="Compiling Zangarmarsh Quests" LogColor="Green" />
+		<CustomBehavior File="UserSettings" LootMobs="True" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" PullDistance="25" GroundMountFarmingMode="False" KillBetweenHotspots="True" />
 		
+			<If Condition="((HasQuest(9912)) &amp;&amp; (IsQuestCompleted(9912)))" >
+		 	 <If Condition="(CanFly())" >
+				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-212.9323" Y="5502.058" Z="21.52795" />
+			 </If>
+		<TurnIn QuestName="The Cenarion Expedition" QuestId="9912" TurnInName="Ysiel Windsinger" TurnInId="17841" X="-143.4519" Y="5533.816" Z="31.06601" />
+			</If>
 			<If Condition="((!HasQuest(9912)) &amp;&amp; (!IsQuestCompleted(9912)))" >
+				<CustomBehavior File="RunMacro" Macro="/run for i=1,GetNumQuestLogEntries() do SelectQuestLogEntry(i); SetAbandonQuest(); AbandonQuest(); end" />
+
 				<CustomBehavior File="FlyTo" X="-215.5434" Y="5437.267" Z="21.4277" />
 				<CustomBehavior File="ForcedDismount" />
-			</If>
 		<PickUp QuestName="The Cenarion Expedition" QuestId="9912" GiverName="Amythiel Mistwalker" GiverId="16885" X="-314.8192" Y="4711.438" Z="18.33707" />
-			<If Condition="((!HasQuest(9802)) &amp;&amp; (!IsQuestCompleted(9802)))" >
+			</If>
+			<If Condition="((!HasQuest(9747)) &amp;&amp; (!IsQuestCompleted(9747)))" >
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="-220.1487" Y="5435.804" Z="21.73699" />
 			</If>
 			<If Condition="(!IsQuestCompleted(9816))" >
-		<PickUp QuestName="Plants of Zangarmarsh" QuestId="9802" GiverName="Lauranna Thar'well" GiverId="17909" X="-215.5434" Y="5437.267" Z="21.4277" />
+			<!--<PickUp QuestName="Plants of Zangarmarsh" QuestId="9802" GiverName="Lauranna Thar'well" GiverId="17909" X="-215.5434" Y="5437.267" Z="21.4277" />-->
 		<PickUp QuestName="The Umbrafen Tribe" QuestId="9747" GiverName="Ikeyen" GiverId="17956" X="-215.1667" Y="5433.431" Z="21.9556" />
 		<PickUp QuestName="A Warm Welcome" QuestId="9728" GiverName="Warden Hamoot" GiverId="17858" X="-252.3594" Y="5499.21" Z="66.59926" />
 		<PickUp QuestName="The Dying Balance" QuestId="9895" GiverName="Lethyn Moonfire" GiverId="17834" X="-181.3797" Y="5527.087" Z="29.40768" />
@@ -1907,7 +2771,11 @@
 		<PickUp QuestName="Safeguarding the Watchers" QuestId="9894" GiverName="Windcaller Blackhoof" GiverId="18070" />
 		<TurnIn QuestName="Disturbance at Umbrafen Lake" QuestId="9716" TurnInName="Ysiel Windsinger" TurnInId="17841" X="-143.4519" Y="5533.816" Z="31.06601" />
 		<PickUp QuestName="As the Crow Flies" QuestId="9718" GiverName="Ysiel Windsinger" GiverId="17841" X="-143.4519" Y="5533.816" Z="31.06601" />
-			<UseItem QuestName="As the Crow Flies" QuestId="9718" ItemId="25465" Name="Stormcrow Amulet" X="-147.7943" Y="5531.749" Z="30.71602" />
+			<If Condition="((HasQuest(9718)) &amp;&amp; (!IsQuestCompleted(9718)))" >
+				<RunTo X="-147.7943" Y="5531.749" Z="30.71602" />
+				<CustomBehavior File="RunMacro" QuestId="9718" Macro="/cancelaura cat form\n/cancelaura bear form\n/cancelaura travel form\n/cancelaura ghost wolf" />
+				<UseItem QuestName="As the Crow Flies" QuestId="9718" ItemId="25465" Name="Stormcrow Amulet" X="-147.7943" Y="5531.749" Z="30.71602" />
+			</If>
 		<TurnIn QuestName="As the Crow Flies" QuestId="9718" TurnInName="Ysiel Windsinger" TurnInId="17841" X="-143.4519" Y="5533.816" Z="31.06601" />
 		<Pickup QuestName="Balance Must Be Preserved" QuestId="9720" GiverName="Ysiel Windsinger" GiverId="17841" X="-143.4519" Y="5533.816" Z="31.06601" />
 			<If Condition="((HasQuest(9788)) &amp;&amp; (!IsQuestCompleted(9788)))" >
@@ -1918,30 +2786,35 @@
 			<Objective QuestName="Safeguarding the Watchers" QuestId="9894" Type="KillMob" KillCount="1" Name="Lord Klaq" MobId="18282" />
 			<Objective QuestName="Saving the Sporeloks" QuestId="10096" Type="KillMob" KillCount="10" Name="Marsh Dredger" MobId="18137" />
 			<Objective QuestName="Saving the Sporeloks" QuestId="10096" Type="KillMob" KillCount="10" Name="Marsh Lurker" MobId="18136" />
-			<Objective QuestName="Plants of Zangarmarsh" QuestId="9802" Type="CollectItem" CollectCount="10" Name="Unidentified Plant Parts" ItemId="24401" />
+			<!--<Objective QuestName="Plants of Zangarmarsh" QuestId="9802" Type="CollectItem" CollectCount="10" Name="Unidentified Plant Parts" ItemId="24401" />-->
 			<While Condition="((HasQuest(9720)) &amp;&amp; (!IsQuestCompleted(9720)))" >
 				<CustomBehavior File="UserSettings" PullDistance="1" />
 				<CustomBehavior File="FlyTo" X="-758.3021" Y="5928.698" Z="19.71701" />
 				<CustomBehavior File="ForcedDismount" />
 				<RunTo QuestId="9720" X="-758.3021" Y="5928.698" Z="19.71701" />
 				<UseItem QuestName="Balance Must Be Preserved" QuestId="9720" ItemId="24355" X="-758.3021" Y="5928.698" Z="19.71701" />
+				<RunTo QuestId="9720" X="-758.3021" Y="5928.698" Z="19.71701" />
 				
 				<CustomBehavior File="FlyTo" X="-214.2537" Y="6300.536" Z="21.39739" />
 				<CustomBehavior File="ForcedDismount" />
 				<RunTo QuestId="9720" X="-214.2537" Y="6300.536" Z="21.39739" />
 				<UseItem QuestName="Balance Must Be Preserved" QuestId="9720" ItemId="24355" X="-214.2537" Y="6300.536" Z="21.39739" />
+				<RunTo QuestId="9720" X="-214.2537" Y="6300.536" Z="21.39739" />
 				
 				<CustomBehavior File="FlyTo" X="568.4537" Y="6356.648" Z="23.01049" />
 				<CustomBehavior File="ForcedDismount" />
 				<RunTo QuestId="9720" X="568.4537" Y="6356.648" Z="23.01049" />
 				<UseItem QuestName="Balance Must Be Preserved" QuestId="9720" ItemId="24355" X="568.4537" Y="6356.648" Z="23.01049" />
+				<RunTo QuestId="9720" X="568.4537" Y="6356.648" Z="23.01049" />
 			
 				<CustomBehavior File="FlyTo" X="497.1912" Y="8195.711" Z="21.21508" />
 				<CustomBehavior File="ForcedDismount" />
 				<RunTo QuestId="9720" X="497.1912" Y="8195.711" Z="21.21508" />
 				<UseItem QuestName="Balance Must Be Preserved" QuestId="9720" ItemId="24355" X="497.1912" Y="8195.711" Z="21.21508" />
+				<RunTo QuestId="9720" X="497.1912" Y="8195.711" Z="21.21508" />
 				
 				<CustomBehavior File="WaitTimer" WaitTime="3000" GoalText="Waiting for quest to complete {TimeRemaining}" />				
+				<CustomBehavior File="UserSettings" PullDistance="25" />
 			</While>
 			<Objective QuestName="A Warm Welcome" QuestId="9728" Type="CollectItem" CollectCount="30" Name="Bog Lord Tendril" ItemId="24280" />
 			<If Condition="(HasItem(24330))" >
@@ -1976,7 +2849,7 @@
 		<TurnIn QuestName="Return to the Marsh" QuestId="9732" TurnInName="Ysiel Windsinger" TurnInId="17841" X="-143.4519" Y="5533.816" Z="31.06601" />
 			</If>
 		<!-- Not picking up Failed Incursion - dungeon quests -->
-		<TurnIn QuestName="Plants of Zangarmarsh" QuestId="9802" TurnInName="Lauranna Thar'well" TurnInId="17909" X="-215.5434" Y="5437.267" Z="21.4277" />
+		<!--<TurnIn QuestName="Plants of Zangarmarsh" QuestId="9802" TurnInName="Lauranna Thar'well" TurnInId="17909" X="-215.5434" Y="5437.267" Z="21.4277" />-->
 		<TurnIn QuestName="A Damp, Dark Place" QuestId="9788" TurnInName="Ikeyen" TurnInId="17956" X="-215.1667" Y="5433.431" Z="21.9556" />
 		<TurnIn QuestName="Saving the Sporeloks" QuestId="10096" TurnInName="Lauranna Thar'well" TurnInId="17909" X="-215.5434" Y="5437.267" Z="21.4277" />
 		<TurnIn QuestName="A Warm Welcome" QuestId="9728" TurnInName="Warden Hamoot" TurnInId="17858" X="-252.3594" Y="5499.21" Z="66.59926" />
@@ -2119,6 +2992,8 @@
 			</If>
 			<Objective QuestName="A Job Undone" QuestId="9899" Type="KillMob" MobId="18280" KillCount="1" />
 			<If Condition="((!HasQuest(9828)) &amp;&amp; (!IsQuestCompleted(9828)))" >
+				<CustomBehavior File="UserSettings" LootMobs="True" />
+
 					<SetGrindArea>
 						<GrindArea>
 							<Factions>1706</Factions>
@@ -2195,11 +3070,14 @@
 		<TurnIn QuestName="Spirits of the Feralfen" QuestId="9846" TurnInName="Seer Janidi" TurnInId="18017" />
 		<PickUp QuestName="A Spirit Ally?" QuestId="9847" GiverName="Seer Janidi" GiverId="18017" />
 		<TurnIn QuestName="Burstcap Mushrooms, Mon!" QuestId="9814" TurnInName="Witch Doctor Tor'gash" TurnInId="18014" />
+		<PickUp QuestName="The Sharpest Blades" QuestId="9842" GiverName="Gambarinka" GiverId="18015" />
+			<If Condition="((!HasQuest(9816)) &amp;&amp; (!IsQuestCompleted(9816)))" >
 		<PickUp QuestName="Have You Ever Seen One of These?" QuestId="9816" GiverName="Witch Doctor Tor'gash" GiverId="18014" />
+				<RunTo X="278.0642" Y="7854.587" Z="24.04227" />
+			</If>
 			<!-- i had an issue getting this quest - it went underneath and had nav issues
 				Could not generate path from {552.384, 6847.836, -23.77975} to {547.0311, 6853.008, -25.11359} (time used: 0 milliseconds) @ FindStartPoly
 			-->
-		<PickUp QuestName="The Sharpest Blades" QuestId="9842" GiverName="Gambarinka" GiverId="18015" />
 			<If Condition="HasQuest(9903) &amp;&amp; !IsQuestCompleted(9903)">
 				<CustomBehavior File="FlyTo" X="529.196" Y="7367.665" Z="21.10661" />
 				<CustomBehavior File="ForcedDismount" />
@@ -2248,8 +3126,9 @@
 			<If Condition="!HasQuest(9822) &amp;&amp; !IsQuestCompleted(9822)">
 				<CustomBehavior File="FlyTo" X="276.875" Y="7849.026" Z="23.77924" />
 				<CustomBehavior File="ForcedDismount" />
-			</If>
 		<PickUp QuestName="Impending Attack" QuestId="9822" GiverName="Shadow Hunter Denjai" GiverId="18013" />
+				<RunTo X="247.7274" Y="7885.284" Z="23.18287" />
+			</If>
 			<If Condition="HasQuest(9822) &amp;&amp; !IsQuestCompleted(9822)">
 				<CustomBehavior File="FlyTo" X="1040.078" Y="8482.721" Z="58.71807" />
 				<CustomBehavior File="ForcedDismount" />
@@ -2261,7 +3140,10 @@
 			</If>
 		<TurnIn QuestName="Impending Attack" QuestId="9822" TurnInName="Shadow Hunter Denjai" TurnInId="18013" />
 		<PickUp QuestName="Us or Them" QuestId="9823" GiverName="Shadow Hunter Denjai" GiverId="18013" />
+			<If Condition="!HasQuest(10118) &amp;&amp; !IsQuestCompleted(10118)">
 		<PickUp QuestName="Message to the Daggerfen" QuestId="10118" GiverName="Shadow Hunter Denjai" GiverId="18013" />
+				<RunTo X="247.7274" Y="7885.284" Z="23.18287" />
+			</If>
 			<If Condition="HasQuest(10117) &amp;&amp; !IsQuestCompleted(10117)">
 				<CustomBehavior File="FlyTo" X="1051.789" Y="8237.472" Z="22.47522" />
 				<CustomBehavior File="ForcedDismount" />
@@ -2296,6 +3178,7 @@
 			</If>
 			<If Condition="((HasQuest(9816)) &amp;&amp; (IsQuestCompleted(9816)))" >
 		<TurnIn QuestName="Have You Ever Seen One of These?" QuestId="9816" TurnInName="Witch Doctor Tor'gash" TurnInId="18014" />
+				<RunTo X="247.7274" Y="7885.284" Z="23.18287" />
 			</If>
 		
 			<If Condition="((HasQuest(9828)) &amp;&amp; (IsQuestCompleted(9828)))" >
@@ -2341,29 +3224,36 @@
 			
 			<If Condition="Me.Level &gt;= 62" >
 			
-			<If Condition="Me.GetSkill(Styx.SkillLine.Riding).CurrentValue &lt; 225 &amp;&amp; (Me.Gold &lt;= 245)" >
+			<If Condition="Me.GetSkill(Styx.SkillLine.Riding).CurrentValue &lt; 225 &amp;&amp; (Me.Gold &lt;= 265)" >
 				<!-- Mount is 40g, Training is 200g -->
 				<CustomBehavior File="UserDialog" SoundCue="Exclamation" StopOnContinue="True" SoundCueInterval="1" Title="Get more Money." 
 				Text="You do not have the necessary amount of money to train 'Expert Riding' - please send some money; or farm for some money and continue when you have money" />
 			</If>
 			
 			<If Condition="!SpellManager.HasSpell(&quot;Expert Riding&quot;)">
+				<CustomBehavior File="Message" Text="Compiling Learn Flying Mount Procedures" LogColor="Orange" />
+				<RunTo X="47.76153" Y="2742.022" Z="85.27119" />
 				<CustomBehavior File="ForceTrainRiding" MobId="35093" />
-				<If Condition="!HasItem(25474)">
+				<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting {TimeRemaining}" />
+				<While Condition="!HasItem(25474)">
 					<CustomBehavior File="InteractWith" MobId="35099" BuyItemId="25474" X="47.76153" Y="2742.022" Z="85.27119" />
-				</If>
-				<If Condition="HasItem(25474)">
 					<CustomBehavior File="WaitTimer" WaitTime="4000" GoalText="Waiting {TimeRemaining}" />
+				</While>
+				<While Condition="HasItem(25474)">
 					<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(25474)" WaitTime="1000" />
 					<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Using item {TimeRemaining}" />
-				</If>
+				</While>
+				<RunTo X="80.93826" Y="2713.029" Z="85.69721" />
 			</If>
 			
 			</If>
 		
 		<CustomBehavior File="Message" Text="Compiling Terrokar Forest Quests" LogColor="Green" />
+		<CustomBehavior File="UserSettings" LootMobs="True" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" PullDistance="25" GroundMountFarmingMode="False" KillBetweenHotspots="True" />
 
 			<If Condition="((!HasQuest(10210)) &amp;&amp; (!IsQuestCompleted(10210)))" >
+				<CustomBehavior File="RunMacro" Macro="/run for i=1,GetNumQuestLogEntries() do SelectQuestLogEntry(i); SetAbandonQuest(); AbandonQuest(); end" />
+
 				<CustomBehavior File="FlyTo" X="-1821.938" Y="5342.519" Z="-12.42718" />
 				<CustomBehavior File="ForcedDismount" />
 				
@@ -2371,7 +3261,10 @@
 			</If>
 			<If Condition="(!IsQuestCompleted(10791))" >
 		<PickUp QuestName="A'dal" QuestId="10210" GiverName="Haggard War Veteran" GiverId="19684" X="-1702.186" Y="5374.703" Z="3.867954" />
+			<If Condition="((HasQuest(10210)) &amp;&amp; (IsQuestCompleted(10210)))" >
 		<TurnIn QuestName="A'dal" Questid="10210" TurnInName="A'dal" TurnInId="18481" X="-1863.683" Y="5430.042" Z="-9.703983" />
+				<RunTo X="-1775.354" Y="5477.958" Z="-12.42785" />
+			</If>
 			<If Condition="!HasQuest(10037) &amp;&amp; !IsQuestCompleted(10037)">
 				<CustomBehavior File="FlyTo" DestName="Flying to 'Seth' (Picking up Quest = Rather Be Fishin')." X="-1626.757" Y="5299.776" Z="-40.21038" />
 				<CustomBehavior File="ForcedDismount" />
@@ -2450,23 +3343,33 @@
 		<TurnIn QuestName="Clues in the Thicket" QuestId="9971" TurnInName="Earthbinder Tavgren" TurnInId="18446" />
 		<TurnIn QuestName="Strange Energy" QuestId="9968" TurnInName="Earthbinder Tavgren" TurnInId="18446" />
 		<PickUp QuestName="By Any Means Necessary" QuestId="9978" GiverName="Earthbinder Tavgren" GiverId="18446" />
-			 <If Condition="(HasQuest(9978))" >
+			<While Condition="(HasQuest(9978))" >
 				<CustomBehavior File="Message" Text="Waiting for Empoor to pass by - don't interfere!\n\nIt could be 30s to 5min!" LogColor="Orange" />
 				<CustomBehavior File="InteractWith" MobId="18482" WaitForNpcs="True" GossipOptions="1" WaitTime="2000" X="-1945.773" Y="4687.774" Z="-2.231679" />
-			 </If>
+				<CustomBehavior File="WaitTimer" WaitTime="10000" GoalText="Waiting for quest to complete {TimeRemaining}" />
+
+				<CustomBehavior File="Message" Text="Waiting for Empoor to pass by - don't interfere!\n\nIt could be 30s to 5min!" LogColor="Orange" />
+				<CustomBehavior File="InteractWith" MobId="18482" WaitForNpcs="True" GossipOptions="1" WaitTime="2000" X="-1945.773" Y="4687.774" Z="-2.231679" />
+				<CustomBehavior File="RunMacro" Macro="/click GossipTitleButton1" />
+                <CustomBehavior File="RunMacro" Macro="/click QuestFrameCompleteQuestButton" NumOfTimes="1" WaitTime="1000" />	
+			</While>
+			<!--
 		<TurnIn QuestName="By Any Means Necessary" QuestId="9978" TurnInName="Empoor" TurnInId="18482" />
+			-->
 		<PickUp QuestName="Wind Trader Lathrai" QuestId="9979" GiverName="Empoor" GiverId="18482" />
 			 <If Condition="((HasQuest(10847)) &amp;&amp; (!IsObjectiveComplete(1, 10847)))">
 				<CustomBehavior File="FlyTo" X="-1687.967" Y="4432.479" Z="79.36324" />
 				<CustomBehavior File="FlyTo" X="-1631.385" Y="4420.064" Z="54.19151" />
 				<CustomBehavior File="ForcedDismount" />
 				<Objective QuestName="The Eyes of Skettis" QuestId="10847" Type="CollectItem" ItemId="25638" CollectCount="1" X="-1698.389" Y="4376.254" Z="53.20021" />
+				<RunTo X="-1662.749" Y="4400.116" Z="46.4356" />
 			 </If>
 			 <If Condition="((HasQuest(10847)) &amp;&amp; (!IsObjectiveComplete(2, 10847)))">
 				<CustomBehavior File="FlyTo" X="-1698.132" Y="4451.118" Z="80.80379" />
 				<CustomBehavior File="FlyTo" X="-1635.986" Y="4421.118" Z="61.71068" />
 				<CustomBehavior File="ForcedDismount" />
 				<Objective QuestName="The Eyes of Skettis" QuestId="10847" Type="CollectItem" ItemId="25642" CollectCount="1" X="-1835.711" Y="3962.149" Z="46.5631" />
+				<RunTo X="-1862.208" Y="3909.992" Z="39.39718" />
 			 </If>
 			<If Condition="HasQuest(10847) &amp;&amp; IsQuestCompleted(10847)" >
 				<CustomBehavior File="FlyTo" X="-1654.654" Y="5446.56" Z="-40.40606" />
@@ -2518,7 +3421,8 @@
 		<PickUp QuestName="Cabal Orders" QuestId="10880" GiverName="Cabal Orders" GiverType="Item" GiverId="31707" />
 			</If>
   			<If Condition="((!HasQuest(10880)) &amp;&amp; (!IsQuestCompleted(10880)))" >
-                  <SetGrindArea>
+ 				<CustomBehavior File="UserSettings" LootMobs="True" />
+                 <SetGrindArea>
                         <GrindArea>
                             <Factions>14 16 413</Factions>
                             <Hotspots>
@@ -2646,7 +3550,7 @@
 			</If>
 		<PickUp QuestName="For the Fallen" QuestId="10920" GiverName="Vindicator Haylen" GiverId="22462" />
 			<If Condition="((HasQuest(10873)) &amp;&amp; (!IsQuestCompleted(10873)))" >
-				<CustomBehavior File="UserSettings" PullDistance="35" />
+				<CustomBehavior File="UserSettings" PullDistance="10" />
 					<SetGrindArea>
 						<GrindArea>
 							<TargetMinLevel>55</TargetMinLevel>
@@ -2767,20 +3671,22 @@
 				<CustomBehavior File="FlyTo" X="-2648.663" Y="4399.645" Z="36.04447" />
 				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="News from Zangarmarsh" QuestId="9796" TurnInName="Mokasa" TurnInId="18249" />
-		<PickUp QuestName="Vestments of the Wolf Spirit" QuestId="10018" GiverName="Malukaz" GiverId="18384" />
 			</If>
-			<If Condition="((!HasQuest(10018)) &amp;&amp; (!IsQuestCompleted(10018)))" >
-				<CustomBehavior File="FlyTo" X="-2648.663" Y="4399.645" Z="36.04447" />
+			<If Condition="((!HasQuest(9993)) &amp;&amp; (!IsQuestCompleted(9993)))" >
+				<CustomBehavior File="FlyTo" X="-2616.786" Y="4393.731" Z="33.49838" />
 				<CustomBehavior File="ForcedDismount" />
 			</If>
-		<PickUp QuestName="Vestments of the Wolf Spirit" QuestId="10018" GiverName="Malukaz" GiverId="18384" />
 		<PickUp QuestName="Olemba Seed Oil" QuestId="9993" GiverName="Rakoria" GiverId="18385" />
 		<PickUp QuestName="Wanted: Bonelashers Dead!" QuestId="10034" GiverType="GameObject" GiverName="Wanted Poster" GiverId="182588" X="-2628.607" Y="4392.136" Z="34.84572" />
 		<PickUp QuestName="Stymying the Arakkoa" QuestId="9987" GiverName="Rokag" GiverId="18386" />
 		<PickUp QuestName="Speak with Scout Neftis" QuestId="10039" GiverName="Advisor Faila" GiverId="18712" />
 		<PickUp QuestName="Arakkoa War Path" QuestId="10868" GiverName="Advisor Faila" GiverId="18712" />
+		<!--<PickUp QuestName="Vestments of the Wolf Spirit" QuestId="10018" GiverName="Malukaz" GiverId="18384" />-->
 		<PickUp QuestName="An Unwelcome Presence" QuestId="10000" GiverName="Kurgatok" GiverId="18383" />
+			<If Condition="((!HasQuest(10027)) &amp;&amp; (!IsQuestCompleted(10027)))" >
 		<PickUp QuestName="Magical Disturbances" QuestId="10027" GiverName="Kurgatok" GiverId="18383" />
+				<RunTo X="-2650.417" Y="4396.112" Z="36.05095" />
+			</If>
 			<If Condition="HasQuest(10112) &amp;&amp; IsQuestCompleted(10112)" >
 				<CustomBehavior File="FlyTo" X="-1746.264" Y="5188.835" Z="-40.20822" />
 				<CustomBehavior File="ForcedDismount" />
@@ -2818,7 +3724,7 @@
 			</If>
 			<Objective QuestName="Olemba Seed Oil" QuestId="9993" Type="CollectItem" ItemId="25745" CollectCount="30" />
 			<Objective QuestName="Magical Disturbances" QuestId="10027" Type="KillMob" MobId="18464" KillCount="10" />
-			<Objective QuestName="Vestments of the Wolf Spirit" QuestId="10018" Type="CollectItem" ItemId="25812" CollectCount="12" />
+			<!--<Objective QuestName="Vestments of the Wolf Spirit" QuestId="10018" Type="CollectItem" ItemId="25812" CollectCount="12" />-->
 			<If Condition="HasQuest(9993) &amp;&amp; !IsObjectiveComplete(3, 9993)">
 				<CustomBehavior File="FlyTo" X="-2536.835" Y="5466.474" Z="6.878083" />
 				<CustomBehavior File="ForcedDismount" />
@@ -2900,8 +3806,8 @@
 			<!--
 		<PickUp QuestName="Torgos!" QuestId="10036" GiverName="Mawg Grimshot" GiverId="18705" />
 			-->
-		<TurnIn QuestName="Vestments of the Wolf Spirit" QuestId="10018" TurnInName="Malukaz" TurnInId="18384" />
-		<PickUp QuestName="Patriarch Ironjaw" QuestId="10023" GiverName="Malukaz" GiverId="18384" />
+		<!--<TurnIn QuestName="Vestments of the Wolf Spirit" QuestId="10018" TurnInName="Malukaz" TurnInId="18384" />
+		<PickUp QuestName="Patriarch Ironjaw" QuestId="10023" GiverName="Malukaz" GiverId="18384" />-->
 		<TurnIn QuestName="What Are These Things?" QuestId="9995" TurnInName="Tooki" TurnInId="18447" />
 		<PickUp QuestName="Report to Stonebreaker Camp" QuestId="10448" GiverName="Tooki" GiverId="18447" />
 		<TurnIn QuestName="Olemba Seed Oil" QuestId="9993" TurnInName="Rakoria" TurnInId="18385" />
@@ -2919,8 +3825,8 @@
 			<If Condition="HasQuest(10023) &amp;&amp; !IsQuestCompleted(10023)" >
 				<CustomBehavior File="FlyTo" X="-2292.695" Y="3495.497" Z="-25.70144" />
 				<CustomBehavior File="ForcedDismount" />
+				<Objective QuestName="Patriarch Ironjaw" QuestId="10023" Type="CollectItem" ItemId="25837" CollectCount="1" />
 			</If>
-			<Objective QuestName="Patriarch Ironjaw" QuestId="10023" Type="CollectItem" ItemId="25837" CollectCount="1" />
 			<If Condition="HasQuest(9997) &amp;&amp; !IsQuestCompleted(9997)" >
 				<CustomBehavior File="FlyTo" X="-2325.376" Y="3432.394" Z="-10.2357" />
 				<CustomBehavior File="ForcedDismount" />
@@ -2973,11 +3879,12 @@
 			</If>
 		<PickUp QuestName="Letting Earthbinder Tavgren Know" QuestId="10006" GiverName="Tooki" GiverId="18447" />
 			-->
-		<TurnIn QuestName="Patriarch Ironjaw" QuestId="10023" TurnInName="Malukaz" TurnInId="18384" />
-		<PickUp QuestName="Welcoming the Wolf Spirit" QuestId="10791" GiverName="Malukaz" GiverId="18384" />
+		<!--<TurnIn QuestName="Patriarch Ironjaw" QuestId="10023" TurnInName="Malukaz" TurnInId="18384" />
+		<PickUp QuestName="Welcoming the Wolf Spirit" QuestId="10791" GiverName="Malukaz" GiverId="18384" />-->
 			<While Condition="HasQuest(10791) &amp;&amp; !IsQuestCompleted(10791)">
 				<RunTo X="-2655.62" Y="4391.473" Z="36.13333" />
 				<UseItem ItemId="31344" QuestId="10791" NumOfTimes="1" X="-2667.054" Y="4377.325" Z="36.21084" />
+				<CustomBehavior File="RunMacro" Macro="/cancelaura cat form\n/cancelaura bear form\n/cancelaura travel form\n/cancelaura ghost wolf" />
 				<CustomBehavior File="WaitTimer" WaitTime="25000" />
 			</While>
 			</If>
@@ -2985,7 +3892,7 @@
 				<CustomBehavior File="FlyTo" DestName="Stonebreaker Hold" X="-2651.536" Y="4396.26" Z="36.21259" />
 				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="Welcoming the Wolf Spirit" QuestId="10791" TurnInName="Malukaz" TurnInId="18384" />
-				<RunTo X="-2650.843" Y="4396.41" Z="36.13869" />
+				<RunTo X="-2623.758" Y="4380.31" Z="35.02661" />
 			</If>
 		<!--
 			<If Condition="HasQuest(10006)">
@@ -3026,14 +3933,17 @@
 
 			<!-- Grind to Neutral -->
 			<If Condition="Me.GetReputationLevelWith(941) &lt; Styx.WoWUnitReaction.Neutral" >
+				<!-- add the 9407 questline here -->
 			
 		<CustomBehavior File="Message" Text="Getting to Neutral with Mag'har - do not interfere!" LogColor="Orange" />
 		
 			<If Condition="((!HasQuest(9400)) &amp;&amp; (!IsQuestCompleted(9400)))" >
+				<CustomBehavior File="RunMacro" Macro="/run for i=1,GetNumQuestLogEntries() do SelectQuestLogEntry(i); SetAbandonQuest(); AbandonQuest(); end" />
+
 				<CustomBehavior File="FlyTo" DestName="Pickup Quest" X="178.4278" Y="2688.843" Z="86.98505" />
 				<CustomBehavior File="ForcedDismount" />
-			</If>
 		<PickUp QuestName="The Assassin" QuestId="9400" GiverName="Nazgrel" GiverId="3230" />
+			</If>
 			<If Condition="((HasQuest(9400)) &amp;&amp; (IsQuestCompleted(9400)))" >
 				<CustomBehavior File="FlyTo" DestName="Turnin Quest" X="-22.29585" Y="3808.308" Z="91.52517" />
 				<CustomBehavior File="ForcedDismount" />
@@ -3123,9 +4033,12 @@
 			</If>
 		
 		<CustomBehavior File="Message" Text="Compiling Nagrand Quests" LogColor="Green" />
+		<CustomBehavior File="UserSettings" LootMobs="True" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" PullDistance="25" GroundMountFarmingMode="False" KillBetweenHotspots="True" />
 		
 		<!-- make sure we blackspot telaar here -->
 			<If Condition="!HasQuest(9854) &amp;&amp; !IsQuestCompleted(9854)">
+				<CustomBehavior File="RunMacro" Macro="/run for i=1,GetNumQuestLogEntries() do SelectQuestLogEntry(i); SetAbandonQuest(); AbandonQuest(); end" />
+				
 				<CustomBehavior File="FlyTo" X="-1455.254" Y="6340.136" Z="37.25015" />
 				<CustomBehavior File="ForcedDismount" />
 			</If>
@@ -3393,6 +4306,8 @@
 			<Objective QuestName="Don't Kill the Fat One" QuestId="9889" Type="KillMob" MobId="18260" KillCount="10" />
 			<While Condition="HasQuest(9889) &amp;&amp; !IsQuestCompleted(9889)">
 				<CustomBehavior File="InteractWith" MobId="18262" NumOfTimes="1" GossipOptions="1" WaitTime="5000" X="-3276.786" Y="5999.964" Z="-2.636937" />
+				<CustomBehavior File="RunMacro" Macro="/cleartarget" NumOfTimes="1" WaitTime="1000" />
+				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for agro to clear {TimeRemaining}" />
 				<CustomBehavior File="InteractWith" MobId="18262" NumOfTimes="1" GossipOptions="1" WaitTime="5000" X="-3276.786" Y="5999.964" Z="-2.636937" />
 			</While>
 		<TurnIn QuestName="Don't Kill the Fat One" QuestId="9889" TurnInName="Unkor the Ruthless" TurnInId="18262" />
@@ -3576,6 +4491,11 @@
 			</If>
 			
 			<While Condition="HasQuest(9849) &amp;&amp; !IsQuestCompleted(9849)">
+	
+			<If Condition="(Me.Level &gt;= 81)" >
+	<CustomBehavior File="UserDialog" AllowBotStop="True" SoundCue="Exclamation" SoundCueInterval="5" Text="You are too high for this Combat UseItemOn quest, please manually do it!" />
+			</If>
+		
 				<CustomBehavior File="CombatUseItemOn" MobHpPercentLeft="99" QuestId="9849" MobId="17157" ItemId="24501" NumOfTimes="1" WaitTime="3000" X="-2608.289" Y="8898.132" Z="-11.72373" />
 				<CustomBehavior File="CombatUseItemOn" MobHpPercentLeft="99" QuestId="9849" MobId="17157" ItemId="24501" NumOfTimes="1" WaitTime="3000" X="-2659.772" Y="8833.21" Z="-9.914331" />
 				<CustomBehavior File="CombatUseItemOn" MobHpPercentLeft="99" QuestId="9849" MobId="17157" ItemId="24501" NumOfTimes="1" WaitTime="3000" X="-2690.137" Y="8722.123" Z="-26.49534" />
@@ -3727,8 +4647,11 @@
 			<GrindTo Level="67" />
 
 		<CustomBehavior File="Message" Text="Compiling Blades Edge Mountain Quests" LogColor="Green" />
+		<CustomBehavior File="UserSettings" LootMobs="True" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" PullDistance="25" GroundMountFarmingMode="False" KillBetweenHotspots="True" />
 
 			<If Condition="((!HasQuest(10489)) &amp;&amp; (!IsQuestCompleted(10489)))" >
+				<CustomBehavior File="RunMacro" Macro="/run for i=1,GetNumQuestLogEntries() do SelectQuestLogEntry(i); SetAbandonQuest(); AbandonQuest(); end" />
+
 				<CustomBehavior File="FlyTo" X="2382.785" Y="6045.664" Z="139.4119" />
 				<CustomBehavior File="ForcedDismount" />
 			</If>
@@ -3753,7 +4676,7 @@
 		<TurnIn QuestName="Felling an Ancient Tree" QuestId="10489" TurnInName="Tor'chunk Twoclaws" TurnInId="21147" />	   
 		<PickUp QuestName="The Bloodmaul Ogres" QuestId="10505" GiverName="Tor'chunk Twoclaws" GiverId="21147" />
 		<PickUp QuestName="Dust from the Drakes" QuestId="10487" GiverName="Gor'drek" GiverId="21117" />
-			<If Condition="(HasQuest(10505)) &amp;&amp; (!IsQuestCompleted(10505))">
+			<If Condition="(HasQuest(10505)) &amp;&amp; (!IsQuestCompleted(10505)) || (HasQuest(10487)) &amp;&amp; (!IsQuestCompleted(10487))">
 				<CustomBehavior File="FlyTo" X="2135.785" Y="6369.635" Z="-9.93316" />
 				<CustomBehavior File="ForcedDismount" />
 			</If>
@@ -3766,9 +4689,9 @@
 		<TurnIn QuestName="The Bloodmaul Ogres" QuestId="10505" TurnInName="Tor'chunk Twoclaws" TurnInId="21147" />
 		<TurnIn QuestName="Dust from the Drakes" QuestId="10487" TurnInName="Gor'drek" TurnInId="21117" />
 		<PickUp QuestName="Protecting Our Own" QuestId="10488" GiverName="Gor'drek" GiverId="21117" />
-			<If Condition="((HasQuest(10488)) &amp;&amp; (!IsQuestCompleted(10488)))" >
+			<While Condition="((HasQuest(10488)) &amp;&amp; (!IsQuestCompleted(10488)))" >
 				<CustomBehavior File="UseItemOn" QuestId="10488" ItemId="30175" MobId="20748" NumOfTimes="20" WaitTime="5000" Range="5" X="2092.474" Y="6085.685" Z="146.4345" />
-			</If>
+			</While>
 		<TurnIn QuestName="Protecting Our Own" QuestId="10488" TurnInName="Gor'drek" TurnInId="21117" />
 		<PickUp QuestName="Creating the Pendant" QuestId="10567" GiverName="Timeon" GiverId="21782" />
 		<PickUp QuestName="Culling the Wild" QuestId="10753" GiverName="Faradrella" GiverId="22133" />
@@ -3806,8 +4729,8 @@
 		<PickUp QuestName="Mok'Nathal Treats" QuestId="10860" GiverName="Matron Varah" GiverId="21088" />
 			<Objective QuestName="Mok'Nathal Treats" QuestId="10860" Type="CollectItem" ItemId="31670" CollectCount="3" />
 			<Objective QuestName="Mok'Nathal Treats" QuestId="10860" Type="CollectItem" ItemId="31671" CollectCount="3" />
-			<Objective QuestName="The Softest Wings" QuestId="10618" Type="CollectItem" ItemId="30792" CollectCount="12" />
 			<Objective QuestName="Silkwing Cocoons" QuestId="10617" Type="CollectItem" ItemId="30791" CollectCount="8" />	
+			<Objective QuestName="The Softest Wings" QuestId="10618" Type="CollectItem" ItemId="30792" CollectCount="12" />
 		<TurnIn QuestName="The Softest Wings" QuestId="10618" TurnInName="Silmara" TurnInId="21896" />
 		<TurnIn QuestName="Silkwing Cocoons" QuestId="10617" TurnInName="Taerek" TurnInId="21895" />
 			<If Condition="((HasQuest(10860)) &amp;&amp; (IsQuestCompleted(10860)))" >
@@ -3868,12 +4791,15 @@
 		   
 		   <!-- Kick's Netherstorm -->
 		<CustomBehavior File="Message" Text="Compiling Netherstorm Quests" LogColor="Green" />
+		<CustomBehavior File="UserSettings" LootMobs="True" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" PullDistance="25" GroundMountFarmingMode="False" KillBetweenHotspots="True" />
 
 			<If Condition="(HasQuest(11037))" >
 				<CustomBehavior File="AbandonQuest" QuestId="11037" Type="All" />
 				<CustomBehavior File="WaitTimer" WaitTime="5000" GoalText="Waiting for  {TimeRemaining}" />
 			</If>
 			<If Condition="((!HasQuest(10183)) &amp;&amp; (!IsQuestCompleted(10183)))" >
+				<CustomBehavior File="RunMacro" Macro="/run for i=1,GetNumQuestLogEntries() do SelectQuestLogEntry(i); SetAbandonQuest(); AbandonQuest(); end" />
+
 				<CustomBehavior File="FlyTo" X="3380.538" Y="4332.566" Z="122.6401" />
 				<CustomBehavior File="ForcedDismount" />
 		<PickUp QuestName="Off To Area 52" QuestId="10183" GiverName="Netherologist Coppernickels" GiverId="19569" X="3383.753" Y="4277.658" Z="122.6409" />
@@ -3883,11 +4809,15 @@
 				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="Off To Area 52" QuestId="10183" TurnInName="Rocket-Chief Fuselage" TurnInId="19570" X="3062.385" Y="3661.388" Z="142.9643" />
 			</If>
-		<PickUp QuestName="Securing the Shaleskin Shale" QuestId="10342" GiverName="Boots" GiverId="19617" X="3080.512" Y="3684.403" Z="142.4499" />
 		<PickUp QuestName="Consortium Crystal Collection" QuestId="10265" GiverName="Nether-Stalker Khay'ji" GiverId="19880" X="3069.964" Y="3674.858" Z="142.3462" />
+			<If Condition="HasQuestAvailable(19617)" >
+		<PickUp QuestName="Securing the Shaleskin Shale" QuestId="10342" GiverName="Boots" GiverId="19617" X="3080.512" Y="3684.403" Z="142.4499" />
+			</If>
 		<PickUp QuestName="You're Hired!" QuestId="10186" GiverName="Rocket-Chief Fuselage" GiverId="19570" X="3062.385" Y="3661.388" Z="142.9643" />
 		<PickUp QuestName="The Archmage's Staff" QuestId="10173" GiverName="Ravandwyr" GiverId="19217" X="2997.609" Y="3734.968" Z="143.9955" />
-			<Objective QuestName="Securing the Shaleskin Shale" QuestId="10342" Type="CollectItem" CollectCount="5" Name="Shaleskin Shale" ItemId="29464" />
+			<If Condition="((HasQuest(10342)) &amp;&amp; (!IsQuestCompleted(10342)))" >
+				<Objective QuestName="Securing the Shaleskin Shale" QuestId="10342" Type="CollectItem" CollectCount="5" Name="Shaleskin Shale" ItemId="29464" />
+			</If>
 			<If Condition="((HasQuest(10186)) &amp;&amp; (!IsQuestCompleted(10186)))" >
 				<CustomBehavior File="FlyTo" X="3359.664" Y="3730.727" Z="141.3178" />
 				<CustomBehavior File="ForcedDismount" />
@@ -3897,12 +4827,19 @@
 				<CustomBehavior File="FlyTo" X="3044.707" Y="3685.767" Z="142.55" />
 				<CustomBehavior File="ForcedDismount" />
 			</If>
+			<If Condition="((HasQuest(10342)) &amp;&amp; (IsQuestCompleted(10342)))" >
 		<TurnIn QuestName="Securing the Shaleskin Shale" QuestId="10342" TurnInName="Boots" TurnInId="19617" X="3080.512" Y="3684.403" Z="142.4499" />
 		<PickUp QuestName="That Little Extra Kick" QuestId="10199" GiverName="Boots" GiverId="19617" X="3080.512" Y="3684.403" Z="142.4499" />
+			</If>
 		<TurnIn QuestName="You're Hired!" QuestId="10186" TurnInName="Rocket-Chief Fuselage" TurnInId="19570" X="3062.385" Y="3661.388" Z="142.9643" />
 		<PickUp QuestName="Report to Engineering" QuestId="10225" GiverName="Rocket-Chief Fuselage" GiverId="19570" X="3062.385" Y="3661.388" Z="142.9643" />
 		<!-- <PickUp QuestName="Elemental Power Extraction" QuestId="10226" GiverName="Chief Engineer Trep" GiverId="19709" /> -->
 			<!-- range 10, i need combatuseitemon due to the range
+	
+			<If Condition="(Me.Level &gt;= 81)" >
+	<CustomBehavior File="UserDialog" AllowBotStop="True" SoundCue="Exclamation" SoundCueInterval="5" Text="You are too high for this Combat UseItemOn quest, please manually do it!" />
+			</If>
+		
 			<Objective QuestName="Elemental Power Extraction" QuestId="10226" Type="Collect" CollectCount="5" ItemId="28548" />
 		<TurnIn QuestName="Elemental Power Extraction" TurnInName="Chief Engineer Trep" QuestId="10226" TurnInId="19709" />
 			 -->
@@ -3959,7 +4896,9 @@
 				<CustomBehavior File="WaitTimer" WaitTime="5000" />
 			</While>
 			<Objective QuestName="The Archmage's Staff" QuestId="10173" Type="CollectItem" CollectCount="1" Name="Archmage Vargoth's Staff" ItemId="28292" />
-			<Objective QuestName="That Little Extra Kick" QuestId="10199" Type="CollectItem" CollectCount="5" Name="Nether Ray Stinger" ItemId="28417" />
+			<If Condition="((HasQuest(10199)) &amp;&amp; (!IsQuestCompleted(10199)))" >
+				<Objective QuestName="That Little Extra Kick" QuestId="10199" Type="CollectItem" CollectCount="5" Name="Nether Ray Stinger" ItemId="28417" />
+			</If>
 			<If Condition="((HasQuest(10173)) &amp;&amp; (IsQuestCompleted(10173)))" >
 				<CustomBehavior File="FlyTo" X="3044.707" Y="3685.767" Z="142.55" />
 				<CustomBehavior File="ForcedDismount" />
@@ -3968,7 +4907,9 @@
 		<PickUp QuestName="Rebuilding the Staff" QuestId="10300" GiverName="Ravandwyr" GiverId="19217" X="2997.609" Y="3734.968" Z="143.9955" />
 		<TurnIn QuestName="Consortium Crystal Collection" QuestId="10265" TurnInName="Nether-Stalker Khay'ji" TurnInId="19880" X="3069.964" Y="3674.858" Z="142.3462" />
 		<PickUp QuestName="A Heap of Ethereals" QuestId="10262" GiverName="Nether-Stalker Khay'ji" GiverId="19880" X="3069.964" Y="3674.858" Z="142.3462" />
+			<If Condition="((HasQuest(10199)) &amp;&amp; (IsQuestCompleted(10199)))" >
 		<TurnIn QuestName="That Little Extra Kick" QuestId="10199" TurnInName="Boots" TurnInId="19617" X="3080.512" Y="3684.403" Z="142.4499" />
+			</If>
 		<PickUp QuestName="Pick Your Part" QuestId="10206" GiverName="Papa Wheeler" GiverId="19645" X="3053.075" Y="3644.414" Z="143.1805" />
 			<If Condition="((HasQuest(10300)) &amp;&amp; (!IsQuestCompleted(10300)))" >
 				<CustomBehavior File="FlyTo" X="3347.274" Y="3505.884" Z="133.8511" />
@@ -4074,7 +5015,10 @@
 		<PickUp QuestName="Torching Sunfury Hold" GiverName="Lieutenant-Sorcerer Morran" QuestId="10233" GiverId="19489" />
 		-->
 		<TurnIn QuestName="Indispensable Tools" TurnInName="Apprentice Andrethan" QuestId="10331" TurnInId="20463" />
+			<If Condition="((!HasQuest(10332)) &amp;&amp; (!IsQuestCompleted(10332)))" >
 		<PickUp QuestName="Master Smith Rhonsus" GiverName="Apprentice Andrethan" QuestId="10332" GiverId="20463" />
+				<RunTo X="2280.485" Y="2273.472" Z="94.76469" />
+			</If>
 			<If Condition="((HasQuest(10312)) &amp;&amp; (!IsQuestCompleted(10312)))" >
 				<CustomBehavior File="FlyTo" X="2221.973" Y="2139.842" Z="73.43978" />
 				<CustomBehavior File="ForcedDismount" />
@@ -4537,7 +5481,10 @@
 		<TurnIn QuestName="The Dynamic Duo" TurnInName="Audi the Needle" QuestId="10434" TurnInId="20205" />
 		<PickUp QuestName="Retrieving the Goods" GiverName="Audi the Needle" QuestId="10435" GiverId="20205" />
 		<TurnIn QuestName="An Audience with the Prince" TurnInName="Image of Nexus-Prince Haramad" QuestId="10268" TurnInId="20084" />
+			<If Condition="((!HasQuest(10269)) &amp;&amp; (!IsQuestCompleted(10269)))" >
 		<PickUp QuestName="Triangulation Point One" GiverName="Image of Nexus-Prince Haramad" QuestId="10269" GiverId="20084" />
+				<RunTo X="4122.681" Y="2980.695" Z="351.271" />
+			</If>
 		<!-- Not getting In Search of Farahlite - 2 person quest -->
 			<If Condition="((HasQuest(10424)) &amp;&amp; (!IsQuestCompleted(10424)))" >
 				<CustomBehavior File="FlyTo" X="4464.807" Y="2830.35" Z="141.3133" />
@@ -4704,15 +5651,19 @@
 			</If>
 		<TurnIn QuestName="The Flesh Lies..." TurnInName="Agent Araxes" QuestId="10345" TurnInId="20551" />
 			<If Condition="((HasQuest(10270)) &amp;&amp; (IsQuestCompleted(10270)))" >
-				<CustomBehavior File="UserSettings" PullDistance="35" />
+				<CustomBehavior File="UserSettings" PullDistance="25" />
 				<CustomBehavior File="FlyTo" X="4004.868" Y="1507.521" Z="-116.7939" />
 				<CustomBehavior File="ForcedDismount" />
-				<CustomBehavior File="InteractWith"  ObjectType="Gameobject" MobId="184073" NumOfTimes="1" GossipOptions="1" CollectionDistance="50" X="4005.519" Y="1521.117" Z="-115.3977" />
+				<CustomBehavior File="InteractWith" ObjectType="Gameobject" MobId="184073" NumOfTimes="1" GossipOptions="1" CollectionDistance="50" X="4005.519" Y="1521.117" Z="-115.3977" />
 			</If>
 		<TurnIn QuestName="A Not-So-Modest Proposal" TurnInName="Image of Wind Trader Marid" QuestId="10270" TurnInId="20518" X="4008.063" Y="1515.283" Z="-115.95" />
 		<PickUp QuestName="Getting Down to Business" GiverName="Image of Wind Trader Marid" QuestId="10271" GiverId="20518" X="4008.063" Y="1515.283" Z="-115.95" />
 			<While Condition="((HasQuest(10271)) &amp;&amp; (!IsQuestCompleted(10271)))" >
-				<!-- <Objective QuestName="Getting Down to Business" QuestId="10271" Type="Collect" CollectCount="8" ItemId="28970" /> -->
+	
+			<If Condition="(Me.Level &gt;= 81)" >
+	<CustomBehavior File="UserDialog" AllowBotStop="True" SoundCue="Exclamation" SoundCueInterval="5" Text="You are too high for this Combat UseItemOn quest, please manually do it!" />
+			</If>
+		
 				<CustomBehavior File="CombatUseItemOn" QuestId="10271" MobId="18877" ItemId="69825" MobHpPercentLeft="100" NumOfTimes="1" WaitTime="1000" Range="20" CollectionDistance="50" X="4023.415" Y="1475.924" Z="-119.7821" />
 			</While>
 			<If Condition="((HasQuest(10271)) &amp;&amp; (IsQuestCompleted(10271)))" >
@@ -4833,13 +5784,15 @@
 			<If Condition="((HasQuest(10353)) &amp;&amp; (IsQuestCompleted(10353)))" >
 				<CustomBehavior File="FlyTo" X="4260.776" Y="2193.431" Z="136.2895" />
 				<CustomBehavior File="ForcedDismount" />
-			</If>
 		<TurnIn QuestName="Arconus the Insatiable" TurnInName="Commander Ameer" QuestId="10353" TurnInId="20448" />
+			</If>
 		<!--
 		<TurnIn QuestName="Electro-Shock Goodness!" TurnInName="Researcher Navuud" QuestId="10411" TurnInId="20449" />
 		<TurnIn QuestName="Captain Tyralius" TurnInName="Flesh Handler Viridius" QuestId="10422" TurnInId="20450" />
 		-->
+			<If Condition="((HasQuest(10437)) &amp;&amp; (IsQuestCompleted(10437)))" >
 		<TurnIn QuestName="Recipe for Destruction" TurnInName="Professor Dabiri" QuestId="10437" TurnInId="20907" />
+			</If>
 		<!-- not picking up On Nethery Wings - it's a vehicle flying quest where im on a taxi -->
 		<!--
 			<If Condition="((HasQuest(10273)) &amp;&amp; (IsQuestCompleted(10273)))" >
@@ -4869,6 +5822,8 @@
 		<Checkpoint Level="69" />
 		
 		<While Condition="Me.MapId == 530 &amp;&amp; (Me.Level &gt;= 68)">
+			<CustomBehavior File="RunMacro" Macro="/run for i=1,GetNumQuestLogEntries() do SelectQuestLogEntry(i); SetAbandonQuest(); AbandonQuest(); end" />
+			<CustomBehavior File="Message" Text="Flying or Shattrath to take portal to Orgrimmar" LogColor="Orange" />
 			<CustomBehavior File="FlyTo" DestName="Org portal" X="-1956.413" Y="5383.551" Z="-12.42774" />
 			<CustomBehavior File="ForcedDismount" />
 
@@ -4877,6 +5832,10 @@
 			<CustomBehavior File="WaitTimer" WaitTime="20000" GoalText="Waiting for zone {TimeRemaining}" />
 		</While>
 		
+		<If Condition="Me.Class == WoWClass.DeathKnight">
+			<CustomBehavior File="LoadProfile" ProfileName="..\GoTo\DK H K to LK" /> 
+		</If>
+				
 			<CustomBehavior File="LoadProfile" ProfileName="..\GoTo\H K to LK" /> 
 		
 		
