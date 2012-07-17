@@ -1,0 +1,105 @@
+ <HBProfile>
+   <!--
+      PROFILE EXPECTATIONS:
+         1. When using this profile, be certain to set the HonorBuddy bot to (select only one):
+                (*) Grinding / Mixed
+                ( ) Questing
+                ( ) PvP
+   
+         2. This profile is appropriate for (check all that apply):
+                [X] Alliance   [ ] Achievement
+                [ ] Horde      [X] Farming Non-Combat Pet
+                               [X] Leveling
+                               [ ] PvP
+                               [ ] Questing
+                               [ ] Reputation
+                               [ ] Seasonal
+   
+    -->
+   <Name>Tiny Emerald Whelpling Farm</Name>
+   <MinLevel>34</MinLevel>
+   <MaxLevel>86</MaxLevel>
+   
+   <MinDurability>0.3</MinDurability>
+   <MinFreeBagSlots>2</MinFreeBagSlots>
+   
+   <MailGrey>False</MailGrey>
+   <MailWhite>True</MailWhite>
+   <MailGreen>True</MailGreen>
+   <MailBlue>True</MailBlue>
+   <MailPurple>True</MailPurple>
+   
+   <SellGrey>True</SellGrey>
+   <SellWhite>False</SellWhite>
+   <SellGreen>False</SellGreen>
+   <SellBlue>False</SellBlue>
+   <SellPurple>False</SellPurple>
+   
+   <TargetElites>True</TargetElites>	
+   
+   <AvoidMobs>
+	<Mob Name="Jademir Echospawn" Entry="39395" />
+	<Mob Name="Lethlas" Entry="39394" />
+   </AvoidMobs>
+   
+   <Blackspots>
+
+   </Blackspots>
+   
+   <ContinentID>1</ContinentID> <!--Kalimdor -->
+   
+   <Mailboxes>
+       <Mailbox X="-3199.564" Y="1897.674" Z="49.21221" />
+   </Mailboxes>
+   
+   <Vendors>
+       <Vendor Name="Afran" Entry="40967" Type="Repair" X="-3183.528" Y="1878.203" Z="48.42589" />
+   </Vendors>
+   
+   <GrindArea>
+       <TargetMinLevel>34</TargetMinLevel>
+       <TargetMaxLevel>36</TargetMaxLevel>
+       <Factions>14</Factions>
+       <MaxDistance>30</MaxDistance>
+       <Hotspots>
+           <Hotspot X="-2871.24" Y="2196.52" Z="30.15" />	
+	   <Hotspot X="-2821.11" Y="2178.54" Z="34.73" />
+	   <Hotspot X="-2781.30" Y="2155.69" Z="29.23" />
+	   <Hotspot X="-2817.99" Y="2124.32" Z="28.03" />
+	   <Hotspot X="-2877.24" Y="2144.79" Z="33.58" />
+	   <Hotspot X="-2898.61" Y="2107.69" Z="34.37" />
+	   <Hotspot X="-2864.89" Y="2093.25" Z="43.77" />
+	   <Hotspot X="-2888.14" Y="2053.64" Z="30.20" />
+	   <Hotspot X="-2797.56" Y="2040.60" Z="28.60" />
+	   <Hotspot X="-2751.36" Y="1992.17" Z="27.13" />
+	   <Hotspot X="-2738.43" Y="2043.42" Z="33.28" />
+	   <Hotspot X="-2750.25" Y="2081.82" Z="37.60" />
+	   <Hotspot X="-2698.98" Y="2075.23" Z="33.99" />
+	   <Hotspot X="-2712.28" Y="2120.73" Z="39.83" />
+	   <Hotspot X="-2772.17" Y="2143.84" Z="35.65" />
+	   <Hotspot X="-2781.39" Y="2211.38" Z="44.10" />
+	   <Hotspot X="-2727.25" Y="2227.72" Z="57.08" />
+	   <Hotspot X="-2725.15" Y="2174.01" Z="50.01" />
+	   <Hotspot X="-2686.23" Y="2176.30" Z="56.85" />
+	   <Hotspot X="-2651.43" Y="2120.23" Z="44.54" />
+	   <Hotspot X="-2657.96" Y="2128.26" Z="47.80" />
+	   <Hotspot X="-2693.24" Y="2069.94" Z="30.11" />
+	   <Hotspot X="-2596.31" Y="1913.49" Z="28.88" />
+	   <Hotspot X="-2589.10" Y="1880.92" Z="31.13" />
+	   <Hotspot X="-2627.90" Y="1829.42" Z="25.22" />
+	   <Hotspot X="-2639.15" Y="1793.70" Z="28.15" />
+	   <Hotspot X="-2662.21" Y="1695.77" Z="35.34" />
+	   <Hotspot X="-2656.64" Y="1652.88" Z="46.74" />
+	   <Hotspot X="-2610.60" Y="1639.14" Z="58.12" />
+	   <Hotspot X="-2696.70" Y="1645.14" Z="43.58" />
+	   <Hotspot X="-2719.52" Y="1681.02" Z="30.00" />
+	   <Hotspot X="-2801.89" Y="1660.41" Z="33.55" />
+	   <Hotspot X="-2835.21" Y="1687.31" Z="33.54" />
+	   <Hotspot X="-2908.89" Y="1695.19" Z="32.74" />
+	   <Hotspot X="-2977.08" Y="1691.67" Z="37.93" />
+	   <Hotspot X="-2871.24" Y="2196.52" Z="30.15" />
+	   
+       </Hotspots>
+   </GrindArea>
+   
+</HBProfile>
