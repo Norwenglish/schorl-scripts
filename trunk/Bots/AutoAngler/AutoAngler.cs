@@ -2,29 +2,30 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Media;
 using System.Xml.Linq;
 using CommonBehaviors.Actions;
 using HighVoltz.Composites;
 using Levelbot.Actions.Death;
 using Levelbot.Decorators.Death;
 using Styx;
+using Styx.Common;
+using Styx.CommonBot;
+using Styx.CommonBot.POI;
+using Styx.CommonBot.Profiles;
+using Styx.CommonBot.Routines;
 using Styx.Helpers;
-using Styx.Logic;
-using Styx.Logic.BehaviorTree;
-using Styx.Logic.Combat;
-using Styx.Logic.POI;
-using Styx.Logic.Pathing;
-using Styx.Logic.Profiles;
+
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
-using TreeSharp;
-using Action = TreeSharp.Action;
+using Styx.TreeSharp;
+using Action = Styx.TreeSharp.Action;
+using Color = System.Windows.Media.Color;
 
 namespace HighVoltz
 {
@@ -42,8 +43,8 @@ namespace HighVoltz
         private static int _lastUkTagCallTime;
         private static int _currentIndex;
         public readonly Version Version = new Version(2, new Svn().Revision);
-        private readonly LocalPlayer _me = ObjectManager.Me;
-        public static readonly string BotPath = Logging.ApplicationPath + @"\Bots\" + "AutoAngler2";
+        private readonly LocalPlayer _me = StyxWoW.Me;
+        public static readonly string BotPath = Utilities.AssemblyDirectory + @"\Bots\" + "AutoAngler2";
         private AutoAnglerSettings _settings;
 
         public AutoAngler()
@@ -62,7 +63,7 @@ namespace HighVoltz
             {
                 return _settings ?? (_settings = new AutoAnglerSettings(
                                                      String.Format("{0}\\Settings\\AutoAngler\\AutoAngler-{1}",
-                                                                   Logging.ApplicationPath, _me.Name)));
+                                                                   Utilities.AssemblyDirectory, _me.Name)));
             }
         }
 
@@ -89,6 +90,16 @@ namespace HighVoltz
         public override PulseFlags PulseFlags
         {
             get { return PulseFlags.All; }
+        }
+
+        private bool _brokeOnce;
+        public override void Pulse()
+        {
+            if (!_brokeOnce && Debugger.IsAttached)
+            {
+                _brokeOnce = true;
+                Debugger.Break();
+            }
         }
 
         private DateTime _pulseTimestamp;
@@ -134,7 +145,7 @@ namespace HighVoltz
                     // If bot needs to rest then call the CC rest behavior
                                              new Decorator(
                                                  c =>
-                                                 RoutineManager.Current.NeedRest && !ObjectManager.Me.IsCasting &&
+                                                 RoutineManager.Current.NeedRest && !StyxWoW.Me.IsCasting &&
                                                  !_me.IsFlying,
                                                  new PrioritySelector(
                     // if Rest Behavior exists use it..
@@ -387,7 +398,7 @@ namespace HighVoltz
                 {
                     WayPoints = profile.GrindArea.Hotspots.ConvertAll(hs => hs.Position);
                     WoWPoint closestPoint =
-                        WayPoints.OrderBy(u => u.Distance(ObjectManager.Me.Location)).FirstOrDefault();
+                        WayPoints.OrderBy(u => u.Distance(StyxWoW.Me.Location)).FirstOrDefault();
                     _currentIndex = WayPoints.FindIndex(w => w == closestPoint);
                 }
                 else
@@ -495,21 +506,17 @@ namespace HighVoltz
 
         public void Log(string format, params object[] args)
         {
-            Logging.Write(Color.DodgerBlue, String.Format("AutoAngler[{0}]: {1}", Version, format), args);
+            Logging.Write(Colors.DodgerBlue, String.Format("AutoAngler[{0}]: {1}", Version, format), args);
         }
 
         public void Err(string format, params object[] args)
         {
-            Logging.Write(Color.Red, String.Format("AutoAngler[{0}]: {1}", Version, format), args);
+            Logging.Write(Colors.Red, String.Format("AutoAngler[{0}]: {1}", Version, format), args);
         }
 
         public void Debug(string format, params object[] args)
         {
-            Logging.WriteDebug(Color.DodgerBlue, String.Format("AutoAngler[{0}]: {1}", Version, format), args);
+            Logging.WriteDiagnostic(Colors.DodgerBlue, String.Format("AutoAngler[{0}]: {1}", Version, format), args);
         }
-
-        public static string R = @"
-//!CompilerOption:AddRef:Remoting.dll
-";
     }
 }

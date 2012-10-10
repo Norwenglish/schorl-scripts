@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Threading;
-using Styx.Logic;
-using Styx.Logic.BehaviorTree;
+using Styx;
+using Styx.CommonBot;
 using Styx.WoWInternals;
-using TreeSharp;
+using Styx.TreeSharp;
 
 namespace HighVoltz.Composites
 {
@@ -11,7 +11,7 @@ namespace HighVoltz.Composites
     {
         protected override RunStatus Run(object context)
         {
-            if (ObjectManager.Me.Mounted)
+            if (StyxWoW.Me.Mounted)
                 Mount.Dismount();
             Utils.UseItemByID(6948);
             var hearthSW = new Stopwatch();
@@ -20,7 +20,7 @@ namespace HighVoltz.Composites
             while (hearthSW.ElapsedMilliseconds < 20000)
             {
                 // damn.. we got something beating on us... 
-                if (ObjectManager.Me.Combat)
+                if (StyxWoW.Me.Combat)
                     return RunStatus.Success;
                 Thread.Sleep(100); // I feel so teribad... not!
             }

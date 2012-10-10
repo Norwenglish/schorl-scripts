@@ -1,0 +1,36 @@
+<!-- Profile created by Moderator Tony for Hb community -->
+<HBProfile>
+<Name>Tiny Emerald Whelpling Horde Feralas</Name>
+<MinDurability>0.3</MinDurability>
+<MinFreeBagSlots>2</MinFreeBagSlots>
+<SellGrey>True</SellGrey>
+<SellWhite>True</SellWhite>
+<SellGreen>True</SellGreen>
+<MinLevel>1</MinLevel>
+<MaxLevel>86</MaxLevel>
+<ProtectedItems>
+<Item>8498</Item>
+</ProtectedItems>
+<GrindArea>
+<TargetMinLevel>1</TargetMinLevel>
+<TargetMaxLevel>86</TargetMaxLevel>
+<Factions>14 </Factions>
+<Hotspots>
+<Hotspot X="-2928.789" Y="1701.941" Z="33.81295" />
+<Hotspot X="-2836.043" Y="1676.158" Z="33.59274" />
+<Hotspot X="-2730.681" Y="1643.997" Z="35.651" />
+<Hotspot X="-2651.438" Y="1649.159" Z="49.50509" />
+<Hotspot X="-2609.773" Y="1642.295" Z="57.4883" />
+<Hotspot X="-2656.53" Y="1702.436" Z="36.34421" />
+<Hotspot X="-2643.547" Y="1791.799" Z="29.5979" />
+<Hotspot X="-2658.263" Y="2104.288" Z="37.33408" />
+<Hotspot X="-2745.042" Y="2019.233" Z="31.67052" />
+<Hotspot X="-2769.597" Y="2134.351" Z="37.84867" />
+<Hotspot X="-2696.991" Y="2213.635" Z="56.83707" />
+<Hotspot X="-2903.297" Y="2116.873" Z="32.7044" />
+</Hotspots>
+</GrindArea>
+<Vendors>
+<Vendor Name="Cohanae" Entry="44386" Type="Repair" X="-3071.69" Y="2547.66" Z="50.1789" />
+</Vendors>
+</HBProfile>

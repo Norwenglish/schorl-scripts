@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using Styx.Logic.Inventory.Frames.LootFrame;
-using Styx.Logic.Pathing;
+using Styx.CommonBot.Frames;
+using Styx.Pathing;
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
-using TreeSharp;
+using Styx.TreeSharp;
 
 namespace HighVoltz.Composites
 {
@@ -24,6 +24,7 @@ namespace HighVoltz.Composites
 
         private void LootNPC(WoWUnit lootableUnit)
         {
+
             if (lootableUnit.WithinInteractRange)
             {
                 if (LootFrame.Instance != null && LootFrame.Instance.IsVisible)

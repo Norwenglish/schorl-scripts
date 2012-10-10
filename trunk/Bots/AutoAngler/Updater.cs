@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Media;
+using Styx.Common;
 
 namespace HighVoltz
 {
-    static class Updater
+    internal static class Updater
     {
-        const string PbSvnUrl = "https://autoangler2.googlecode.com/svn/trunk/";
+        private const string PbSvnUrl = "https://autoangler2.googlecode.com/svn/trunk/";
+
+        private static readonly Regex _linkPattern = new Regex(@"<li><a href="".+"">(?<ln>.+(?:..))</a></li>",
+                                                               RegexOptions.CultureInvariant);
 
         public static void CheckForUpdate()
         {
@@ -26,7 +29,8 @@ namespace HighVoltz
                     AutoAngler.Instance.Log("Download complete.");
                     AutoAngler.Instance.MySettings.CurrentRevision = remoteRev;
                     AutoAngler.Instance.MySettings.Save();
-                    Styx.Helpers.Logging.Write(Color.Red, "A new version of AutoAngler was installed. Please restart Honorbuddy");
+
+                    Logging.Write(Colors.Red, "A new version of AutoAngler was installed. Please restart Honorbuddy");
                 }
                 else
                 {
@@ -39,7 +43,7 @@ namespace HighVoltz
             }
         }
 
-        static int GetRevision()
+        private static int GetRevision()
         {
             var client = new WebClient();
             string html = client.DownloadString(PbSvnUrl);
@@ -50,11 +54,10 @@ namespace HighVoltz
             throw new Exception("Unable to retreive revision");
         }
 
-        static Regex _linkPattern = new Regex(@"<li><a href="".+"">(?<ln>.+(?:..))</a></li>", RegexOptions.CultureInvariant);
-        static void DownloadFilesFromSvn(WebClient client, string url)
+        private static void DownloadFilesFromSvn(WebClient client, string url)
         {
             string html = client.DownloadString(url);
-            var results = _linkPattern.Matches(html);
+            MatchCollection results = _linkPattern.Matches(html);
 
             IEnumerable<Match> matches = from match in results.OfType<Match>()
                                          where match.Success && match.Groups["ln"].Success
@@ -88,9 +91,12 @@ namespace HighVoltz
                 }
             }
         }
-        static string RemoveXmlEscapes(string xml)
+
+        private static string RemoveXmlEscapes(string xml)
         {
-            return xml.Replace("&amp;", "&").Replace("&lt;", "<").Replace("&gt;", ">").Replace("&quot;", "\"").Replace("&apos;", "'");
+            return
+                xml.Replace("&amp;", "&").Replace("&lt;", "<").Replace("&gt;", ">").Replace("&quot;", "\"").Replace(
+                    "&apos;", "'");
         }
     }
 }

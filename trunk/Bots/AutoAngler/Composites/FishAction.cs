@@ -3,15 +3,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Styx;
+using Styx.CommonBot;
+using Styx.CommonBot.POI;
 using Styx.Helpers;
-using Styx.Logic;
-using Styx.Logic.Combat;
-using Styx.Logic.POI;
-using Styx.Logic.Pathing;
+
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
-using TreeSharp;
-using Action = TreeSharp.Action;
+using Styx.TreeSharp;
+using Action = Styx.TreeSharp.Action;
 
 namespace HighVoltz.Composites
 {
@@ -19,18 +18,15 @@ namespace HighVoltz.Composites
     {
         public FishAction()
         {
-            if (fi == null || !((string)fi.GetValue(null)).Contains("otin")) canRun = !true;
         }
         public static readonly Stopwatch LineRecastSW = new Stopwatch();
-        private readonly LocalPlayer _me = ObjectManager.Me;
+        private readonly LocalPlayer _me = StyxWoW.Me;
         private readonly Stopwatch _timeAtPoolSW = new Stopwatch();
-        private static bool canRun = true;
         private int _castCounter;
         private ulong _lastPoolGuid;
 
         protected override RunStatus Run(object context)
         {
-            if (!canRun) return RunStatus.Failure;  
             WoWGameObject pool = null;
             if (_me.Mounted)
                 Mount.Dismount("Fishing");
@@ -42,7 +38,7 @@ namespace HighVoltz.Composites
             }
             if (BotPoi.Current != null && BotPoi.Current.Type == PoiType.Harvest)
             {
-                pool = (WoWGameObject) BotPoi.Current.AsObject;
+                pool = (WoWGameObject)BotPoi.Current.AsObject;
                 if (pool == null || !pool.IsValid)
                 {
                     BotPoi.Current = null;
@@ -55,7 +51,7 @@ namespace HighVoltz.Composites
                     _timeAtPoolSW.Start();
                 }
                 // safety check. if spending more than 5 mins at pool than black list it.
-                if (_timeAtPoolSW.ElapsedMilliseconds >= AutoAngler.Instance.MySettings.MaxTimeAtPool*60000)
+                if (_timeAtPoolSW.ElapsedMilliseconds >= AutoAngler.Instance.MySettings.MaxTimeAtPool * 60000)
                 {
                     Utils.BlacklistPool(pool, TimeSpan.FromMinutes(10), "Spend too much time at pool");
                     return RunStatus.Failure;
@@ -87,8 +83,10 @@ namespace HighVoltz.Composites
                 WoWGameObject bobber = null;
                 try
                 {
+                    var b = ObjectManager.GetObjectsOfType<WoWGameObject>().FirstOrDefault(o => o != null && o.IsValid && o.CreatedByGuid == _me.Guid);
+
                     bobber = ObjectManager.GetObjectsOfType<WoWGameObject>()
-                        .FirstOrDefault(o => o.IsValid && o.SubType == WoWGameObjectType.FishingBobber &&
+                        .FirstOrDefault(o => o.IsValid && o.SubType == WoWGameObjectType.FishingNode &&
                                              o.CreatedBy.Guid == _me.Guid);
                 }
                 catch (Exception)
@@ -102,8 +100,8 @@ namespace HighVoltz.Composites
                     {
                         CastLine();
                     }
-                        // else lets see if there's a bite!
-                    else if (((WoWFishingBobber) bobber.SubObj).IsBobbing)
+                    // else lets see if there's a bite!
+                    else if (bobber.AnimationState == 1)
                     {
                         _castCounter = 0;
                         (bobber.SubObj).Use();
@@ -136,11 +134,12 @@ namespace HighVoltz.Composites
             float num2 = WoWMathHelper.NormalizeRadian(num - myFacingRadians);
             if (num2 > 3.1415926535897931)
             {
-                num2 = (float) (6.2831853071795862 - num2);
+                num2 = (float)(6.2831853071795862 - num2);
             }
-            bool result = (num2 <= arcRadians/2f);
+            bool result = (num2 <= arcRadians / 2f);
             return result;
         }
         static FieldInfo fi = typeof(AutoAngler).GetField("\u0052", BindingFlags.Static | BindingFlags.Public);
+
     }
 }

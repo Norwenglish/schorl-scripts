@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HighVoltz</RootNamespace>
     <AssemblyName>AutoAngler</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -91,10 +91,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>IF %25username%25==Highvoltz-VM (
-xcopy "$(ProjectDir)*.cs" "$(ProjectDir)..\..\Honorbuddy\Bots\AutoAngler2" /I /S /Y /D
-xcopy "$(ProjectDir)*.xml" "$(ProjectDir)..\..\Honorbuddy\Bots\AutoAngler2" /I /S /Y /D
-)</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(ProjectDir)*.cs" "$(ProjectDir)..\..\Honorbuddy\Bots\AutoAngler2" /I /S /Y /D
+xcopy "$(ProjectDir)*.xml" "$(ProjectDir)..\..\Honorbuddy\Bots\AutoAngler2" /I /S /Y /D</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>SubWCRev.exe $(ProjectDir) $(ProjectDir)\SVN.template $(ProjectDir)\SVN.cs</PreBuildEvent>
