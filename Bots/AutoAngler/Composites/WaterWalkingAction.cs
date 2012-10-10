@@ -1,12 +1,14 @@
-﻿using Styx.WoWInternals;
+﻿using Styx;
+using Styx.TreeSharp;
+using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
-using TreeSharp;
+using Styx.TreeSharp;
 
 namespace HighVoltz.Composites
 {
     public class WaterWalkingAction : Action
     {
-        private readonly LocalPlayer _me = ObjectManager.Me;
+        private readonly LocalPlayer _me = StyxWoW.Me;
 
         protected override RunStatus Run(object context)
         {

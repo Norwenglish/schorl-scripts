@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using Styx;
-using Styx.Logic;
-using Styx.Logic.POI;
-using Styx.Logic.Profiles;
+using Styx.CommonBot;
+using Styx.CommonBot.POI;
+using Styx.CommonBot.Profiles;
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
-using TreeSharp;
+using Styx.TreeSharp;
 using System.Reflection;
 
 namespace HighVoltz.Composites
@@ -49,7 +49,7 @@ namespace HighVoltz.Composites
 
         private bool NinjaCheck(WoWGameObject pool)
         {
-            if (pool.Guid == _lastPoolGuid || (pool.Distance2D <= 22 && !ObjectManager.Me.Mounted))
+            if (pool.Guid == _lastPoolGuid || (pool.Distance2D <= 22 && !StyxWoW.Me.Mounted))
                 return true;
             _lastPoolGuid = pool.Guid;
             bool nearbyPlayers = ObjectManager.GetObjectsOfType<WoWPlayer>(false, false).

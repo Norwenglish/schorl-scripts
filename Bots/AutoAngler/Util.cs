@@ -2,16 +2,16 @@
 using System.Diagnostics;
 using System.Linq;
 using Styx;
-using Styx.Logic;
-using Styx.Logic.POI;
+using Styx.CommonBot;
+using Styx.CommonBot.POI;
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
 
 namespace HighVoltz
 {
-    class Utils
+    static class Utils
     {
-        private static readonly LocalPlayer Me = ObjectManager.Me;
+        private static readonly LocalPlayer Me = StyxWoW.Me;
         private static uint _ping = Lua.GetReturnVal<uint>("return GetNetStats()", 3);
         private static readonly Stopwatch PingSW = new Stopwatch();
 
@@ -19,10 +19,21 @@ namespace HighVoltz
         {
             get
             {
+			
+				var lure = StyxWoW.Me.BagItems.FirstOrDefault(r => r.Entry == 85973);
+				if (AutoAngler.Instance.MySettings.Poolfishing && lure != null && !Me.HasAura(125167))
+				{
+					return false;
+				}
+			
                 //if poolfishing, dont need lure say we have one
                 if (AutoAngler.Instance.MySettings.Poolfishing && !AutoAngler.FishAtHotspot)
                     return true;
-                return Lua.GetReturnValues("return GetWeaponEnchantInfo()")[0] == "1";
+					
+
+				
+                var ret = Lua.GetReturnValues("return GetWeaponEnchantInfo()");
+                return ret != null && ret.Count > 0 && ret[0]  == "1";
             }
         }
 
@@ -52,7 +63,7 @@ namespace HighVoltz
 
         public static WoWItem GetIteminBag(uint entry)
         {
-            return ObjectManager.Me.BagItems.FirstOrDefault(i => i.Entry == entry);
+            return StyxWoW.Me.BagItems.FirstOrDefault(i => i.Entry == entry);
         }
 
         public static void EquipWeapon()
@@ -60,7 +71,7 @@ namespace HighVoltz
             bool is2Hand = false;
             // equip right hand weapon
             uint mainHandID = AutoAngler.Instance.MySettings.MainHand;
-            WoWItem mainHand = ObjectManager.Me.Inventory.Equipped.MainHand;
+            WoWItem mainHand = StyxWoW.Me.Inventory.Equipped.MainHand;
             if (mainHand == null || (mainHand.Entry != mainHandID && Utils.IsItemInBag(mainHandID)))
             {
                 is2Hand = Utils.GetIteminBag(AutoAngler.Instance.MySettings.MainHand).ItemInfo.InventoryType ==
@@ -70,7 +81,7 @@ namespace HighVoltz
 
             // equip left hand weapon
             uint offhandID = AutoAngler.Instance.MySettings.OffHand;
-            WoWItem offhand = ObjectManager.Me.Inventory.Equipped.OffHand;
+            WoWItem offhand = StyxWoW.Me.Inventory.Equipped.OffHand;
 
             if ((!is2Hand && offhandID > 0 &&
                  (offhand == null || (offhand.Entry != offhandID && Utils.IsItemInBag(offhandID)))))

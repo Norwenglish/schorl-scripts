@@ -2,18 +2,18 @@
 using System.Diagnostics;
 using Styx;
 using Styx.Helpers;
-using Styx.Logic.Pathing;
+
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
 using Styx.WoWInternals.World;
-using TreeSharp;
-using Action = TreeSharp.Action;
+using Styx.TreeSharp;
+using Action = Styx.TreeSharp.Action;
 
 namespace HighVoltz.Composites
 {
     class FaceWaterAction : Action
     {
-        private readonly LocalPlayer _me = ObjectManager.Me;
+        private readonly LocalPlayer _me = StyxWoW.Me;
         const float PIx2 = 3.14159f * 2f;
         const int TraceStep = 20;
 

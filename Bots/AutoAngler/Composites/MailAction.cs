@@ -1,20 +1,20 @@
 ﻿using System.Linq;
 using Styx;
+using Styx.CommonBot;
+using Styx.CommonBot.Frames;
+using Styx.CommonBot.POI;
+using Styx.CommonBot.Profiles;
 using Styx.Helpers;
-using Styx.Logic;
-using Styx.Logic.Inventory.Frames.MailBox;
-using Styx.Logic.POI;
-using Styx.Logic.Pathing;
-using Styx.Logic.Profiles;
+using Styx.Pathing;
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
-using TreeSharp;
+using Styx.TreeSharp;
 
 namespace HighVoltz.Composites
 {
     public class MailAction : Action
     {
-        private readonly LocalPlayer _me = ObjectManager.Me;
+        private readonly LocalPlayer _me = StyxWoW.Me;
 
         protected override RunStatus Run(object context)
         {
@@ -30,7 +30,7 @@ namespace HighVoltz.Composites
                     Flightor.MoveTo(WoWMathHelper.CalculatePointFrom(_me.Location, loc, 3));
                 else
                 {
-                    if (!ObjectManager.Me.Mounted && Mount.ShouldMount(loc) && Mount.CanMount())
+                    if (!StyxWoW.Me.Mounted && Mount.ShouldMount(loc) && Mount.CanMount())
                         Mount.MountUp(() => loc);
                     Navigator.MoveTo(WoWMathHelper.CalculatePointFrom(_me.Location, loc, 4));
                 }

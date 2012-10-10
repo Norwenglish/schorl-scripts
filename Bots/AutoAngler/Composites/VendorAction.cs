@@ -2,24 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Action = TreeSharp.Action;
+using Styx.CommonBot;
+using Styx.CommonBot.Frames;
+using Styx.CommonBot.POI;
+using Styx.CommonBot.Profiles;
+using Styx.Pathing;
+using Action = Styx.TreeSharp.Action;
 using Styx.Helpers;
-using Styx.Logic.Pathing;
 using Styx;
 using Styx.WoWInternals;
-using Styx.Logic.Profiles;
-using TreeSharp;
-using Styx.Logic.POI;
-using Styx.Logic;
+using Styx.TreeSharp;
 using Styx.WoWInternals.WoWObjects;
-using Styx.Logic.BehaviorTree;
-using Styx.Logic.Inventory.Frames.MailBox;
-using Styx.Logic.Inventory.Frames.Merchant;
+
 namespace HighVoltz.Composites
 {
     public class VendorAction:Action
     {
-         LocalPlayer _me = ObjectManager.Me;
+         LocalPlayer _me = StyxWoW.Me;
 
          protected override RunStatus Run(object context)
          {
@@ -33,7 +32,7 @@ namespace HighVoltz.Composites
                      Flightor.MoveTo(WoWMathHelper.CalculatePointFrom(_me.Location, loc, 4));
                  else
                  {
-                     if (!ObjectManager.Me.Mounted && Mount.ShouldMount(loc) && Mount.CanMount())
+                     if (!StyxWoW.Me.Mounted && Mount.ShouldMount(loc) && Mount.CanMount())
                          Mount.MountUp(() => loc);
                      Navigator.MoveTo(WoWMathHelper.CalculatePointFrom(_me.Location, loc, 4));
                  }

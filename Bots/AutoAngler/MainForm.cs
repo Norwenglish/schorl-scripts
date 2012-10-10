@@ -2,10 +2,10 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using Styx.CommonBot;
+using Styx.CommonBot.POI;
+using Styx.CommonBot.Profiles;
 using Styx.Helpers;
-using Styx.Logic.BehaviorTree;
-using Styx.Logic.POI;
-using Styx.Logic.Profiles;
 
 namespace HighVoltz
 {

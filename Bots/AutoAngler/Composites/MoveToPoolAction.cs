@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Styx;
-using Styx.Combat.CombatRoutine;
+using Styx.CommonBot.Routines;
+using Styx.CommonBot;
+using Styx.CommonBot.POI;
 using Styx.Helpers;
-using Styx.Logic;
-using Styx.Logic.BehaviorTree;
-using Styx.Logic.Combat;
-using Styx.Logic.POI;
-using Styx.Logic.Pathing;
+using Styx.Pathing;
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
 using Styx.WoWInternals.World;
-using TreeSharp;
-using Action = TreeSharp.Action;
+using Styx.TreeSharp;
+using Action = Styx.TreeSharp.Action;
 
 namespace HighVoltz.Composites
 {
@@ -24,7 +22,7 @@ namespace HighVoltz.Composites
         public static readonly Stopwatch MoveToPoolSW = new Stopwatch();
         // used to auto blacklist a pool if it takes too long to get to a point.
 
-        private readonly LocalPlayer _me = ObjectManager.Me;
+        private readonly LocalPlayer _me = StyxWoW.Me;
         private readonly Stopwatch _movetoConcludingSW = new Stopwatch();
         private ulong _lastPoolGuid;
 
@@ -94,7 +92,7 @@ namespace HighVoltz.Composites
                 // fire tracelines.. 
                 bool[] lavaRetVals = null;
                 WoWPoint[] slopeHits;
-                using (new FrameLock())
+                using (StyxWoW.Memory.AcquireFrame())
                 {
                     bool[] slopelinesRetVals;
                     GameWorld.MassTraceLine(slopetraces.ToArray(),
@@ -289,7 +287,7 @@ namespace HighVoltz.Composites
                 }
                 else
                 {
-                    if (!ObjectManager.Me.Mounted && Mount.ShouldMount(PoolPoints[0]) && Mount.CanMount())
+                    if (!StyxWoW.Me.Mounted && Mount.ShouldMount(PoolPoints[0]) && Mount.CanMount())
                         Mount.MountUp(() => PoolPoints[0]);
                     MoveResult moveResult = Navigator.MoveTo(PoolPoints[0]);
                     if (moveResult == MoveResult.UnstuckAttempt ||
