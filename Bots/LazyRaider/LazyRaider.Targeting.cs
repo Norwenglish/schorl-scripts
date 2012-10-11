@@ -12,32 +12,74 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Drawing;
+using System.Windows.Media;
 using System.Threading;
 using System.Diagnostics;
 
 using Levelbot.Actions.Combat;
-using Styx.Combat.CombatRoutine;
+using Styx.CommonBot.Routines;
 using Styx.Helpers;
-using Styx.Logic;
-using Styx.Logic.BehaviorTree;
-using Styx.Logic.Combat;
-using Styx.Logic.Pathing;
-using Styx.Logic.POI;
 using Styx.WoWInternals.WoWObjects;
-using TreeSharp;
 using CommonBehaviors.Actions;
-using Action = TreeSharp.Action;
-using Sequence = TreeSharp.Sequence;
+using Action = Styx.TreeSharp.Action;
+using Sequence = Styx.TreeSharp.Sequence;
 using Styx.WoWInternals;
 
 using Bobby53;
+using Styx.CommonBot;
 
 namespace Styx.Bot.CustomBots
 {
     public partial class LazyRaider : BotBase
     {
-        private static void IncludeTargetsFilter( List<WoWObject> incomingUnits, HashSet<WoWObject> outgoingUnits)
+        public static IncludeTargetsFilterDelegate includeTargets;
+        public static RemoveTargetsFilterDelegate removeTargets;
+        public static WeighTargetsDelegate weighTargets;
+
+        private static void TargetFilterSetup()
+        {
+            TargetFilterClear();
+
+            if (Battlegrounds.IsInsideBattleground)
+            {
+                includeTargets = PvpIncludeTargetsFilter;
+                removeTargets = PvpRemoveTargetsFilter;
+                weighTargets = PvpWeighTargetsFilter;
+            }
+            else if (IsInGroup)
+            {
+                includeTargets = GroupIncludeTargetsFilter;
+                removeTargets = GroupRemoveTargetsFilter;
+                weighTargets = GroupWeighTargetsFilter;
+            }
+            else
+            {
+                includeTargets = SoloIncludeTargetsFilter;
+                removeTargets = SoloRemoveTargetsFilter;
+                weighTargets = SoloWeighTargetsFilter;
+            }
+
+            Targeting.Instance.IncludeTargetsFilter += includeTargets;
+            Targeting.Instance.RemoveTargetsFilter += removeTargets;
+            Targeting.Instance.WeighTargetsFilter += weighTargets;
+        }
+
+        private static void TargetFilterClear()
+        {
+            if (includeTargets != null)
+                Targeting.Instance.IncludeTargetsFilter -= includeTargets;
+            if (removeTargets != null)
+                Targeting.Instance.RemoveTargetsFilter -= removeTargets;
+            if (weighTargets != null)
+                Targeting.Instance.WeighTargetsFilter -= weighTargets;
+
+            includeTargets = null;
+            removeTargets = null;
+            weighTargets = null;
+        }
+
+#if WE_DONT_NEED
+        private static void IncludeTargetsFilter(List<WoWObject> incomingUnits, HashSet<WoWObject> outgoingUnits)
         {
             if ( Battlegrounds.IsInsideBattleground )
                 PvpIncludeTargetsFilter( incomingUnits, outgoingUnits );
@@ -72,6 +114,7 @@ namespace Styx.Bot.CustomBots
 
             // Dump("WeighTargetsFilter", units);
         }
+#endif
 
         private static void GroupIncludeTargetsFilter(List<WoWObject> incomingUnits, HashSet<WoWObject> outgoingUnits)
         {
@@ -81,7 +124,7 @@ namespace Styx.Bot.CustomBots
             {
                 foreach (var unit in incomingUnits.Select(obj => obj.ToUnit()))
                 {
-                    if (unit.HealthPercent == 100 || !unit.Combat)
+                    if (unit.Combat && unit.GotTarget && unit.CurrentTarget.IsTargetingMyPartyMember )
                         continue;
 
                     outgoingUnits.Add(unit);
@@ -89,9 +132,12 @@ namespace Styx.Bot.CustomBots
             }
             else
             {
+                if (!Me.Combat)
+                    return;
+
                 foreach (var unit in incomingUnits.Select(obj => obj.ToUnit()))
                 {
-                    if (!Me.Combat && (unit.DistanceSqr > 30 * 30 || !unit.InLineOfSpellSight ))
+                    if (unit.IsAlive && (unit.DistanceSqr > 30 * 30 || !unit.InLineOfSpellSight ))
                         continue;
 
                     outgoingUnits.Add(unit);
@@ -101,104 +147,39 @@ namespace Styx.Bot.CustomBots
 
         private static void GroupRemoveTargetsFilter(List<WoWObject> units)
         {
-            // no, I'm not the tank
-            if (GetGroupRoleAssigned(Me) != WoWPartyMember.GroupRole.Tank)
-            {
-                WoWUnit tank = null;
-                var tankInfo = Me.PartyMemberInfos.FirstOrDefault(p => p.HasRole(WoWPartyMember.GroupRole.Tank)) ??
-                           Me.PartyMemberInfos.OrderBy(p => p.HealthMax).FirstOrDefault();
-
-                if (tankInfo != null)
-                    tank = tankInfo.ToPlayer();
-
-                if (tank == null)
-                {
-                    // no tank
-                    units.RemoveAll(obj =>
-                        {
-                            var u = obj as WoWUnit;
-                            return 
-                                   u == null || !obj.IsValid 
-                                || !IsValidEnemyTarget( u)
-                                || !u.Aggro
-                                || !u.InLineOfSpellSight
-                                || u.ControllingPlayer != null;
-                        });
-                }
-                else
-                {
-                    // no tank
-                    units.RemoveAll(obj =>
-                        {
-                            var u = obj as WoWUnit;
-                            return
-                                u == null || !u.IsValid
-                                || !IsValidEnemyTarget(u)
-                                || !u.InLineOfSpellSight
-                                || u.ControllingPlayer != null;
-                        });
-                }
-
-                return;
-            }
-
-            // yep, I'm the tank
             units.RemoveAll(obj =>
-            {
-                if (obj == null || !obj.IsValid )
-                    return true;
+                {
+                    var u = obj as WoWUnit;
+                    return 
+                            u == null || !obj.IsValid 
+                        || !IsEnemy( u)
+                        || !u.InLineOfSpellSight
+                        || u.ControllingPlayer != null;
+                });
 
-                if (!(obj is WoWUnit))
-                    return true;
-
-                // Summon stalker something
-                if (obj.Entry == 53488)
-                    return true;
-
-                var unit = obj as WoWUnit;
-                if ( !unit.CanSelect || !unit.IsAlive || unit.ControllingPlayer != null )
-                    return true;
-
-                if ( IsEnemyPlayer(unit))
-                    return false;
-                    
-                if ( unit.IsFriendly 
-                    || unit.IsNonCombatPet 
-                    || !unit.Attackable 
-                    || unit.IsCritter 
-                    )
-                    return true;
-
-                return false;
-            });
+            return;
         }
 
         private static void GroupWeighTargetsFilter(List<Targeting.TargetPriority> units)
         {
             bool ImaTank = GetGroupRoleAssigned(Me) == WoWPartyMember.GroupRole.Tank;
-            foreach (var p in units)
+            foreach (var o in units)
             {
-                WoWUnit u = p.Object.ToUnit();
+                WoWUnit u = o.Object.ToUnit();
 
-                // bad boi.
-                p.Score = 100;
-
-                p.Score -= u.Distance;
+                o.Score = 100;
+                o.Score -= u.Distance;
                 if (ImaTank)
                 {
                     if (u.IsTargetingMyPartyMember)
-                        p.Score += 100;
+                        o.Score += 100;
                 }
-                else
+                else if ( u.Combat && u.GotTarget && u.CurrentTarget.IsPlayer )
                 {
-                    if (Me.Combat)
-                    {
-                        p.Score += PlayersAttacking(u);
-                    }
-                    else
-                    {
-                        p.Score -= u.HealthPercent;
-                    }
+                    if (Tank.Guid == u.CurrentTarget.Guid)
+                        o.Score += 200;
+                    else if ( GetGroupRoleAssigned(u.CurrentTarget.ToPlayer()) == WoWPartyMember.GroupRole.Tank )
+                        o.Score += 100;
                 }
             }
         }
@@ -207,7 +188,7 @@ namespace Styx.Bot.CustomBots
         {
             foreach (var unit in incomingUnits.Select(obj => obj.ToUnit()))
             {
-                if (unit.DistanceSqr > 40 * 40 || !unit.InLineOfSpellSight)
+                if ( unit.IsAlive && (unit.DistanceSqr > 40 * 40 || !unit.InLineOfSpellSight))
                 {
                     continue;
                 }
@@ -227,7 +208,14 @@ namespace Styx.Bot.CustomBots
                     return true;
 
                 var unit = obj.ToUnit();
-                if (  !IsValidEnemyTarget(unit) || unit.ControllingPlayer != null )
+
+                if (!unit.IsAlive)
+                    return true;
+
+                if (!IsEnemy(unit) || unit.ControllingPlayer != null)
+                    return true;
+
+                if (unit.IsPet || unit.CreatedByUnit != null)
                     return true;
 
                 return false;
@@ -236,11 +224,14 @@ namespace Styx.Bot.CustomBots
 
         private static void PvpWeighTargetsFilter(List<Targeting.TargetPriority> units)
         {
+            WoWPlayer t = Tank.Player;
             foreach (var p in units)
             {
                 WoWUnit u = p.Object.ToUnit();
-                p.Score = 100;
-                p.Score -= u.HealthPercent;
+                p.Score = 100 - u.HealthPercent;
+
+                if (t != null && t.CurrentTargetGuid == u.Guid )
+                    p.Score += 200;
             }
         }
 
@@ -248,22 +239,11 @@ namespace Styx.Bot.CustomBots
         {
             foreach (var unit in incomingUnits.Select(obj => obj.ToUnit()))
             {
-                if (GetGroupRoleAssigned( Me ) != WoWPartyMember.GroupRole.Tank)
+                if (!Me.Combat)
                 {
-                    // Im not a tank
-                    if (unit.HealthPercent == 100 || !unit.Combat)
+                    if (!unit.IsAlive || unit.DistanceSqr > 30 * 30 || !unit.InLineOfSight)
                     {
                         continue;
-                    }
-                }
-                else
-                {
-                    if (!Me.Combat)
-                    {
-                        if (unit.DistanceSqr > 30 * 30 || !unit.InLineOfSight)
-                        {
-                            continue;
-                        }
                     }
                 }
                 outgoingUnits.Add(unit);
@@ -272,33 +252,6 @@ namespace Styx.Bot.CustomBots
 
         private static void SoloRemoveTargetsFilter(List<WoWObject> units)
         {
-            // no, I'm not the tank
-            if (GetGroupRoleAssigned(Me) != WoWPartyMember.GroupRole.Tank)
-            {
-                WoWUnit tank = null;
-                var tankInfo = Me.PartyMemberInfos.FirstOrDefault(p => p.HasRole(WoWPartyMember.GroupRole.Tank)) ??
-                           Me.PartyMemberInfos.OrderBy(p => p.HealthMax).FirstOrDefault();
-
-                if (tankInfo != null)
-                    tank = tankInfo.ToPlayer();
-
-                if (tank == null)
-                {
-                    units.RemoveAll( obj =>
-                           obj.ToUnit() == null
-                        || !obj.ToUnit().IsAlive 
-                        || !obj.ToUnit().Aggro 
-                        || !obj.ToUnit().Attackable 
-                        || !obj.ToUnit().InLineOfSpellSight
-                        || !StyxWoW.Me.IsSafelyFacing(obj)
-                        || obj.ToUnit().IsNonCombatPet
-                        || obj.ToUnit().IsCritter 
-                        || obj.ToUnit().ControllingPlayer != null 
-                        );
-                }
-            }
-
-            // yep, I'm the tank
             units.RemoveAll(obj =>
             {
                 if (!obj.IsValid)
@@ -312,14 +265,7 @@ namespace Styx.Bot.CustomBots
                     return true;
 
                 var unit = obj.ToUnit();
-                if (   unit == null 
-                    || unit.Dead 
-                    || unit.IsFriendly 
-                    || unit.IsNonCombatPet 
-                    || !unit.Attackable 
-                    || unit.IsCritter 
-                    || unit.ControllingPlayer != null
-                    )
+                if (   unit == null || !IsEnemy(unit))
                     return true;
 
                 return false;
@@ -331,27 +277,7 @@ namespace Styx.Bot.CustomBots
             foreach (var p in units)
             {
                 WoWUnit u = p.Object.ToUnit();
-
-                // bad boi.
-                p.Score = 100;
-
-                p.Score -= u.Distance;
-                if (GetGroupRoleAssigned(Me) == WoWPartyMember.GroupRole.Tank)
-                {
-                    if (u.IsTargetingMyPartyMember)
-                        p.Score += 100;
-                }
-                else
-                {
-                    if (Me.Combat)
-                    {
-                        p.Score += PlayersAttacking(u);
-                    }
-                    else
-                    {
-                        p.Score -= u.HealthPercent;
-                    }
-                }
+                p.Score = 100 - u.HealthPercent;
             }
         }
 
@@ -360,7 +286,7 @@ namespace Styx.Bot.CustomBots
             return Me.PartyMembers.Count(p => p.CurrentTarget != null && p.CurrentTarget == unit) * 100;
         }
 
-        public static bool IsValidEnemyTarget(WoWUnit u)
+        public static bool IsEnemy(WoWUnit u)
         {
             return u != null
                 && u.CanSelect
@@ -378,7 +304,7 @@ namespace Styx.Bot.CustomBots
         private static bool IsEnemyPlayer(WoWUnit u)
         {
             return u.IsPlayer 
-                && (u.ToPlayer().IsHorde != StyxWoW.Me.IsHorde || (Battlegrounds.IsInsideBattleground && u.ToPlayer().BattlefieldArenaFaction != StyxWoW.Me.BattlefieldArenaFaction ));
+                && (u.ToPlayer().IsHorde != StyxWoW.Me.IsHorde || (Battlegrounds.IsInsideBattleground && !u.ToPlayer().IsInMyPartyOrRaid ));
         }
 
         private static void Dump(string tag, List<Targeting.TargetPriority> units)

@@ -11,27 +11,24 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Drawing;
-using System.Threading;
 using System.Diagnostics;
-
-using Levelbot.Actions.Combat;
-using Styx.Combat.CombatRoutine;
-using Styx.Helpers;
-using Styx.Logic;
-using Styx.Logic.BehaviorTree;
-using Styx.Logic.Combat;
-using Styx.Logic.Pathing;
-using Styx.Logic.POI;
-using Styx.WoWInternals.WoWObjects;
-using TreeSharp;
-using CommonBehaviors.Actions;
-using Action = TreeSharp.Action;
-using Sequence = TreeSharp.Sequence;
-using Styx.WoWInternals;
-
+using System.Linq;
+using System.Threading;
+using System.Windows.Media;
 using Bobby53;
+using CommonBehaviors.Actions;
+using Levelbot.Actions.Combat;
+using Styx.Common;
+using Styx.CommonBot;
+using Styx.CommonBot.POI;
+using Styx.CommonBot.Routines;
+using Styx.Helpers;
+using Styx.Pathing;
+using Styx.TreeSharp;
+using Styx.WoWInternals;
+using Styx.WoWInternals.WoWObjects;
+using Action = Styx.TreeSharp.Action;
+using Sequence = Styx.TreeSharp.Sequence;
 
 namespace Styx.Bot.CustomBots
 {
@@ -39,7 +36,7 @@ namespace Styx.Bot.CustomBots
     {
         #region Overrides of BotBase
 
-        private readonly Version _version = new Version(2, 0, 3);
+        private readonly Version _version = new Version(2, 0, 11);
 
         public override string Name
         {
@@ -47,15 +44,15 @@ namespace Styx.Bot.CustomBots
         }
 
         public static LocalPlayer Me { get { return StyxWoW.Me; } }
-        public static bool IsInGroup { get { return Me.IsInRaid || Me.IsInParty; } }
-        public static List<WoWPlayer> GroupMembers { get { return !Me.IsInRaid ? Me.PartyMembers : Me.RaidMembers; } }
-        public static List<WoWPartyMember> GroupMemberInfos { get { return !Me.IsInRaid ? Me.PartyMemberInfos : Me.RaidMemberInfos; } }
+        public static bool IsInGroup { get { return Me.GroupInfo.IsInRaid || Me.GroupInfo.IsInParty; } }
+        public static List<WoWPlayer> GroupMembers { get { return !Me.GroupInfo.IsInRaid ? Me.PartyMembers : Me.RaidMembers; } }
+        public static IEnumerable<WoWPartyMember> GroupMemberInfos { get { return !Me.GroupInfo.IsInRaid ? Me.GroupInfo.PartyMembers : Me.GroupInfo.RaidMembers; } }
 
 
         public static WoWPoint _lastDest;
+        public static bool haveFoundTankAtGroupForming;
         public static bool IamTheTank = false;
         public static byte PreviousTicksPerSecond;
-        public static bool UsesBT = false;
 
         public static bool Paused = false;
 
@@ -77,14 +74,31 @@ namespace Styx.Bot.CustomBots
             {
                 if (_root == null)
                 {
-                    _root = new PrioritySelector(
-                                new Decorator(ret => Paused, new ActionAlwaysSucceed()),
-                                new Decorator(ret => !(Me.Mounted && CharacterSettings.Instance.UseMount && LazyRaiderSettings.Instance.DismountOnlyWithTankOrUser),
-                                    CreateRestBuffCombatBehavior()
-                                    ),
-                                CreateDetectTankBehavior(),
-                                CreateFollowBehavior()
-                                );
+                    if (LazyRaiderSettings.Instance.RaidBot)
+                    {
+                        _root = new Decorator(
+                            ret => StyxWoW.Me.Combat,
+                            new FrameLockSelector(
+                                RoutineManager.Current.HealBehavior,
+                                RoutineManager.Current.CombatBuffBehavior,
+                                new Decorator(
+                                    ret => StyxWoW.Me.GotTarget && !StyxWoW.Me.CurrentTarget.IsFriendly,
+                                    RoutineManager.Current.CombatBehavior
+                                    )
+                                )
+                            );
+                    }
+                    else
+                    {
+                        _root = new PrioritySelector(
+                                    new Decorator(ret => Paused, new ActionAlwaysSucceed()),
+                                    new Decorator(ret => !(Me.Mounted && LazyRaiderSettings.Instance.DismountOnlyWithTankOrUser),
+                                        CreateRestBuffCombatBehavior()
+                                        ),
+                                    CreateDetectTankBehavior(),
+                                    CreateFollowBehavior()
+                                    );
+                    }
                 }
                 return _root;
             }
@@ -101,8 +115,23 @@ namespace Styx.Bot.CustomBots
         public override void Initialize()
         {
             Log("Version {0} initialized", _version);
+            if (RoutineManager.Current == null)
+                Dlog("no combatclass is loaded");
+            else
+                Dlog("{0} Combat Class: {1} loaded", RoutineManager.Current.Class.ToString(), RoutineManager.Current.Name);
+
+            Dlog("=== Active Plugins");
+            if (CharacterSettings.Instance.EnabledPlugins != null)
+            {
+                foreach (string pi in CharacterSettings.Instance.EnabledPlugins)
+                {
+                    Dlog("{0}", pi);
+                }
+            }
+
+            Dlog("");
             LazyRaiderSettings.Instance.Load();
-            Logic.Profiles.ProfileManager.LoadEmpty();
+            Styx.CommonBot.Profiles.ProfileManager.LoadEmpty();
             RefreshSettingsCache();
             Log("Blank Profile loaded");
 
@@ -117,7 +146,7 @@ namespace Styx.Bot.CustomBots
             // set pulseFlags
             pulseFlags = PulseFlags.Objects | PulseFlags.Lua;
 
-            if (LazyRaiderSettings.Instance.AutoTarget)
+            if (LazyRaiderSettings.Instance.AutoTarget && !LazyRaiderSettings.Instance.RaidBot)
                 pulseFlags |= PulseFlags.Targeting;
 
             if (!LazyRaiderSettings.Instance.DisablePlugins)
@@ -126,12 +155,18 @@ namespace Styx.Bot.CustomBots
             // set the FPS to use
             TreeRoot.TicksPerSecond = (byte)LazyRaiderSettings.Instance.FPS;
 
+            Dlog("RaidBot set to {0}", LazyRaiderSettings.Instance.RaidBot);
             Dlog("NoTank set to {0}", LazyRaiderSettings.Instance.NoTank);
             Dlog("FollowTank set to {0}", LazyRaiderSettings.Instance.FollowTank);
             Dlog("FollowDistance set to {0}", LazyRaiderSettings.Instance.FollowDistance);
             Dlog("AutoTankSelect set to {0}", LazyRaiderSettings.Instance.AutoTankSelect);
             Dlog("AutoTarget set to {0}", LazyRaiderSettings.Instance.AutoTarget);
-            Log("FPS={0}, DisablePlugins={1}, LockMemory={2}, PauseKey={3}", LazyRaiderSettings.Instance.FPS, LazyRaiderSettings.Instance.DisablePlugins, LazyRaiderSettings.Instance.LockMemory, LazyRaiderSettings.Instance.PauseKey );
+            if (LazyRaiderSettings.Instance.RaidBot)
+                Log("RaidBot mode active, all targeting/following disabled");
+            else if (LazyRaiderSettings.Instance.PauseKey == LazyRaiderSettings.Keypress.None)
+                Log("FPS={0}, DisablePlugins={1}, LockMemory={2}, NoPauseKey", LazyRaiderSettings.Instance.FPS, LazyRaiderSettings.Instance.DisablePlugins, LazyRaiderSettings.Instance.LockMemory);
+            else
+                Log("FPS={0}, DisablePlugins={1}, LockMemory={2}, PauseKey={3}", LazyRaiderSettings.Instance.FPS, LazyRaiderSettings.Instance.DisablePlugins, LazyRaiderSettings.Instance.LockMemory, LazyRaiderSettings.Instance.PauseKey );
         }
 
         public override void Start()
@@ -141,18 +176,20 @@ namespace Styx.Bot.CustomBots
 
             Dlog("Start: currfps={0:F0} maxfps={1} combat={2} oldtps={3}", GetFramerate(), MaxFPS(), Me.Combat, TreeRoot.TicksPerSecond);
             BotEvents.Player.OnMapChanged += Player_OnMapChanged;
-            Targeting.Instance.IncludeTargetsFilter += IncludeTargetsFilter;
-            Targeting.Instance.RemoveTargetsFilter += RemoveTargetsFilter;
-            Targeting.Instance.WeighTargetsFilter += WeighTargetsFilter;
+
+            TargetFilterSetup();
+            
             Lua.Events.AttachEvent("PARTY_MEMBERS_CHANGED", HandlePartyMembersChanged);
             Lua.Events.AttachEvent("MODIFIER_STATE_CHANGED", HandleModifierStateChanged);
-            StyxSettings.Instance.LogoutForInactivity = false;
+            Styx.Helpers.GlobalSettings.Instance.LogoutForInactivity = false;
             Log("Version {0} Started", _version);
 
             if (Paused)
-                Log(Color.Orange, "LazyRaider currently PAUSED - Press {0} in WOW to continue...", LazyRaiderSettings.Instance.PauseKey.ToString());
-            else 
-                Log(Color.Orange, "Pause LazyRaider anytime by pressing {0} key in WOW", LazyRaiderSettings.Instance.PauseKey.ToString());
+                Log(Colors.Orange, "LazyRaider currently PAUSED - Press {0} in WOW to continue...", LazyRaiderSettings.Instance.PauseKey.ToString());
+            else if (LazyRaiderSettings.Instance.PauseKey != LazyRaiderSettings.Keypress.None)
+                Log(Colors.Orange, "Pause LazyRaider anytime by pressing {0} key in WOW", LazyRaiderSettings.Instance.PauseKey.ToString());
+            else
+                Log(Colors.Orange, "LazyRaider Pause feature disabled, user has not selected a pause key");
 
             _lastDest = new WoWPoint();
         }
@@ -162,11 +199,11 @@ namespace Styx.Bot.CustomBots
             TreeRoot.TicksPerSecond = PreviousTicksPerSecond;
             Lua.Events.DetachEvent("MODIFIER_STATE_CHANGED", HandleModifierStateChanged);
             Lua.Events.DetachEvent("PARTY_MEMBERS_CHANGED", HandlePartyMembersChanged);
-            Targeting.Instance.IncludeTargetsFilter -= IncludeTargetsFilter;
-            Targeting.Instance.RemoveTargetsFilter -= RemoveTargetsFilter;
-            Targeting.Instance.WeighTargetsFilter -= WeighTargetsFilter;
+
+            TargetFilterClear();
+            
             BotEvents.Player.OnMapChanged -= Player_OnMapChanged;
-            StyxSettings.Instance.LogoutForInactivity = true;
+            Styx.Helpers.GlobalSettings.Instance.LogoutForInactivity = true;
             Log("Version {0} Stopped", _version);
         }
 
@@ -176,12 +213,7 @@ namespace Styx.Bot.CustomBots
 
         public static bool IsGameStable()
         {
-            return ObjectManager.IsInGame && Me != null && Me.IsValid;
-        }
-
-        public static bool IsBtBasedCombatClass()
-        {
-            return !(RoutineManager.Current.CombatBehavior is TreeSharp.Action);
+            return StyxWoW.IsInGame && Me != null && Me.IsValid;
         }
 
         public static int MaxFPS()
@@ -225,7 +257,7 @@ namespace Styx.Bot.CustomBots
 
         public static void Log(string msg, params object[] args)
         {
-            Log(Color.Gold, msg, args);
+            Log(Colors.Gold, msg, args);
         }
 
         public static void Log(Color clr, string msg, params object[] args)
@@ -238,8 +270,8 @@ namespace Styx.Bot.CustomBots
             catch (ThreadAbortException) { throw; }
             catch (Exception e)
             {
-                Logging.Write(Color.Red, "An Exception occured. Check debug log for details.");
-                Logging.WriteDebug(">>> EXCEPTION: occurred logging msg: \n\t\"" + SafeLogException(msg) + "\"");
+                Logging.Write(Colors.Red, "An Exception occured. Check debug log for details.");
+                Logging.WriteDiagnostic(">>> EXCEPTION: occurred logging msg: \n\t\"" + SafeLogException(msg) + "\"");
                 Logging.WriteException(e);
             }
         }
@@ -249,13 +281,13 @@ namespace Styx.Bot.CustomBots
             try
             {
                 // following linecount hack is to stop dup line suppression of Log window
-                Logging.WriteDebug("+LazyRaider+ " + msg + (((++lineCount) & 1) == 0 ? "" : " "), args);
+                Logging.WriteDiagnostic ("+LazyRaider+ " + msg + (((++lineCount) & 1) == 0 ? "" : " "), args);
             }
             catch (ThreadAbortException) { throw; }
             catch (Exception e)
             {
-                Logging.Write(Color.Red, "An Exception occured. Check debug log for details.");
-                Logging.WriteDebug(">>> EXCEPTION: occurred logging msg: \n\t\"" + SafeLogException(msg) + "\"");
+                Logging.Write(Colors.Red, "An Exception occured. Check debug log for details.");
+                Logging.WriteDiagnostic (">>> EXCEPTION: occurred logging msg: \n\t\"" + SafeLogException(msg) + "\"");
                 Logging.WriteException(e);
             }
         }
@@ -395,47 +427,61 @@ namespace Styx.Bot.CustomBots
         private static Composite CreateCombatBehaviorContent()
         {
             return new PrioritySelector(
-                new Decorator(ret => LazyRaiderSettings.Instance.AutoTarget && Targeting.Instance.FirstUnit != null,
+                new Decorator(ret => LazyRaiderSettings.Instance.AutoTarget 
+                                    && (!LazyRaiderSettings.Instance.AutoTargetOnlyIfNotValidTarget || !IsEnemy(Me.CurrentTarget))
+                                    && Targeting.Instance.FirstUnit != null,
                     new PrioritySelector(
                         new Decorator(
-                            ret => BotPoi.Current == null
-                                || BotPoi.Current.AsObject == null
-                                || BotPoi.Current.AsObject.ToUnit() == null
-                                || BotPoi.Current.Type == PoiType.None,
+                            ret => !Targeting.Instance.FirstUnit.IsAlive,
                             new Sequence(
-                                new Action(ret => Dlog("Setting POI to best target.")),
+                                new Action(ret => Log("Best Target dead, identifying new targets.")),
+                                new Action(ret => Targeting.Instance.Pulse())
+                                )
+                            ),
+
+                        new Decorator(
+                            ret => BotPoi.Current == null || BotPoi.Current.AsObject == null || BotPoi.Current.AsObject.ToUnit() == null || BotPoi.Current.Type == PoiType.None,
+                            new Sequence(
+                                new Action(ret => Log("Setting POI to best target.")),
                                 new ActionSetPoi(true, ret => new BotPoi(Targeting.Instance.FirstUnit, PoiType.Kill)))),
 
                         new Decorator(
-                            ret => BotPoi.Current.AsObject.ToUnit() != Targeting.Instance.FirstUnit,
+                            ret => !BotPoi.Current.AsObject.ToUnit().IsAlive,
                             new Sequence(
-                                new Action(ret => Dlog("Current POI is not the best target. Changing.")),
+                                new Action(ret => Log("Dead POI, switching to best target.")),
                                 new ActionSetPoi(true, ret => new BotPoi(Targeting.Instance.FirstUnit, PoiType.Kill)))),
+
+                        // Make sure we have the proper unit as target
+                        new Decorator(
+                            ret => Me.CurrentTarget == null || !Me.CurrentTarget.IsAlive,
+                            new Sequence(
+                                new Action(ret => Log("Setting current POI {0} as target", BotPoi.Current.Name)),
+                                new Action(ret => BotPoi.Current.AsObject.ToUnit().Target()),
+
+                        // new Action(ret => TargetTimer.Reset()),
+                                new WaitContinue(
+                                    1,
+                                    ret => Me.CurrentTarget != null && Me.CurrentTarget == BotPoi.Current.AsObject.ToUnit(),
+                                    new ActionAlwaysSucceed())
+                                )
+                            ),
 
                         // Make sure we have the proper unit as target
                         new Decorator(
                             ret => Me.CurrentTarget == null || Me.CurrentTarget != BotPoi.Current.AsObject.ToUnit(),
                             new Sequence(
+                                new Action(ret => Log("Setting current POI as target")),
                                 new Action(ret => BotPoi.Current.AsObject.ToUnit().Target()),
                 // new Action(ret => TargetTimer.Reset()),
                                 new WaitContinue(
-                                    2,
+                                    1,
                                     ret => Me.CurrentTarget != null && Me.CurrentTarget == BotPoi.Current.AsObject.ToUnit(),
                                     new ActionAlwaysSucceed())
-                                ))
+                                )
+                            )
                         )
                     ),
 
-                RoutineManager.Current.HealBehavior,
-                RoutineManager.Current.CombatBuffBehavior,
-                RoutineManager.Current.CombatBehavior,
-                new ActionAlwaysSucceed()
-                );
-        }
-
-        private static Composite CreateCombatBehaviorNonBT()
-        {
-            return new PrioritySelector(
                 RoutineManager.Current.HealBehavior,
                 RoutineManager.Current.CombatBuffBehavior,
                 RoutineManager.Current.CombatBehavior,
@@ -466,9 +512,14 @@ namespace Styx.Bot.CustomBots
                     RaFHelper.ClearLeader();
                 }
 
-                // user always wants to control choosing so bail whether tank or not
+                // user wants to control choosing new when we lost tank
                 if (!LazyRaiderSettings.Instance.AutoTankSelect)
-                    return false;
+                {
+                    if (haveFoundTankAtGroupForming)
+                    {
+                        return false;
+                    }
+                }
 
                 // have Tank, so keep it until user changes
                 if (Tank.Current != null && Tank.Current.IsOnline)
@@ -483,6 +534,8 @@ namespace Styx.Bot.CustomBots
                                        select pm).FirstOrDefault();
                 if (tank != null)
                 {
+                    haveFoundTankAtGroupForming = true;
+
                     Tank.Current = tank;
                     Log("Tank set to {0} based upon role", LazyRaider.Safe_UnitName(Tank.Current));
                     TreeRoot.StatusText = String.Format("[lr] tank is {0}", Safe_UnitName(tank));
@@ -512,125 +565,33 @@ namespace Styx.Bot.CustomBots
             }
         }
 
-        static bool haveWeChecked;
-
-        private static bool DoWeNeedToFindLeader()
-        {
-            // check flag that avoids spamming check log message
-            if (haveWeChecked)
-                return false;
-
-            if (Tank.Current == null && LazyRaiderSettings.Instance.NoTank)
-                return false;
-
-            return Tank.Current == null;
-        }
-
-        private static RunStatus DetectTheTank()
-        {
-            haveWeChecked = true;
-            IamTheTank = (GetGroupRoleAssigned(Me) == WoWPartyMember.GroupRole.Tank);
-
-            if (IamTheTank)
-            {
-                Log("Tank set to -ME-, max health {0}", Me.MaxHealth);
-                Tank.Guid = Me.Guid;
-                Tank.SetAsLeader();
-                return RunStatus.Failure;
-            }
-
-            if (LazyRaiderSettings.Instance.NoTank)
-            {
-                Log("No Tank option enabled");
-                Tank.Clear();
-                return RunStatus.Failure;
-            }
-
-            if (!IsInGroup)
-            {
-                Log("Not in group, no tank needed");
-                Tank.Clear();
-                return RunStatus.Failure;
-            }
-
-            if (RaFHelper.Leader != null && !RaFHelper.Leader.IsValid)
-            {
-                Dlog("DetectTheTank: RaFHelper.Leader invalid, resetting");
-                Tank.Clear();
-            }
-
-            // find one if no tank or autochoose and current not tank role
-            if (RaFHelper.Leader == null)
-            {
-                Dlog("DetectTheTank: RaFHelper.Leader null, so searching");
-            }
-            else if (LazyRaiderSettings.Instance.AutoTankSelect && WoWPartyMember.GroupRole.Tank != GetGroupRoleAssigned(RaFHelper.Leader))
-            {
-                Dlog("DetectTheTank: RaFHelper.Leader not a tank role and AutoTankSelect enabled, so searching");
-            }
-            else
-            {
-                Dlog("DetectTheTank: current RaFHelper.Leader is best option");
-                return RunStatus.Failure;
-            }
-
-            WoWPartyMember tank = (from pm in GroupMemberInfos
-                                   where GetGroupRoleAssigned(pm) == WoWPartyMember.GroupRole.Tank && pm.Guid != Me.Guid
-                                   orderby pm.Location3D.Distance(Me.Location) ascending
-                                   select pm).FirstOrDefault();
-
-            if (tank != null)
-            {
-                WoWPlayer p = tank.ToPlayer();
-                if (p != null)
-                    Log("Tank set to {0}, max health {1} based upon Group Role/Proximity", p.Class, p.MaxHealth);
-                else
-                    Log("Tank set to max health {0} {1:F1} yds away based upon Group Role/Proximity", tank.HealthMax, tank.Location3D.Distance(StyxWoW.Me.Location));
-            }
-            else
-            {
-                tank = (from pm in GroupMemberInfos
-                        where pm.Guid != Me.Guid
-                        orderby pm.HealthMax descending
-                        select pm).FirstOrDefault();
-                if (tank != null)
-                {
-                    Log("Tank set to {0}, max health {1} based upon Max Health", tank.ToPlayer().Class, tank.HealthMax);
-                }
-            }
-
-            if (tank != null)
-            {
-                Tank.Current = tank;
-                if (tank.ToPlayer() != null)
-                {
-                    Dlog("DetectTheTank:  setting selected tank {0} as leader", Safe_UnitName(tank.ToPlayer()));
-                    Tank.SetAsLeader();
-                }
-                else
-                {
-                    Dlog("DetectTheTank:  no WoWPlayer object exists for Tank, so can't share with CC yet");
-                }
-
-                return RunStatus.Failure;
-            }
-
-            if (IsInGroup)
-            {
-                Log(Color.Red, "Could not find suitable unit to Tank!");
-            }
-
-            return RunStatus.Failure;
-        }
-
         private void Player_OnMapChanged(BotEvents.Player.MapChangedEventArgs args)
         {
             _root = null;
+            TargetFilterSetup();
         }
+
+        private enum InGroupState { Undefined, YES, NO };
+        private InGroupState checkLast = InGroupState.Undefined;
 
         private void HandlePartyMembersChanged(object sender, LuaEventArgs args)
         {
-            // not really used at the moment
+            if (haveFoundTankAtGroupForming)
+            {
+                if (!IsInGroup)
+                {
+                    haveFoundTankAtGroupForming = false;
+                    Dlog("we left group so resetting tank search");
+                }
+            }
+
+            InGroupState checkNow = IsInGroup ? InGroupState.YES : InGroupState.NO;
+            if (checkLast != checkNow)
+            {
+                checkLast = checkNow;
+                Dlog("in group status changed to: {0}", checkNow.ToString());
+                TargetFilterSetup();
+            }
         }
 
         private void HandleModifierStateChanged(object sender, LuaEventArgs args)
@@ -645,11 +606,11 @@ namespace Styx.Bot.CustomBots
                     Paused = !Paused;
                     if ( Paused )
                     {
-                        Log(Color.Orange, "LazyRaider PAUSED, press {0} in WOW to continue", LazyRaiderSettings.Instance.PauseKey.ToString());
+                        Log(Colors.Orange, "LazyRaider PAUSED, press {0} in WOW to continue", LazyRaiderSettings.Instance.PauseKey.ToString());
                     }
                     else 
                     {
-                        Log(Color.Orange, "LazyRaider Running....");
+                        Log(Colors.Orange, "LazyRaider Running....");
                     }
                 }   
             }
@@ -703,7 +664,7 @@ namespace Styx.Bot.CustomBots
         public static string GetGroupRoleAssigned(WoWPlayer p)
         {
             string sRole = "NONE";
-            if (ObjectManager.Me.IsInParty || ObjectManager.Me.IsInRaid)
+            if (StyxWoW.Me.GroupInfo.IsInParty || StyxWoW.Me.GroupInfo.IsInRaid)
             {
                 try
                 {                   
@@ -719,12 +680,13 @@ namespace Styx.Bot.CustomBots
             return sRole;
         }
 #else
+        const int ROLEMASK = (int)WoWPartyMember.GroupRole.None | (int)WoWPartyMember.GroupRole.Tank | (int)WoWPartyMember.GroupRole.Healer | (int)WoWPartyMember.GroupRole.Damage;
+
         public static WoWPartyMember.GroupRole GetGroupRoleAssigned(WoWPartyMember pm)
         {
             WoWPartyMember.GroupRole role = WoWPartyMember.GroupRole.None;
-            if (pm != null && IsInGroup)
+            if (pm != null)
             {
-                const int ROLEMASK = (int)WoWPartyMember.GroupRole.None | (int)WoWPartyMember.GroupRole.Tank | (int)WoWPartyMember.GroupRole.Healer | (int)WoWPartyMember.GroupRole.Damage;
                 role = (WoWPartyMember.GroupRole)((int)pm.Role & ROLEMASK);
             }
 
@@ -736,12 +698,17 @@ namespace Styx.Bot.CustomBots
             WoWPartyMember.GroupRole role = WoWPartyMember.GroupRole.None;
             if (p != null && IsInGroup)
             {
-                // GroupMemberInfos.FirstOrDefault(t => t.Guid == p.Guid);
-                WoWPartyMember pm = new WoWPartyMember(p.Guid, true);
-                if (pm != null)
-                    role = GetGroupRoleAssigned(pm);
+                if (p.IsMe)
+                {
+                    role = (WoWPartyMember.GroupRole)((int)Me.Role & ROLEMASK);
+                }
+                else
+                {
+                    WoWPartyMember pm = GroupMemberInfos.FirstOrDefault(t => t.Guid == p.Guid);
+                    if (pm != null)
+                        role = GetGroupRoleAssigned(pm);
+                }
             }
-
             return role;
         }
 #endif
@@ -789,15 +756,19 @@ namespace Styx.Bot.CustomBots
                                     || (RaFHelper.Leader != null && !RaFHelper.Leader.InLineOfSpellSight),
                     new Action(delegate
                     {
-                        botMovement = true;
-
                         WoWPoint pt = Tank.Location;
-                        if (pt != _lastDest || !Me.IsMoving)
+                        if (pt.DistanceSqr(_lastDest) > 1 || !Me.IsMoving)
                         {
                             _lastDest = pt;
+                            WoWPoint newPoint = WoWMovement.CalculatePointFrom(pt, (float) 0.85 * LazyRaiderSettings.Instance.FollowDistance);
                             Log("move to tank @ {0:F1} yds", pt.Distance(Me.Location));
-                            // Navigator.MoveTo(pt);
-                            Flightor.MoveTo(pt);
+                            
+                            if ( RaFHelper.Leader != null && RaFHelper.Leader.Mounted && (RaFHelper.Leader.IsFlying || RaFHelper.Leader.IsSwimming) )
+                                Flightor.MoveTo(newPoint);
+                            else 
+                                Navigator.MoveTo(newPoint);
+
+                            botMovement = true;
                         }
 
                         return RunStatus.Success;
@@ -872,11 +843,11 @@ namespace Styx.Bot.CustomBots
             var timeOut = new Stopwatch();
             timeOut.Start();
 
-            if (MountHelper.Mounts.Count() == 0 || !Mount.CanMount())
+            if (Mount.Mounts.Count() == 0 || !Mount.CanMount())
                 return;
 
             Log("Attempting to mount via HB...");
-            Mount.MountUp();
+            Mount.MountUp( LazyLocationRetriever );
             StyxWoW.SleepForLagDuration();
 
             while (IsGameStable() && Me.CurrentHealth > 1 && Me.IsCasting)
@@ -894,6 +865,11 @@ namespace Styx.Bot.CustomBots
             {
                 Log("Mounted");
             }
+        }
+
+        public static WoWPoint LazyLocationRetriever()
+        {
+            return WoWPoint.Empty;
         }
 
         public static void WaitForStop()
@@ -924,6 +900,11 @@ namespace Styx.Bot.CustomBots
             } while (IsGameStable() && Me.CurrentHealth > 1 && Me.IsMoving);
         }
 
+        public static bool IsMelee(WoWPlayer p)
+        {
+            return p.Intellect < (p.Strength + p.Agility);
+        }
+
 
         public class FrameLockSelector : PrioritySelector
         {
@@ -932,15 +913,14 @@ namespace Styx.Bot.CustomBots
             {
             }
 
-            public override RunStatus Tick(object context)
-            {
-                using (new FrameLock())
-                {
-                    return base.Tick(context);
-                }
+            public override RunStatus Tick(object context) 
+            { 
+                using (StyxWoW.Memory.AcquireFrame()) 
+                { 
+                    return base.Tick(context); 
+                } 
             }
         }
-
     }
 }
 

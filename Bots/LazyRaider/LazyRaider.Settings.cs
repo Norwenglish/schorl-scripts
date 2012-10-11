@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Styx.Common;
 
 namespace Bobby53
 {
@@ -32,7 +33,7 @@ namespace Bobby53
         }
 
         public LazyRaiderSettings () 
-            : base(Path.Combine(Logging.ApplicationPath, string.Format("Settings/LazyRaider_{0}.xml", StyxWoW.Me.Name)))
+            : base(Path.Combine(Utilities.AssemblyDirectory, string.Format("Settings/LazyRaider_{0}.xml", StyxWoW.Me.Name)))
         {
         }
 
@@ -46,11 +47,14 @@ namespace Bobby53
         [Setting, DefaultValue(10)]
         public int FollowDistance { get; set; }
 
-        [Setting, DefaultValue(true)]
+        [Setting, DefaultValue(false)]
         public bool AutoTankSelect { get; set; }
 
         [Setting, DefaultValue(false)]
         public bool AutoTarget { get; set; }
+
+        [Setting, DefaultValue(false)]
+        public bool AutoTargetOnlyIfNotValidTarget { get; set; }
 
         [Setting, DefaultValue(true)]
         public bool DismountOnlyWithTankOrUser { get; set; }
@@ -66,5 +70,9 @@ namespace Bobby53
 
         [Setting, DefaultValue( Keypress.None ) ]
         public Keypress PauseKey { get; set; }
+
+        [Setting, DefaultValue(false)]
+        public bool RaidBot { get; set; }
+
     }
 }
