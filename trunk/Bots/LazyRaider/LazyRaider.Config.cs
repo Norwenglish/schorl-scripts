@@ -2,22 +2,19 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
+using System.Windows.Media;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
 using Styx.Helpers;
-using Styx.Logic;
-using Styx.Logic.BehaviorTree;
-using Styx.Logic.Combat;
-using Styx.Logic.Pathing;
-using Styx.Logic.POI;
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
 
 using Bobby53;
 using System.Collections;
+using Styx.CommonBot;
+using Styx.Common;
 
 namespace Styx.Bot.CustomBots
 {
@@ -98,11 +95,11 @@ namespace Styx.Bot.CustomBots
 
             AddRow(LazyRaider.Me.Guid, "-ME-", LazyRaider.Me.Class.ToString(), LazyRaider.GetGroupRoleAssigned(LazyRaider.Me).ToString(), LazyRaider.Me.MaxHealth.ToString());
 
-            if (ObjectManager.IsInGame && ObjectManager.Me != null)
+            if (StyxWoW.IsInGame && StyxWoW.Me != null)
             {
                 ObjectManager.Update();
 
-                LazyRaider.Dlog("-- Group Count: {0}", LazyRaider.GroupMemberInfos.Count);
+                LazyRaider.Dlog("-- Group Count: {0}", LazyRaider.GroupMemberInfos.Count());
 
                 foreach (WoWPartyMember pm in LazyRaider.GroupMemberInfos)
                 {
@@ -162,6 +159,7 @@ namespace Styx.Bot.CustomBots
                 chkAutoSelectTank.Checked = LazyRaiderSettings.Instance.AutoTankSelect;
                 chkAutoFollow.Checked = LazyRaiderSettings.Instance.FollowTank;
                 chkAutoTarget.Checked = LazyRaiderSettings.Instance.AutoTarget;
+                chkAutoTargetOnlyIfNotValid.Checked = LazyRaiderSettings.Instance.AutoTargetOnlyIfNotValidTarget;
                 numFollowDistance.Value = LazyRaiderSettings.Instance.FollowDistance;
 
                 LoadComboBoxWithEnum<LazyRaiderSettings.Keypress>(cboKeyPause);
@@ -170,12 +168,18 @@ namespace Styx.Bot.CustomBots
                 chkDisablePlugins.Checked = LazyRaiderSettings.Instance.DisablePlugins;
                 chkLockMemory.Checked = LazyRaiderSettings.Instance.LockMemory;
                 numFPS.Value = LazyRaiderSettings.Instance.FPS;
+                chkRaidBotLikeBehavior.Checked = LazyRaiderSettings.Instance.RaidBot;
 
                 LoadListView();
 
                 chkRunWithoutTank.Checked = LazyRaiderSettings.Instance.NoTank;
-                chkDisableTank_CheckedChanged(sender, e);
-                listView.Focus();
+
+                HandleEnablingOfControls();
+
+                if (listView.Enabled)
+                    listView.Focus();
+                else
+                    chkRaidBotLikeBehavior.Focus();
             }
             else
             {
@@ -184,12 +188,16 @@ namespace Styx.Bot.CustomBots
                 LazyRaiderSettings.Instance.FollowDistance = (int)numFollowDistance.Value;
                 LazyRaiderSettings.Instance.AutoTankSelect = chkAutoSelectTank.Checked;
                 LazyRaiderSettings.Instance.AutoTarget = chkAutoTarget.Checked;
-                LazyRaiderSettings.Instance.PauseKey = (LazyRaiderSettings.Keypress) GetComboBoxEnum(cboKeyPause);
+                LazyRaiderSettings.Instance.AutoTargetOnlyIfNotValidTarget = chkAutoTargetOnlyIfNotValid.Checked;
+                LazyRaiderSettings.Instance.PauseKey = (LazyRaiderSettings.Keypress)GetComboBoxEnum(cboKeyPause);
                 LazyRaiderSettings.Instance.DisablePlugins = chkDisablePlugins.Checked;
                 LazyRaiderSettings.Instance.LockMemory = chkLockMemory.Checked;
                 LazyRaiderSettings.Instance.FPS = (int)numFPS.Value;
+                LazyRaiderSettings.Instance.RaidBot = chkRaidBotLikeBehavior.Checked;
+
                 LazyRaiderSettings.Instance.Save();
 
+                // now force a hot reinitialize
                 LazyRaider.RefreshSettingsCache();
             }
 
@@ -214,12 +222,7 @@ namespace Styx.Bot.CustomBots
 
         private void chkDisableTank_CheckedChanged(object sender, EventArgs e)
         {
-            chkAutoFollow.Enabled = !chkRunWithoutTank.Checked;
-            lblFollowDistance.Enabled = !chkRunWithoutTank.Checked;
-            numFollowDistance.Enabled = !chkRunWithoutTank.Checked;
-            btnSetLeader.Enabled = !chkRunWithoutTank.Checked;
-            listView.Enabled = !chkRunWithoutTank.Checked;
-            btnRefresh.Enabled = !chkRunWithoutTank.Checked;
+            HandleEnablingOfControls();
         }
 
         private void listView_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -285,19 +288,37 @@ namespace Styx.Bot.CustomBots
             }
         }
 
-        private void btnMaxPerformance_Click(object sender, EventArgs e)
+        private void btnAutoSetup_Click(object sender, EventArgs e)
         {
-            int fps = (int) Math.Round(LazyRaider.GetFramerate());
+            chkRaidBotLikeBehavior.Checked = false;
+            chkRunWithoutTank.Checked = (LazyRaider.GetGroupRoleAssigned(StyxWoW.Me) == WoWPartyMember.GroupRole.Tank);
+
+            int fps = (int)Math.Round(LazyRaider.GetFramerate());
             if (fps < 15)
                 fps = 15;
-            else if (fps > 60)
-                fps = 60;
+            else if (fps > 30)
+                fps = 30;
 
             numFPS.Value = fps;
             chkDisablePlugins.Checked = true;
-
-            // if (RoutineManager.Current != null && RoutineManager.Current.Name.Substring(0, 7).ToUpper() != "SHAMWOW")
             chkLockMemory.Checked = true;
+         
+        }
+
+        private void btnRaidBotSettings_Click(object sender, EventArgs e)
+        {
+            chkRaidBotLikeBehavior.Checked = true;
+            chkDisablePlugins.Checked = true;
+            chkLockMemory.Checked = true;
+            numFPS.Value = 30;
+        }
+        
+        private void btnLowCpuSettings_Click(object sender, EventArgs e)
+        {
+            chkRaidBotLikeBehavior.Checked = false;
+            chkDisablePlugins.Checked = true;
+            chkLockMemory.Checked = false;
+            numFPS.Value = 15;
         }
 
         public static void LoadComboBoxWithEnum<T>(ComboBox cbo)
@@ -328,7 +349,7 @@ namespace Styx.Bot.CustomBots
             }
 
             item = (CboItem)cbo.Items[0];
-            Styx.Helpers.Logging.WriteDebug("Dialog Error: combobox {0} does not have enum({1}) in list, defaulting to enum({2})", cbo.Name, e, item.e);
+            Logging.WriteDiagnostic("Dialog Error: combobox {0} does not have enum({1}) in list, defaulting to enum({2})", cbo.Name, e, item.e);
             cbo.SelectedIndex = 0;
         }
 
@@ -355,14 +376,40 @@ namespace Styx.Bot.CustomBots
             }
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void cboKeyPause_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void cboKeyPause_SelectedIndexChanged(object sender, EventArgs e)
+        private void chkRaidBotLikeBehavior_CheckedChanged(object sender, EventArgs e)
         {
+            HandleEnablingOfControls();
+        }
 
+        private void chkAutoTarget_CheckedChanged(object sender, EventArgs e)
+        {
+            HandleEnablingOfControls();
+        }
+
+        private void HandleEnablingOfControls()
+        {
+            bool allowFeatures = !chkRaidBotLikeBehavior.Checked;
+            bool enableTank = !chkRunWithoutTank.Checked;
+
+            chkAutoTarget.Enabled = allowFeatures;
+            chkAutoTargetOnlyIfNotValid.Enabled = allowFeatures && chkAutoTarget.Checked;
+            chkRunWithoutTank.Enabled = allowFeatures;
+            lblPauseKey.Enabled = allowFeatures;
+            cboKeyPause.Enabled = allowFeatures;
+
+            chkAutoSelectTank.Enabled = allowFeatures && enableTank;
+            chkAutoFollow.Enabled = allowFeatures && enableTank;
+            numFollowDistance.Enabled = allowFeatures && enableTank;
+            lblFollowDistance.Enabled = allowFeatures && enableTank;
+
+            listView.Enabled = enableTank;
+            btnSetLeader.Enabled = enableTank;
+            btnRefresh.Enabled = enableTank;
         }
     }
 }

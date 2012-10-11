@@ -12,26 +12,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Drawing;
+using System.Windows.Media;
 using System.Threading;
 using System.Diagnostics;
 
 using Levelbot.Actions.Combat;
-using Styx.Combat.CombatRoutine;
+using Styx.CommonBot.Routines;
 using Styx.Helpers;
-using Styx.Logic;
-using Styx.Logic.BehaviorTree;
-using Styx.Logic.Combat;
-using Styx.Logic.Pathing;
-using Styx.Logic.POI;
 using Styx.WoWInternals.WoWObjects;
-using TreeSharp;
+using Styx.TreeSharp;
 using CommonBehaviors.Actions;
-using Action = TreeSharp.Action;
-using Sequence = TreeSharp.Sequence;
+using Action = Styx.TreeSharp.Action;
+using Sequence = Styx.TreeSharp.Sequence;
 using Styx.WoWInternals;
 
 using Bobby53;
+using Styx.CommonBot;
 
 namespace Styx.Bot.CustomBots
 {
@@ -63,6 +59,18 @@ namespace Styx.Bot.CustomBots
             set
             {
                 Tank.Guid = value == null ? 0 : value.Guid;
+            }
+        }
+
+        public static WoWPlayer Player
+        {
+            get
+            {
+                WoWPlayer p = null;
+                WoWPartyMember pm = Current;
+                if (pm != null)
+                    p = pm.ToPlayer();
+                return p;
             }
         }
 
