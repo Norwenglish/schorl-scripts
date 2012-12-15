@@ -1,10 +1,10 @@
-<HBProfile>
+﻿<HBProfile>
   <Name>_-*GB2*-_ Borean Thundra by Bengan12 v1.1</Name>
   <MinDurability>0.3</MinDurability>
   <MinFreeBagSlots>3</MinFreeBagSlots>
   
   <MinLevel>1</MinLevel>
-  <MaxLevel>86</MaxLevel>
+  <MaxLevel>90</MaxLevel>
   <Factions>99999</Factions>
   
   <MailGrey>False</MailGrey>
