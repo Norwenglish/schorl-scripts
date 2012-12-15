@@ -32,8 +32,7 @@ namespace HighVoltz.Composites
             if (_lootSw.IsRunning && _lootSw.ElapsedMilliseconds < 5000)
             {
                 // loot everything.
-                //if (LootFrame.Instance != null && LootFrame.Instance.IsVisible)
-                if (Lua.GetReturnVal<bool>("return LootFrame:IsVisible()",0))
+                if (AutoAngler.LootFrameIsOpen)
                 {
                     for (int i = 0; i < LootFrame.Instance.LootItems; i++)
                     {

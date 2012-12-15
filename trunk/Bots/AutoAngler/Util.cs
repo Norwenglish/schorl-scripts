@@ -74,8 +74,8 @@ namespace HighVoltz
             WoWItem mainHand = StyxWoW.Me.Inventory.Equipped.MainHand;
             if (mainHand == null || (mainHand.Entry != mainHandID && Utils.IsItemInBag(mainHandID)))
             {
-                is2Hand = Utils.GetIteminBag(AutoAngler.Instance.MySettings.MainHand).ItemInfo.InventoryType ==
-                          InventoryType.TwoHandWeapon;
+                var weapon = StyxWoW.Me.BagItems.FirstOrDefault(i => i.Entry == AutoAngler.Instance.MySettings.MainHand);
+                is2Hand = weapon.ItemInfo.InventoryType == InventoryType.TwoHandWeapon || weapon.ItemInfo.InventoryType == InventoryType.Ranged;
                 Utils.EquipItemByID(AutoAngler.Instance.MySettings.MainHand);
             }
 
