@@ -14,26 +14,28 @@ namespace HighVoltz
     {
         private static readonly Stopwatch _recastSW = new Stopwatch();
 
+        private static string[] _waterWalkingAbilities = {"Levitate", "Water Walking", "Path of Frost"};
+
         public static bool CanCast
         {
             get
             {
                 return AutoAngler.Instance.MySettings.UseWaterWalking &&
-                       (SpellManager.HasSpell(1706) || // priest levitate
-                        SpellManager.HasSpell(546) || // shaman water walking
-                        SpellManager.HasSpell(3714) || // Dk Path of frost
+                       (SpellManager.HasSpell("Levitate") || // priest levitate
+                        SpellManager.HasSpell("Water Walking") || // shaman water walking
+                        SpellManager.HasSpell("Path of Frost") || // Dk Path of frost
                         Utils.IsItemInBag(8827)); //isItemInBag(8827);
             }
         }
+
 
         public static bool IsActive
         {
             get
             {
                 // DKs have 2 Path of Frost auras. only one can be stored in WoWAuras at any time. 
-                return StyxWoW.Me.Auras.Values.
-                           Count(a => (a.SpellId == 11319 || a.SpellId == 1706 || a.SpellId == 546) &&
-                                      a.TimeLeft >= new TimeSpan(0, 0, 20)) > 0 ||
+
+                return StyxWoW.Me.Auras.Values.Any(a => (StyxWoW.Me.HasAura("Levitate") || StyxWoW.Me.HasAura("Water Walking")) && a.TimeLeft >= new TimeSpan(0, 0, 20)) ||
                        StyxWoW.Me.HasAura("Path of Frost");
             }
         }

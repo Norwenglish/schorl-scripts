@@ -56,7 +56,7 @@ namespace HighVoltz.Composites
 			
 			//Awesome panda lure
 			WoWItem pandalure = StyxWoW.Me.BagItems.FirstOrDefault(r => r.Entry == 85973);
-            if (pandalure != null)
+            if (pandalure != null && !_me.HasAura(125167))
             {
                 AutoAngler.Instance.Log("Appling awesome panda lure");
                 Utils.UseItemByID(85973);
