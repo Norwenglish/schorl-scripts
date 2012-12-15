@@ -12,9 +12,9 @@
 	<MailBlue>True</MailBlue>
 	<MailPurple>True</MailPurple>
 
-	<MinLevel>1</MinLevel>
-	<MaxLevel>86</MaxLevel>
-
+        <MinLevel>1</MinLevel>
+        <MaxLevel>101</MaxLevel>
+  
 	<Mailboxes>
 		<!-- Durotar -->
 		<Mailbox X="321.8162" Y="-4707.742" Z="14.555" />
