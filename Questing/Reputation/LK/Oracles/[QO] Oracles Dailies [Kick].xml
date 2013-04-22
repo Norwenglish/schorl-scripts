@@ -1,8 +1,8 @@
 ﻿<HBProfile>
-	<Name>[QO] Oracle Dailies[Kick]</Name>
+	<Name>[QO] Oracle Dailies[Kick] ($Rev: 2180 $)</Name>
    
 	<MinLevel>1</MinLevel>
-	<MaxLevel>86</MaxLevel>
+	<MaxLevel>200</MaxLevel>
    
 	<MinDurability>0.2</MinDurability>
 	<MinFreeBagSlots>2</MinFreeBagSlots>
@@ -132,7 +132,6 @@
 				<CustomBehavior File="FlyTo" Name="Oracles Base Camp" X="5653.112" Y="4579.119" Z="-137.1973" />
 				<CustomBehavior File="ForcedDismount" />
 			</If>
-			
 			
 			<If Condition="((!HasQuest(12704)) &amp;&amp; (!IsQuestCompleted(12704)))" >
 				<CustomBehavior File="FlyTo" Name="Oracles Base Camp" X="5653.112" Y="4579.119" Z="-137.1973" />

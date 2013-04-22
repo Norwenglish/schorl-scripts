@@ -1,8 +1,8 @@
 <HBProfile>
-    <Name>QO Fly Dummy Grind</Name> 
+    <Name>QO Fly Dummy Grind ($Rev: 2180 $)</Name> 
   
     <MinLevel>1</MinLevel> 
-    <MaxLevel>86</MaxLevel> 
+    <MaxLevel>200</MaxLevel> 
     
     <TargetElites>False</TargetElites>
 

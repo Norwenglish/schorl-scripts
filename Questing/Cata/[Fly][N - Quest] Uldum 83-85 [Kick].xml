@@ -1,7 +1,7 @@
-<HBProfile>
-	<Name>[Fly][N - Quest] Uldum 83-85 [Kick]</Name>
+<HBProfile> <!-- Developed by Kickazz006 -->
+	<Name>[Fly][N - Quest] Uldum 83-85 [Kick] ($Rev: 2244 $)</Name>
 	<MinLevel>83</MinLevel>
-	<MaxLevel>86</MaxLevel>
+	<MaxLevel>201</MaxLevel>
 
 	<MinDurability>0.2</MinDurability>
 	<MinFreeBagSlots>2</MinFreeBagSlots>
@@ -315,7 +315,7 @@
 			<!-- GoTo Uldum Quests -->
 		<CustomBehavior File="Message" Text="Compiling GoTo Uldum Quests" LogColor="Green" />
 		
-	<CustomBehavior File="UserSettings" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" LootMobs="True" PullDistance="25" GroundMountFarmingMode="False" KillBetweenHotspots="True" />
+	<CustomBehavior File="UserSettings" UseFlightPaths="False" LootMobs="True" PullDistance="25" GroundMountFarmingMode="False" KillBetweenHotspots="True" />
 
 			<If Condition="((!HasQuest(27003)) &amp;&amp; (!IsQuestCompleted(27003)))" >
 			<!-- Ally -->
@@ -387,7 +387,7 @@
 		<PickUp QuestName="Easy Money" GiverName="Adarrah" QuestId="27003" GiverId="44833" X="-8920.7" Y="-2261.42" Z="8.878302" />
 			<If Condition="((HasQuest(27003)) &amp;&amp; (!IsQuestCompleted(27003)))" >
 				<CustomBehavior File="InteractWith" QuestId="27003" MobId="46517" NumOfTimes="1" CollectionDistance="50" X="-8929.95" Y="-2265.47" Z="8.877192" />
-				<CustomBehavior File="WaitTimer" WaitTime="165000"/>
+				<CustomBehavior File="WaitTimer" WaitTime="165000"/> <!-- Cutscene can't be skipped -->
 			</If>
 		<TurnIn QuestName="Easy Money" TurnInName="Adarrah" QuestId="27003" TurnInId="46873" X="-10995" Y="-1258.1" Z="13.2436" />
 		<PickUp QuestName="Traitors!" GiverName="Prince Nadun" QuestId="27922" GiverId="46872" />
@@ -396,7 +396,7 @@
 				<CustomBehavior File="FlyTo" X="-10981.35" Y="-1358.778" Z="47.25735" />
 				<CustomBehavior File="FlyTo" X="-10966.13" Y="-1378.948" Z="35.53022" />
 				<CustomBehavior File="ForcedDismount" />
-				<CustomBehavior File="InteractWith" QuestId="27922" ObjectType="Gameobject" MobId="206579" NumOfTimes="1" CollectionDistance="50" X="-10966.13" Y="-1378.948" Z="35.53022" />
+				<CustomBehavior File="InteractWith" QuestId="27922" ObjectType="GameObject" MobId="206579" NumOfTimes="1" CollectionDistance="50" X="-10966.13" Y="-1378.948" Z="35.53022" />
 				<CustomBehavior File="WaitTimer" WaitTime="27000"/>
 				<RunTo X="-10962.53" Y="-1365.425" Z="35.26873" />
 			</If>
@@ -412,7 +412,7 @@
 			<Objective QuestName="Kavem the Callous" QuestId="28105" Type="Collect" CollectCount="1" ItemId="62817" />
 			<Objective QuestName="Budd's Plan" QuestId="27924" Type="Collect" CollectCount="6" ItemId="62821" />
 			<If Condition="((HasQuest(27923)) &amp;&amp; (!IsQuestCompleted(27923)))" >
-				<CustomBehavior File="UseItemOn" QuestId="27923" MobType="Gameobject" MobId="206684" ItemId="63027" NumOfTimes="7" Range="8" WaitTime="5000" CollectionDistance="500" X="-11120.94" Y="-1345.808" Z="10.80509" />
+				<CustomBehavior File="UseItemOn" QuestId="27923" MobType="GameObject" MobId="206684" ItemId="63027" NumOfTimes="7" Range="8" WaitTime="5000" CollectionDistance="500" X="-11120.94" Y="-1345.808" Z="10.80509" />
 			</If>
 			<If Condition="((HasQuest(27924)) &amp;&amp; (IsQuestCompleted(27924)))" >
 				<CustomBehavior File="FlyTo" X="-11003.75" Y="-1254.366" Z="13.24375" />
@@ -424,13 +424,15 @@
 		<PickUp QuestName="Escape From the Lost City" GiverName="Prince Nadun" QuestId="28112" GiverId="46872" />
 		<!--
 			<If Condition="(HasQuest(28112))" >
-				<CustomBehavior File="WaitTimer" WaitTime="45000"/>
+				<CustomBehavior File="WaitTimer" WaitTime="45000"/> // is this a cutscene?
 			</If>
 		-->
-		<TurnIn QuestName="Escape From the Lost City" TurnInName="King Phaoris" QuestId="28112" TurnInId="47684" X="-9380.082" Y="-958.9618" Z="113.7651" />
+		<TurnIn QuestName="Escape From the Lost City" TurnInName="King Phaoris" QuestId="28112" TurnInId="47684" X="-9380.082" Y="-958.9618" Z="113.7651" /> <!-- 200g reward - lets useitem after we complete quest -->
+			<If Condition="((!HasQuest(28134)) &amp;&amp; (!IsQuestCompleted(28134)))" >
 		<PickUp QuestName="Impending Retribution" GiverName="King Phaoris" QuestId="28134" GiverId="47684" />
-			<If Condition="((HasQuest(28134)) &amp;&amp; (!IsQuestCompleted(28134)))" >
 				<RunTo X="-9432.03" Y="-959.5723" Z="111.0111" />
+			</If>
+			<If Condition="((HasQuest(28134)) &amp;&amp; (!IsQuestCompleted(28134)))" >
 				<CustomBehavior File="FlyTo" X="-9172.73" Y="-839.019" Z="138.0982" />
 				<CustomBehavior File="InteractWith" QuestId="28134" MobId="47715" NumOfTimes="1" GossipOptions="1" WaitTime="1000" CollectionDistance="50" X="-9172.73" Y="-839.019" Z="138.0982" />
 		<PickUp QuestName="Venomblood Antidote" GiverName="Sun Priest Asaris" QuestId="28145" GiverId="47715" />
@@ -502,7 +504,7 @@
 		<TurnIn QuestName="Colossal Guardians" QuestId="27623" TurnInName="Sand-Covered Hieroglyphs" TurnInId="205874" X="-9903.598" Y="-14.33918" Z="54.44276" />
 		<Pickup QuestName="The Scepter of Orsis" QuestId="27706" GiverName="Sand-Covered Hieroglyphs" GiverId="205874" GiverType="Object" X="-9903.598" Y="-14.33918" Z="54.44276" />
 			<If Condition="((HasQuest(27706)) &amp;&amp; (!IsQuestCompleted(27706)))" >
-				<CustomBehavior File="InteractWith" QuestId="27706" ObjectType="Gameobject" MobId="205824" Range="5" NumOfTimes="1" CollectionDistance="50" X="-9903.598" Y="-14.33918" Z="54.44276" />
+				<CustomBehavior File="InteractWith" QuestId="27706" ObjectType="GameObject" MobId="205824" Range="5" NumOfTimes="1" CollectionDistance="50" X="-9903.598" Y="-14.33918" Z="54.44276" />
 				<RunTo X="-9875.921" Y="-31.09443" Z="55.75531" />
 			</If>
 			<While Condition="((HasQuest(27519)) &amp;&amp; (!IsQuestCompleted(27519)))" >
@@ -526,7 +528,7 @@
 				<CustomBehavior File="FlyTo" X="-9448.21" Y="-961.5411" Z="111.0115" />
 				<CustomBehavior File="ForcedDismount" />
 		<TurnIn QuestName="Send Word to Phaoris" TurnInName="King Phaoris" QuestId="27628" TurnInId="47684" />
-				<CustomBehavior File="WaitTimer" WaitTime="90000"/>
+				<CustomBehavior File="WaitTimer" WaitTime="90000"/> <!-- cutscene, can be skipped -->
 			</If>
 		<PickUp QuestName="The High Priest's Vote" GiverName="Prince Nadun" QuestId="27630" GiverId="47959" />
 		<PickUp QuestName="The High Commander's Vote" GiverName="Prince Nadun" QuestId="27631" GiverId="47959" />
@@ -598,7 +600,7 @@
 				<CustomBehavior File="MyCTM" X="-9700.046" Y="-681.6902" Z="74.03061" />
 			</If>				
 			 <While Condition="((HasQuest(28611)) &amp;&amp; (!IsQuestCompleted(28611)))" >
-				<CustomBehavior File="Zakahn"  X="-9686.459" Y="-678.4603" Z="73.39355" />
+				<CustomBehavior File="SpecificQuests\28611-Uldum-TheDefilersRitual" X="-9686.459" Y="-678.4603" Z="73.39355" />
 				<!--
 				<CustomBehavior File="MyCTM" X="-9686.576" Y="-676.929" Z="73.39931" />
 				<CustomBehavior File="WaitTimer" WaitTime="1000" GoalText="Waiting for  {TimeRemaining}" />
@@ -660,7 +662,7 @@
 				<CustomBehavior File="FlyTo" DestName="Objective" X="-8953.03" Y="-1549.048" Z="94.4536" />
 				<CustomBehavior File="ForcedDismount" />
 				
-				<CustomBehavior File="InteractWith" QuestId="27141" ObjectType="Gameobject" MobId="205241" Range="5" CollectionDistance="50" X="-8947.323" Y="-1544.188" Z="94.4532" />
+				<CustomBehavior File="InteractWith" QuestId="27141" ObjectType="GameObject" MobId="205241" Range="5" CollectionDistance="50" X="-8947.323" Y="-1544.188" Z="94.4532" />
 				<CustomBehavior File="WaitTimer" WaitTime="45000"/>
 			</While>
 		<TurnIn QuestName="Premature Explosionation" TurnInName="Harrison Jones" QuestId="27141" TurnInId="45180" X="-9210.19" Y="-1557.09" Z="65.45232" />
@@ -707,34 +709,30 @@
 			<Objective QuestName="Tanotep's Son" QuestId="27632" Type="Collect" CollectCount="1" ItemId="62280" />
 		<TurnIn QuestName="Tanotep's Son" TurnInName="Vizier Tanotep" QuestId="27632" TurnInId="46136" />
 		<PickUp QuestName="Neferset Prison" GiverName="Vizier Tanotep" QuestId="27707" GiverId="46136" />
-			<While Condition="((HasQuest(27707)) &amp;&amp; (!IsQuestCompleted(27707)))" >
+			<If Condition="((HasQuest(27707)) &amp;&amp; (!IsQuestCompleted(27707)))" >
 				<CustomBehavior File="FlyTo" X="-11071.58" Y="-1972.61" Z="9.709328" />
-				<CustomBehavior File="InteractWith" QuestId="27707" MobId="46425" NumOfTimes="1" GossipOptions="1" WaitTime="1000" CollectionDistance="50" X="-11072.4" Y="-1972.38" Z="9.709246" />
-				<CustomBehavior File="WaitTimer" WaitTime="3000" GoalText="Waiting for quest to complete {TimeRemaining}" />
-
-				<CustomBehavior File="InteractWith" QuestId="27707" MobId1="46441" MobId2="46432" NumOfTimes="500" WaitForNpcs="False" CollectionDistance="20" WaitTime="1000" X="-11072.4" Y="-1972.38" Z="9.709246" />
+				<CustomBehavior File="ForcedDismount" />
+				<CustomBehavior File="EscortGroup" QuestId="27707" StartNpcId="46425" StartEscortGossipOptions="1" EscortNpcId="46425" EscortMaxFightDistance="30" EscortMaxFollowDistance="25" />
 				<CustomBehavior File="WaitTimer" WaitTime="5000" GoalText="Waiting for quest to complete {TimeRemaining}" />
-				<CustomBehavior File="InteractWith" QuestId="27707" MobId1="46441" MobId2="46432" NumOfTimes="500" WaitForNpcs="False" CollectionDistance="20" WaitTime="1000" X="-11072.4" Y="-1972.38" Z="9.709246" />
-				<!-- Need to tell escort to stop escorting if mob is dead
-				<CustomBehavior File="Escort" QuestId="27707" MobId="46425" X="1106.418" Y="-3104.472" Z="82.7077" />
-				-->
-				<CustomBehavior File="WaitTimer" WaitTime="5000" GoalText="Waiting for quest to complete {TimeRemaining}" />
-			</While>
+			</If>
 			<If Condition="((HasQuest(27707)) &amp;&amp; (IsQuestCompleted(27707)))" >
 				<CustomBehavior File="CompleteLogQuest" QuestId="27707" />
 				<CustomBehavior File="WaitTimer" WaitTime="5000" GoalText="Waiting for bot {TimeRemaining}" />
 			</If>
-				<!-- I need a no combat kite mob through eggs cb - uncomment this when we get behavior and delete 'new' place in file
+			<If Condition="((!HasQuest(27738)) &amp;&amp; (!IsQuestCompleted(27738)))" >
+				<CustomBehavior File="FlyTo" X="-10281.37" Y="-1070.68" Z="48.02217" />
+				<CustomBehavior File="ForcedDismount" />
+		<PickUp QuestName="The Pit of Scales" QuestId="27738" GiverName="Vizier Tanotep" GiverId="46136" />
+			</If>
 			<If Condition="((HasQuest(27738)) &amp;&amp; (!IsQuestCompleted(27738)))" >
-				<CustomBehavior File="FlyTo" X="-11452.82" Y="-1164.111" Z="17.70814" />
-				<CustomBehavior File="UserDialog" QuestId="27738" Title="title" AllowBotStop="True" SoundCue="Asterisk" SoundCueInterval="1" 
-				Text="Kill the Pit Master\n\nWatch out for the croc eggs in last phase\n\nPress continue after he's dead and I'll fly you back" />
+				<CustomBehavior File="FlyTo" X="-11410.45" Y="-1097.339" Z="5.171799" />
+				<CustomBehavior File="ForcedDismount" />
+				<CustomBehavior File="SpecificQuests\27738-Uldum-ThePitOfScales" />
 			</If>
 			<If Condition="((HasQuest(27738)) &amp;&amp; (IsQuestCompleted(27738)))" >
 				<CustomBehavior File="FlyTo" X="-10252.78" Y="-1071.176" Z="48.05891" />
 		<TurnIn QuestName="The Pit of Scales" QuestId="27738" TurnInName="Vizier Tanotep" TurnInId="46136" />
 			</If>
-				-->
 			<If Condition="(HasQuest(27631))" >
 				<CustomBehavior File="FlyTo" X="-9934.09" Y="-1205.88" Z="47.51041" />
 		<TurnIn QuestName="The High Commander's Vote" TurnInName="High Commander Kamses" QuestId="27631" TurnInId="46134" />
@@ -748,10 +746,10 @@
 		<PickUp QuestName="The Element of Supplies" GiverName="Sergeant Mehat" QuestId="28200" GiverId="48012" />
 		<TurnIn QuestName="The Weakest Link" TurnInName="Salhet" QuestId="28198" TurnInId="46883" />
 		<PickUp QuestName="Shaping Up" GiverName="Salhet" QuestId="28210" GiverId="46883" />
-			<If Condition="((HasQuest(28201)) &amp;&amp; (!IsQuestCompleted(28201)))" >
+			<While Condition="((HasQuest(28201)) &amp;&amp; (!IsQuestCompleted(28201)))" >
 				<CustomBehavior File="FlyTo" X="-10125.3" Y="-990.042" Z="45.69723" />
 				<CustomBehavior File="InteractWith" QuestId="28201" MobId="46333" NumOfTimes="8" GossipOptions="1" WaitTime="1000" CollectionDistance="50" X="-10125.3" Y="-990.042" Z="45.69723" />
-			</If>
+			</While>
 			<Objective QuestName="The Element of Supplies" QuestId="28200" Type="Collect" CollectCount="20" ItemId="63256" />
 		<TurnIn QuestName="Ploughshares to Swords" TurnInName="High Commander Kamses" QuestId="28201" TurnInId="46134" />
 		<TurnIn QuestName="The Element of Supplies" TurnInName="Sergeant Mehat" QuestId="28200" TurnInId="48012" />
@@ -865,10 +863,10 @@
 				<Objective QuestName="After the Fall" QuestId="27624" Type="Collect" CollectCount="1" ItemId="61977" />
 		<TurnIn QuestName="After the Fall" TurnInName="Harrison Jones" QuestId="27624" TurnInId="45296" />
 		<PickUp QuestName="Do the Honors" QuestId="27669" GiverName="Harrison Jones" GiverId="45296" />
-			<If Condition="((HasQuest(27669)) &amp;&amp; (!IsQuestCompleted(27669)))" >
+			<While Condition="((HasQuest(27669)) &amp;&amp; (!IsQuestCompleted(27669)))" >
 				<UseItem QuestName="Do the Honors" QuestId="27669" ItemId="62054" X="-9185.362" Y="-1553.415" Z="-172.5596" />
 				<CustomBehavior File="WaitTimer" WaitTime="30000"/>
-			</If>
+			</While>
 		<TurnIn QuestName="Do the Honors" TurnInName="Harrison Jones" QuestId="27669" TurnInId="48034" />
 			<If Condition="((HasQuest(28210)) &amp;&amp; (!IsQuestCompleted(28210)))" >
 				<CustomBehavior File="FlyTo" X="-10305.24" Y="-883.0914" Z="113.1477" />
@@ -890,20 +888,10 @@
 		<PickUp QuestName="Salhet the Tactician" GiverName="Salhet" QuestId="28277" GiverId="48237" />
 			<If Condition="((HasQuest(28277)) &amp;&amp; (!IsQuestCompleted(28277)))" >
 				<CustomBehavior File="InteractWith" QuestId="28277" MobId="48237" GossipOptions="1" X="-10606.8" Y="-1083.83" Z="155.2219" />
-				<CustomBehavior File="Lions" />
+				<CustomBehavior File="SpecificQuests\28277-Uldum-SalhetTheTactician" />
 			</If>
 		<TurnIn QuestName="Salhet the Tactician" TurnInName="Salhet" QuestId="28277" TurnInId="48237" />
 		<PickUp QuestName="Return to Camp" GiverName="Salhet" QuestId="28291" GiverId="48237" />
-				<!-- This is a temp place in file so we're closer to 84; delete when pitmaster behavior is developed -->
-			<If Condition="((HasQuest(27738)) &amp;&amp; (!IsQuestCompleted(27738)))" >
-				<CustomBehavior File="FlyTo" X="-11452.82" Y="-1164.111" Z="17.70814" />
-				<CustomBehavior File="UserDialog" QuestId="27738" Title="title" AllowBotStop="True" SoundCue="Asterisk" SoundCueInterval="1" 
-				Text="Kill the Pit Master\n\nWatch out for the croc eggs in last phase\n\nPress continue after he's dead and I'll fly you back" />
-			</If>
-			<If Condition="((HasQuest(27738)) &amp;&amp; (IsQuestCompleted(27738)))" >
-				<CustomBehavior File="FlyTo" X="-10252.78" Y="-1071.176" Z="48.05891" />
-		<TurnIn QuestName="The Pit of Scales" QuestId="27738" TurnInName="Vizier Tanotep" TurnInId="46136" />
-			</If>
 			<If Condition="(HasQuest(28291))" >
 				<CustomBehavior File="FlyTo" X="-9933.913" Y="-1206.416" Z="47.5052" />
 		<TurnIn QuestName="Return to Camp" TurnInName="High Commander Kamses" QuestId="28291" TurnInId="46134" />
@@ -955,7 +943,7 @@
 		<PickUp QuestName="The Defense of Nahom" GiverName="Salhet" QuestId="28501" GiverId="48761" />
 			<If Condition="((HasQuest(28501)) &amp;&amp; (!IsQuestCompleted(28501)))" >
 				<CustomBehavior File="InteractWith" QuestId="28501" MobId1="49228" X="-9766.647" Y="-1688.25" Z="22.25573" />
-				<CustomBehavior File="DefendTheCity" X="-9771.43" Y="-1702.41" Z="22.25561" />
+				<CustomBehavior File="SpecificQuests\28501-Uldum-TheDefenseOfNahom" X="-9771.43" Y="-1702.41" Z="22.25561" />
 				<CustomBehavior File="EjectVeh" Eject="True" />
 			</If>
 		<TurnIn QuestName="The Defense of Nahom" TurnInName="Salhet" QuestId="28501" TurnInId="48761" />
@@ -1002,6 +990,11 @@
 		<Pickup QuestName="Core Access Codes" QuestId="27777" GiverName="A. I. D.A. Terminal" GiverId="206293" GiverType="GameObject" X="-10691.36" Y="-2147.385" Z="104.4498" />
 			<While Condition="((HasQuest(27777)) &amp;&amp; (!IsQuestCompleted(27777)))" >
 				<CustomBehavior File="FlyTo" X="-10970.76" Y="-2092.311" Z="171.718" />
+ 	
+			<If Condition="(Me.Level &gt;= 86)" >
+	<CustomBehavior File="UserDialog" AllowBotStop="True" SoundCue="Exclamation" SoundCueInterval="5" Text="You are too high for this Combat UseItemOn quest, please manually do it!" />
+			</If>
+		
 				<CustomBehavior File="ForcedDismount" />
 				<CustomBehavior File="CombatUseItemOn" QuestId="27777" MobId="46587" ItemId="62542" MobHpPercentLeft="100" NumOfTimes="200" MaxRange="19" X="-10986.97" Y="-2100.066" Z="172.7457" />
 				<Objective QuestName="Core Access Codes" QuestId="27777" Type="CollectItem" ItemId="62399" CollectCount="1" />
@@ -1014,7 +1007,7 @@
 				<CustomBehavior File="WaitTimer" WaitTime="3000" GoalText="Waiting for item cd {TimeRemaining}" />
 				<CustomBehavior File="ForcedDismount" />
 				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(62398)" WaitTime="0" />
-				<CustomBehavior File="InteractWith" QuestId="27761" MobId="206397" ObjectType="Gameobject" Range="4.75"  WaitTime="300" />
+				<CustomBehavior File="InteractWith" QuestId="27761" MobId="206397" ObjectType="GameObject" Range="4.75"  WaitTime="300" />
 				
 				<CustomBehavior File="ForcedMount" MountType="Flying" />
 			 	<CustomBehavior File="FlyTo" DestName="Up" X="-10702.17" Y="-2455.62" Z="133.2423" />
@@ -1026,7 +1019,7 @@
 				<CustomBehavior File="WaitTimer" WaitTime="3000" GoalText="Waiting for item cd {TimeRemaining}" />
 				<CustomBehavior File="ForcedDismount" />
 				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(62398)" WaitTime="0" />
-				<CustomBehavior File="InteractWith" QuestId="27761" MobId="206396" ObjectType="Gameobject" Range="4.75" WaitTime="300"/>
+				<CustomBehavior File="InteractWith" QuestId="27761" MobId="206396" ObjectType="GameObject" Range="4.75" WaitTime="300"/>
 				
 				<CustomBehavior File="ForcedMount" MountType="Flying" />
 				<CustomBehavior File="FlyTo" DestName="Up"  X="-10678.92" Y="-2452.069" Z="110.3572" />
@@ -1038,7 +1031,7 @@
 				<CustomBehavior File="WaitTimer" WaitTime="3000" GoalText="Waiting for item cd {TimeRemaining}" />
 				<CustomBehavior File="ForcedDismount" />
 				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(62398)" WaitTime="0" />
-				<CustomBehavior File="InteractWith" QuestId="27761" MobId="206395" ObjectType="Gameobject" Range="4.75"  WaitTime="300"/>
+				<CustomBehavior File="InteractWith" QuestId="27761" MobId="206395" ObjectType="GameObject" Range="4.75"  WaitTime="300"/>
 				
 				<CustomBehavior File="ForcedMount" MountType="Flying" />
 				<CustomBehavior File="FlyTo" DestName="Up" X="-10591.21" Y="-2443.066" Z="114.61473" />
@@ -1046,7 +1039,7 @@
 			
 			 <If Condition="((HasQuest(27761)) &amp;&amp; (!IsObjectiveComplete(4, 27761)))">
 			  <While Condition="((HasQuest(27761)) &amp;&amp; (!IsObjectiveComplete(4, 27761)))">
-				<CustomBehavior File="BomberMan" />
+				<CustomBehavior File="SpecificQuests\27761-Uldum-ADisarmingDistraction" />
 			  </While>
 				<CustomBehavior File="FlyTo" DestName="Up" X="-10591.21" Y="-2443.066" Z="114.61473" />
 			 </If>
@@ -1065,7 +1058,7 @@
 				<CustomBehavior File="ForcedDismount" />
 				
 			 <While Condition="((HasQuest(27778)) &amp;&amp; (!IsQuestCompleted(27778)))" >
-				<CustomBehavior File="InteractWith" QuestId="27778" ObjectType="Gameobject" MobId="206532" Range="6" CollectionDistance="50" X="-10628.38" Y="-2329.397" Z="144.914" />
+				<CustomBehavior File="InteractWith" QuestId="27778" ObjectType="GameObject" MobId="206532" Range="6" CollectionDistance="50" X="-10628.38" Y="-2329.397" Z="144.914" />
 				<CustomBehavior File="InteractWith" QuestId="27778" MobId="46715" NumOfTimes="1" CollectionDistance="50" X="-10628.38" Y="-2329.397" Z="144.914" />
 				<CustomBehavior File="WaitTimer" WaitTime="11000"/>
 			 </While>
@@ -1073,7 +1066,7 @@
 		<TurnIn QuestName="Hacking the Wibson" QuestId="27778" TurnInName="Fusion Core" TurnInId="46750" X="-10641.33" Y="-2344.599" Z="144.8416" />
 		<PickUp QuestName="Gnomebliteration" GiverName="Fusion Core" QuestId="27779" GiverId="46750" />
 			<If Condition="((HasQuest(27779)) &amp;&amp; (!IsQuestCompleted(27779)))" >
-				<CustomBehavior File="KillGnomes" />
+				<CustomBehavior File="SpecificQuests\27779-Uldum-Gnomebliteration" />
 				<CustomBehavior File="EjectVeh" Eject="True" />
 			</If>
 			<If Condition="((HasQuest(27779)) &amp;&amp; (IsQuestCompleted(27779)))" >
@@ -1088,7 +1081,9 @@
 		<TurnIn QuestName="The Push Westward" TurnInName="King Phaoris" QuestId="28623" TurnInId="48564" />
 		<PickUp QuestName="Bleeding the Enemy" GiverName="King Phaoris" QuestId="28483" GiverId="48564" />
 		<PickUp QuestName="Lieutenants of Darkness" GiverName="King Phaoris" QuestId="28480" GiverId="48564" />
+			<If Condition="((!HasQuest(28486)) &amp;&amp; (!IsQuestCompleted(28486)))" >
 		<PickUp QuestName="Salhet's Gambit" GiverName="Salhet" QuestId="28486" GiverId="49345" />
+			</If>
 			<While Condition="((HasQuest(28486)) &amp;&amp; (!IsQuestCompleted(28486)))" >
 				<CustomBehavior File="FlyTo" X="-10970.18" Y="-905.196" Z="106.8122" />
 				<CustomBehavior File="ForcedDismount" />
@@ -1192,7 +1187,9 @@
 				<CustomBehavior File="FlyTo" X="-10673.33" Y="-454.8588" Z="376.9813" />
 				<CustomBehavior File="FlyTo" X="-10613.47" Y="-456.754" Z="275.1818" />
 				<CustomBehavior File="FlyTo" X="-10450.79" Y="-471.3387" Z="227.1408" />		
+			<While Condition="((HasQuest(27903)) &amp;&amp; (!IsQuestCompleted(27903)))" >
 				<UseItem QuestName="Ignition" QuestId="27903" ItemId="62611" X="-10455.86" Y="-478.7413" Z="228.1603" />
+			</While>
 				<Objective QuestName="Ignition" QuestId="27903" Type="Collect" CollectCount="1" ItemId="62705" />
 			</If>
 			<If Condition="((HasQuest(27903)) &amp;&amp; (IsQuestCompleted(27903)))" >
@@ -1225,14 +1222,20 @@
 				<RunTo X="-10697.36" Y="907.6794" Z="24.80945" />
 				<CustomBehavior File="FlyTo" X="-11045.16" Y="-367.5157" Z="18.3505" />
 				<CustomBehavior File="ForcedDismount" />
-				<CustomBehavior File="InteractWith" QuestId="27939" MobId="47201" NumOfTimes="1" CollectionDistance="500" X="-10864.21" Y="-109.3275" Z="20.31794" />
+				<CustomBehavior File="UserSettings" UseMount="False" />
+			 <While Condition="((HasQuest(27939)) &amp;&amp; (!IsQuestCompleted(27939)))" >
+				<CustomBehavior File="InteractWith" QuestId="27939" MobId="47201" NumOfTimes="100" Range="2" CollectionDistance="500" X="-10864.21" Y="-109.3275" Z="20.31794" />
+			 </While>
+				<CustomBehavior File="UserSettings" UseMount="True" />
 			</If>
 			<Objective QuestName="The Desert Fox" QuestId="27939" Type="Collect" CollectCount="1" ItemId="62777" />
 			<Objective QuestName="A Favor for the Furrier" QuestId="27928" Type="Collect" CollectCount="5" ItemId="62776" />
+			<!--
 			<If Condition="((HasQuest(27940)) &amp;&amp; (!IsQuestCompleted(27940)))" >
 				<CustomBehavior File="UserSettings" PullDistance="40" />
 				<Objective QuestName="Dirty Birds" QuestId="27940" Type="KillMob" MobId="47202" KillCount="8" />
 			</If>
+			-->
 			<If Condition="((HasQuest(27940)) &amp;&amp; (IsQuestCompleted(27940)))" >
 				<CustomBehavior File="UserSettings" PullDistance="25" />
 				<CustomBehavior File="CompleteLogQuest" QuestId="27940" />
@@ -1246,13 +1249,14 @@
 		<TurnIn QuestName="The Desert Fox" TurnInName="Commander Schnottz" QuestId="27939" TurnInId="47159" />
 		<PickUp QuestName="Idolatry" GiverName="Commander Schnottz" QuestId="27942" GiverId="47159" />
 		<PickUp QuestName="Angered Spirits" GiverName="Commander Schnottz" QuestId="27943" GiverId="47159" />
-			<!-- There are 2 Dirty birds quests on purpose -->
+			<!-- There are 2 Dirty birds quests on purpose 
 			<If Condition="((HasQuest(27940)) &amp;&amp; (!IsQuestCompleted(27940)))" >
 				<RunTo X="-10697.36" Y="907.6794" Z="24.80945" />
 				<CustomBehavior File="FlyTo" X="-11045.16" Y="-367.5157" Z="18.3505" />
 				<CustomBehavior File="ForcedDismount" />
 				<Objective QuestName="Dirty Birds" QuestId="27940" Type="KillMob" MobId="47202" KillCount="8" />
 			</If>
+			-->
 			<If Condition="((HasQuest(27940)) &amp;&amp; (IsQuestCompleted(27940)))" >
 				<CustomBehavior File="CompleteLogQuest" QuestId="27940" />
 			</If>
@@ -1260,6 +1264,11 @@
 				<RunTo X="-10697.36" Y="907.6794" Z="24.80945" />
 				<CustomBehavior File="FlyTo" X="-10554.47" Y="576.6568" Z="25.6509" />
 				<CustomBehavior File="ForcedDismount" />
+ 	
+			<If Condition="(Me.Level &gt;= 86)" >
+	<CustomBehavior File="UserDialog" AllowBotStop="True" SoundCue="Exclamation" SoundCueInterval="5" Text="You are too high for this Combat UseItemOn quest, please manually do it!" />
+			</If>
+		
 			  <While Condition="((HasQuest(27943)) &amp;&amp; (!IsQuestCompleted(27943)))" >
 				<CustomBehavior File="CombatUseItemOn" QuestId="27943" MobId="47220" ItemId="62794" MobHpPercentLeft="49" MaxRange="10" WaitTime="5000" X="-10639.89" Y="459.0928" Z="24.41246" />
 			  </While>
@@ -1324,7 +1333,7 @@
 				<RunTo X="-10695.45" Y="1117.557" Z="21.96807" />
 				<CustomBehavior File="InteractWith" QuestId="27990" MobId="47732" X="-10696.6" Y="1124.12" Z="21.46347" />
 			 </If>
-				<CustomBehavior File="Battlezone" />
+				<CustomBehavior File="SpecificQuests\27990-Uldum-Battlezone" />
 				<CustomBehavior File="WaitTimer" WaitTime="10000" GoalText="Waiting for objective to complete {TimeRemaining}" />
 			</If>
 			<If Condition="((HasQuest(27990)) &amp;&amp; (!IsObjectiveComplete(2, 27990)))">
@@ -1415,12 +1424,41 @@
 				<CustomBehavior File="ForcedDismount" />
 			</If>
 			<While Condition="((HasQuest(28351)) &amp;&amp; (!IsQuestCompleted(28351)))" >
-				<CustomBehavior File="CombatUseItemOn" MobId="51217" ItemId="67232" MobHpPercentLeft="25" MaxRange="5" NumOfTimes="3" WaitTime="1000" X="-9488.513" Y="608.8749" Z="151.5234" />
-				<CustomBehavior File="CombatUseItemOn" MobId="51217" ItemId="67232" MobHpPercentLeft="25" MaxRange="5" NumOfTimes="2" WaitTime="1000" X="-9112.144" Y="680.4509" Z="182.0577" />
+ 	
+			<If Condition="(Me.Level &gt;= 86)" >
+	<CustomBehavior File="UserDialog" AllowBotStop="True" SoundCue="Exclamation" SoundCueInterval="5" Text="You are too high for this Combat UseItemOn quest, please manually do it!" />
+			</If>
+		
+				<CustomBehavior File="CombatUseItemOnV2" QuestId="28351" ItemId="67232" ItemAppliesAuraId="94365" MobId="51217"
+					UseWhenMobHasHealthPercent="25" MaxRangeToUseItem="10" UseItemStrategy="UseItemOncePerTargetDontDefend" 
+					RecallPetAtMobPercentHealth="40" >
+					<HuntingGrounds WaypointVisitStrategy="Random" >
+						<Hotspot Name="NW of Temple of Uldum" X="-9223.614" Y="666.8814" Z="188.2858" />
+						<Hotspot Name="W of Temple of Uldum" X="-9401.372" Y="686.7933" Z="185.5984" />
+						<Hotspot Name="SW of Temple of Uldum" X="-9523.359" Y="618.4017" Z="137.2736" />
+						<Hotspot Name="S of Temple of Uldum (upper ridge)" X="-9589.536" Y="399.2485" Z="132.335" />
+						<Hotspot Name="SW of Temple of Uldum (lower ridge)" X="-9743.044" Y="579.4816" Z="75.00929" />
+					</HuntingGrounds>
+				</CustomBehavior>
 			</While>
 			<While Condition="((HasQuest(28352)) &amp;&amp; (!IsQuestCompleted(28352)))" >
-				<CustomBehavior File="CombatUseItemOn" MobId="51193" ItemId="67241" MobHpPercentLeft="20" MaxRange="5" NumOfTimes="2" WaitTime="1000" X="-9488.513" Y="608.8749" Z="151.5234" />
-				<CustomBehavior File="CombatUseItemOn" MobId="51193" ItemId="67241" MobHpPercentLeft="20" MaxRange="5" NumOfTimes="1" WaitTime="1000" X="-9112.144" Y="680.4509" Z="182.0577" />
+ 	
+			<If Condition="(Me.Level &gt;= 86)" >
+	<CustomBehavior File="UserDialog" AllowBotStop="True" SoundCue="Exclamation" SoundCueInterval="5" Text="You are too high for this Combat UseItemOn quest, please manually do it!" />
+			</If>
+		
+				<CustomBehavior File="CombatUseItemOnV2" QuestId="28352" ItemId="67241" ItemAppliesAuraId="94956" MobId="51193"
+					UseWhenMobHasHealthPercent="25" MaxRangeToUseItem="15" UseItemStrategy="UseItemOncePerTargetDontDefend"
+					RecallPetAtMobPercentHealth="50" >
+					<HuntingGrounds WaypointVisitStrategy="Random" >
+						<Hotspot Name="Sullah's Sideshow" X="-8986.617" Y="677.9194" Z="177.0783" />
+						<Hotspot Name="NW of Temple of Uldum" X="-9223.614" Y="666.8814" Z="188.2858" />
+						<Hotspot Name="W of Temple of Uldum" X="-9401.372" Y="686.7933" Z="185.5984" />
+						<Hotspot Name="SW of Temple of Uldum" X="-9523.359" Y="618.4017" Z="137.2736" />
+						<Hotspot Name="S of Temple of Uldum (upper ridge)" X="-9589.536" Y="399.2485" Z="132.335" />
+						<Hotspot Name="SW of Temple of Uldum (lower ridge)" X="-9743.044" Y="579.4816" Z="75.00929" />
+					</HuntingGrounds>
+				</CustomBehavior>
 			</While>
 			<Objective QuestName="Master Trapper" QuestId="28350" Type="Collect" CollectCount="5" ItemId="63541" />
 		<TurnIn QuestName="Master Trapper" TurnInName="Sullah" QuestId="28350" TurnInId="48431" />
@@ -1463,7 +1501,7 @@
 			</If>
 			<If Condition="((HasQuest(28367)) &amp;&amp; (!IsQuestCompleted(28367)))" >
 				<CustomBehavior File="FlyTo" X="-8780.344" Y="-45.74711" Z="212.6467" />
-				<CustomBehavior File="Shroud" />
+				<CustomBehavior File="SpecificQuests\28367-Uldum-ShroudOfTheMakers" />
 			</If>
 		<TurnIn QuestName="Shroud of the Makers" TurnInName="Harrison Jones" QuestId="28367" TurnInId="48186" />
 		<PickUp QuestName="Schnottz So Fast" QuestId="28402" GiverName="Harrison Jones" GiverId="48186" />
@@ -1545,7 +1583,7 @@
 				<CustomBehavior File="WaitTimer" WaitTime="6000"/>
 			 </If>
 			 <If Condition="(Me.IsOnTransport)" >
-				<CustomBehavior File="FireFromSky" QuestId="28497" />
+				<CustomBehavior File="SpecificQuests\28497-28736-Uldum-FireFromTheSky" QuestId="28497" />
 				<CustomBehavior File="EjectVeh" Eject="True" />
 			 </If>
 			</If>
@@ -1572,8 +1610,11 @@
 		<TurnIn QuestName="See You on the Other Side!" TurnInName="Harrison Jones" QuestId="28613" TurnInId="47158" X="-8680.61" Y="203.859" Z="338.8123" />
 		<PickUp QuestName="Fortune and Glory" QuestId="27748" GiverName="Harrison Jones" GiverId="47158" />
 			<While Condition="((HasQuest(27748)) &amp;&amp; (!IsQuestCompleted(27748)))" >
+				<CustomBehavior File="FlyTo" X="-8680.61" Y="203.859" Z="338.8123" />
+				<CustomBehavior File="InteractWith" QuestId="27748" MobId="47158" GossipOptions="1" X="-8680.61" Y="203.859" Z="338.8123" />
+				
 				<CustomBehavior File="FlyTo" X="-8766.942" Y="294.6902" Z="332.4811" />
-				<CustomBehavior File="FortuneAndGlory"/>
+				<CustomBehavior File="SpecificQuests\27748-Uldum-FortuneAndGlory"/>
 			</While>
 		<TurnIn QuestName="Fortune and Glory" QuestId="27748" TurnInName="Harrison Jones" TurnInId="49151" />
 			<If Condition="((!HasQuest(28612)) &amp;&amp; (!IsQuestCompleted(28612)))" >

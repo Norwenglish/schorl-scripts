@@ -1,5 +1,5 @@
-<HBProfile>
-	<Name>To Outland</Name>
+<HBProfile> <!-- Developed by Kickazz006 -->
+	<Name>To Outland ($Rev: 2184 $)</Name>
 	<MinDurability>0.1</MinDurability>
 	<MinFreeBagSlots>1</MinFreeBagSlots>
 	<MinLevel>1</MinLevel>
@@ -16,7 +16,7 @@
 	<QuestOrder>
 	
 			<If Condition="Me.MapId == 1">
-				<CustomBehavior File="InteractWith" MobId="195142" WaitTime="5000" ObjectType="Gameobject" X="1685.18" Y="-4123.42" Z="66.3376" />
+				<CustomBehavior File="InteractWith" MobId="195142" WaitTime="5000" ObjectType="GameObject" X="1685.18" Y="-4123.42" Z="66.3376" />
 			</If>
 			<If Condition="!IsQuestCompleted(9407)">
 		<PickUp QuestName="Through the Dark Portal" QuestId="9407" GiverName="Warlord Dar'toon" GiverId="19254" />

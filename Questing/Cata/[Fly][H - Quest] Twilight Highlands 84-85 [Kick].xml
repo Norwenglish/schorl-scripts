@@ -1,8 +1,8 @@
 <!-- Special thanks to JWLionking for originally making this profile and letting me use it -->
-<HBProfile>
-	<Name>[Fly][H - Quest] Twilight Highlands 84-85 [Kick]</Name>
+<HBProfile> <!-- Developed by Kickazz006 -->
+	<Name>[Fly][H - Quest] Twilight Highlands 84-85 [Kick] ($Rev: 2181 $)</Name>
 	<MinLevel>84</MinLevel>
-	<MaxLevel>86</MaxLevel>
+	<MaxLevel>201</MaxLevel>
 
 	<MinDurability>0.1</MinDurability>
 	<MinFreeBagSlots>2</MinFreeBagSlots>
@@ -26,6 +26,7 @@
 	</Mailboxes>
 	
 	<Blackspots>
+		<Blackspot X="-2792.596" Y="-6471.519" Z="218.3882" Radius="5" /> <!-- Faulty Valve -->
 		<Blackspot X="-4464.487" Y="-4357.538" Z="326.005" Radius="19.75997" />
 		<Blackspot X="-4460.329" Y="-4353.909" Z="317.0532" Radius="18.61523" />
 		<Blackspot X="-4471.412" Y="-4354.106" Z="327.1601" Radius="10" />
@@ -72,7 +73,7 @@
 		<Objective Type="CollectItem" ItemId="62325" CollectCount="10">
 			<CollectFrom>
 				<Mob Name="Wildhammer Warbrand" Id="46320" />
-				<Mob Name="Gunwald Greybeard" ID="46376" />
+				<Mob Name="Gunwald Greybeard" Id="46376" />
 			</CollectFrom>
 			<Hotspots>
 				<Hotspot X="-3660.377" Y="-4820.334" Z="80.95454" />
@@ -315,7 +316,7 @@
 
 	<QuestOrder IgnoreCheckPoints="True" >
 	
-	<CustomBehavior File="UserSettings" TrainNewSkills="False" LearnFlightPaths="False" UseFlightPaths="False" LootMobs="True" PullDistance="25" GroundMountFarmingMode="False" KillBetweenHotspots="True" />
+	<CustomBehavior File="UserSettings" UseFlightPaths="False" LootMobs="True" PullDistance="25" GroundMountFarmingMode="False" KillBetweenHotspots="True" />
 
 			<CustomBehavior File="Message" Text="Compiling Twilight Highlands Quests" LogColor="Green" />
 			
@@ -397,12 +398,21 @@
 				<CustomBehavior File="InteractWith" QuestId="26374" MobId="42646" NumOfTimes="20" WaitForNpcs="False" ObjectType="Npc" Range="3" WaitTime="2000" CollectionDistance="500" X="3451.123" Y="-6490.452" Z="20.23301" />
 			 </While>
 			</If>
-			<While Condition="((HasQuest(26337)) &amp;&amp; (!IsQuestCompleted(26337)))" >
+			<If Condition="((HasQuest(26337)) &amp;&amp; (!IsQuestCompleted(26337)))" >
+				<CustomBehavior File="FlyTo" X="3537.999" Y="-6473.897" Z="72.12472" />
+				<CustomBehavior File="MyCTM" X="3534.758" Y="-6513.478" Z="55.85126" />
+				<CustomBehavior File="ForcedDismount" />
+			 <While Condition="((HasQuest(26337)) &amp;&amp; (!IsQuestCompleted(26337)))" >
 				<CustomBehavior File="InteractWith" QuestId="26337" MobId="42777" GossipOptions="1" WaitTime="2000" CollectionDistance="500" X="3596.417" Y="-6466.063" Z="20.23352" />
-			</While>
+			 </While>
+				<RunTo X="3534.736" Y="-6510.957" Z="56.51529" />
+				<CustomBehavior File="ForcedMount" MountType="Flying" />
+				<CustomBehavior File="FlyTo" X="3537.999" Y="-6473.897" Z="72.12472" />
+				<CustomBehavior File="ForcedDismount" />
+			</If>
 			<While Condition="((HasQuest(26361)) &amp;&amp; (!IsQuestCompleted(26361)))" >
 				<CustomBehavior File="InteractWith" QuestId="26361" MobId="42644" WaitTime="4000" Range="8" CollectionDistance="500" X="3537.149" Y="-6430.683" Z="21.05468"  />
-				<CustomBehavior File="InteractWith" QuestId="26361" ObjectType="Gameobject" MobId="204091" WaitForNpcs="False" Range="7" CollectionDistance="400" X="3537.149" Y="-6430.683" Z="21.05468"  />			
+				<CustomBehavior File="InteractWith" QuestId="26361" ObjectType="GameObject" MobId="204091" WaitForNpcs="False" Range="7" CollectionDistance="400" X="3537.149" Y="-6430.683" Z="21.05468"  />			
 			</While>
 			<If Condition="((HasQuest(26361)) &amp;&amp; (IsQuestCompleted(26361)))" >
 				<CustomBehavior File="FlyTo" X="3501.908" Y="-6379.38" Z="11.49476"  />
@@ -550,11 +560,13 @@
 				<CustomBehavior File="FlyTo" X="-4058.622" Y="-6392.85" Z="37.90906"  />
 				<CustomBehavior File="ForcedDismount" />
 				
+			 <While Condition="((HasQuest(26549)) &amp;&amp; (!IsQuestCompleted(26549)))" >
 				<CustomBehavior File="MyCTM" X="-4089.12" Y="-6405.353" Z="38.91688" />
 				<CustomBehavior File="MyCTM" X="-4101.166" Y="-6392.615" Z="38.64572" />
 				<CustomBehavior File="MyCTM" X="-4107.851" Y="-6396.431" Z="38.64777" />
 				
-				<CustomBehavior File="WaitTimer" WaitTime="77000" GoalText="Waiting for speech {TimeRemaining}" />
+				<CustomBehavior File="WaitTimer" WaitTime="80000" GoalText="Waiting for speech {TimeRemaining}" />
+			 </While>
 			</If>
 		<TurnIn QuestName="Madness" QuestId="26549" TurnInName="Zaela" TurnInId="43190" />
 			<If Condition="((!HasQuest(26608)) &amp;&amp; (!IsQuestCompleted(26608)))" >
@@ -627,6 +639,10 @@
 		<TurnIn QuestId="26622" QuestName="Death to Mor'ghor" TurnInId="43943" TurnInName="Garrosh Hellscream"/>
 		<PickUp GiverId="43943" QuestId="26786" GiverName="Garrosh Hellscream" QuestName="Securing the Beach Head"/>
 		<PickUp GiverId="44042" QuestId="26788" GiverName="Ornak" QuestName="Cementing Our Victory"/>
+			<If Condition="((HasQuest(26786)) &amp;&amp; (IsQuestCompleted(26786)))" >
+				<CustomBehavior File="MyCTM" X="-4029.738" Y="-6362.524" Z="37.81041" />
+				<CustomBehavior File="MyCTM" X="-4047.402" Y="-6328.146" Z="38.17236" />
+			</If>
 		<TurnIn QuestId="26786" QuestName="Securing the Beach Head" TurnInId="44024" TurnInName="Artesh"/>
 			<If Condition="((!HasQuest(26784)) &amp;&amp; (!IsQuestCompleted(26784)))" >
 		<PickUp QuestName="Muddied Waters" QuestId="26784" GiverName="Artesh" GiverId="44024" />
@@ -647,8 +663,11 @@
 				<CustomBehavior File="ForcedDismount" />
 				
 		<TurnIn QuestId="26788" QuestName="Cementing Our Victory" TurnInId="44042" TurnInName="Ornak"/> 
-				<RunTo X="-4031.623" Y="-6359.18" Z="37.65055" />
-				<CustomBehavior File="MyCTM" X="-4051.87" Y="-6327.38" Z="38.17234" />
+			</If>
+			<If Condition="((HasQuest(26784)) &amp;&amp; (IsQuestCompleted(26784)))" >
+				<RunTo X="-4025.393" Y="-6369.26" Z="37.84912" />
+				<CustomBehavior File="MyCTM" X="-4029.738" Y="-6362.524" Z="37.81041" />
+				<CustomBehavior File="MyCTM" X="-4047.402" Y="-6328.146" Z="38.17236" />
 			</If>
 		<TurnIn QuestId="26784" QuestName="Muddied Waters" TurnInId="44024" TurnInName="Artesh"/>
 		<PickUp GiverId="44024" QuestId="26798" GiverName="Artesh" QuestName="The Warchief Will be Pleased"/> 
@@ -840,7 +859,7 @@
 			<If Condition="((HasQuest(28584)) &amp;&amp; (!IsQuestCompleted(28584)))" >
 				<CustomBehavior File="UserSettings" PullDistance="1" />
 			 <While Condition="((HasQuest(28584)) &amp;&amp; (!IsQuestCompleted(28584)))" >
-				<CustomBehavior File="UseItemOn" QuestId="28584" MobType="GameObject" MobId="207298" ItemId="65146" NumOfTimes="20" Range="8" CollectionDistance="1000" X="-2732.719" Y="-6533.096" Z="200.749" />
+				<CustomBehavior File="UseItemOn" QuestId="28584" MobType="GameObject" MobId="207298" ItemId="65146" NumOfTimes="20" Range="8" IgnoreMobsInBlackspots="True" CollectionDistance="1000" X="-2732.719" Y="-6533.096" Z="200.749" />
 			 </While>
 				<CustomBehavior File="UserSettings" PullDistance="25" />
 			</If>
@@ -868,7 +887,7 @@
 				<CustomBehavior File="InteractWith" QuestId="28589" MobId="49680" Range="8" CollectionDistance="50" X="-2804.243" Y="-6481.615" Z="229.1361" />
 			 </If>
 			 <If Condition="(Me.IsOnTransport)" >
-				<CustomBehavior File="KitchenSink" />
+				<CustomBehavior File="SpecificQuests\28589-HordeTwilightHighlands-EverythingButTheKitchenSink" />
 				<CustomBehavior File="EjectVeh" Eject="True" />
 			 </If>
 			</While>
@@ -915,7 +934,7 @@
 			 </If>
 			 -->
 			 <!-- <CustomBehavior File="InteractWith" QuestId="28591" MobId="49135" Nav="CTM" /> -->
-				<CustomBehavior File="OffTheWall" />
+				<CustomBehavior File="SpecificQuests\28591-HordeTwilightHighlands-OffTheWall" />
 				<CustomBehavior File="Misc\RunLua" Lua="VehicleExit()" WaitTime="1000" />
 			</If>
 			<If Condition="((HasQuest(28591)) &amp;&amp; (IsQuestCompleted(28591)))" >
@@ -955,7 +974,8 @@
 				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for agro to clear {TimeRemaining}" />
 			 </While>
 				
-			 <While Condition="((HasQuest(28592)) &amp;&amp; (!IsObjectiveComplete(1, 28592)))">
+			 <If Condition="((HasQuest(28592)) &amp;&amp; (!IsObjectiveComplete(1, 28592)))">
+			  <While Condition="((HasQuest(28592)) &amp;&amp; (!IsObjectiveComplete(1, 28592)))">
 				<CustomBehavior File="FlyTo" X="-4919.837" Y="-6739.878" Z="5.561347" />
 				<CustomBehavior File="ForcedDismount" />
 				
@@ -964,7 +984,9 @@
 				<UseItem ItemId="64669" QuestName="Parting Packages" QuestId="28592" X="-4925.825" Y="-6732.445" Z="5.39019" />
 				<RunTo X="-4919.837" Y="-6739.878" Z="5.561347" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for agro to clear {TimeRemaining}" />
-			 </While>
+			  </While>
+				<RunTo X="-4906.673" Y="-6727.81" Z="0.6333306" />
+			 </If>
 				
 			 <While Condition="((HasQuest(28592)) &amp;&amp; (!IsObjectiveComplete(3, 28592)))">
 				<CustomBehavior File="FlyTo" X="-4749.341" Y="-6741.377" Z="5.156476" />
@@ -1032,7 +1054,7 @@
 				<Objective QuestName="War Forage" QuestId="27750" Type="CollectItem" ItemId="62324" CollectCount="10" />
 			</If>
 			<If Condition="((HasQuest(27751)) &amp;&amp; (!IsQuestCompleted(27751)))" >
-				<Objective QuestId="27751" QuestName="Crushing the Wildhammer" Type="KillMob" MobId="46320" KillCount="10" />
+				<Objective QuestName="Crushing the Wildhammer" QuestId="27751" Type="CollectItem" ItemId="62325" CollectCount="8" />
 			</If>
 			<If Condition="((HasQuest(27751)) &amp;&amp; (IsQuestCompleted(27751)))" >
 		 	 <If Condition="(Me.Y &gt; -5200)" >
@@ -1085,11 +1107,11 @@
 		<TurnIn QuestId="28043" QuestName="How to Maim Your Dragon" TurnInId="47417" TurnInName="Zaela" />
  		<PickUp GiverId="47417" QuestId="28123" GiverName="Zaela" QuestName="The Demon Chain"/>
 			<If Condition="((HasQuest(27947)) &amp;&amp; (IsQuestCompleted(27947)))" >
-				<CustomBehavior File="FlyTo" X="-3334.042" Y="-5489.286" Z="49.00896" />
+				<CustomBehavior File="FlyTo" X="-3333.613" Y="-5488.216" Z="49.08348" />
 				<CustomBehavior File="ForcedDismount" />
 			</If>
-		<TurnIn QuestId="27947" QuestName="A Vision of Twilight" TurnInId="206569" TurnInName="Eye of Twilight" X="-3334.042" Y="-5489.286" Z="49.00896" />
-		<PickUp GiverId="206569" GiverType="Object" QuestId="27951" GiverName="Eye of Twilight" QuestName="We All Must Sacrifice" X="-3334.042" Y="-5489.286" Z="49.00896" />
+		<TurnIn QuestId="27947" QuestName="A Vision of Twilight" TurnInId="206569" TurnInName="Eye of Twilight" X="-3333.613" Y="-5488.216" Z="49.08348" />
+		<PickUp GiverId="206569" GiverType="Object" QuestId="27951" GiverName="Eye of Twilight" QuestName="We All Must Sacrifice" X="-3333.613" Y="-5488.216" Z="49.08348" />
 			<If Condition="((HasQuest(27945)) &amp;&amp; (!IsQuestCompleted(27945)))" >	
 				<Objective QuestId="27945" QuestName="Paint it Black" Type="Collect" ItemId="62796" CollectCount="1"/>
 			</If>
@@ -1107,11 +1129,11 @@
 				<Objective QuestId="28123" QuestName="The Demon Chain" Type="Collect" ItemId="63036" CollectCount="1"/>
 			</If>
 			<If Condition="((HasQuest(27951)) &amp;&amp; (IsQuestCompleted(27951)))" >
-				<CustomBehavior File="FlyTo" X="-3334.042" Y="-5489.286" Z="49.00896" />
+				<CustomBehavior File="FlyTo" X="-3333.613" Y="-5488.216" Z="49.08348" />
 				<CustomBehavior File="ForcedDismount" />
 			</If>
-		<TurnIn QuestId="27951" QuestName="A Vision of Twilight" TurnInId="206569" TurnInName="Eye of Twilight" X="-3334.042" Y="-5489.286" Z="49.00896" />
-		<PickUp GiverId="206569" GiverType="Object" QuestId="27954" GiverName="Eye of Twilight" QuestName="The Eyes Have It" X="-3334.042" Y="-5489.286" Z="49.00896" />
+		<TurnIn QuestId="27951" QuestName="A Vision of Twilight" TurnInId="206569" TurnInName="Eye of Twilight" X="-3333.613" Y="-5488.216" Z="49.08348" />
+		<PickUp GiverId="206569" GiverType="Object" QuestId="27954" GiverName="Eye of Twilight" QuestName="The Eyes Have It" X="-3333.613" Y="-5488.216" Z="49.08348" />
 			<If Condition="((HasQuest(27954)) &amp;&amp; (IsQuestCompleted(27954)))" >
 				<CustomBehavior File="FlyTo" X="-3672.203" Y="-5282.188" Z="41.33893" />
 				<CustomBehavior File="ForcedDismount" />
@@ -1168,6 +1190,7 @@
 			<If Condition="((HasQuest(28151)) &amp;&amp; (IsQuestCompleted(28151)))" >
 				<CustomBehavior File="FlyTo" X="-3499.186" Y="-4368.441" Z="210.4932" />
 				<CustomBehavior File="ForcedDismount" />
+				<CustomBehavior File="ForceSetVendor" DoSell="True" DoRepair="True" />
 			</If>
 		<TurnIn QuestId="28151" QuestName="Dressed to Kill" TurnInId="47723" TurnInName="Rotgrum"/>
 		<TurnIn QuestId="28166" QuestName="Thog's Nightlight" TurnInId="47751" TurnInName="Buunu"/>
@@ -1305,7 +1328,7 @@
 			<If Condition="((HasQuest(27380)) &amp;&amp; (!IsQuestCompleted(27380)))" >
 				<CustomBehavior File="UserSettings" UseMount="False"  PullDistance="1" />
 				<CustomBehavior File="ForcedDismount" />
-				<CustomBehavior File="Nightmare" />
+				<CustomBehavior File="SpecificQuests\27380-TwilightHighlands-Nightmare" />
 			</If>
 			<If Condition="((HasQuest(27380)) &amp;&amp; (IsQuestCompleted(27380)))" >
 			 <If Condition="(Me.Z &lt;= 0)" >
@@ -1411,7 +1434,7 @@
 				<CustomBehavior File="ForcedDismount" />
 				
 			 <While Condition="((HasQuest(28090)) &amp;&amp; (!IsQuestCompleted(28090)))" >
-				<CustomBehavior File="InteractWith" QuestId="28090" ObjectType="Gameobject" MobId="206674" Range="8" CollectionDistance="50" X="-3487.173" Y="-3739.636" Z="66.76879" />
+				<CustomBehavior File="InteractWith" QuestId="28090" ObjectType="GameObject" MobId="206674" Range="8" CollectionDistance="50" X="-3487.173" Y="-3739.636" Z="66.76879" />
 			 </While>
 			</If>
 			<If Condition="((HasQuest(28090)) &amp;&amp; (IsQuestCompleted(28090)))" >
@@ -1470,7 +1493,7 @@
 				<CustomBehavior File="MountVehOnly" VehicleMountId="49910" X="-2685.983" Y="-3178.316" Z="179.9467" />
 			 </If>
 			 <If Condition="(Me.IsOnTransport)" >
-				<CustomBehavior File="LifeAndDeath" />
+				<CustomBehavior File="SpecificQuests\28758-TwilightHighlands-BattleofLifeandDeath" />
 			 </If>
 				<CustomBehavior File="WaitTimer" WaitTime="145000"/>
 			</If>
@@ -1496,7 +1519,7 @@
 			</If>
 			<While Condition="((HasQuest(28173)) &amp;&amp; (!IsQuestCompleted(28173)))" >
 				<CustomBehavior File="UserSettings" PullDistance="1" LootMobs="False" />
-				<CustomBehavior File="Blackout" />
+				<CustomBehavior File="SpecificQuests\28173-TwilightHighlands-Blackout" />
 				<CustomBehavior File="UserSettings" PullDistance="25" LootMobs="True" />
 				<!-- bot never casts abilities as melee while on these things! 
 				<CustomBehavior File="UseItemOn" QuestId="28173" MobId="46141" MobState="Alive" ItemId="63092" WaitTime="3000" Range="90" CollectionDistance="500" X="-4839.015" Y="-5714.229" Z="43.38332" />
@@ -1590,7 +1613,7 @@
 				<CustomBehavior File="FlyTo" X="-4477.594" Y="-4431.762" Z="255.3585" />
 				<CustomBehavior File="ForcedDismount" />
 				
-				<CustomBehavior File="InteractWith" QuestId="27495" ObjectType="Gameobject" MobId="205590" Range="6" CollectionDistance="50" X="-4477.594" Y="-4431.762" Z="255.3585" />
+				<CustomBehavior File="InteractWith" QuestId="27495" ObjectType="GameObject" MobId="205590" Range="6" CollectionDistance="50" X="-4477.594" Y="-4431.762" Z="255.3585" />
 				<CustomBehavior File="WaitTimer" WaitTime="5000" GoalText="Waiting for bot {TimeRemaining}" />
 			</While>
 			<If Condition="((HasQuest(27495)) &amp;&amp; (IsQuestCompleted(27495)))" >
@@ -1738,7 +1761,7 @@
 				<CustomBehavior File="UserSettings" LootMobs="False" PullDistance="5" />
 				<CustomBehavior File="FlyTo" X="-4584.019" Y="-4352.706" Z="316.3566" />
 				<CustomBehavior File="ForcedDismount" />
-				<CustomBehavior File="CoupDeGrace" QuestId="27703" />
+				<CustomBehavior File="SpecificQuests\27702-27703-TwilightHighlands-CoupDeGrace" QuestId="27703" />
 			</If>
 			<If Condition="((HasQuest(27703)) &amp;&amp; (IsQuestCompleted(27703)))" >
 				<CustomBehavior File="FlyTo" X="-4494.646" Y="-4347.238" Z="322.4197" />
@@ -1762,7 +1785,7 @@
 				<CustomBehavior File="ForcedDismount" />
 				<RunTo X="-4971.932" Y="-4437.808" Z="332.5692" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for  {TimeRemaining}" />
-				<CustomBehavior File="InteractWith" QuestId="27659" ObjectType="Gameobject" MobId="206018" NumOfTimes="1" Range="6" CollectionDistance="50" X="-4971.932" Y="-4437.808" Z="332.5692" />
+				<CustomBehavior File="InteractWith" QuestId="27659" ObjectType="GameObject" MobId="206018" NumOfTimes="1" Range="6" CollectionDistance="50" X="-4971.932" Y="-4437.808" Z="332.5692" />
 				<CustomBehavior File="UserSettings" PullDistance="25" />
 				<CustomBehavior File="InteractWith" QuestId="27659" MobId="46273" WaitForNpcs="False" />
 			 </While>
@@ -1774,7 +1797,7 @@
 				<CustomBehavior File="ForcedDismount" />
 				<RunTo X="-5018.39" Y="-4766.367" Z="469.7376" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for  {TimeRemaining}" />
-				<CustomBehavior File="InteractWith" QuestId="27659" ObjectType="Gameobject" MobId="206019" NumOfTimes="1" Range="6" CollectionDistance="50" X="-5018.39" Y="-4766.367" Z="469.7376" />
+				<CustomBehavior File="InteractWith" QuestId="27659" ObjectType="GameObject" MobId="206019" NumOfTimes="1" Range="6" CollectionDistance="50" X="-5018.39" Y="-4766.367" Z="469.7376" />
 				<CustomBehavior File="UserSettings" PullDistance="25" />
 				<CustomBehavior File="InteractWith" QuestId="27659" MobId="46270" WaitForNpcs="False" />
 			 </While>
@@ -1785,7 +1808,7 @@
 				<CustomBehavior File="ForcedDismount" />
 				<RunTo X="-4347.776" Y="-4194.816" Z="324.228" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for  {TimeRemaining}" />
-				<CustomBehavior File="InteractWith" QuestId="27659" ObjectType="Gameobject" MobId="206017" NumOfTimes="1" Range="6" CollectionDistance="50" X="-4347.776" Y="-4194.816" Z="324.228" />
+				<CustomBehavior File="InteractWith" QuestId="27659" ObjectType="GameObject" MobId="206017" NumOfTimes="1" Range="6" CollectionDistance="50" X="-4347.776" Y="-4194.816" Z="324.228" />
 				<CustomBehavior File="InteractWith" QuestId="27659" MobId="46272" WaitForNpcs="False" />
 				<CustomBehavior File="UserSettings" PullDistance="25" />
 			 </While>
@@ -1881,17 +1904,17 @@
 			 <While Condition="((HasQuest(27744)) &amp;&amp; (!IsObjectiveComplete(2, 27744)))">
 				<RunTo X="-5332.645" Y="-4290.363" Z="319.1625" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for agro to clear {TimeRemaining}" />
-				<CustomBehavior File="InteractWith" QuestId="27744" MobId="206314" ObjectType="Gameobject" Range="10" NumOfTimes="1" CollectionDistance="50" X="-5332.645" Y="-4290.363" Z="319.1625" />
+				<CustomBehavior File="InteractWith" QuestId="27744" MobId="206314" ObjectType="GameObject" Range="10" NumOfTimes="1" CollectionDistance="50" X="-5332.645" Y="-4290.363" Z="319.1625" />
 			 </While>
 			 <While Condition="((HasQuest(27744)) &amp;&amp; (!IsObjectiveComplete(3, 27744)))">
 				<RunTo X="-5262.56" Y="-4201.955" Z="296.756" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for agro to clear {TimeRemaining}" />
-				<CustomBehavior File="InteractWith" QuestId="27744" MobId="206312" ObjectType="Gameobject" Range="10" NumOfTimes="1" CollectionDistance="50" X="-5262.56" Y="-4201.955" Z="296.756" />
+				<CustomBehavior File="InteractWith" QuestId="27744" MobId="206312" ObjectType="GameObject" Range="10" NumOfTimes="1" CollectionDistance="50" X="-5262.56" Y="-4201.955" Z="296.756" />
 			 </While>
 			 <While Condition="((HasQuest(27744)) &amp;&amp; (!IsObjectiveComplete(4, 27744)))">
 				<RunTo X="-5200.996" Y="-4246.332" Z="296.8515" />
 				<CustomBehavior File="WaitTimer" WaitTime="2000" GoalText="Waiting for agro to clear {TimeRemaining}" />
-				<CustomBehavior File="InteractWith" QuestId="27744" MobId="206313" ObjectType="Gameobject" Range="10" NumOfTimes="1" CollectionDistance="50" X="-5200.996" Y="-4246.332" Z="296.8515" />
+				<CustomBehavior File="InteractWith" QuestId="27744" MobId="206313" ObjectType="GameObject" Range="10" NumOfTimes="1" CollectionDistance="50" X="-5200.996" Y="-4246.332" Z="296.8515" />
 			 </While>
 			</If>
 			<If Condition="((HasQuest(27742)) &amp;&amp; (!IsQuestCompleted(27742)))" >
@@ -1933,10 +1956,10 @@
 				<CustomBehavior File="WaitTimer" WaitTime="80000"/>
  			</If>
 			<If Condition="((HasQuest(27788)) &amp;&amp; (!IsQuestCompleted(27788)))" >
-				<CustomBehavior File="FlyTo" X="-5238.153" Y="-4815.593" Z="444.4305"  />
+				<CustomBehavior File="FlyTo" X="-5227.43" Y="-4795.653" Z="442.1821" />
 				<CustomBehavior File="ForcedDismount" />
 				
-				<CustomBehavior File="Skullcrusher" QuestId="27787"/>
+				<CustomBehavior File="SpecificQuests\27787-27788-TwilightHighlands-Skullcrusher" QuestId="27788"/>
 			</If>
 			<If Condition="((HasQuest(27788)) &amp;&amp; (IsQuestCompleted(27788)))" >
 				<CustomBehavior File="FlyTo" X="-4805.191" Y="-4823.569" Z="196.4245" />

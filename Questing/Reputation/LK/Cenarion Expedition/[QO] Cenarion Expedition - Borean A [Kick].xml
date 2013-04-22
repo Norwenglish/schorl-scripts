@@ -1,8 +1,8 @@
 ﻿<HBProfile>
-	<Name>[QO] Cenarion Expedition - Borean A [Kick]</Name>
+	<Name>[QO] Cenarion Expedition - Borean A [Kick] ($Rev: 2180 $)</Name>
    
 	<MinLevel>1</MinLevel>
-	<MaxLevel>86</MaxLevel>
+	<MaxLevel>200</MaxLevel>
    
 	<MinDurability>0.2</MinDurability>
 	<MinFreeBagSlots>2</MinFreeBagSlots>
@@ -225,7 +225,7 @@
 				<If Condition="(GetItemCount(35188) &lt; 120)" >
 					<CustomBehavior File="FlyTo" X="3913.555" Y="5479.67" Z="35.96967" />
 					<CustomBehavior File="ForcedDismount" />
-					<CustomBehavior File="SetPullDistance" Distance="35" />
+					<CustomBehavior File="UserSettings" PullDistance="35" />
 						<SetGrindArea>
 							<Grindarea>
 								<TargetMinLevel>45</TargetMinLevel> 

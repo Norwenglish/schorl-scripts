@@ -1,5 +1,5 @@
-<HBProfile>
-	<Name>[A - Quest] Dwarf 1-5 [Kick]</Name>
+<HBProfile> <!-- Developed by Kickazz006 -->
+	<Name>[A - Quest] Dwarf 1-5 [Kick] ($Rev: 2184 $)</Name>
 	<MinLevel>1</MinLevel>
 	<MaxLevel>86</MaxLevel>
   
@@ -166,9 +166,9 @@
 		<!-- Dun Morogh Quests -->
 		<CustomBehavior File="Message" Text="Compiling Dun Morogh Quests" LogColor="Green" />
   
-		<CustomBehavior File="Message" Text="Compiling Coldridge Valley Quests" LogColor="Cornflowerblue" />
+		<CustomBehavior File="Message" Text="Compiling Coldridge Valley Quests" LogColor="CornflowerBlue" />
 		
-	<CustomBehavior File="UserSettings" LootMobs="True" TrainNewSkills="True" LearnFlightPaths="True" UseFlightPaths="True" />
+	<CustomBehavior File="UserSettings" LootMobs="True" UseFlightPaths="True" />
 		
 		<PickUp QuestName="Hold the Line!" QuestId="24469" GiverName="Joren Ironstock" GiverId="37081" />
 			<Objective QuestName="Hold the Line!" QuestId="24469" Type="KillMob" MobId="37070" KillCount="6" />
@@ -203,8 +203,15 @@
 		<PickUp QuestName="Consecrated Rune" QuestId="3107" GiverName="Jona Ironstock" GiverId="37087" />
 		<TurnIn QuestName="Consecrated Rune" QuestId="3107" TurnInName="Bromos Grummner" TurnInId="926" />
 		<PickUp QuestName="The Power of the Light" QuestId="24528" GiverName="Bromos Grummner" GiverId="926" />
-			<CustomBehavior File="CastSpellOn" QuestId="24528" SpellId="20271" MobId="44389" NumOfTimes="1" MobHpPercentLeft="100" MinRange="7" X="-6149.838" Y="385.1614" Z="395.5435" />
+			<While Condition="((HasQuest(24528)) &amp;&amp; (!IsQuestCompleted(24528)))" >
+				<CustomBehavior File="CastSpellOn" QuestId="24528" SpellId="105361" MobId="926" NumOfTimes="1" MobHpPercentLeft="100" MinRange="7" X="-6120.679" Y="382.0895" Z="395.5429" />
+				<CustomBehavior File="CastSpellOn" QuestId="24528" SpellId="35395" MobId="44389" NumOfTimes="1" MobHpPercentLeft="100" MinRange="5" X="-6150.75" Y="378.814" Z="395.5428"/>
+			</While>
 		<TurnIn QuestName="The Power of the Light" QuestId="24528" TurnInName="Bromos Grummner" TurnInId="926" />
+			</If>
+			<If Condition="(Me.Class == WoWClass.Monk) &amp;&amp; (Me.Race == WoWRace.Dwarf)">
+		<PickUp QuestName="Elegant Rune" QuestId="31150" GiverName="Jona Ironstock" GiverId="37087" />
+		<TurnIn QuestName="Elegant Rune" QuestId="31150" TurnInName="Lo" TurnInId="63285" X="-6105.804" Y="369.4063" Z="395.5444" />
 			</If>
 			<If Condition="(Me.Class == WoWClass.Hunter) &amp;&amp; (Me.Race == WoWRace.Dwarf)">
 		<PickUp QuestName="Etched Rune" QuestId="3108" GiverName="Jona Ironstock" GiverId="37087" />
@@ -262,16 +269,21 @@
 		<TurnIn QuestName="Don't Forget About Us" QuestId="24493" TurnInName="Tharek Blackstone" TurnInId="1872" />
 
 				<!-- Going to SW -->
-				<CustomBehavior File="Message" Text="Compiling GoTo SW functions" LogColor="Cornflowerblue" />
+				<CustomBehavior File="Message" Text="Compiling GoTo SW functions" LogColor="CornflowerBlue" />
 
-			<If Condition="Me.ZoneId == 1" > <!-- Dun Morogh -->
-				<CustomBehavior File="Message" Text="Running to IF Tram" LogColor="Cornflowerblue" />
-
-				<RunTo X="-4838.846" Y="-1315.321" Z="501.8681" />
+			<If Condition="Me.ZoneId == 1 || Me.ZoneId == 1537" > <!-- Dun Morogh or IF -->
+				<CustomBehavior File="Message" Text="Running to IF Tram" LogColor="CornflowerBlue" />
+				<RunTo X="-4820.689" Y="-1155.133" Z="502.21" />
+				<CustomBehavior File="UserSettings" UseFlightPaths="True" />
+				<RunTo X="-4820.689" Y="-1155.133" Z="502.21" />
+				<CustomBehavior File="InteractWith" MobId="1573" X="-4820.689" Y="-1155.133" Z="502.21" />
+				<!--<RunTo X="-4838.846" Y="-1315.321" Z="501.8681" /> // run to IF tram -->
+				<RunTo X="-8835.292" Y="490.3976" Z="109.6171" /> <!-- IF FP -->
+				<CustomBehavior File="WaitTimer" WaitTime="5000" GoalText="Waiting {TimeRemaining}" />
 			</If>
-				
+
 			<If Condition="Me.ZoneId == 1537" > <!-- IF -->
-				<CustomBehavior File="Message" Text="Running into IF Tram portal" LogColor="Cornflowerblue" />
+				<CustomBehavior File="Message" Text="Running into IF Tram portal" LogColor="CornflowerBlue" />
 
 				<RunTo X="-4838.846" Y="-1315.321" Z="501.8681" />
 				<CustomBehavior File="MyCTM" X="-4840.166" Y="-1323.635" Z="501.868" />
@@ -280,20 +292,21 @@
 		
 			<If Condition="Me.ZoneId == 2257" > <!-- Deeprun Tram -->
 			 <If Condition="Me.Y &lt; 30" > <!-- IF side -->
-				<CustomBehavior File="Message" Text="Riding Tram from SW to IF" LogColor="Cornflowerblue" />
+				<CustomBehavior File="Message" Text="Riding Tram to SW from IF" LogColor="CornflowerBlue" />
 
 				<RunTo X="15.43877" Y="7.605853" Z="-4.295578" />
 
-				<!-- Get on at IF, off at SW -->
-				<CustomBehavior File="UseTransport" TransportId="176081" 
+				<!-- Get on at IF, off at SW --><!-- old one was 176081 -->
+				<CustomBehavior File="UseTransport" TransportId="216507" 
 											WaitAtX="15.43877" WaitAtY="7.605853" WaitAtZ="-4.295578"
 											GetOffX="16.77427" GetOffY="2490.513"  GetOffZ="-4.291193"
+											StandOnX="4.528066" StandOnY="8.435292" StandOnZ="-3.46"
 											TransportStartX="4.528066" TransportStartY="8.435292" TransportStartZ="7.011068"
 											TransportEndX="4.527849" TransportEndY="2490.735" TransportEndZ="7.197604" />
 			 </If>
 
 			 <If Condition="Me.Y &gt; 2400" > <!-- SW side -->
-				<CustomBehavior File="Message" Text="Running into portal from Deeprun Tram (SW Side) to SW" LogColor="Cornflowerblue" />
+				<CustomBehavior File="Message" Text="Running into portal from Deeprun Tram (SW Side) to SW" LogColor="CornflowerBlue" />
 
 				<RunTo X="65.96149" Y="2490.913" Z="-4.295956" />
 				<CustomBehavior File="MyCTM" X="73.21138" Y="2491.088" Z="-4.295956" />
