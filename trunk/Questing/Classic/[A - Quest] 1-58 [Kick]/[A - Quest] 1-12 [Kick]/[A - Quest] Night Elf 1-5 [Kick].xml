@@ -1,5 +1,5 @@
-<HBProfile>
-	<Name>[A - Quest] Night Elf 1-5 [Kick]</Name>
+<HBProfile> <!-- Developed by Kickazz006 -->
+	<Name>[A - Quest] Night Elf 1-5 [Kick] ($Rev: 2184 $)</Name>
 	<MinLevel>1</MinLevel>
 	<MaxLevel>86</MaxLevel>
   
@@ -163,9 +163,9 @@
 		<!-- Teldrassil Quests -->
 		<CustomBehavior File="Message" Text="Compiling Teldrassil Quests" LogColor="Green" />
   
-		<CustomBehavior File="Message" Text="Compiling Shadowglen Quests" LogColor="Cornflowerblue" />
+		<CustomBehavior File="Message" Text="Compiling Shadowglen Quests" LogColor="CornflowerBlue" />
 		
-		<CustomBehavior File="UserSettings" LootMobs="True" TrainNewSkills="True" LearnFlightPaths="True" UseFlightPaths="True" PullDistance="25" />
+		<CustomBehavior File="UserSettings" LootMobs="True" UseFlightPaths="True" PullDistance="25" />
 			
 		<PickUp QuestName="The Balance of Nature" QuestId="28713" GiverId="2079" GiverName="Ilthalaine" X="10311.32" Y="830.7387" Z="1326.561" />
 			<Objective QuestName="The Balance of Nature" QuestId="28713" Type="KillMob" Name="Young Nightsaber" MobId="2031" KillCount="6" />
@@ -184,7 +184,7 @@
 		<TurnIn QuestName="Simple Sigil" QuestId="3116" TurnInId="3593" TurnInName="Alyissia" X="10526.61" Y="778.0858" Z="1329.6" />
 		<PickUp QuestName="Learning New Techniques" QuestId="26945" GiverId="3593" GiverName="Alyissia" X="10526.61" Y="778.0858" Z="1329.6" />
 			<If Condition="!IsQuestCompleted(26945)">
-				<If Condition="!Styx.Logic.Combat.SpellManager.HasSpell(100)">
+				<If Condition="!Styx.CommonBot.SpellManager.HasSpell(100)">
 					<CustomBehavior File="ForceSetVendor" DoTrain="True" />
 				</If>
 				<CustomBehavior File="CastSpellOn" QuestId="26945" SpellId="100" NpcId="44614" NumOfTimes="1" MobHpPercentLeft="100" MinRange="14" X="10407.3" Y="740.832" Z="1319.778" />
@@ -198,9 +198,6 @@
 		<TurnIn QuestName="Etched Sigil" QuestId="3117" TurnInId="3596" TurnInName="Ayanna Everstride" X="10448.12" Y="777.9965" Z="1322.666" />
 		<PickUp QuestName="A Woodsman's Training" QuestId="26947" GiverId="3596" GiverName="Ayanna Everstride" X="10448.12" Y="777.9965" Z="1322.666" />
 			<If Condition="!IsQuestCompleted(26947)">
-				<If Condition="!Styx.Logic.Combat.SpellManager.HasSpell(56641)">
-					<CustomBehavior File="ForceSetVendor" DoTrain="True" />
-				</If>
 				<CustomBehavior File="CastSpellOn" QuestId="26947" SpellId="56641" NpcId="44614" NumOfTimes="5" MobHpPercentLeft="100" MinRange="14" X="10407.3" Y="740.832" Z="1319.778" />
 			</If>
 		<TurnIn QuestName="A Woodsman's Training" QuestId="26947" TurnInId="3596" TurnInName="Ayanna Everstride" X="10448.12" Y="777.9965" Z="1322.666" />
@@ -212,10 +209,6 @@
 		<TurnIn QuestName="Encrypted Sigil" QuestId="3118" TurnInId="3594" TurnInName="Frahun Shadewhisper" X="10519.15" Y="778.0143" Z="1329.6" />
 		<PickUp QuestName="A Rogue's Advantage" QuestId="26946" GiverId="3594" GiverName="Frahun Shadewhisper" X="10519.15" Y="778.0143" Z="1329.6" />
 			<If Condition="!IsQuestCompleted(26946)">
-				<If Condition="!Styx.Logic.Combat.SpellManager.HasSpell(2098)">
-					<CustomBehavior File="ForceSetVendor" DoTrain="True" />
-				</If>
-				
 				<CustomBehavior File="CastSpellOn" QuestId="26946" SpellId="1752" NpcId="44614" NumOfTimes="3" MobHpPercentLeft="100" MinRange="3" X="10407.3" Y="740.832" Z="1319.778" />
 				<CustomBehavior File="CastSpellOn" QuestId="26946" SpellId="2098" NpcId="44614" NumOfTimes="1" MobHpPercentLeft="100" MinRange="3" X="10407.3" Y="740.832" Z="1319.778" />
 				<CustomBehavior File="CastSpellOn" QuestId="26946" SpellId="1752" NpcId="44614" NumOfTimes="3" MobHpPercentLeft="100" MinRange="3" X="10407.3" Y="740.832" Z="1319.778" />
@@ -238,10 +231,7 @@
 		<TurnIn QuestName="Hallowed Sigil" QuestId="3119" TurnInId="3595" TurnInName="Shanda" X="10458.76" Y="801.6235" Z="1346.755" />
 		<PickUp QuestName="Healing for the Wounded" QuestId="26949" GiverId="3595" GiverName="Shanda" X="10458.76" Y="801.6235" Z="1346.755" />
 			<If Condition="!IsQuestCompleted(26949)">
-				<If Condition="!Styx.Logic.Combat.SpellManager.HasSpell(2061)">
-					<CustomBehavior File="ForceSetVendor" DoTrain="True" />
-				</If>
-				<CustomBehavior File="CastSpellOn" QuestId="26949" SpellId="2061" NpcId="44617" NumOfTimes="5" MobHpPercentLeft="100" MinRange="3" X="10404.43" Y="780.3768" Z="1322.713" />
+				<CustomBehavior File="CastSpellOn" QuestId="26949" SpellId="589" NpcId="44614" NumOfTimes="5" MobHpPercentLeft="100" MinRange="3" X="10404.43" Y="780.3768" Z="1322.713" />
 			</If>
 		<TurnIn QuestName="Healing for the Wounded" QuestId="26949" TurnInId="3595" TurnInName="Shanda" X="10458.76" Y="801.6235" Z="1346.755" />
 			</If>
@@ -252,10 +242,7 @@
 		<TurnIn QuestName="Verdant Sigil" QuestId="3120" TurnInId="3597" TurnInName="Mardant Strongoak" X="10485.95" Y="816.0121" Z="1322.745" />
 		<PickUp QuestName="A Healer's Touch" QuestId="26948" GiverId="3597" GiverName="Mardant Strongoak" X="10485.95" Y="816.0121" Z="1322.745" />
 			<If Condition="!IsQuestCompleted(26948)">
-				<If Condition="!Styx.Logic.Combat.SpellManager.HasSpell(774)">
-					<CustomBehavior File="ForceSetVendor" DoTrain="True" />
-				</If>
-				<CustomBehavior File="CastSpellOn" QuestId="26948" SpellId="774" NpcId="44617" NumOfTimes="5" MobHpPercentLeft="100" MinRange="3" X="10404.43" Y="780.3768" Z="1322.713" />
+				<CustomBehavior File="CastSpellOn" QuestId="26948" SpellId="8921" NpcId="44614" NumOfTimes="5" MobHpPercentLeft="100" MinRange="3" X="10404.43" Y="780.3768" Z="1322.713" />
 			</If>
 		<TurnIn QuestName="A Healer's Touch" QuestId="26948" TurnInId="3597" TurnInName="Mardant Strongoak" X="10485.95" Y="816.0121" Z="1322.745" />
 			</If>
@@ -266,25 +253,22 @@
 		<TurnIn QuestName="Forbidden Sigil" QuestId="26841" TurnInId="43006" TurnInName="Rhyanda" X="10456.29" Y="804.882" Z="1346.755" />
 		<PickUp QuestName="Arcane Missiles" QuestId="26940" GiverId="43006" GiverName="Rhyanda" X="10456.29" Y="804.882" Z="1346.755" />
 			<If Condition="!IsQuestCompleted(26940)">
-				<If Condition="!Styx.Logic.Combat.SpellManager.HasSpell(5143)">
-					<CustomBehavior File="ForceSetVendor" DoTrain="True" />
-				</If>
-				<CustomBehavior File="CastSpellOn" QuestId="26940" SpellId="133" NpcId="44614" NumOfTimes="2" MobHpPercentLeft="100" MinRange="14" X="10407.3" Y="740.832" Z="1319.778" />
-				<CustomBehavior File="CastSpellOn" QuestId="26940" SpellId="5143" NpcId="44614" NumOfTimes="1" MobHpPercentLeft="100" MinRange="14" X="10407.3" Y="740.832" Z="1319.778" />
-				<CustomBehavior File="CastSpellOn" QuestId="26940" SpellId="133" NpcId="44614" NumOfTimes="2" MobHpPercentLeft="100" MinRange="14" X="10407.3" Y="740.832" Z="1319.778" />
-				<CustomBehavior File="CastSpellOn" QuestId="26940" SpellId="5143" NpcId="44614" NumOfTimes="1" MobHpPercentLeft="100" MinRange="14" X="10407.3" Y="740.832" Z="1319.778" />
-				<CustomBehavior File="CastSpellOn" QuestId="26940" SpellId="133" NpcId="44614" NumOfTimes="2" MobHpPercentLeft="100" MinRange="14" X="10407.3" Y="740.832" Z="1319.778" />
-				<CustomBehavior File="CastSpellOn" QuestId="26940" SpellId="5143" NpcId="44614" NumOfTimes="1" MobHpPercentLeft="100" MinRange="14" X="10407.3" Y="740.832" Z="1319.778" />
-				<CustomBehavior File="CastSpellOn" QuestId="26940" SpellId="133" NpcId="44614" NumOfTimes="2" MobHpPercentLeft="100" MinRange="14" X="10407.3" Y="740.832" Z="1319.778" />
-				<CustomBehavior File="CastSpellOn" QuestId="26940" SpellId="5143" NpcId="44614" NumOfTimes="1" MobHpPercentLeft="100" MinRange="14" X="10407.3" Y="740.832" Z="1319.778" />
-				<CustomBehavior File="CastSpellOn" QuestId="26940" SpellId="133" NpcId="44614" NumOfTimes="2" MobHpPercentLeft="100" MinRange="14" X="10407.3" Y="740.832" Z="1319.778" />
-				<CustomBehavior File="CastSpellOn" QuestId="26940" SpellId="5143" NpcId="44614" NumOfTimes="1" MobHpPercentLeft="100" MinRange="14" X="10407.3" Y="740.832" Z="1319.778" />
-				<CustomBehavior File="CastSpellOn" QuestId="26940" SpellId="133" NpcId="44614" NumOfTimes="2" MobHpPercentLeft="100" MinRange="14" X="10407.3" Y="740.832" Z="1319.778" />
-				<CustomBehavior File="CastSpellOn" QuestId="26940" SpellId="5143" NpcId="44614" NumOfTimes="1" MobHpPercentLeft="100" MinRange="14" X="10407.3" Y="740.832" Z="1319.778" />
+				<CustomBehavior File="CastSpellOn" QuestId="26940" SpellId="122" NpcId="44614" NumOfTimes="2" MobHpPercentLeft="100" MinRange="14" X="10407.3" Y="740.832" Z="1319.778" />
 			</If>
 		<TurnIn QuestName="Arcane Missiles" QuestId="26940" TurnInId="43006" TurnInName="Rhyanda" X="10456.29" Y="804.882" Z="1346.755" />
 			</If>
 
+			<!-- Monk -->
+			<If Condition="Me.Class == WoWClass.Monk">
+		<PickUp QuestName="Calligraphed Sigil" QuestId="31168" GiverId="2077" GiverName="Melithar Staghelm" X="10327.62" Y="826.2115" Z="1326.375" />
+		<TurnIn QuestName="Calligraphed Sigil" QuestId="31168" TurnInName="Laoxi" TurnInId="63331" X="10526.41" Y="785.5452" Z="1329.6" />
+		<PickUp QuestName="The Art of the Monk" QuestId="31169" GiverName="Laoxi" GiverId="63331" X="10526.41" Y="785.5452" Z="1329.6" />
+			<While Condition="((HasQuest(31169)) &amp;&amp; (!IsQuestCompleted(31169)))" >
+				<CustomBehavior File="CastSpellOn" SpellId="100780" MobId="44614" NumOfTimes="1" MobHpPercentLeft="100" MinRange="5" X="10468.95" Y="804.3754" Z="1322.745" />
+				<CustomBehavior File="CastSpellOn" SpellId="100787" MobId="44614" NumOfTimes="1" MobHpPercentLeft="100" MinRange="5" X="10468.95" Y="804.3754" Z="1322.745" />
+			</While>
+		<TurnIn QuestName="The Art of the Monk" QuestId="31169" TurnInName="Laoxi" TurnInId="63331" X="10526.41" Y="785.5452" Z="1329.6" />
+			</If>
 		<!-- Class Quests End-->
 		
 		<PickUp QuestName="Priestess of the Moon" QuestId="28723" GiverId="43006" GiverName="Rhyanda" X="10456.29" Y="804.882" Z="1346.755" />
@@ -321,15 +305,15 @@
 			<!-- End of Shadowglen Quests -->
 		
 				<!-- Going to SW -->
-				<CustomBehavior File="Message" Text="Compiling GoTo SW functions" LogColor="Cornflowerblue" />
+				<CustomBehavior File="Message" Text="Compiling GoTo SW functions" LogColor="CornflowerBlue" />
 
 			 <If Condition="Me.ZoneId == 141 &amp;&amp; (Me.Z &gt; 1000)" > <!-- Teldrassil (Higher) -->
-				<CustomBehavior File="Message" Text="Running to Darnassus Port" LogColor="Cornflowerblue" />
+				<CustomBehavior File="Message" Text="Running to Darnassus Port" LogColor="CornflowerBlue" />
 
 				<RunTo X="9948.389" Y="2614.481" Z="1316.236" />
 			 </If>
 			 <If Condition="Me.ZoneId == 1657" > <!-- Darnassus -->
-				<CustomBehavior File="Message" Text="Running through Darnassus Port" LogColor="Cornflowerblue" />
+				<CustomBehavior File="Message" Text="Running through Darnassus Port" LogColor="CornflowerBlue" />
 
 				<RunTo X="9939.934" Y="2611.165" Z="1316.505" />
 				<CustomBehavior File="WaitTimer" WaitTime="1000"/>
@@ -352,7 +336,7 @@
 			  </While>
 			 </If>
 			 <If Condition="Me.ZoneId == 141 &amp;&amp; (Me.Z &lt; 100)" > <!-- Teldrassil (Rut'theran Village) -->
-				<CustomBehavior File="Message" Text="Running to use boat to SW" LogColor="Cornflowerblue" />
+				<CustomBehavior File="Message" Text="Running to use boat to SW" LogColor="CornflowerBlue" />
 
 				<RunTo X="8177.54" Y="1003.079" Z="6.646164" />
 			 
