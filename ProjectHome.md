@@ -1,0 +1,1 @@
+This is a collection of XML files for use with the program HonorBuddy. I did not write these scripts, this is a custom compilation which will be kept updated. Please check HonorBuddy.com or TheBuddyForum.com for more details.
